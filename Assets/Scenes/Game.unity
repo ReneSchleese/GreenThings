@@ -214,6 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stick: {fileID: 177835663}
   _root: {fileID: 2121029370}
+  _scrollRect: {fileID: 774682735}
 --- !u!1 &496607544
 GameObject:
   m_ObjectHideFlags: 0

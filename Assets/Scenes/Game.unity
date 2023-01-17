@@ -214,7 +214,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stick: {fileID: 177835663}
   _root: {fileID: 1759535075}
-  _scrollRect: {fileID: 0}
 --- !u!1 &496607544
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,7 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
-  m_DragThreshold: 10
+  m_DragThreshold: 5
 --- !u!4 &496607547
 Transform:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ public class Character : MonoBehaviour
 {
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private JoystickBehaviour _joystick;
-    private const float SPEED_FAC = 2f;
+    private const float SPEED_FAC = 4f;
 
     private void Awake()
     {

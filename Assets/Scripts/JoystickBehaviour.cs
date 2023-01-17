@@ -6,10 +6,12 @@ using UnityEngine.EventSystems;
 public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
 {
     [SerializeField] private RectTransform _stick, _root;
-    private const float MAX_RADIUS_IN_PX = 100f;
-    private const float DEADZONE_RADIUS_IN_PX = 5f;
+    private const float MAX_RADIUS_IN_PX = 120f;
+    private const float DEADZONE_RADIUS_IN_PX = 25f;
     public event Action<Vector2> Move;
     private Tween _resetTween;
+    private bool _isDragging;
+    private Vector2 _lastDragDelta;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -17,23 +19,43 @@ public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler,
         {
             _resetTween.Kill();
         }
+
+        _isDragging = true;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        _stick.anchoredPosition += eventData.delta;
+        _lastDragDelta = eventData.delta;
+        
+        _stick.anchoredPosition += _lastDragDelta;
         Vector2 direction = _stick.anchoredPosition - _root.anchoredPosition;
         float distance = direction.magnitude;
         if (distance <= DEADZONE_RADIUS_IN_PX)
         {
             return;
         }
-
         Vector2 directionNormalized = direction.normalized;
         if (distance > MAX_RADIUS_IN_PX)
         {
             _stick.anchoredPosition = directionNormalized * MAX_RADIUS_IN_PX;
         }
+    }
+
+    private void Update()
+    {
+        if (_isDragging == false)
+        {
+            return;
+        }
+        
+        
+        Vector2 direction = _stick.anchoredPosition - _root.anchoredPosition;
+        float distance = direction.magnitude;
+        if (distance <= DEADZONE_RADIUS_IN_PX)
+        {
+            return;
+        }
+        Vector2 directionNormalized = direction.normalized;
 
         float factor = distance / MAX_RADIUS_IN_PX;
         Vector2 delta = factor * directionNormalized;
@@ -43,6 +65,7 @@ public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        _isDragging = false;
         _resetTween = _stick.DOAnchorPos(Vector2.zero, 0.1f).SetEase(Ease.InOutSine);
     }
 

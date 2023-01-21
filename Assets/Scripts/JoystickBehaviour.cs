@@ -11,35 +11,6 @@ public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public event Action<Vector2> Move;
     private Tween _resetTween;
     private bool _isDragging;
-    private Vector2 _lastDragDelta;
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if (_resetTween is { active: true })
-        {
-            _resetTween.Kill();
-        }
-
-        _isDragging = true;
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        _lastDragDelta = eventData.delta;
-        
-        _stick.anchoredPosition += _lastDragDelta;
-        Vector2 direction = _stick.anchoredPosition - _root.anchoredPosition;
-        float distance = direction.magnitude;
-        if (distance <= DEADZONE_RADIUS_IN_PX)
-        {
-            return;
-        }
-        Vector2 directionNormalized = direction.normalized;
-        if (distance > MAX_RADIUS_IN_PX)
-        {
-            _stick.anchoredPosition = directionNormalized * MAX_RADIUS_IN_PX;
-        }
-    }
 
     private void Update()
     {
@@ -47,20 +18,47 @@ public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler,
         {
             return;
         }
-        
-        
-        Vector2 direction = _stick.anchoredPosition - _root.anchoredPosition;
-        float distance = direction.magnitude;
+
+        float distance = Direction.magnitude;
         if (distance <= DEADZONE_RADIUS_IN_PX)
         {
             return;
         }
-        Vector2 directionNormalized = direction.normalized;
 
-        float factor = distance / MAX_RADIUS_IN_PX;
-        Vector2 delta = factor * directionNormalized;
-        delta = new Vector2(Mathf.Min(1f, delta.x), Mathf.Min(1f, delta.y));
-        Move?.Invoke(delta);
+        float relativeDistance = distance / MAX_RADIUS_IN_PX;
+        Vector2 moveAmount = relativeDistance * Direction.normalized;
+        moveAmount = new Vector2(ClampMinusOneToOne(moveAmount.x), ClampMinusOneToOne(moveAmount.y));
+        Move?.Invoke(moveAmount);
+
+        float ClampMinusOneToOne(float value)
+        {
+            return value switch
+            {
+                < -1 => -1,
+                > 1 => 1,
+                _ => value
+            };
+        }
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        TryKillTween();
+        _isDragging = true;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        _stick.anchoredPosition += eventData.delta;
+        float distance = Direction.magnitude;
+        switch (distance)
+        {
+            case <= DEADZONE_RADIUS_IN_PX:
+                return;
+            case > MAX_RADIUS_IN_PX:
+                _stick.anchoredPosition = Direction.normalized * MAX_RADIUS_IN_PX;
+                break;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -71,9 +69,16 @@ public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        TryKillTween();
+    }
+    
+    private void TryKillTween()
+    {
         if (_resetTween is { active: true })
         {
             _resetTween.Kill();
         }
     }
+    
+    private Vector2 Direction => _stick.anchoredPosition - _root.anchoredPosition;
 }

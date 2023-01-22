@@ -7,6 +7,7 @@ namespace ForestSpirits
         private const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.8f;
         private const float BREAKING_DISTANCE = IdleState.SEEKING_DISTANCE * 1.5f;
         private IFollowable _target;
+        private const float DEADZONE_DISTANCE = 1;
         
         public override void OnEnter()
         {
@@ -25,9 +26,6 @@ namespace ForestSpirits
         public override void OnUpdate()
         {
             base.OnUpdate();
-            Vector3 spiritToTargetDir = _target.WorldPosition - forestSpirit.WorldPosition;
-            float distance = spiritToTargetDir.magnitude;
-            forestSpirit.CharacterController.Move(spiritToTargetDir.normalized * Time.deltaTime * SPEED);
 
             if (_target is ForestSpirit && _target.IsFollowing == false)
             {
@@ -35,10 +33,18 @@ namespace ForestSpirits
                 return;
             }
             
+            Vector3 spiritToTargetDir = _target.WorldPosition - forestSpirit.WorldPosition;
+            float distance = spiritToTargetDir.magnitude;
+
             if (distance > BREAKING_DISTANCE)
             {
                 switchToState(typeof(IdleState));
                 return;
+            }
+
+            if (distance > DEADZONE_DISTANCE)
+            {
+                forestSpirit.CharacterController.Move(spiritToTargetDir.normalized * Time.deltaTime * SPEED);
             }
         }
     }

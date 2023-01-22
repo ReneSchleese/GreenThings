@@ -4,7 +4,7 @@ using System.Linq;
 using ForestSpirits;
 using UnityEngine;
 
-public class ForestSpirit : MonoBehaviour
+public class ForestSpirit : MonoBehaviour, IFollowable
 {
     [SerializeField] public CharacterController CharacterController;
     private State _currentState;
@@ -22,7 +22,7 @@ public class ForestSpirit : MonoBehaviour
         {
             new IdleState(),
             new FollowPlayerState(),
-            new FollowSpiritState()
+            new EnqueuedState()
         };
         foreach (State state in _states)
         {
@@ -58,4 +58,9 @@ public class ForestSpirit : MonoBehaviour
          *          move to spirit position
          */
     }
+
+    public Vector3 WorldPosition => transform.position;
+
+    public bool IsFollowing => _currentState != null && (_currentState.GetType() == typeof(FollowPlayerState) ||
+                                                         _currentState.GetType() == typeof(EnqueuedState));
 }

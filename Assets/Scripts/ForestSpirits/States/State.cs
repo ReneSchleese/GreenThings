@@ -4,11 +4,13 @@ namespace ForestSpirits
 {
     public class State
     {
-        protected Action<Type> enterState;
+        protected Action<Type> switchToState;
+        protected ForestSpirit forestSpirit;
 
-        public virtual void Init(Action<Type> enterStateCallback)
+        public virtual void Init(ForestSpirit spirit, Action<Type> enterStateCallback)
         {
-            enterState = enterStateCallback;
+            forestSpirit = spirit;
+            switchToState = enterStateCallback;
         }
         
         public virtual void OnEnter() {}

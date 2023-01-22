@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ForestSpirit : MonoBehaviour
 {
+    [SerializeField] public CharacterController CharacterController;
     private State _currentState;
     private List<State> _states;
     
@@ -25,7 +26,7 @@ public class ForestSpirit : MonoBehaviour
         };
         foreach (State state in _states)
         {
-            state.Init(SwitchToState);
+            state.Init(spirit: this, SwitchToState);
         }
     }
 
@@ -38,6 +39,7 @@ public class ForestSpirit : MonoBehaviour
 
     private void Update()
     {
+        _currentState.OnUpdate();
         /*
          * if not following
          *      if player in range

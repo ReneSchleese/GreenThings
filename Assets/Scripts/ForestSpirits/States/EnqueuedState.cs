@@ -5,21 +5,22 @@ namespace ForestSpirits
     public class EnqueuedState : State
     {
         private const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.8f;
-        private const float BREAKING_DISTANCE = IdleState.SEEKING_DISTANCE * 1.5f;
+        private const float SWITCH_TO_PLAYER_DISTANCE = 1.5f;
+        private const float DEADZONE_DISTANCE = 1f;
         private IFollowable _target;
-        private const float DEADZONE_DISTANCE = 1;
-        
+        private float _enterTime;
+
         public override void OnEnter()
         {
             base.OnEnter();
-            Debug.Log("Entering enqueued state");
-            _target = App.Instance.Player.ForestSpiritChain.Enqueue(forestSpirit);
+            Debug.Log("OnEnter() EnqueuedState");
+            _enterTime = Time.time;
+            _target = App.Instance.Player.ForestSpiritChain.GetTarget(forestSpirit);
         }
 
         public override void OnExit()
         {
             base.OnExit();
-            App.Instance.Player.ForestSpiritChain.Dequeue(forestSpirit);
             _target = null;
         }
 
@@ -27,22 +28,23 @@ namespace ForestSpirits
         {
             base.OnUpdate();
 
-            if (_target is ForestSpirit && _target.IsFollowing == false)
-            {
-                switchToState(typeof(IdleState));
-                return;
-            }
-            
             Vector3 spiritToTargetDir = _target.WorldPosition - forestSpirit.WorldPosition;
             float distance = spiritToTargetDir.magnitude;
 
-            if (distance > BREAKING_DISTANCE)
+            Vector3 spiritToPlayer = App.Instance.Player.WorldPosition - forestSpirit.WorldPosition;
+            if (spiritToPlayer.magnitude < SWITCH_TO_PLAYER_DISTANCE)
             {
-                switchToState(typeof(IdleState));
+                switchToState(typeof(FollowPlayerState));
                 return;
             }
 
-            if (distance > DEADZONE_DISTANCE)
+            if (Mathf.Approximately(App.Instance.Player.Speed.magnitude, 0))
+            {
+                switchToState(typeof(FollowPlayerState));
+                return;
+            }
+            
+            if(distance > DEADZONE_DISTANCE)
             {
                 forestSpirit.CharacterController.Move(spiritToTargetDir.normalized * Time.deltaTime * SPEED);
             }

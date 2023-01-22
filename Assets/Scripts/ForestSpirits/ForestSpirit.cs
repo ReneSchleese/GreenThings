@@ -9,6 +9,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
     [SerializeField] public CharacterController CharacterController;
     private State _currentState;
     private List<State> _states;
+    [SerializeField] private string _stateString;
     
     private void Awake()
     {
@@ -30,11 +31,12 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         }
     }
 
-    private void SwitchToState(Type state)
+    public void SwitchToState(Type state)
     {
         _currentState?.OnExit();
         _currentState = _states.First(s => s.GetType() == state);
         _currentState.OnEnter();
+        _stateString = _currentState.GetType().ToString();
     }
 
     private void Update()

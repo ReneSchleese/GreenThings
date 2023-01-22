@@ -9,7 +9,7 @@ namespace ForestSpirits
         public override void OnEnter()
         {
             base.OnEnter();
-            Debug.Log("Entering idle state");
+            Debug.Log("OnEnter() IdleState");
         }
 
         public override void OnUpdate()
@@ -17,6 +17,7 @@ namespace ForestSpirits
             base.OnUpdate();
             if (PlayerIsInReach())
             {
+                App.Instance.Player.ForestSpiritChain.Enqueue(forestSpirit);
                 switchToState(typeof(FollowPlayerState));
             }
         }

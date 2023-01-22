@@ -5,14 +5,15 @@ namespace ForestSpirits
     public class FollowPlayerState : State
     {
         private const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.8f;
-        private const float DEADZONE_DISTANCE = IdleState.SEEKING_DISTANCE * 0.2f;
-        private const float ENQUEUEING_DISTANCE = IdleState.SEEKING_DISTANCE * 0.33f;
+        private const float DEADZONE_DISTANCE = 1.25f;
+        private const float ENQUEUEING_DISTANCE = 1.6f;
         private float _enterTime;
 
         public override void OnEnter()
         {
             base.OnEnter();
             _enterTime = Time.time;
+            Debug.Log("OnEnter() FollowPlayerState");
         }
 
         public override void OnUpdate()
@@ -25,6 +26,7 @@ namespace ForestSpirits
             if (MayEnqueue && distance > ENQUEUEING_DISTANCE)
             {
                 switchToState(typeof(EnqueuedState));
+                return;
             }
             if (distance > DEADZONE_DISTANCE)
             {
@@ -32,6 +34,6 @@ namespace ForestSpirits
             }
         }
 
-        private bool MayEnqueue => Time.time - _enterTime > 0.66f;
+        private bool MayEnqueue => Time.time - _enterTime > 0.33f;
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 public class ForestSpirit : MonoBehaviour, IFollowable
 {
     [SerializeField] public CharacterController CharacterController;
+    [SerializeField] private PushHitbox _pushHitbox;
     private State _currentState;
     private List<State> _states;
     [SerializeField] private string _stateString;
@@ -15,6 +16,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
     {
         SetupStates();
         SwitchToState(typeof(IdleState));
+        _pushHitbox.Init(transform);
     }
 
     private void SetupStates()

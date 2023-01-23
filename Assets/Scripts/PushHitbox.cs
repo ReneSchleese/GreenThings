@@ -17,9 +17,8 @@ public class PushHitbox : MonoBehaviour
             return;
         }
         Vector3 direction = otherHitbox.WorldPosition - WorldPosition;
-        float distance = Mathf.Abs(direction.magnitude - otherHitbox.Radius - Radius);
-        //Debug.Log($"direction={direction}, distance={distance}");
-        otherHitbox.Push(direction.normalized * 0.05f);
+        direction = Quaternion.AngleAxis(-20, Vector3.up) * direction;
+        otherHitbox.Push(direction.normalized * 0.1f);
     }
 
     private void Push(Vector3 direction)

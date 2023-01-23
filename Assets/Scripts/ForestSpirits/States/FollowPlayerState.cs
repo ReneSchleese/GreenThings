@@ -5,7 +5,7 @@ namespace ForestSpirits
     public class FollowPlayerState : State
     {
         private const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.8f;
-        private const float DEADZONE_DISTANCE = 1.25f;
+        private const float DEADZONE_DISTANCE = 3f;
         private const float ENQUEUEING_DISTANCE = .5f;
 
         public override void OnEnter()

@@ -5,7 +5,7 @@ namespace ForestSpirits
     public class EnqueuedState : State
     {
         private const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.8f;
-        private const float DEADZONE_DISTANCE = 1f;
+        private const float DEADZONE_DISTANCE = 1.25f;
         private IFollowable _target;
 
         public override void OnEnter()

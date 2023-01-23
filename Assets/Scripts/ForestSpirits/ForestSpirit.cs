@@ -44,6 +44,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
     private void Update()
     {
         _currentState.OnUpdate();
+        transform.position = new Vector3(transform.position.x, 1.17f, transform.position.z);
         /*
          * if not following
          *      if player in range

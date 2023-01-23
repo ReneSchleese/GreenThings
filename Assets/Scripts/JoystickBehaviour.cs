@@ -63,6 +63,7 @@ public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        Move?.Invoke(Vector2.zero);
         _isDragging = false;
         _resetTween = _stick.DOAnchorPos(Vector2.zero, 0.1f).SetEase(Ease.InOutSine);
     }

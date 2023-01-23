@@ -1,4 +1,3 @@
-using System;
 using ForestSpirits;
 using UnityEngine;
 
@@ -17,20 +16,19 @@ public class PlayerCharacter : MonoBehaviour, IFollowable
 
     private void OnMove(Vector2 obj)
     {
-        Vector3 speed = new Vector3(obj.x, 0f, obj.y) * MOVEMENT_SPEED * Time.deltaTime;
-        _characterController.Move(speed);
+        _previousWorldPos = WorldPosition;
+        Speed = new Vector3(obj.x, 0f, obj.y) * MOVEMENT_SPEED;
+        _characterController.Move(Speed * Time.deltaTime);
     }
 
     private void Update()
     {
         ForestSpiritChain.TryClear();
-        _previousWorldPos = WorldPosition;
     }
-
 
     public ForestSpiritChain ForestSpiritChain { get; } = new();
 
     public Vector3 WorldPosition => transform.position;
     public bool IsFollowing => false;
-    public Vector3 Speed => WorldPosition - _previousWorldPos;
+    public Vector3 Speed { get; private set; }
 }

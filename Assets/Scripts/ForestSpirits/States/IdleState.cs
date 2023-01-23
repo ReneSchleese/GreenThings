@@ -4,7 +4,7 @@ namespace ForestSpirits
 {
     public class IdleState : State
     {
-        public const float SEEKING_DISTANCE = 3f;
+        private const float SEEKING_DISTANCE = 3f;
 
         public override void OnEnter()
         {
@@ -17,14 +17,14 @@ namespace ForestSpirits
             base.OnUpdate();
             if (PlayerIsInReach())
             {
-                App.Instance.Player.ForestSpiritChain.Enqueue(forestSpirit);
+                Player.ForestSpiritChain.Enqueue(forestSpirit);
                 switchToState(typeof(FollowPlayerState));
             }
         }
 
         private bool PlayerIsInReach()
         {
-            return Vector3.Distance(App.Instance.Player.transform.position, forestSpirit.transform.position) <= SEEKING_DISTANCE;
+            return Vector3.Distance(Player.transform.position, forestSpirit.transform.position) <= SEEKING_DISTANCE;
         }
     }
 }

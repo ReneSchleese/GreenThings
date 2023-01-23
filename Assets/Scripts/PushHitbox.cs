@@ -2,7 +2,6 @@
 
 public class PushHitbox : MonoBehaviour
 {
-    [SerializeField] private CapsuleCollider _capsuleCollider;
     private Transform _target;
 
     public void Init(Transform target)
@@ -27,5 +26,4 @@ public class PushHitbox : MonoBehaviour
     }
 
     private Vector3 WorldPosition => _target.position;
-    private float Radius => _capsuleCollider.radius;
 }

@@ -53,7 +53,4 @@ public class ForestSpirit : MonoBehaviour, IFollowable
     }
 
     public Vector3 WorldPosition => transform.position;
-
-    public bool IsFollowing => _currentState != null && (_currentState.GetType() == typeof(FollowPlayerState) ||
-                                                         _currentState.GetType() == typeof(EnqueuedState));
 }

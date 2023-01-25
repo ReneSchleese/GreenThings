@@ -11,13 +11,12 @@ namespace ForestSpirits
         public void Enqueue(ForestSpirit spirit)
         {
             _chain.Add(spirit);
-            Debug.Log($"Enqueue, count={_chain.Count}");
         }
 
         public IFollowable GetTarget(ForestSpirit spirit)
         {
             Debug.Assert(_chain.Contains(spirit));
-            return spirit == LeadingSpirit ? App.Instance.Player : _chain[_chain.IndexOf(spirit) - 1];
+            return spirit == LeadingSpirit ? Player : _chain[_chain.IndexOf(spirit) - 1];
         }
 
         public void TryClear()
@@ -26,7 +25,7 @@ namespace ForestSpirits
             {
                 return;
             }
-            if ((App.Instance.Player.WorldPosition - LeadingSpirit.WorldPosition).magnitude > 8f)
+            if ((Player.WorldPosition - LeadingSpirit.WorldPosition).magnitude > 8f)
             {
                 Clear();
             }
@@ -40,11 +39,12 @@ namespace ForestSpirits
             }
             _chain.Clear();
         }
+
+        private static PlayerCharacter Player => App.Instance.Player;
     }
 
     public interface IFollowable
     {
         public Vector3 WorldPosition { get; }
-        public bool IsFollowing { get; }
     }
 }

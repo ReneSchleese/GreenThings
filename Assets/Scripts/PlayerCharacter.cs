@@ -26,6 +26,5 @@ public class PlayerCharacter : MonoBehaviour, IFollowable
     public ForestSpiritChain ForestSpiritChain { get; } = new();
 
     public Vector3 WorldPosition => transform.position;
-    public bool IsFollowing => false;
     public Vector3 Speed { get; private set; }
 }

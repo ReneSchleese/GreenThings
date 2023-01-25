@@ -8,15 +8,18 @@ public class ForestSpirit : MonoBehaviour, IFollowable
 {
     [SerializeField] public CharacterController CharacterController;
     [SerializeField] private PushHitbox _pushHitbox;
+    [SerializeField] private string _stateString;
+    [SerializeField] private GameObject _viewPrefab;
     private State _currentState;
     private List<State> _states;
-    [SerializeField] private string _stateString;
-    
+    private GameObject _view;
+
     private void Awake()
     {
         SetupStates();
         SwitchToState(typeof(IdleState));
         _pushHitbox.Init(transform);
+        _view = Instantiate(_viewPrefab, transform.position, Quaternion.identity);
     }
 
     private void SetupStates()
@@ -41,10 +44,12 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         _stateString = _currentState.GetType().ToString();
     }
 
+    private Vector3 _velocity;
     private void Update()
     {
         _currentState.OnUpdate();
         transform.position = new Vector3(transform.position.x, 1.17f, transform.position.z);
+        _view.transform.position = Vector3.SmoothDamp(_view.transform.position, transform.position, ref _velocity, 0.15f);
         /*
          * if not following
          *      if player in range

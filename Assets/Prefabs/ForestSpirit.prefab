@@ -211,6 +211,7 @@ MonoBehaviour:
   _stateString: 
   _viewPrefab: {fileID: 4615730638002646603, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
     type: 3}
+  _gizmoTex: {fileID: 2800000, guid: 66b0e34133bb9ad4991be60525a6a8b7, type: 3}
 --- !u!143 &5034073738045698575
 CharacterController:
   m_ObjectHideFlags: 0

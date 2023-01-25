@@ -13,6 +13,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
     private State _currentState;
     private List<State> _states;
     private GameObject _view;
+    private Vector3 _velocity;
 
     private void Awake()
     {
@@ -44,12 +45,12 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         _stateString = _currentState.GetType().ToString();
     }
 
-    private Vector3 _velocity;
     private void Update()
     {
         _currentState.OnUpdate();
-        transform.position = new Vector3(transform.position.x, 1.17f, transform.position.z);
-        _view.transform.position = Vector3.SmoothDamp(_view.transform.position, transform.position, ref _velocity, 0.15f);
+        Vector3 position = transform.position;
+        transform.position = new Vector3(position.x, 1.17f, position.z);
+        _view.transform.position = Vector3.SmoothDamp(_view.transform.position, position, ref _velocity, 0.15f);
     }
 
     public Vector3 WorldPosition => transform.position;

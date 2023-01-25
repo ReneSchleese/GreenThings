@@ -8,12 +8,6 @@ namespace ForestSpirits
         private const float DEADZONE_DISTANCE = 3f;
         private const float ENQUEUEING_DISTANCE = .5f;
 
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            Debug.Log("OnEnter() FollowPlayerState");
-        }
-
         public override void OnUpdate()
         {
             base.OnUpdate();

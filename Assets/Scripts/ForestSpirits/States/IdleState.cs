@@ -6,12 +6,6 @@ namespace ForestSpirits
     {
         private const float SEEKING_DISTANCE = 3f;
 
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            Debug.Log("OnEnter() IdleState");
-        }
-
         public override void OnUpdate()
         {
             base.OnUpdate();

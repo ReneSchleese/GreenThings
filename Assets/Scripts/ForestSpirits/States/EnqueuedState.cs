@@ -11,7 +11,6 @@ namespace ForestSpirits
         public override void OnEnter()
         {
             base.OnEnter();
-            Debug.Log("OnEnter() EnqueuedState");
             _target = Player.ForestSpiritChain.GetTarget(forestSpirit);
         }
 

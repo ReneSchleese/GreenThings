@@ -50,23 +50,6 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         _currentState.OnUpdate();
         transform.position = new Vector3(transform.position.x, 1.17f, transform.position.z);
         _view.transform.position = Vector3.SmoothDamp(_view.transform.position, transform.position, ref _velocity, 0.15f);
-        /*
-         * if not following
-         *      if player in range
-         *          move closer to player
-         *          start following player
-         * else if following player
-         *      if needs to catch up
-         *          if is first spirit
-         *              move to player position
-         *          else
-         *              follow last spirit
-         * else if following spirit
-         *      if player in range
-         *          follow player
-         *      if needs to catch up to spirit
-         *          move to spirit position
-         */
     }
 
     public Vector3 WorldPosition => transform.position;

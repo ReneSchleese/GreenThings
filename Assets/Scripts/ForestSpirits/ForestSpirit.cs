@@ -9,10 +9,9 @@ public class ForestSpirit : MonoBehaviour, IFollowable
     [SerializeField] public CharacterController CharacterController;
     [SerializeField] private PushHitbox _pushHitbox;
     [SerializeField] private string _stateString;
-    [SerializeField] private GameObject _viewPrefab;
+    [SerializeField] private GameObject _view;
     private State _currentState;
     private List<State> _states;
-    private GameObject _view;
     private Vector3 _velocity;
 
     private void Awake()
@@ -20,7 +19,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         SetupStates();
         SwitchToState(typeof(IdleState));
         _pushHitbox.Init(transform);
-        _view = Instantiate(_viewPrefab, transform.position, Quaternion.identity);
+        _view.transform.SetParent(null);
     }
 
     private void SetupStates()
@@ -49,7 +48,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
     {
         _currentState.OnUpdate();
         Vector3 position = transform.position;
-        transform.position = new Vector3(position.x, 1.17f, position.z);
+        transform.position = new Vector3(position.x, 0f, position.z);
         _view.transform.position = Vector3.SmoothDamp(_view.transform.position, position, ref _velocity, 0.15f);
     }
 

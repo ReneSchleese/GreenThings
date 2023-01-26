@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Checkerboard
-  m_Shader: {fileID: 4800000, guid: ef45a48dd684d7e46bb3e8b6c74c2fa9, type: 3}
+  m_Name: ForestSpiritLeaves
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -69,15 +69,12 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Scale: 2
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.6924231, g: 0.7924528, b: 0.55695975, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EvenColor: {r: 0.6886792, g: 0.6483351, b: 0.57498217, a: 1}
-    - _OddColor: {r: 0.5754717, g: 0.53287655, b: 0.4533197, a: 1}
   m_BuildTextureStacks: []

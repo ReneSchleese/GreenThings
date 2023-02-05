@@ -152,6 +152,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5034073738045698560}
     m_Modifications:
+    - target: {fileID: 815263469803006294, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
+    - target: {fileID: 2432151851512401340, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
+    - target: {fileID: 2853603447907187647, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2853603447907187647, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.526
+      objectReference: {fileID: 0}
     - target: {fileID: 3283226348877893344, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

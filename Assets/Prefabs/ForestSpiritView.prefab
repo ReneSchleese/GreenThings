@@ -28,11 +28,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5329008973239278329}
+  - {fileID: 2027102612947176193}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &5656178154016259346
+--- !u!1001 &1993703114397904106
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -109,7 +109,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -7577739868436781572, guid: 997b8a72a474e2c4d8e3b4c842be425f,
+    - target: {fileID: -6652725513331149018, guid: 997b8a72a474e2c4d8e3b4c842be425f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -118,17 +118,27 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7940bf5788a4e2547be24332bff06b77, type: 2}
+      objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
     - target: {fileID: 919132149155446097, guid: 997b8a72a474e2c4d8e3b4c842be425f,
         type: 3}
       propertyPath: m_Name
-      value: Mesh
+      value: ForestSpirit
       objectReference: {fileID: 0}
+    - target: {fileID: 4985113007941178436, guid: 997b8a72a474e2c4d8e3b4c842be425f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
+    - target: {fileID: 8052002003632664750, guid: 997b8a72a474e2c4d8e3b4c842be425f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 997b8a72a474e2c4d8e3b4c842be425f, type: 3}
---- !u!4 &5329008973239278329 stripped
+--- !u!4 &2027102612947176193 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 997b8a72a474e2c4d8e3b4c842be425f,
     type: 3}
-  m_PrefabInstance: {fileID: 5656178154016259346}
+  m_PrefabInstance: {fileID: 1993703114397904106}
   m_PrefabAsset: {fileID: 0}

@@ -4,7 +4,7 @@ public class ForestSpiritBody : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     
-    private const float WALKING_SPEED_FACTOR = 25000f;
+    private const float WALKING_SPEED_FACTOR = 22500f;
     private Vector3 _lastPosition;
     private static readonly int WalkingSpeedAnimationId = Animator.StringToHash("WalkingSpeed");
 

@@ -180,7 +180,7 @@ PrefabInstance:
     - target: {fileID: 4615730638002646603, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
       propertyPath: m_Name
-      value: ForestSpiritView
+      value: ForestSpiritBody
       objectReference: {fileID: 0}
     - target: {fileID: 4632464326995795443, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class ForestSpiritBody : MonoBehaviour
@@ -9,6 +10,8 @@ public class ForestSpiritBody : MonoBehaviour
     private Vector3 _lastPosition;
     private Vector3 _velocity;
 
+    private Tween _lookTween;
+
     public void SmoothSetPosition(Vector3 position)
     {
         Vector3 currentPosition = transform.position;
@@ -18,10 +21,16 @@ public class ForestSpiritBody : MonoBehaviour
         _lastPosition = currentPosition;
     }
 
-    public void LookAt(Vector3 position)
+    public void SmoothLookAt(Vector3 position)
     {
-        transform.LookAt(position);
+        LookAtPos = new Vector3(position.x, 0f, position.z);
+        Quaternion lookRotation = Quaternion.LookRotation(LookAtPos - transform.position, Vector3.up);
+        if (_lookTween == null || _lookTween.active == false)
+        {
+            _lookTween = transform.DORotateQuaternion(lookRotation, 0.5f).SetEase(Ease.Linear);
+        }
     }
 
+    private Vector3 LookAtPos { get; set; }
     private float Speed { get; set; }
 }

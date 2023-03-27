@@ -50,10 +50,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         Vector3 position = transform.position;
         WorldPosition = new Vector3(position.x, 0f, position.z);
         _body.SmoothSetPosition(WorldPosition);
-        if (_currentState is EnqueuedState or FollowPlayerState)
-        {
-            _body.SmoothLookAt(App.Instance.Player.transform.position);
-        }
+        _body.SmoothLookAt(App.Instance.Player.WorldPosition);
     }
 
     public Vector3 WorldPosition

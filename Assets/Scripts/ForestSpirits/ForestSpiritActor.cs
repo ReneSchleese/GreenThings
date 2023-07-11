@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class ForestSpiritActor : MonoBehaviour
 {
+    private static class AnimationIds
+    {
+        public static readonly int WalkingSpeed = Animator.StringToHash("WalkingSpeed");
+        public static readonly int Unfold = Animator.StringToHash("Unfold");   
+    }
+
     [SerializeField] private Animator _animator;
     
-    private static readonly int WalkingSpeedAnimationId = Animator.StringToHash("WalkingSpeed");
-    private const float WALKING_SPEED_FACTOR = 22500f;
     private Vector3 _lastPosition;
     private Vector3 _posDampVelocity;
     private Quaternion _rotDampVelocity;
-
     private Tween _lookTween;
-
     private Coroutine _stationaryRoutine;
     private bool _isStationary;
 
@@ -21,8 +23,9 @@ public class ForestSpiritActor : MonoBehaviour
     {
         Vector3 currentPosition = transform.position;
         transform.position = Vector3.SmoothDamp(currentPosition, position, ref _posDampVelocity, 0.15f);
-        Speed = (currentPosition - _lastPosition).sqrMagnitude * Time.deltaTime * WALKING_SPEED_FACTOR;
-        _animator.SetFloat(WalkingSpeedAnimationId, Speed);
+        Speed = (currentPosition - _lastPosition).magnitude * (1f / Time.deltaTime);
+
+        _animator.SetFloat(AnimationIds.WalkingSpeed, Speed);
         _lastPosition = currentPosition;
 
         if (SlowEnoughForStationary())
@@ -50,16 +53,13 @@ public class ForestSpiritActor : MonoBehaviour
             {
                 Debug.Log("Unfold");
                 _isStationary = true;
-                _animator.SetTrigger("Unfold");
+                _animator.SetTrigger(AnimationIds.Unfold);
                 StopStationaryRoutine();
             }
         }
     }
 
-    private bool SlowEnoughForStationary()
-    {
-        return Speed <= 0.2f;
-    }
+    private bool SlowEnoughForStationary() => Speed <= 0.02f;
 
     public void SmoothLookAt(Vector3 position)
     {
@@ -72,12 +72,10 @@ public class ForestSpiritActor : MonoBehaviour
     {
         if (_stationaryRoutine != null)
         {
-            Debug.Log("Stopped waiting");
             StopCoroutine(_stationaryRoutine);
-            _stationaryRoutine = null;
         }
+        _stationaryRoutine = null;
     }
 
-    private Vector3 LookAtPos { get; set; }
     private float Speed { get; set; }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public class ForestSpiritBody : MonoBehaviour
+public class ForestSpiritActor : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     

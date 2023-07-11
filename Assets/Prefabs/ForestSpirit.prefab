@@ -126,7 +126,7 @@ MonoBehaviour:
   CharacterController: {fileID: 5034073738045698575}
   _pushHitbox: {fileID: 4066260253905792264}
   _stateString: 
-  _body: {fileID: 6545904419580613203}
+  _actor: {fileID: 6545904419580613203}
 --- !u!143 &5034073738045698575
 CharacterController:
   m_ObjectHideFlags: 0
@@ -180,7 +180,7 @@ PrefabInstance:
     - target: {fileID: 4615730638002646603, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
       propertyPath: m_Name
-      value: ForestSpiritBody
+      value: ForestSpiritActor
       objectReference: {fileID: 0}
     - target: {fileID: 4632464326995795443, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}

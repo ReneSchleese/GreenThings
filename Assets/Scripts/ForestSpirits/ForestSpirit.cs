@@ -9,7 +9,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
     [SerializeField] public CharacterController CharacterController;
     [SerializeField] private PushHitbox _pushHitbox;
     [SerializeField] private string _stateString;
-    [SerializeField] private ForestSpiritBody _body;
+    [SerializeField] private ForestSpiritActor _actor;
     private State _currentState;
     private List<State> _states;
     private Vector3 _velocity;
@@ -19,7 +19,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         SetupStates();
         SwitchToState(typeof(IdleState));
         _pushHitbox.Init(transform);
-        _body.transform.SetParent(null);
+        _actor.transform.SetParent(null);
     }
 
     private void SetupStates()
@@ -49,8 +49,8 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         _currentState.OnUpdate();
         Vector3 position = transform.position;
         WorldPosition = new Vector3(position.x, 0f, position.z);
-        _body.SmoothSetPosition(WorldPosition);
-        _body.SmoothLookAt(App.Instance.Player.WorldPosition);
+        _actor.SmoothSetPosition(WorldPosition);
+        _actor.SmoothLookAt(App.Instance.Player.WorldPosition);
     }
 
     public Vector3 WorldPosition

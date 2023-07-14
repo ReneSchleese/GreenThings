@@ -4,7 +4,7 @@ namespace ForestSpirits
 {
     public class EnqueuedState : State
     {
-        private const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.8f;
+        public const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.95f;
         private const float DEADZONE_DISTANCE = 1.5f;
         private IFollowable _target;
 
@@ -23,21 +23,19 @@ namespace ForestSpirits
         public override void OnUpdate()
         {
             base.OnUpdate();
-
-            Vector3 spiritToTargetDir = _target.WorldPosition - forestSpirit.WorldPosition;
-            float distance = spiritToTargetDir.magnitude;
             
-
             if (Mathf.Approximately(Player.Speed.magnitude, 0))
             {
                 switchToState(typeof(FollowPlayerState));
                 return;
             }
-            
-            if(distance > DEADZONE_DISTANCE)
+
+            if (Vector3.Distance(_target.WorldPosition, forestSpirit.WorldPosition) <= DEADZONE_DISTANCE)
             {
-                forestSpirit.CharacterController.Move(spiritToTargetDir.normalized * Time.deltaTime * SPEED);
+                return;
             }
+            Vector3 direction = _target.WorldPosition - forestSpirit.WorldPosition;
+            forestSpirit.CharacterController.Move(direction.normalized * (Time.deltaTime * SPEED));
         }
     }
 }

@@ -8,8 +8,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
 {
     [SerializeField] public CharacterController CharacterController;
     [SerializeField] private PushHitbox _pushHitbox;
-    [SerializeField] private string _stateString;
-    [SerializeField] private GameObject _view;
+    [SerializeField] private ForestSpiritActor _actor;
     private State _currentState;
     private List<State> _states;
     private Vector3 _velocity;
@@ -19,7 +18,7 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         SetupStates();
         SwitchToState(typeof(IdleState));
         _pushHitbox.Init(transform);
-        _view.transform.SetParent(null);
+        _actor.transform.SetParent(null);
     }
 
     private void SetupStates()
@@ -41,16 +40,25 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         _currentState?.OnExit();
         _currentState = _states.First(s => s.GetType() == state);
         _currentState.OnEnter();
-        _stateString = _currentState.GetType().ToString();
     }
 
     private void Update()
     {
         _currentState.OnUpdate();
         Vector3 position = transform.position;
-        transform.position = new Vector3(position.x, 0f, position.z);
-        _view.transform.position = Vector3.SmoothDamp(_view.transform.position, position, ref _velocity, 0.15f);
+        WorldPosition = new Vector3(position.x, 0f, position.z);
+        
+        _actor.SmoothSetPosition(WorldPosition);
+        _actor.HandleUnfold(_currentState);
+        if(_currentState.GetType() != typeof(IdleState))
+        {
+            _actor.SmoothLookAt(App.Instance.Player.WorldPosition);
+        }
     }
 
-    public Vector3 WorldPosition => transform.position;
+    public Vector3 WorldPosition
+    {
+        get => transform.position;
+        private set => transform.position = value;
+    }
 }

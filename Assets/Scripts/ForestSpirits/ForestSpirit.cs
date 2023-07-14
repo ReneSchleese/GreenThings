@@ -8,7 +8,6 @@ public class ForestSpirit : MonoBehaviour, IFollowable
 {
     [SerializeField] public CharacterController CharacterController;
     [SerializeField] private PushHitbox _pushHitbox;
-    [SerializeField] private string _stateString;
     [SerializeField] private ForestSpiritActor _actor;
     private State _currentState;
     private List<State> _states;
@@ -41,7 +40,6 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         _currentState?.OnExit();
         _currentState = _states.First(s => s.GetType() == state);
         _currentState.OnEnter();
-        _stateString = _currentState.GetType().ToString();
     }
 
     private void Update()

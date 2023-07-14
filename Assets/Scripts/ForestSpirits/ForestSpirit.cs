@@ -47,8 +47,13 @@ public class ForestSpirit : MonoBehaviour, IFollowable
         _currentState.OnUpdate();
         Vector3 position = transform.position;
         WorldPosition = new Vector3(position.x, 0f, position.z);
+        
         _actor.SmoothSetPosition(WorldPosition);
-        _actor.SmoothLookAt(App.Instance.Player.WorldPosition);
+        _actor.HandleUnfold(_currentState);
+        if(_currentState.GetType() != typeof(IdleState))
+        {
+            _actor.SmoothLookAt(App.Instance.Player.WorldPosition);
+        }
     }
 
     public Vector3 WorldPosition

@@ -1,3 +1,5 @@
+using System;
+using ForestSpirits;
 using UnityEngine;
 
 public class ForestSpiritActor : MonoBehaviour
@@ -23,14 +25,12 @@ public class ForestSpiritActor : MonoBehaviour
         transform.position = Vector3.SmoothDamp(currentPosition, position, ref _posDampVelocity, 0.15f);
         Speed = (currentPosition - _lastPosition).magnitude * (1f / Time.deltaTime);
         _lastPosition = currentPosition;
-        
         _animator.SetFloat(AnimationIds.WalkingSpeed, Speed);
-        HandleUnfold();
     }
 
-    private void HandleUnfold()
+    public void HandleUnfold(State state)
     {
-        if (!IsSlowEnoughToUnfold())
+        if (!IsSlowEnoughToUnfold() || !FollowsPlayer())
         {
             _timeStampWhereFast = Time.time;
             _isInUnfoldState = false;
@@ -43,6 +43,7 @@ public class ForestSpiritActor : MonoBehaviour
         
         bool IsSlowEnoughToUnfold() => Speed <= 0.02f;
         bool HasBeenSlowLongEnoughToUnfold() => Time.time - _timeStampWhereFast > 3.0f;
+        bool FollowsPlayer() => state.GetType() == typeof(FollowPlayerState);
     }
 
     private void Unfold()

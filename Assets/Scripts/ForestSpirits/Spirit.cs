@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ForestSpirits;
 using UnityEngine;
 
 namespace ForestSpirits
 {
-    public class ChainLink : MonoBehaviour, IChainTarget
+    public class Spirit : MonoBehaviour, IChainTarget
     {
-        [SerializeField] public CharacterController CharacterController;
+        [SerializeField] public CharacterController Controller;
         [SerializeField] private PushHitbox _pushHitbox;
         [SerializeField] private Actor _actor;
         private State _currentState;

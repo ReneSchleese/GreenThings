@@ -6,9 +6,9 @@ namespace ForestSpirits
     public class State
     {
         protected Action<Type> SwitchToState;
-        protected ChainLink ChainLink;
+        protected Spirit ChainLink;
 
-        public void Init(ChainLink spiritChainLink, Action<Type> enterStateCallback)
+        public void Init(Spirit spiritChainLink, Action<Type> enterStateCallback)
         {
             ChainLink = spiritChainLink;
             SwitchToState = enterStateCallback;
@@ -57,7 +57,7 @@ namespace ForestSpirits
             }
             if (distance > DEAD_ZONE_DISTANCE)
             {
-                ChainLink.CharacterController.Move(spiritToPlayerDir.normalized * (Time.deltaTime * SPEED));
+                ChainLink.Controller.Move(spiritToPlayerDir.normalized * (Time.deltaTime * SPEED));
             }
         }
     }
@@ -95,7 +95,7 @@ namespace ForestSpirits
                 return;
             }
             Vector3 direction = _target.WorldPosition - ChainLink.WorldPosition;
-            ChainLink.CharacterController.Move(direction.normalized * (Time.deltaTime * SPEED));
+            ChainLink.Controller.Move(direction.normalized * (Time.deltaTime * SPEED));
         }
     }
 }

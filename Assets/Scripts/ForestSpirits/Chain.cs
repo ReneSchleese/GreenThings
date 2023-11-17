@@ -5,15 +5,15 @@ namespace ForestSpirits
 {
     public class Chain
     {
-        private readonly List<ChainLink> _chainLinks = new();
-        private ChainLink FirstSpirit => _chainLinks.Count > 0 ? _chainLinks[0] : null;
+        private readonly List<Spirit> _chainLinks = new();
+        private Spirit FirstSpirit => _chainLinks.Count > 0 ? _chainLinks[0] : null;
 
-        public void Enqueue(ChainLink spiritChainLink)
+        public void Enqueue(Spirit spiritChainLink)
         {
             _chainLinks.Add(spiritChainLink);
         }
 
-        public IChainTarget GetTargetFor(ChainLink requester)
+        public IChainTarget GetTargetFor(Spirit requester)
         {
             Debug.Assert(_chainLinks.Contains(requester));
             return requester == FirstSpirit ? Player : _chainLinks[_chainLinks.IndexOf(requester) - 1];
@@ -33,7 +33,7 @@ namespace ForestSpirits
 
         private void Break()
         {
-            foreach (ChainLink forestSpirit in _chainLinks)
+            foreach (Spirit forestSpirit in _chainLinks)
             {
                 forestSpirit.SwitchToState(typeof(IdleState));
             }

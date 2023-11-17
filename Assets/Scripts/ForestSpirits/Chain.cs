@@ -19,7 +19,7 @@ namespace ForestSpirits
             return requester == FirstSpirit ? Player : _chainLinks[_chainLinks.IndexOf(requester) - 1];
         }
 
-        public void TryClear()
+        public void BreakOffIfTooFar()
         {
             if (FirstSpirit == null)
             {
@@ -27,11 +27,11 @@ namespace ForestSpirits
             }
             if ((Player.WorldPosition - FirstSpirit.WorldPosition).magnitude > 8f)
             {
-                Clear();
+                Break();
             }
         }
 
-        private void Clear()
+        private void Break()
         {
             foreach (ChainLink forestSpirit in _chainLinks)
             {

@@ -12,15 +12,15 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget
         _joystick.Move += OnMove;
     }
 
-    private void OnMove(Vector2 obj)
+    private void OnMove(Vector2 delta)
     {
-        Speed = new Vector3(obj.x, 0f, obj.y) * MOVEMENT_SPEED;
+        Speed = new Vector3(delta.x, 0f, delta.y) * MOVEMENT_SPEED;
         _characterController.Move(Speed * Time.deltaTime);
     }
 
     private void Update()
     {
-        Chain.TryClear();
+        Chain.BreakOffIfTooFar();
     }
 
     public Chain Chain { get; } = new();

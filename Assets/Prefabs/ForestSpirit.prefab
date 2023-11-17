@@ -123,9 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8751052eb5f4a6eacb39535c7c21282, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterController: {fileID: 5034073738045698575}
+  Controller: {fileID: 5034073738045698575}
   _pushHitbox: {fileID: 4066260253905792264}
-  _stateString: 
   _actor: {fileID: 6545904419580613203}
 --- !u!143 &5034073738045698575
 CharacterController:

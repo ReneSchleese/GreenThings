@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace ForestSpirits
 {
@@ -12,7 +13,7 @@ namespace ForestSpirits
 
         public void Enqueue(Spirit spirit)
         {
-            Debug.Assert(_spiritToLinks.ContainsKey(spirit));
+            Assert.IsFalse(_spiritToLinks.ContainsKey(spirit));
             ChainLink link = GetOrCreateChainLink();
             link.Spirit = spirit;
             _chainLinks.Add(link);

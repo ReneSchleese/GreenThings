@@ -66,12 +66,12 @@ namespace ForestSpirits
     {
         public const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.95f;
         private const float DEAD_ZONE_DISTANCE = 1.5f;
-        private IFollowable _target;
+        private IChainTarget _target;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            _target = Player.ForestSpiritChain.GetTarget(ForestSpirit);
+            _target = Player.ForestSpiritChain.GetTargetFor(ForestSpirit);
         }
 
         public override void OnExit()

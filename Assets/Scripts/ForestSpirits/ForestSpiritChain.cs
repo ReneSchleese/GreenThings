@@ -13,10 +13,10 @@ namespace ForestSpirits
             _chain.Add(spirit);
         }
 
-        public IFollowable GetTarget(ForestSpirit spirit)
+        public IChainTarget GetTargetFor(ForestSpirit requester)
         {
-            Debug.Assert(_chain.Contains(spirit));
-            return spirit == LeadingSpirit ? Player : _chain[_chain.IndexOf(spirit) - 1];
+            Debug.Assert(_chain.Contains(requester));
+            return requester == LeadingSpirit ? Player : _chain[_chain.IndexOf(requester) - 1];
         }
 
         public void TryClear()
@@ -43,7 +43,7 @@ namespace ForestSpirits
         private static PlayerCharacter Player => App.Instance.Player;
     }
 
-    public interface IFollowable
+    public interface IChainTarget
     {
         public Vector3 WorldPosition { get; }
     }

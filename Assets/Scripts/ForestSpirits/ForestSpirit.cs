@@ -4,7 +4,7 @@ using System.Linq;
 using ForestSpirits;
 using UnityEngine;
 
-public class ForestSpirit : MonoBehaviour, IFollowable
+public class ForestSpirit : MonoBehaviour, IChainTarget
 {
     [SerializeField] public CharacterController CharacterController;
     [SerializeField] private PushHitbox _pushHitbox;

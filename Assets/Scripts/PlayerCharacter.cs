@@ -1,7 +1,7 @@
 using ForestSpirits;
 using UnityEngine;
 
-public class PlayerCharacter : MonoBehaviour, IFollowable
+public class PlayerCharacter : MonoBehaviour, IChainTarget
 {
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private JoystickBehaviour _joystick;

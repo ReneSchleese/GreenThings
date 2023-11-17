@@ -5,24 +5,34 @@ using UnityEngine.Assertions;
 
 namespace ForestSpirits
 {
-    public class Chain
+    public class Chain : MonoBehaviour
     {
+        [SerializeField] private ChainLink _chainLinkPrefab;
+        
         private readonly List<ChainLink> _chainLinks = new();
         private readonly Dictionary<Spirit, ChainLink> _spiritToLinks = new();
+        private readonly Stack<ChainLink> _inactiveChainLinks = new();
         private Spirit FirstSpirit => _chainLinks.Count > 0 ? _chainLinks[0].Spirit : null;
 
         public void Enqueue(Spirit spirit)
         {
             Assert.IsFalse(_spiritToLinks.ContainsKey(spirit));
             ChainLink link = GetOrCreateChainLink();
-            link.Spirit = spirit;
+            link.Init(spirit);
             _chainLinks.Add(link);
             _spiritToLinks.Add(spirit, link);
         }
 
         private ChainLink GetOrCreateChainLink()
         {
-            throw new NotImplementedException();
+            if (_inactiveChainLinks.Count > 0)
+            {
+                return _inactiveChainLinks.Pop();
+            }
+
+            ChainLink chainLink = Instantiate(_chainLinkPrefab);
+            chainLink.OnReturn();
+            return chainLink;
         }
 
         public IChainTarget GetTargetFor(Spirit requester)
@@ -49,14 +59,13 @@ namespace ForestSpirits
             {
                 forestSpirit.SwitchToState(typeof(IdleState));
             }
-            ReturnLinks();
+            foreach (ChainLink chainLink in _chainLinks)
+            {
+                chainLink.OnReturn();
+                _inactiveChainLinks.Push(chainLink);
+            }
             _chainLinks.Clear();
             _spiritToLinks.Clear();
-        }
-
-        private void ReturnLinks()
-        {
-            throw new NotImplementedException();
         }
 
         private static PlayerCharacter Player => App.Instance.Player;

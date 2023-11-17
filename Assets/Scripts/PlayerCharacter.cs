@@ -5,6 +5,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget
 {
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private JoystickBehaviour _joystick;
+    public Chain Chain;
     public const float MOVEMENT_SPEED = 6f;
 
     private void Awake()
@@ -22,8 +23,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget
     {
         Chain.BreakOffIfTooFar();
     }
-
-    public Chain Chain { get; } = new();
 
     public Vector3 WorldPosition => transform.position;
     public Vector3 Speed { get; private set; }

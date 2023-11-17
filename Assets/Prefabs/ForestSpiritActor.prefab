@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4959865657025504133}
   - component: {fileID: 6929054752930396895}
   m_Layer: 0
-  m_Name: ForestSpiritBody
+  m_Name: ForestSpiritActor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -40,7 +40,7 @@ namespace ForestSpirits
     
     public class FollowPlayerState : State
     {
-        private const float SPEED = EnqueuedState.SPEED;
+        private const float SPEED = ChainLinkState.SPEED;
         private const float DEAD_ZONE_DISTANCE = 3f;
         private const float ENQUEUEING_DISTANCE = .5f;
 
@@ -52,7 +52,7 @@ namespace ForestSpirits
             
             if (Player.Speed.magnitude > PlayerCharacter.MOVEMENT_SPEED * 0.5f && distance > ENQUEUEING_DISTANCE)
             {
-                SwitchToState(typeof(EnqueuedState));
+                SwitchToState(typeof(ChainLinkState));
                 return;
             }
             if (distance > DEAD_ZONE_DISTANCE)
@@ -62,7 +62,7 @@ namespace ForestSpirits
         }
     }
     
-    public class EnqueuedState : State
+    public class ChainLinkState : State
     {
         public const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.95f;
         private const float DEAD_ZONE_DISTANCE = 1.5f;

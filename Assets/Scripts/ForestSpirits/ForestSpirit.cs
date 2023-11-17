@@ -27,7 +27,7 @@ public class ForestSpirit : MonoBehaviour, IChainTarget
         {
             new IdleState(),
             new FollowPlayerState(),
-            new EnqueuedState()
+            new ChainLinkState()
         };
         foreach (State state in _states)
         {

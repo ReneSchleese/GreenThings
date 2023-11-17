@@ -6,11 +6,11 @@ namespace ForestSpirits
     public class State
     {
         protected Action<Type> SwitchToState;
-        protected Spirit ChainLink;
+        protected Spirit Spirit;
 
-        public void Init(Spirit spiritChainLink, Action<Type> enterStateCallback)
+        public void Init(Spirit spirit, Action<Type> enterStateCallback)
         {
-            ChainLink = spiritChainLink;
+            Spirit = spirit;
             SwitchToState = enterStateCallback;
         }
         
@@ -28,13 +28,13 @@ namespace ForestSpirits
         {
             base.OnUpdate();
             if (!PlayerIsInReach()) return;
-            Player.Chain.Enqueue(ChainLink);
+            Player.Chain.Enqueue(Spirit);
             SwitchToState(typeof(FollowPlayerState));
         }
 
         private bool PlayerIsInReach()
         {
-            return Vector3.Distance(Player.transform.position, ChainLink.transform.position) <= SEEKING_DISTANCE;
+            return Vector3.Distance(Player.transform.position, Spirit.transform.position) <= SEEKING_DISTANCE;
         }
     }
     
@@ -47,7 +47,7 @@ namespace ForestSpirits
         public override void OnUpdate()
         {
             base.OnUpdate();
-            Vector3 spiritToPlayerDir = Player.transform.position - ChainLink.transform.position;
+            Vector3 spiritToPlayerDir = Player.transform.position - Spirit.transform.position;
             float distance = spiritToPlayerDir.magnitude;
             
             if (Player.Speed.magnitude > PlayerCharacter.MOVEMENT_SPEED * 0.5f && distance > ENQUEUEING_DISTANCE)
@@ -57,7 +57,7 @@ namespace ForestSpirits
             }
             if (distance > DEAD_ZONE_DISTANCE)
             {
-                ChainLink.Controller.Move(spiritToPlayerDir.normalized * (Time.deltaTime * SPEED));
+                Spirit.Controller.Move(spiritToPlayerDir.normalized * (Time.deltaTime * SPEED));
             }
         }
     }
@@ -71,7 +71,7 @@ namespace ForestSpirits
         public override void OnEnter()
         {
             base.OnEnter();
-            _target = Player.Chain.GetTargetFor(ChainLink);
+            _target = Player.Chain.GetTargetFor(Spirit);
         }
 
         public override void OnExit()
@@ -90,12 +90,12 @@ namespace ForestSpirits
                 return;
             }
 
-            if (Vector3.Distance(_target.WorldPosition, ChainLink.WorldPosition) <= DEAD_ZONE_DISTANCE)
+            if (Vector3.Distance(_target.WorldPosition, Spirit.WorldPosition) <= 0.01f)
             {
                 return;
             }
-            Vector3 direction = _target.WorldPosition - ChainLink.WorldPosition;
-            ChainLink.Controller.Move(direction.normalized * (Time.deltaTime * SPEED));
+            Vector3 direction = _target.WorldPosition - Spirit.WorldPosition;
+            Spirit.Controller.Move(direction.normalized * (Time.deltaTime * SPEED));
         }
     }
 }

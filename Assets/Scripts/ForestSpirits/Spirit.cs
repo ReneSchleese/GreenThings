@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ForestSpirits
 {
-    public class Spirit : MonoBehaviour, IChainTarget
+    public class Spirit : MonoBehaviour
     {
         [SerializeField] public CharacterController Controller;
         [SerializeField] private PushHitbox _pushHitbox;
@@ -32,7 +32,7 @@ namespace ForestSpirits
             };
             foreach (State state in _states)
             {
-                state.Init(spiritChainLink: this, SwitchToState);
+                state.Init(spirit: this, SwitchToState);
             }
         }
 

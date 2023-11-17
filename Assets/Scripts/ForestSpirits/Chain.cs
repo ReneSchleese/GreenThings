@@ -37,7 +37,7 @@ namespace ForestSpirits
         public IChainTarget GetTargetFor(Spirit requester)
         {
             Debug.Assert(_spiritToLinks.ContainsKey(requester));
-            return requester == FirstSpirit ? Player : _chainLinks[_chainLinks.IndexOf(_spiritToLinks[requester]) - 1];
+            return _spiritToLinks[requester];
         }
 
         public void OnUpdate()
@@ -56,7 +56,12 @@ namespace ForestSpirits
                 ChainLink chainLink = _chainLinks[i];
                 if (i == 0)
                 {
-                    Vector3 behindPlayerPos = Player.WorldPosition - Player.transform.forward * 2;
+                    Vector3 behindPlayerPos = Player.WorldPosition - Player.transform.forward * 0.5f;
+                    chainLink.transform.position = behindPlayerPos;
+                }
+                else if(i == 1)
+                {
+                    Vector3 behindPlayerPos = Player.WorldPosition - Player.transform.forward * 2f;
                     chainLink.transform.position = behindPlayerPos;
                 }
                 else

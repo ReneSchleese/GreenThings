@@ -20,10 +20,10 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget
 
     private void Update()
     {
-        ForestSpiritChain.TryClear();
+        Chain.TryClear();
     }
 
-    public ForestSpiritChain ForestSpiritChain { get; } = new();
+    public Chain Chain { get; } = new();
 
     public Vector3 WorldPosition => transform.position;
     public Vector3 Speed { get; private set; }

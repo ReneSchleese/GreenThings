@@ -40,15 +40,28 @@ namespace ForestSpirits
             return requester == FirstSpirit ? Player : _chainLinks[_chainLinks.IndexOf(_spiritToLinks[requester]) - 1];
         }
 
-        public void BreakOffIfTooFar()
+        public void OnUpdate()
         {
-            if (FirstSpirit == null)
+            if (_chainLinks.Count == 0)
             {
                 return;
             }
             if ((Player.WorldPosition - FirstSpirit.WorldPosition).magnitude > 8f)
             {
                 Break();
+                return;
+            }
+            for (var i = 0; i < _chainLinks.Count; i++)
+            {
+                ChainLink chainLink = _chainLinks[i];
+                if (i == 0)
+                {
+                    chainLink.transform.position = Player.WorldPosition - Player.transform.forward * 2;
+                }
+                else
+                {
+                    
+                }
             }
         }
 

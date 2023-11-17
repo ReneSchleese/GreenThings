@@ -17,11 +17,15 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget
     {
         Speed = new Vector3(delta.x, 0f, delta.y) * MOVEMENT_SPEED;
         _characterController.Move(Speed * Time.deltaTime);
+        if (Speed != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(Speed);
+        }
     }
 
     private void Update()
     {
-        Chain.BreakOffIfTooFar();
+        Chain.OnUpdate();
     }
 
     public Vector3 WorldPosition => transform.position;

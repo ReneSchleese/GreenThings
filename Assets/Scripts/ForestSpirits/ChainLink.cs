@@ -17,18 +17,22 @@ namespace ForestSpirits
         }
 
 
-        public void OnUpdate(ChainLink targetLink)
-        {
-            if (Vector3.Distance(WorldPosition, targetLink.WorldPosition) <= ChainLinkState.DEAD_ZONE_DISTANCE)
-            {
-                return;
-            }
-            Vector3 direction = targetLink.WorldPosition - WorldPosition;
-            transform.position += direction.normalized * (Time.deltaTime * ChainLinkState.SPEED);
-        }
+        // public void OnUpdate(ChainLink targetLink)
+        // {
+            // if (Vector3.Distance(WorldPosition, targetLink.WorldPosition) <= ChainLinkState.DEAD_ZONE_DISTANCE)
+            // {
+                // return;
+            // }
+            // Vector3 direction = targetLink.WorldPosition - WorldPosition;
+            // transform.position += direction.normalized * (Time.deltaTime * ChainLinkState.SPEED);
+        // }
 
         public Spirit Spirit { get; private set; }
 
-        public Vector3 WorldPosition => transform.position;
+        public Vector3 WorldPosition
+        {
+            get => transform.position;
+            set => transform.position = value;
+        }
     }
 }

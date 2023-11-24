@@ -51,24 +51,12 @@ namespace ForestSpirits
                 Break();
                 return;
             }
-            for (int i = 0; i < _chainLinks.Count; i++)
+            for (int index = 0; index < _chainLinks.Count; index++)
             {
-                ChainLink chainLink = _chainLinks[i];
-                if (i == 0)
-                {
-                    Vector3 behindPlayerPos = Player.WorldPosition - Player.transform.forward * 0.5f;
-                    chainLink.transform.position = behindPlayerPos;
-                }
-                else if(i == 1)
-                {
-                    Vector3 behindPlayerPos = Player.WorldPosition - Player.transform.forward * 2f;
-                    chainLink.transform.position = behindPlayerPos;
-                }
-                else
-                {
-                    ChainLink beforeLink = _chainLinks[i - 1];
-                    chainLink.OnUpdate(beforeLink);
-                }
+                const float chainLinkDistance = 1.5f;
+                ChainLink chainLink = _chainLinks[index];
+                Vector3 straightPos = Player.WorldPosition - Player.transform.forward * ((index + 1) * chainLinkDistance);
+                chainLink.WorldPosition = straightPos;
             }
         }
 

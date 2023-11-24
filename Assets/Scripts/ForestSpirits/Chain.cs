@@ -53,10 +53,12 @@ namespace ForestSpirits
             }
             for (int index = 0; index < _chainLinks.Count; index++)
             {
+                const float responsiveness = 0.25f;
                 const float chainLinkDistance = 1.5f;
                 ChainLink chainLink = _chainLinks[index];
                 Vector3 straightPos = Player.WorldPosition - Player.transform.forward * ((index + 1) * chainLinkDistance);
-                chainLink.WorldPosition = straightPos;
+                float weight = 1f / (index + 1) * responsiveness;
+                chainLink.WorldPosition = Vector3.Lerp(chainLink.WorldPosition, straightPos, weight);
             }
         }
 

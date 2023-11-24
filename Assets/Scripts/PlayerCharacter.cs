@@ -6,7 +6,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private JoystickBehaviour _joystick;
     public Chain Chain;
-    public const float MOVEMENT_SPEED = 6f;
+    public const float MOVEMENT_SPEED = 8f;
 
     private void Awake()
     {

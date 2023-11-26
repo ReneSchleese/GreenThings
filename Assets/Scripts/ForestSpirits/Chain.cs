@@ -26,13 +26,13 @@ namespace ForestSpirits
 
         private ChainLink GetOrCreateChainLink()
         {
-            if (_inactiveChainLinks.Count > 0)
-            {
-                return _inactiveChainLinks.Pop();
-            }
-
-            ChainLink chainLink = Instantiate(_chainLinkPrefab);
+            ChainLink chainLink = _inactiveChainLinks.Count > 0
+                ? _inactiveChainLinks.Pop()
+                : Instantiate(_chainLinkPrefab);
+            
             chainLink.OnReturn();
+            chainLink.transform.position =
+                _chainLinks.Count > 0 ? _chainLinks[^1].transform.position : Player.WorldPosition;
             return chainLink;
         }
 

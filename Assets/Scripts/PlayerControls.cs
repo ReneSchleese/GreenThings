@@ -3,6 +3,7 @@
 public class PlayerControls : MonoBehaviour
 {
     private JoystickBehaviour _joystick;
+    private bool _hadInput;
 
     private void Start()
     {
@@ -12,6 +13,20 @@ public class PlayerControls : MonoBehaviour
     private void Update()
     {
         Vector2 amount = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        _joystick.InvokeMove(amount);
+        amount *= 1000;
+        bool hasInput = amount != Vector2.zero;
+        if (!_hadInput && hasInput)
+        {
+            _joystick.OnCustomBeginDrag();
+        }
+        else if (_hadInput && !hasInput)
+        {
+            _joystick.OnCustomEndDrag();
+        }
+        else if (_hadInput && hasInput)
+        {
+            _joystick.OnCustomDrag(amount);
+        }
+        _hadInput = hasInput;
     }
 }

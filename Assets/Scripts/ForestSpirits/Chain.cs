@@ -6,12 +6,14 @@ namespace ForestSpirits
 {
     public class Chain : MonoBehaviour
     {
+        private const float BREAK_DISTANCE = 8f;
+        private const float UPDATE_SPEED = 20f;
+        private const float CHAIN_LINK_DISTANCE = 1.5f;
         [SerializeField] private ChainLink _chainLinkPrefab;
         
         private readonly List<ChainLink> _chainLinks = new();
         private readonly Dictionary<Spirit, ChainLink> _spiritToLinks = new();
         private readonly Stack<ChainLink> _inactiveChainLinks = new();
-        private Spirit FirstSpirit => _chainLinks.Count > 0 ? _chainLinks[0].Spirit : null;
 
         public void Enqueue(Spirit spirit)
         {
@@ -46,32 +48,30 @@ namespace ForestSpirits
             {
                 return;
             }
-            if ((Player.WorldPosition - FirstSpirit.WorldPosition).magnitude > 8f)
+            if ((Player.WorldPosition - _chainLinks[0].Spirit.WorldPosition).magnitude > BREAK_DISTANCE)
             {
                 Break();
                 return;
             }
             for (int index = 0; index < _chainLinks.Count; index++)
             {
-                const float speed = 20f;
-                const float chainLinkDistance = 1.5f;
                 ChainLink chainLink = _chainLinks[index];
                 IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
                 
                 Vector3 currentPos = chainLink.WorldPosition;
-                Vector3 straightPos = Player.WorldPosition - Player.transform.forward * ((index + 1) * chainLinkDistance);
+                Vector3 straightPos = Player.WorldPosition - Player.transform.forward * ((index + 1) * CHAIN_LINK_DISTANCE);
 
-                Vector3 stepTowardsStraight = (straightPos - currentPos).normalized * (speed * Time.deltaTime);
+                Vector3 stepTowardsStraight = (straightPos - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
                 bool stepWouldOvershootTarget = stepTowardsStraight.magnitude > Vector3.Distance(currentPos, straightPos);
                 Vector3 straightTargetPos = stepWouldOvershootTarget
                     ? straightPos
                     : currentPos + stepTowardsStraight;
 
-                Vector3 stepTowardsFollow = (followTarget.WorldPosition - currentPos).normalized * (speed * Time.deltaTime);
+                Vector3 stepTowardsFollow = (followTarget.WorldPosition - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
                 Vector3 followTargetPos = currentPos + stepTowardsFollow;
-                if (Vector3.Distance(followTarget.WorldPosition, followTargetPos) < chainLinkDistance)
+                if (Vector3.Distance(followTarget.WorldPosition, followTargetPos) < CHAIN_LINK_DISTANCE)
                 {
-                    followTargetPos = followTarget.WorldPosition - stepTowardsFollow.normalized * chainLinkDistance;
+                    followTargetPos = followTarget.WorldPosition - stepTowardsFollow.normalized * CHAIN_LINK_DISTANCE;
                 }
 
                 float weight = 1f / (index + 3);

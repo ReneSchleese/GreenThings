@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerControls : MonoBehaviour
+public class KeyboardControls : MonoBehaviour
 {
     private JoystickBehaviour _joystick;
     private bool _hadInput;

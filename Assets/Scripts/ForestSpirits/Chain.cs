@@ -63,18 +63,19 @@ namespace ForestSpirits
 
                 Vector3 stepTowardsStraight = (straightPos - currentPos).normalized * (speed * Time.deltaTime);
                 bool stepWouldOvershootTarget = stepTowardsStraight.magnitude > Vector3.Distance(currentPos, straightPos);
-                Vector3 straightPosTarget = stepWouldOvershootTarget
+                Vector3 straightTargetPos = stepWouldOvershootTarget
                     ? straightPos
                     : currentPos + stepTowardsStraight;
-                
-                Vector3 followStep = currentPos + (followTarget.WorldPosition - currentPos).normalized * (speed * Time.deltaTime);
-                if (Vector3.Distance(followTarget.WorldPosition, followStep) < chainLinkDistance)
+
+                Vector3 stepTowardsFollow = (followTarget.WorldPosition - currentPos).normalized * (speed * Time.deltaTime);
+                Vector3 followTargetPos = currentPos + stepTowardsFollow;
+                if (Vector3.Distance(followTarget.WorldPosition, followTargetPos) < chainLinkDistance)
                 {
-                    followStep = followTarget.WorldPosition + (currentPos-followTarget.WorldPosition).normalized * chainLinkDistance;
+                    followTargetPos = followTarget.WorldPosition - stepTowardsFollow.normalized * chainLinkDistance;
                 }
 
                 float weight = 1f / (index + 3);
-                chainLink.WorldPosition = Vector3.Lerp(followStep, straightPosTarget, weight);
+                chainLink.WorldPosition = Vector3.Lerp(followTargetPos, straightTargetPos, weight);
             }
         }
 

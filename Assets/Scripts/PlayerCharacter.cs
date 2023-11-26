@@ -20,12 +20,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget
         if (Speed != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(Speed);
+            Chain.OnUpdate();
         }
-    }
-
-    private void Update()
-    {
-        Chain.OnUpdate();
     }
 
     public Vector3 WorldPosition => transform.position;

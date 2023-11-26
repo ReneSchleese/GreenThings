@@ -48,13 +48,28 @@ public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        TryKillTween();
-        _isDragging = true;
+        OnCustomBeginDrag();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        _stick.anchoredPosition += eventData.delta;
+        OnCustomDrag(eventData.delta);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        OnCustomEndDrag();
+    }
+
+    public void OnCustomBeginDrag()
+    {
+        TryKillTween();
+        _isDragging = true;
+    }
+
+    public void OnCustomDrag(Vector2 delta)
+    {
+        _stick.anchoredPosition += delta;
         float distance = Direction.magnitude;
         switch (distance)
         {
@@ -66,7 +81,7 @@ public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler,
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnCustomEndDrag()
     {
         Move?.Invoke(Vector2.zero);
         _isDragging = false;

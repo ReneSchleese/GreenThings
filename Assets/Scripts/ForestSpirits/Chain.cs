@@ -19,7 +19,7 @@ namespace ForestSpirits
         {
             Assert.IsFalse(_spiritToLinks.ContainsKey(spirit));
             ChainLink link = GetOrCreateChainLink();
-            link.Init(spirit);
+            link.SetActive(spirit);
             _chainLinks.Add(link);
             _spiritToLinks.Add(spirit, link);
         }
@@ -30,9 +30,10 @@ namespace ForestSpirits
                 ? _inactiveChainLinks.Pop()
                 : Instantiate(_chainLinkPrefab);
             
-            chainLink.OnReturn();
-            chainLink.transform.position =
-                _chainLinks.Count > 0 ? _chainLinks[^1].transform.position : Player.WorldPosition;
+            chainLink.SetInactive();
+            chainLink.transform.position = _chainLinks.Count > 0 
+                ? _chainLinks[^1].transform.position 
+                : Player.WorldPosition;
             return chainLink;
         }
 
@@ -87,7 +88,7 @@ namespace ForestSpirits
             }
             foreach (ChainLink chainLink in _chainLinks)
             {
-                chainLink.OnReturn();
+                chainLink.SetInactive();
                 _inactiveChainLinks.Push(chainLink);
             }
             _chainLinks.Clear();

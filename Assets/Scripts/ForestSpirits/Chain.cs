@@ -57,25 +57,24 @@ namespace ForestSpirits
                 const float chainLinkDistance = 1.5f;
                 ChainLink chainLink = _chainLinks[index];
                 IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
+                
+                Vector3 currentPos = chainLink.WorldPosition;
                 Vector3 straightPos = Player.WorldPosition - Player.transform.forward * ((index + 1) * chainLinkDistance);
-                float weight = 1f / (index + 3);
-                if (weight < 0.01f) weight = 0.0f;
-                Vector3 chainLinkPos = chainLink.WorldPosition;
-                Vector3 straightDir = straightPos - chainLinkPos;
-                Vector3 straightPosStep = straightPos;
-                if (Vector3.Distance(chainLinkPos, straightPos) > 0.2f)
-                {
-                    straightPosStep = chainLinkPos + straightDir.normalized * (speed * Time.deltaTime);
-                }
+
+                Vector3 stepTowardsStraight = (straightPos - currentPos).normalized * (speed * Time.deltaTime);
+                bool stepWouldOvershootTarget = stepTowardsStraight.magnitude > Vector3.Distance(currentPos, straightPos);
+                Vector3 straightPosTarget = stepWouldOvershootTarget
+                    ? straightPos
+                    : currentPos + stepTowardsStraight;
                 
-                
-                Vector3 followStep = chainLinkPos + (followTarget.WorldPosition - chainLinkPos).normalized * (speed * Time.deltaTime);
+                Vector3 followStep = currentPos + (followTarget.WorldPosition - currentPos).normalized * (speed * Time.deltaTime);
                 if (Vector3.Distance(followTarget.WorldPosition, followStep) < chainLinkDistance)
                 {
-                    followStep = followTarget.WorldPosition + (chainLinkPos-followTarget.WorldPosition).normalized * chainLinkDistance;
+                    followStep = followTarget.WorldPosition + (currentPos-followTarget.WorldPosition).normalized * chainLinkDistance;
                 }
 
-                chainLink.WorldPosition = Vector3.Lerp(followStep, straightPosStep, weight);
+                float weight = 1f / (index + 3);
+                chainLink.WorldPosition = Vector3.Lerp(followStep, straightPosTarget, weight);
             }
         }
 

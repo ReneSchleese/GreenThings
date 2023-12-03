@@ -33,7 +33,7 @@ namespace ForestSpirits
             chainLink.SetInactive();
             chainLink.transform.position = _chainLinks.Count > 0 
                 ? _chainLinks[^1].transform.position 
-                : Player.WorldPosition;
+                : Player.Position;
             return chainLink;
         }
 
@@ -49,7 +49,7 @@ namespace ForestSpirits
             {
                 return;
             }
-            if ((Player.WorldPosition - _chainLinks[0].Spirit.WorldPosition).magnitude > BREAK_DISTANCE)
+            if ((Player.Position - _chainLinks[0].Spirit.Position).magnitude > BREAK_DISTANCE)
             {
                 Break();
                 return;
@@ -59,8 +59,8 @@ namespace ForestSpirits
                 ChainLink chainLink = _chainLinks[index];
                 IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
                 
-                Vector3 currentPos = chainLink.WorldPosition;
-                Vector3 straightPos = Player.WorldPosition - Player.transform.forward * ((index + 1) * CHAIN_LINK_DISTANCE);
+                Vector3 currentPos = chainLink.Position;
+                Vector3 straightPos = Player.Position - Player.transform.forward * ((index + 1) * CHAIN_LINK_DISTANCE);
 
                 Vector3 stepTowardsStraight = (straightPos - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
                 bool stepWouldOvershootTarget = stepTowardsStraight.magnitude > Vector3.Distance(currentPos, straightPos);
@@ -68,15 +68,15 @@ namespace ForestSpirits
                     ? straightPos
                     : currentPos + stepTowardsStraight;
 
-                Vector3 stepTowardsFollow = (followTarget.WorldPosition - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
+                Vector3 stepTowardsFollow = (followTarget.Position - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
                 Vector3 followTargetPos = currentPos + stepTowardsFollow;
-                if (Vector3.Distance(followTarget.WorldPosition, followTargetPos) < CHAIN_LINK_DISTANCE)
+                if (Vector3.Distance(followTarget.Position, followTargetPos) < CHAIN_LINK_DISTANCE)
                 {
-                    followTargetPos = followTarget.WorldPosition - stepTowardsFollow.normalized * CHAIN_LINK_DISTANCE;
+                    followTargetPos = followTarget.Position - stepTowardsFollow.normalized * CHAIN_LINK_DISTANCE;
                 }
 
                 float weight = 1f / (index + 3);
-                chainLink.WorldPosition = Vector3.Lerp(followTargetPos, straightTargetPos, weight);
+                chainLink.Position = Vector3.Lerp(followTargetPos, straightTargetPos, weight);
             }
         }
 
@@ -100,6 +100,6 @@ namespace ForestSpirits
 
     public interface IChainTarget
     {
-        public Vector3 WorldPosition { get; }
+        public Vector3 Position { get; }
     }
 }

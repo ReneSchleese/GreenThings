@@ -90,11 +90,11 @@ namespace ForestSpirits
                 return;
             }
 
-            if (Vector3.Distance(_target.WorldPosition, Spirit.WorldPosition) <= 0.01f)
+            if (Vector3.Distance(_target.Position, Spirit.Position) <= 0.01f)
             {
                 return;
             }
-            Vector3 direction = _target.WorldPosition - Spirit.WorldPosition;
+            Vector3 direction = _target.Position - Spirit.Position;
             Spirit.Controller.Move(direction.normalized * (Time.deltaTime * SPEED));
         }
     }

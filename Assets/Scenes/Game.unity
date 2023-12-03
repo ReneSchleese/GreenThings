@@ -257,6 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterController: {fileID: 104964327}
   _joystick: {fileID: 177835666}
+  _pushHitbox: {fileID: 104964334}
   Chain: {fileID: 104964333}
 --- !u!114 &104964333
 MonoBehaviour:
@@ -284,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b9c2b4a5064ed4810d590b1655d39f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pushable: 0
 --- !u!1 &177835662
 GameObject:
   m_ObjectHideFlags: 0

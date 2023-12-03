@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ForestSpirits
 {
-    public class Spirit : MonoBehaviour
+    public class Spirit : MonoBehaviour, IPusher
     {
         [SerializeField] public CharacterController Controller;
         [SerializeField] private PushHitbox _pushHitbox;
@@ -18,7 +18,7 @@ namespace ForestSpirits
         {
             SetupStates();
             SwitchToState(typeof(IdleState));
-            _pushHitbox.Init(transform);
+            _pushHitbox.Init(this);
             _actor.transform.SetParent(null);
         }
 
@@ -47,20 +47,22 @@ namespace ForestSpirits
         {
             _currentState.OnUpdate();
             Vector3 position = transform.position;
-            WorldPosition = new Vector3(position.x, 0f, position.z);
+            Position = new Vector3(position.x, 0f, position.z);
 
-            _actor.SmoothSetPosition(WorldPosition);
+            _actor.SmoothSetPosition(Position);
             _actor.HandleUnfold(_currentState);
             if (_currentState.GetType() != typeof(IdleState))
             {
-                _actor.SmoothLookAt(App.Instance.Player.WorldPosition);
+                _actor.SmoothLookAt(App.Instance.Player.Position);
             }
         }
 
-        public Vector3 WorldPosition
+        public Vector3 Position
         {
             get => transform.position;
-            private set => transform.position = value;
+            set => transform.position = value;
         }
+
+        public Vector3 Speed { get; }
     }
 }

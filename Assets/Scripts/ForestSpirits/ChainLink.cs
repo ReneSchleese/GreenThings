@@ -27,7 +27,7 @@ namespace ForestSpirits
         
         public Spirit Spirit { get; private set; }
 
-        public Vector3 WorldPosition
+        public Vector3 Position
         {
             get => transform.position;
             set => transform.position = value;

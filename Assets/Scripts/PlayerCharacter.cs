@@ -1,16 +1,19 @@
 using ForestSpirits;
 using UnityEngine;
 
-public class PlayerCharacter : MonoBehaviour, IChainTarget
+public class PlayerCharacter : MonoBehaviour, IChainTarget, IPusher
 {
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private JoystickBehaviour _joystick;
+    [SerializeField] private PushHitbox _pushHitbox;
+    
     public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
 
     private void Awake()
     {
         _joystick.Move += OnMove;
+        _pushHitbox.Init(this);
     }
 
     private void OnMove(Vector2 delta)
@@ -24,6 +27,11 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget
         }
     }
 
-    public Vector3 WorldPosition => transform.position;
+    public Vector3 Position
+    {
+        get => transform.position;
+        set => transform.position = value;
+    }
+
     public Vector3 Speed { get; private set; }
 }

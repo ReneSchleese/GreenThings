@@ -2,6 +2,7 @@
 
 public class PushHitbox : MonoBehaviour
 {
+    [SerializeField] private bool _pushable;
     private const float PUSH_STRENGTH = 0.1f;
     private Transform _target;
 
@@ -16,6 +17,10 @@ public class PushHitbox : MonoBehaviour
         {
             return;
         }
+        if (!otherHitbox.Pushable)
+        {
+            return;
+        }
         Vector3 direction = otherHitbox.WorldPosition - WorldPosition;
         direction = Quaternion.AngleAxis(-20, Vector3.up) * direction;
         otherHitbox.Push(direction.normalized * PUSH_STRENGTH);
@@ -27,4 +32,5 @@ public class PushHitbox : MonoBehaviour
     }
 
     private Vector3 WorldPosition => _target.position;
+    private bool Pushable => _pushable;
 }

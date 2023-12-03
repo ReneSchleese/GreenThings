@@ -2,6 +2,7 @@
 
 public class PushHitbox : MonoBehaviour
 {
+    [SerializeField] private bool _pushable;
     private const float PUSH_STRENGTH = 0.1f;
     private Transform _target;
 
@@ -16,8 +17,7 @@ public class PushHitbox : MonoBehaviour
         {
             return;
         }
-
-        if (other.GetComponent<PlayerCharacter>())
+        if (!otherHitbox.Pushable)
         {
             return;
         }
@@ -32,4 +32,5 @@ public class PushHitbox : MonoBehaviour
     }
 
     private Vector3 WorldPosition => _target.position;
+    private bool Pushable => _pushable;
 }

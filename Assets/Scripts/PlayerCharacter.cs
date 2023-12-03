@@ -18,11 +18,11 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPusher
 
     private void OnMove(Vector2 delta)
     {
-        Speed = new Vector3(delta.x, 0f, delta.y) * MOVEMENT_SPEED;
-        _characterController.Move(Speed * Time.deltaTime);
-        if (Speed != Vector3.zero)
+        Velocity = new Vector3(delta.x, 0f, delta.y) * MOVEMENT_SPEED;
+        _characterController.Move(Velocity * Time.deltaTime);
+        if (Velocity != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(Speed);
+            transform.rotation = Quaternion.LookRotation(Velocity);
             Chain.OnUpdate();
         }
     }
@@ -33,5 +33,13 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPusher
         set => transform.position = value;
     }
 
-    public Vector3 Speed { get; private set; }
+    public Transform Transform => transform;
+    public void Push(Vector3 direction)
+    {
+        _characterController.Move(direction);
+    }
+
+    public bool Pushable => false;
+
+    public Vector3 Velocity { get; private set; }
 }

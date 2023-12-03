@@ -12,7 +12,7 @@ namespace ForestSpirits
         [SerializeField] private Actor _actor;
         private State _currentState;
         private List<State> _states;
-        private Vector3 _velocity;
+        private Vector3 _positionLastFrame;
 
         private void Awake()
         {
@@ -55,6 +55,9 @@ namespace ForestSpirits
             {
                 _actor.SmoothLookAt(App.Instance.Player.Position);
             }
+
+            Velocity = (Position - _positionLastFrame) / Time.deltaTime;
+            _positionLastFrame = Position;
         }
 
         public Vector3 Position
@@ -63,6 +66,15 @@ namespace ForestSpirits
             set => transform.position = value;
         }
 
-        public Vector3 Speed { get; }
+        public Transform Transform => transform;
+        public void Push(Vector3 direction)
+        {
+            Debug.Log("push");
+            Controller.Move(direction);
+        }
+
+        public bool Pushable => true;
+
+        public Vector3 Velocity { get; private set; }
     }
 }

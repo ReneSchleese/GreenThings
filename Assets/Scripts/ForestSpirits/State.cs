@@ -50,7 +50,7 @@ namespace ForestSpirits
             Vector3 spiritToPlayerDir = Player.transform.position - Spirit.transform.position;
             float distance = spiritToPlayerDir.magnitude;
             
-            if (Player.Speed.magnitude > PlayerCharacter.MOVEMENT_SPEED * 0.5f && distance > ENQUEUEING_DISTANCE)
+            if (Player.Velocity.magnitude > PlayerCharacter.MOVEMENT_SPEED * 0.5f && distance > ENQUEUEING_DISTANCE)
             {
                 SwitchToState(typeof(ChainLinkState));
                 return;
@@ -84,7 +84,7 @@ namespace ForestSpirits
         {
             base.OnUpdate();
             
-            if (Mathf.Approximately(Player.Speed.magnitude, 0))
+            if (Mathf.Approximately(Player.Velocity.magnitude, 0))
             {
                 SwitchToState(typeof(FollowPlayerState));
                 return;

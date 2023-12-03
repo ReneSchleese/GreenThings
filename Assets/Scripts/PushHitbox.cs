@@ -16,6 +16,11 @@ public class PushHitbox : MonoBehaviour
         {
             return;
         }
+
+        if (other.GetComponent<PlayerCharacter>())
+        {
+            return;
+        }
         Vector3 direction = otherHitbox.WorldPosition - WorldPosition;
         direction = Quaternion.AngleAxis(-20, Vector3.up) * direction;
         otherHitbox.Push(direction.normalized * PUSH_STRENGTH);

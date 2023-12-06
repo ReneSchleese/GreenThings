@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ForestSpirits
 {
-    public class Spirit : MonoBehaviour, IPusher
+    public class Spirit : MonoBehaviour, IPushable
     {
         [SerializeField] public CharacterController Controller;
         [SerializeField] private PushHitbox _pushHitbox;

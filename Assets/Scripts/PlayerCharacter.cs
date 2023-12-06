@@ -1,7 +1,7 @@
 using ForestSpirits;
 using UnityEngine;
 
-public class PlayerCharacter : MonoBehaviour, IChainTarget, IPusher
+public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 {
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private JoystickBehaviour _joystick;

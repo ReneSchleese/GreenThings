@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class PushHitbox : MonoBehaviour
 {
-    [SerializeField] private bool _pushable;
+    [SerializeField] private bool _isPushable;
     private const float PUSH_STRENGTH = 0.2f;
-    private IPusher _pusher;
+    private IPushable _pushable;
 
-    public void Init(IPusher pusher)
+    public void Init(IPushable pushable)
     {
-        _pusher = pusher;
+        _pushable = pushable;
     }
 
     private void OnTriggerStay(Collider other)
@@ -24,41 +24,41 @@ public class PushHitbox : MonoBehaviour
             return;
         }
 
-        IPusher pusher = otherHitbox.GetComponentInParent<Spirit>();
-        if (!otherHitbox.Pushable)
+        IPushable pushable = otherHitbox.GetComponentInParent<Spirit>();
+        if (!otherHitbox.IsPushable)
         {
             return;
         }
 
-        Vector3 direction = pusher.Transform.position - Position;
-        if(_pusher.Velocity.magnitude > 0.01f)
+        Vector3 direction = pushable.Transform.position - Position;
+        if(_pushable.Velocity.magnitude > 0.01f)
         {
-            Vector3 forwardBefore = _pusher.Transform.forward;
-            _pusher.Transform.forward = _pusher.Velocity;
-            Vector3 otherPositionInLocalSpace = _pusher.Transform.InverseTransformPoint(pusher.Transform.position);
-            _pusher.Transform.forward = forwardBefore;
+            Vector3 forwardBefore = _pushable.Transform.forward;
+            _pushable.Transform.forward = _pushable.Velocity;
+            Vector3 otherPositionInLocalSpace = _pushable.Transform.InverseTransformPoint(pushable.Transform.position);
+            _pushable.Transform.forward = forwardBefore;
             Debug.Log($"otherSpace={otherPositionInLocalSpace.x}");
             direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) *
-                        _pusher.Velocity;
+                        _pushable.Velocity;
             Debug.DrawRay(transform.position, direction, Color.red, 1f);
             if (gameObject.name.Contains("PlayerCharacter"))
             {
                 Debug.Log(nameof(OnTriggerStay) + $", direction={direction}");
             }
         }
-        pusher.Push(direction.normalized * PUSH_STRENGTH);
+        pushable.Push(direction.normalized * PUSH_STRENGTH);
     }
 
     // private void Push(Vector3 direction)
     // {
-        // _pusher.Transform.position += direction;
+        // _pushable.Transform.position += direction;
     // }
 
-    private Vector3 Position => _pusher.Transform.position;
-    private bool Pushable => _pushable;
+    private Vector3 Position => _pushable.Transform.position;
+    private bool IsPushable => _isPushable;
 }
 
-public interface IPusher
+public interface IPushable
 {
     public Vector3 Velocity { get; }
     public Transform Transform { get; }

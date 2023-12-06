@@ -4,7 +4,7 @@ using UnityEngine;
 public class PushHitbox : MonoBehaviour
 {
     [SerializeField] private bool _pushable;
-    private const float PUSH_STRENGTH = 0.3f;
+    private const float PUSH_STRENGTH = 0.2f;
     private IPusher _pusher;
 
     public void Init(IPusher pusher)

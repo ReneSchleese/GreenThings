@@ -133,12 +133,10 @@ GameObject:
   m_Component:
   - component: {fileID: 104964331}
   - component: {fileID: 104964332}
+  - component: {fileID: 104964327}
   - component: {fileID: 104964333}
   - component: {fileID: 104964330}
   - component: {fileID: 104964329}
-  - component: {fileID: 104964328}
-  - component: {fileID: 104964327}
-  - component: {fileID: 104964334}
   m_Layer: 6
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -163,20 +161,6 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &104964328
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104964326}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 2
-  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &104964329
 MeshRenderer:
@@ -239,7 +223,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 1.3, z: -6.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1681439643}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -257,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterController: {fileID: 104964327}
   _joystick: {fileID: 177835666}
-  _pushHitbox: {fileID: 104964334}
+  _pushHitbox: {fileID: 1681439645}
   Chain: {fileID: 104964333}
 --- !u!114 &104964333
 MonoBehaviour:
@@ -273,19 +258,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chainLinkPrefab: {fileID: 8649444572914038346, guid: 26f5651a302e93145be2a57c30e723c3,
     type: 3}
---- !u!114 &104964334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104964326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2b9c2b4a5064ed4810d590b1655d39f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pushable: 0
 --- !u!1 &177835662
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,6 +1443,66 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3106957a82cec904693b661b743ffac5, type: 3}
+--- !u!1 &1681439642
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1681439643}
+  - component: {fileID: 1681439645}
+  - component: {fileID: 1681439644}
+  m_Layer: 6
+  m_Name: PushHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1681439643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681439642}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 104964331}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1681439644
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681439642}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1681439645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681439642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b9c2b4a5064ed4810d590b1655d39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pushable: 0
 --- !u!1001 &1698224209
 PrefabInstance:
   m_ObjectHideFlags: 0

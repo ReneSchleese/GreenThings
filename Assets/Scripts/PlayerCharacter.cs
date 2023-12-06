@@ -39,7 +39,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         _characterController.Move(direction);
     }
 
-    public bool Pushable => false;
+    public bool IsPushable => false;
 
     public Vector3 Velocity { get; private set; }
 }

@@ -69,11 +69,10 @@ namespace ForestSpirits
         public Transform Transform => transform;
         public void Push(Vector3 direction)
         {
-            Debug.Log("push");
             Controller.Move(direction);
         }
 
-        public bool Pushable => true;
+        public bool IsPushable => true;
 
         public Vector3 Velocity { get; private set; }
     }

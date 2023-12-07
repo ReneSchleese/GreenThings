@@ -41,7 +41,7 @@ namespace ForestSpirits
     public class FollowPlayerState : State
     {
         private const float SPEED = ChainLinkState.SPEED;
-        private const float DEAD_ZONE_DISTANCE = 3f;
+        private const float DEAD_ZONE_DISTANCE = 4f;
         private const float ENQUEUEING_DISTANCE = .5f;
 
         public override void OnUpdate()

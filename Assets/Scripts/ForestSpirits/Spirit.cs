@@ -73,6 +73,7 @@ namespace ForestSpirits
         }
 
         public bool IsPushable => true;
+        public int FrameCount { get; set; }
 
         public Vector3 Velocity { get; private set; }
     }

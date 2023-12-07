@@ -40,6 +40,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     }
 
     public bool IsPushable => false;
+    public int FrameCount { get; set; }
 
     public Vector3 Velocity { get; private set; }
 }

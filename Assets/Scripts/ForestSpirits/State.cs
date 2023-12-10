@@ -93,7 +93,7 @@ namespace ForestSpirits
             lookDir = new Vector3(lookDir.x, 0f, lookDir.z);
             Spirit.transform.rotation = Quaternion.LookRotation(lookDir);
             
-            if (Vector3.Distance(_target.Position, Spirit.Position) <= 0.01f)
+            if ((_target.Position - Spirit.Position).sqrMagnitude <= 0.1f)
             {
                 return;
             }

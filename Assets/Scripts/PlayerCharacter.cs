@@ -22,6 +22,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         Velocity = (transform.position - _positionLastFrame) / Time.deltaTime;
         _positionLastFrame = transform.position;
+        Debug.Log($"velocity.mag={Velocity.magnitude}");
     }
 
     private void OnMove(Vector2 delta)

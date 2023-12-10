@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using ForestSpirits;
+using UnityEngine;
 
 public class PushHitbox : MonoBehaviour
 {
     [SerializeField] private bool _isPushable;
-    private const float PUSH_STRENGTH = 0.015f;
+    private const float PUSH_STRENGTH = 0.01f;
     private IPushable _pushable;
 
     public void Init(IPushable pushable)
@@ -36,20 +37,18 @@ public class PushHitbox : MonoBehaviour
             _pushable.Transform.forward = forwardBefore;
             direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -45 : 45, Vector3.up) *
                         _pushable.Velocity;
+            {
+                Debug.DrawRay(transform.position, direction, Color.red, 1f);
+                Debug.Log(nameof(OnTriggerStay) + $", direction={direction}");
+            }
             otherPushStrength = (Pushable.Velocity - otherPushable.Velocity).magnitude;
             selfPushStrength = (otherPushable.Velocity - Pushable.Velocity).magnitude;
         }
-        
-        if(otherPushable.FrameCount < Time.frameCount)
-        {
-            otherPushable.Push(direction.normalized * otherPushStrength * PUSH_STRENGTH);
-            otherPushable.FrameCount = Time.frameCount;
-        }
+        otherPushable.Push(direction.normalized * otherPushStrength * PUSH_STRENGTH);
 
-        if (Pushable.IsPushable && Pushable.FrameCount < Time.frameCount)
+        if (Pushable.IsPushable)
         {
             Pushable.Push(-direction.normalized * selfPushStrength * PUSH_STRENGTH);
-            Pushable.FrameCount = Time.frameCount;
         }
     }
 
@@ -63,5 +62,4 @@ public interface IPushable
     public Transform Transform { get; }
     public void Push(Vector3 direction);
     public bool IsPushable { get; }
-    public int FrameCount { get; set; }
 }

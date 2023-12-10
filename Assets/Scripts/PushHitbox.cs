@@ -4,7 +4,7 @@ using UnityEngine;
 public class PushHitbox : MonoBehaviour
 {
     [SerializeField] private bool _isPushable;
-    private const float PUSH_STRENGTH = 0.01f;
+    private const float PUSH_STRENGTH = 0.2f;
     private IPushable _pushable;
 
     public void Init(IPushable pushable)
@@ -19,21 +19,18 @@ public class PushHitbox : MonoBehaviour
             return;
         }
 
-        IPushable otherPushable = otherHitbox.Pushable;
-        if (!otherPushable.IsPushable)
+        IPushable pushable = otherHitbox.Pushable;
+        if (!pushable.IsPushable)
         {
             return;
         }
 
-        Vector3 direction = otherPushable.Transform.position - Position;
-        float otherPushStrength = 1f;
-        float selfPushStrength = 1f;
-        // we should probably check if both targets want to go in a similar direction. If so the approach below is worse
+        Vector3 direction = pushable.Transform.position - Position;
         if(_pushable.Velocity.magnitude > 0.01f)
         {
             Vector3 forwardBefore = _pushable.Transform.forward;
             _pushable.Transform.forward = _pushable.Velocity;
-            Vector3 otherPositionInLocalSpace = _pushable.Transform.InverseTransformPoint(otherPushable.Transform.position);
+            Vector3 otherPositionInLocalSpace = _pushable.Transform.InverseTransformPoint(pushable.Transform.position);
             _pushable.Transform.forward = forwardBefore;
             direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -45 : 45, Vector3.up) *
                         _pushable.Velocity;
@@ -41,15 +38,8 @@ public class PushHitbox : MonoBehaviour
                 Debug.DrawRay(transform.position, direction, Color.red, 1f);
                 Debug.Log(nameof(OnTriggerStay) + $", direction={direction}");
             }
-            otherPushStrength = (Pushable.Velocity - otherPushable.Velocity).magnitude;
-            selfPushStrength = (otherPushable.Velocity - Pushable.Velocity).magnitude;
         }
-        otherPushable.Push(direction.normalized * otherPushStrength * PUSH_STRENGTH);
-
-        if (Pushable.IsPushable)
-        {
-            Pushable.Push(-direction.normalized * selfPushStrength * PUSH_STRENGTH);
-        }
+        pushable.Push(direction.normalized * PUSH_STRENGTH);
     }
 
     private Vector3 Position => _pushable.Transform.position;

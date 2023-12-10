@@ -12,11 +12,6 @@ public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler,
     private Tween _resetTween;
     private bool _isDragging;
 
-    public void InvokeMove(Vector2 amount)
-    {
-        Move?.Invoke(amount.normalized);
-    }
-
     private void Update()
     {
         if (_isDragging == false)

@@ -1,4 +1,3 @@
-using System;
 using ForestSpirits;
 using UnityEngine;
 
@@ -22,11 +21,11 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         Velocity = (transform.position - _positionLastFrame) / Time.deltaTime;
         _positionLastFrame = transform.position;
-        Debug.Log($"velocity.mag={Velocity.magnitude}");
     }
 
     private void OnMove(Vector2 delta)
     {
+        JoystickMagnitude = delta.magnitude;
         Vector3 offset = new Vector3(delta.x, 0f, delta.y) * MOVEMENT_SPEED;
         _characterController.Move(offset * Time.deltaTime);
         if (Velocity != Vector3.zero)
@@ -51,4 +50,5 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     public bool IsPushable => false;
 
     public Vector3 Velocity { get; private set; }
+    public float JoystickMagnitude { get; private set; }
 }

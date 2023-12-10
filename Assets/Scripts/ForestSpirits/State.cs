@@ -90,6 +90,10 @@ namespace ForestSpirits
                 return;
             }
 
+            Vector3 lookDir = _target.Position - Spirit.Position;
+            lookDir = new Vector3(lookDir.x, 0f, lookDir.z);
+            Spirit.transform.rotation = Quaternion.LookRotation(lookDir);
+            
             if (Vector3.Distance(_target.Position, Spirit.Position) <= 0.01f)
             {
                 return;

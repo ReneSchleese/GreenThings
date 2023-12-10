@@ -3,11 +3,10 @@
 public class PushHitbox : MonoBehaviour
 {
     private const float PUSH_STRENGTH = 0.2f;
-    private IPushable _pushable;
 
     public void Init(IPushable pushable)
     {
-        _pushable = pushable;
+        Pushable = pushable;
     }
 
     private void OnTriggerStay(Collider other)
@@ -17,31 +16,24 @@ public class PushHitbox : MonoBehaviour
             return;
         }
 
-        IPushable pushable = otherHitbox.Pushable;
-        if (!pushable.IsPushable)
+        IPushable otherPushable = otherHitbox.Pushable;
+        if (!otherPushable.IsPushable)
         {
             return;
         }
 
-        Vector3 direction = pushable.Transform.position - Position;
-        if(_pushable.Velocity.magnitude > 0.01f)
+        Vector3 direction = otherPushable.Transform.position - Position;
+        float dot = Vector3.Dot(Pushable.Transform.forward, otherPushable.Transform.forward);
+        if(Pushable.Velocity.sqrMagnitude > 0.1f && dot < 0f)
         {
-            Vector3 forwardBefore = _pushable.Transform.forward;
-            _pushable.Transform.forward = _pushable.Velocity;
-            Vector3 otherPositionInLocalSpace = _pushable.Transform.InverseTransformPoint(pushable.Transform.position);
-            _pushable.Transform.forward = forwardBefore;
-            direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) *
-                        _pushable.Velocity;
-            {
-                Debug.DrawRay(transform.position, direction, Color.red, 1f);
-                Debug.Log(nameof(OnTriggerStay) + $", direction={direction}");
-            }
+            Vector3 otherPositionInLocalSpace = Pushable.Transform.InverseTransformPoint(otherPushable.Transform.position);
+            direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * Pushable.Transform.forward;
         }
-        pushable.Push(direction.normalized * PUSH_STRENGTH);
+        otherPushable.Push(direction.normalized * PUSH_STRENGTH);
     }
 
-    private Vector3 Position => _pushable.Transform.position;
-    private IPushable Pushable => _pushable;
+    private Vector3 Position => Pushable.Transform.position;
+    private IPushable Pushable { get; set; }
 }
 
 public interface IPushable

@@ -1,9 +1,7 @@
-﻿using ForestSpirits;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PushHitbox : MonoBehaviour
 {
-    [SerializeField] private bool _isPushable;
     private const float PUSH_STRENGTH = 0.2f;
     private IPushable _pushable;
 
@@ -32,7 +30,7 @@ public class PushHitbox : MonoBehaviour
             _pushable.Transform.forward = _pushable.Velocity;
             Vector3 otherPositionInLocalSpace = _pushable.Transform.InverseTransformPoint(pushable.Transform.position);
             _pushable.Transform.forward = forwardBefore;
-            direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -45 : 45, Vector3.up) *
+            direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) *
                         _pushable.Velocity;
             {
                 Debug.DrawRay(transform.position, direction, Color.red, 1f);

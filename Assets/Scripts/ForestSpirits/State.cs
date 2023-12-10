@@ -65,7 +65,6 @@ namespace ForestSpirits
     public class ChainLinkState : State
     {
         public const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.95f;
-        public const float DEAD_ZONE_DISTANCE = 1.5f;
         private IChainTarget _target;
 
         public override void OnEnter()

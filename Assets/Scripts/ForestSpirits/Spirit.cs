@@ -75,5 +75,6 @@ namespace ForestSpirits
         public bool IsPushable => true;
 
         public Vector3 Velocity { get; private set; }
+        public PushHitbox PushHitbox => _pushHitbox;
     }
 }

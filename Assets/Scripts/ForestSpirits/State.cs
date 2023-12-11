@@ -55,6 +55,11 @@ namespace ForestSpirits
                 SwitchToState(typeof(ChainLinkState));
                 return;
             }
+            
+            Vector3 lookDir = Player.Position - Spirit.Position;
+            lookDir = new Vector3(lookDir.x, 0f, lookDir.z);
+            Spirit.transform.rotation = Quaternion.LookRotation(lookDir);
+            
             if (distance > DEAD_ZONE_DISTANCE)
             {
                 Spirit.Controller.Move(spiritToPlayerDir.normalized * (Time.deltaTime * SPEED));
@@ -92,7 +97,7 @@ namespace ForestSpirits
                 SwitchToState(typeof(FollowPlayerState));
                 return;
             }
-
+            
             Vector3 lookDir = _target.Position - Spirit.Position;
             lookDir = new Vector3(lookDir.x, 0f, lookDir.z);
             Spirit.transform.rotation = Quaternion.LookRotation(lookDir);

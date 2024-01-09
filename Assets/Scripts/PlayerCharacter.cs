@@ -30,7 +30,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Vector3 dirInCamSpace = _camera.transform.TransformDirection(delta);
         Vector3 offset = new Vector3(dirInCamSpace.x, 0f, dirInCamSpace.z).normalized * (JoystickMagnitude * MOVEMENT_SPEED);
         _characterController.Move(offset * Time.deltaTime);
-        Debug.DrawRay(transform.position, offset * 10f, Color.red);
         if (Velocity != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(Velocity);

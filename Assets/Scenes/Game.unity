@@ -243,6 +243,7 @@ MonoBehaviour:
   _characterController: {fileID: 104964327}
   _joystick: {fileID: 177835666}
   _pushHitbox: {fileID: 1681439645}
+  _camera: {fileID: 963194227}
   Chain: {fileID: 104964333}
 --- !u!114 &104964333
 MonoBehaviour:

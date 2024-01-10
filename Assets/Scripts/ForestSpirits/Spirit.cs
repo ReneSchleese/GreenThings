@@ -45,6 +45,7 @@ namespace ForestSpirits
 
         private void Update()
         {
+            Controller.Move(Controller.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
             _currentState.OnUpdate();
             _actor.SmoothSetPosition(Position);
             _actor.HandleUnfold(_currentState);

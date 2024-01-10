@@ -54,8 +54,9 @@ namespace ForestSpirits
 
         public void SmoothLookAt(Vector3 position)
         {
-            Vector3 targetPos = new(position.x, 0f, position.z);
-            Quaternion lookRotation = Quaternion.LookRotation(targetPos - transform.position, Vector3.up);
+            Vector3 direction = position - transform.position;
+            Vector3 directionZeroY = new(direction.x, 0f, direction.z);
+            Quaternion lookRotation = Quaternion.LookRotation(directionZeroY, Vector3.up);
             transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.2f);
         }
 

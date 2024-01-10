@@ -20,6 +20,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void Update()
     {
+        _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity);
         Velocity = (transform.position - _positionLastFrame) / Time.deltaTime;
         _positionLastFrame = transform.position;
     }
@@ -32,7 +33,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         _characterController.Move(offset * Time.deltaTime);
         if (Velocity != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(Velocity);
+            transform.rotation = Quaternion.LookRotation(new Vector3(Velocity.x, 0f, Velocity.z));
             Chain.OnUpdate();
         }
     }

@@ -46,9 +46,6 @@ namespace ForestSpirits
         private void Update()
         {
             _currentState.OnUpdate();
-            Vector3 position = transform.position;
-            Position = new Vector3(position.x, 0f, position.z);
-
             _actor.SmoothSetPosition(Position);
             _actor.HandleUnfold(_currentState);
             if (_currentState.GetType() != typeof(IdleState))
@@ -60,11 +57,7 @@ namespace ForestSpirits
             _positionLastFrame = Position;
         }
 
-        public Vector3 Position
-        {
-            get => transform.position;
-            set => transform.position = value;
-        }
+        public Vector3 Position => transform.position;
 
         public Transform Transform => transform;
         public void Push(Vector3 direction)

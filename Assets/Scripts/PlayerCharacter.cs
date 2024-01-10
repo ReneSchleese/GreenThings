@@ -20,7 +20,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void Update()
     {
-        _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity);
+        _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
         Velocity = (transform.position - _positionLastFrame) / Time.deltaTime;
         _positionLastFrame = transform.position;
     }

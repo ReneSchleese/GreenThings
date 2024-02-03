@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LeavesTest
+  m_Name: Bush
   m_Shader: {fileID: 4800000, guid: 5c601b6ff9af04643963fcf59b6d8553, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:

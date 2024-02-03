@@ -26,6 +26,7 @@ Shader "Custom/NewSurfaceShader"
         struct Input
         {
             float2 uv_MainTex;
+            float2 uv_OverlayTex;
         };
 
         half _Glossiness;
@@ -43,7 +44,7 @@ Shader "Custom/NewSurfaceShader"
         {
             // Albedo comes from a texture tinted by color
             fixed4 albedo = tex2D (_MainTex, IN.uv_MainTex);
-            fixed4 overlay = tex2D (_OverlayTex, IN.uv_MainTex);
+            fixed4 overlay = tex2D (_OverlayTex, IN.uv_OverlayTex);
             
             fixed4 lighter = overlay;
             lighter = saturate(lighter - 0.5);

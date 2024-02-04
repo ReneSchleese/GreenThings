@@ -5,6 +5,7 @@ Shader "GreenThings/WorldSpaceRepeatingLit"
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _OverlayTex ("Overlay", 2D) = "white" {}
+        _RepeatingAmount ("RepeatingAmount", float) = 1
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
     }
@@ -38,6 +39,7 @@ Shader "GreenThings/WorldSpaceRepeatingLit"
 
         half _Glossiness;
         half _Metallic;
+        half _RepeatingAmount;
         fixed4 _Color;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
@@ -49,7 +51,7 @@ Shader "GreenThings/WorldSpaceRepeatingLit"
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
-            float2 uv = IN.worldPos.xz;
+            float2 uv = IN.worldPos.xz * _RepeatingAmount;
             fixed4 albedo = tex2D (_MainTex, uv);
             fixed4 overlay = tex2D (_OverlayTex, uv);
             

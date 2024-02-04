@@ -23,7 +23,6 @@ Shader "GreenThings/WorldSpaceRepeatingLit"
         
         struct Input
         {
-            float2 uv_MainTex;
             float3 worldPos;
             float4 vert;
         };
@@ -32,7 +31,6 @@ Shader "GreenThings/WorldSpaceRepeatingLit"
         {
             o.worldPos= mul(unity_ObjectToWorld,v.vertex).xyz;
             o.vert = v.vertex;
-            o.uv_MainTex = float2(1, 1);
         }
 
         sampler2D _MainTex;

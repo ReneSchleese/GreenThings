@@ -32,7 +32,7 @@ Shader "GreenThings/WorldSpaceTriplanar"
         {
             o.worldPos= mul(unity_ObjectToWorld,v.vertex).xyz;
             o.vert = v.vertex;
-            o.normal = v.normal;
+            o.normal = mul(unity_ObjectToWorld, float4(v.normal, 0)).xyz;
         }
 
         sampler2D _MainTex;

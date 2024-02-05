@@ -1,10 +1,9 @@
-Shader "GreenThings/WorldSpaceRepeatingLit"
+Shader "GreenThings/WorldSpaceTriplanar"
 {
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _OverlayTex ("Overlay", 2D) = "white" {}
+        _MainTex ("Overlay Tex", 2D) = "white" {}
         _RepeatingAmount ("RepeatingAmount", float) = 1
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
@@ -26,17 +25,17 @@ Shader "GreenThings/WorldSpaceRepeatingLit"
         {
             float3 worldPos;
             float4 vert;
+            float3 normal;
         };
 
         void vert (inout appdata_full v, out Input o)
         {
             o.worldPos= mul(unity_ObjectToWorld,v.vertex).xyz;
             o.vert = v.vertex;
+            o.normal = v.normal;
         }
 
         sampler2D _MainTex;
-        sampler2D _OverlayTex;
-
         half _Glossiness;
         half _Metallic;
         half _RepeatingAmount;
@@ -48,22 +47,32 @@ Shader "GreenThings/WorldSpaceRepeatingLit"
         UNITY_INSTANCING_BUFFER_START(Props)
             // put more per-instance properties here
         UNITY_INSTANCING_BUFFER_END(Props)
-
+    
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
-            float2 uv = IN.worldPos.xz * _RepeatingAmount;
-            fixed4 albedo = tex2D (_MainTex, uv);
-            fixed4 overlay = tex2D (_OverlayTex, uv);
+            // Taken from here
+            // https://github.com/keijiro/StandardTriplanar/blob/master/Assets/Triplanar/Shaders/StandardTriplanar.shader
             
-            fixed4 lighter = overlay;
-            lighter = saturate(lighter - 0.5);
+            float3 tripPlanarBlendingFactor = normalize(abs(IN.normal));
+            tripPlanarBlendingFactor /= dot(tripPlanarBlendingFactor, (float3)1);
 
-            fixed4 darker = saturate(1 - overlay - 0.5);
-            o.Albedo = (albedo + lighter - darker) * _Color;
+            float2 tx = IN.worldPos.yz * _RepeatingAmount;
+            float2 ty = IN.worldPos.zx * _RepeatingAmount;
+            float2 tz = IN.worldPos.xy * _RepeatingAmount;
+            half4 cx = tex2D(_MainTex, tx) * tripPlanarBlendingFactor.x;
+            half4 cy = tex2D(_MainTex, ty) * tripPlanarBlendingFactor.y;
+            half4 cz = tex2D(_MainTex, tz) * tripPlanarBlendingFactor.z;
+            half4 overlayColor = cx + cy + cz;
+            
+            fixed4 lighter = overlayColor;
+            lighter = saturate(lighter - 0.5);
+            fixed4 darker = saturate(1 - overlayColor - 0.5);
+            
+            o.Albedo = ((fixed4)1 + lighter - darker) * _Color;
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
-            o.Alpha = albedo.a;
+            o.Alpha = _Color.a;
         }
         ENDCG
     }

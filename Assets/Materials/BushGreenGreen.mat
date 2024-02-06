@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BushGreenLight
+  m_Name: BushGreenGreen
   m_Shader: {fileID: 4800000, guid: 5c601b6ff9af04643963fcf59b6d8553, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
@@ -80,6 +80,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.5154829, g: 0.6698113, b: 0.33806515, a: 1}
+    - _Color: {r: 0.4038194, g: 0.53333336, b: 0.26666668, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

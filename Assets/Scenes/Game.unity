@@ -506,6 +506,7 @@ MonoBehaviour:
     RefIds:
     - rid: 2098738145018249230
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &148721347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1365,6 +1366,7 @@ MonoBehaviour:
     RefIds:
     - rid: 2098738145018249216
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &355581951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3669,6 +3671,7 @@ MonoBehaviour:
     RefIds:
     - rid: 267341944770527235
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &498968558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8989,6 +8992,7 @@ MonoBehaviour:
     RefIds:
     - rid: 267341944770527232
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &928152953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10636,6 +10640,7 @@ MonoBehaviour:
     RefIds:
     - rid: 2098738145018249230
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &1200758489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11435,6 +11440,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -12066,6 +12072,7 @@ MonoBehaviour:
     RefIds:
     - rid: 267341944770527237
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &1489943070
 MonoBehaviour:
   m_ObjectHideFlags: 0

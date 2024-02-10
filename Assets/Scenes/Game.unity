@@ -506,6 +506,7 @@ MonoBehaviour:
     RefIds:
     - rid: 2098738145018249230
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &148721347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1365,6 +1366,7 @@ MonoBehaviour:
     RefIds:
     - rid: 2098738145018249216
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &355581951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3669,6 +3671,7 @@ MonoBehaviour:
     RefIds:
     - rid: 267341944770527235
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &498968558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8989,6 +8992,7 @@ MonoBehaviour:
     RefIds:
     - rid: 267341944770527232
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &928152953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10111,6 +10115,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1022659883}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1039866790 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9091554319866317577, guid: 3106957a82cec904693b661b743ffac5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5034073737863377911}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1080953469
 Mesh:
   m_ObjectHideFlags: 0
@@ -10636,6 +10646,7 @@ MonoBehaviour:
     RefIds:
     - rid: 2098738145018249230
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &1200758489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11435,6 +11446,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -12066,6 +12078,7 @@ MonoBehaviour:
     RefIds:
     - rid: 267341944770527237
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
+      data: 
 --- !u!114 &1489943070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13060,6 +13073,57 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3106957a82cec904693b661b743ffac5, type: 3}
+--- !u!1 &1745197346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1745197347}
+  - component: {fileID: 1745197348}
+  m_Layer: 0
+  m_Name: BlobShadow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1745197347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745197346}
+  m_LocalRotation: {x: 0.7071065, y: -0, z: -0, w: 0.7071072}
+  m_LocalPosition: {x: 0, y: 2.31, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1039866790}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!119 &1745197348
+Projector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745197346}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_NearClipPlane: 0.1
+  m_FarClipPlane: 100
+  m_FieldOfView: 60
+  m_AspectRatio: 1
+  m_Orthographic: 0
+  m_OrthographicSize: 10
+  m_Material: {fileID: 2100000, guid: 22a3b229a20b680428bec59dd3628342, type: 2}
+  m_IgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1001 &1752954490
 PrefabInstance:
   m_ObjectHideFlags: 0

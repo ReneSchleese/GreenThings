@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class PerspectiveSwitcher : MonoBehaviour
+public class OrthographicToPerspectiveLerp : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
     [Range(0, 1)] [SerializeField] private float _lerp;

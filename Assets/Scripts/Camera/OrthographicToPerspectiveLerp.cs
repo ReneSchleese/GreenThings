@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(MatrixBlender))][ExecuteInEditMode]
-public class PerspectiveSwitcher : MonoBehaviour
+[ExecuteInEditMode]
+public class OrthographicToPerspectiveLerp : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
     [Range(0, 1)] [SerializeField] private float _lerp;
@@ -23,9 +23,4 @@ public class PerspectiveSwitcher : MonoBehaviour
         _perspective = Matrix4x4.Perspective(_fov, _aspect, _near, _far);
         _camera.projectionMatrix = MatrixBlender.MatrixLerp(_ortho, _perspective, _lerp);
     }
-
-    /*void Update()
-    {
-        _camera.projectionMatrix = MatrixBlender.MatrixLerp(_ortho, _perspective, _lerp);
-    }*/
 }

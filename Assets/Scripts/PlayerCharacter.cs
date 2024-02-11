@@ -28,8 +28,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private void OnMove(Vector2 delta)
     {
         JoystickMagnitude = delta.magnitude;
-        Vector3 dirInCamSpace = _camera.transform.TransformDirection(delta);
-        Vector3 offset = new Vector3(dirInCamSpace.x, 0f, dirInCamSpace.z).normalized * (JoystickMagnitude * MOVEMENT_SPEED);
+        Vector3 offset = new Vector3(delta.x, 0f, delta.y).normalized * (JoystickMagnitude * MOVEMENT_SPEED);
+        offset = Quaternion.Euler(0, -45, 0) * offset;
         _characterController.Move(offset * Time.deltaTime);
         if (Velocity != Vector3.zero)
         {

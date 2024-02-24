@@ -153,6 +153,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9195507897691134704}
     m_Modifications:
+    - target: {fileID: -8854414607981058215, guid: a3cf1707b8803aa4c8cc39a5176de191,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a3cf1707b8803aa4c8cc39a5176de191,
         type: 3}
       propertyPath: m_RootOrder
@@ -228,16 +233,36 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 82e6987dd9d51124abe77db1bb70827c, type: 2}
+    - target: {fileID: -1877378738462890874, guid: a3cf1707b8803aa4c8cc39a5176de191,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
+    - target: {fileID: -766976832942100923, guid: a3cf1707b8803aa4c8cc39a5176de191,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a3cf1707b8803aa4c8cc39a5176de191,
         type: 3}
       propertyPath: m_Name
       value: Hornet
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a3cf1707b8803aa4c8cc39a5176de191,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3789980505685194738, guid: a3cf1707b8803aa4c8cc39a5176de191,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7940bf5788a4e2547be24332bff06b77, type: 2}
+    - target: {fileID: 4246033775202154418, guid: a3cf1707b8803aa4c8cc39a5176de191,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3cf1707b8803aa4c8cc39a5176de191, type: 3}
 --- !u!4 &1918593803723907217 stripped
@@ -253,6 +278,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9195507897691134704}
     m_Modifications:
+    - target: {fileID: 465114467028719486, guid: 129ddee25e2f67c48a35c0ab735abfba,
+        type: 3}
+      propertyPath: m_OrthographicSize
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5619425534911844576, guid: 129ddee25e2f67c48a35c0ab735abfba,
         type: 3}
       propertyPath: m_Name

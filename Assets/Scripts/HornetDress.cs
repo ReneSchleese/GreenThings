@@ -8,6 +8,7 @@ public class HornetDress : MonoBehaviour
 
     private Vector3 _offset;
     private Vector3 _initialLocalPos;
+    private Vector3 _velocity;
     
     private void Awake()
     {
@@ -15,8 +16,10 @@ public class HornetDress : MonoBehaviour
         _offset = _dressBone.position - _target.position;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        _dressBone.position = Vector3.Lerp(_dressBone.parent.TransformPoint(_initialLocalPos), _target.position + _offset, _strength);
+        _dressBone.position = Vector3.SmoothDamp(_dressBone.position,
+            Vector3.Lerp(_dressBone.parent.TransformPoint(_initialLocalPos), _target.position + _offset, _strength),
+            ref _velocity, 0.1f);
     }
 }

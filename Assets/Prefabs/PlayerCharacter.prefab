@@ -159,8 +159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de985de9b02f9a5488c90c20499dac60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dressBone: {fileID: 8919487348917233935}
-  _joint: {fileID: 0}
+  _dressBone: {fileID: 8856680079907154321}
+  _target: {fileID: 8770274966253814872}
+  _strength: 0.33
 --- !u!114 &58377351868464505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,7 +233,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6617502623452594527}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -508,9 +509,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2101650073170986874}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &8919487348917233935 stripped
+--- !u!4 &8856680079907154321 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -1809622520512729483, guid: a3cf1707b8803aa4c8cc39a5176de191,
+  m_CorrespondingSourceObject: {fileID: -1746358712657563925, guid: a3cf1707b8803aa4c8cc39a5176de191,
     type: 3}
   m_PrefabInstance: {fileID: 2101650073170986874}
   m_PrefabAsset: {fileID: 0}

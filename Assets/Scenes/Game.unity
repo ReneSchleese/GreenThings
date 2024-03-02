@@ -370,24 +370,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!4 &104964331 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9195507897691134704, guid: f7a9867811ce19d41929dfa1692ad933,
-    type: 3}
-  m_PrefabInstance: {fileID: 9195507897728793115}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &104964332 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9195507897691134711, guid: f7a9867811ce19d41929dfa1692ad933,
-    type: 3}
-  m_PrefabInstance: {fileID: 9195507897728793115}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bf2375a21c14fb4f92d2d575947c445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &107056503 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4490089584519936396, guid: 9a3c62f943453d84aa557d30ffe351d4,
@@ -959,8 +941,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 104964331}
-  m_Follow: {fileID: 104964331}
+  m_LookAt: {fileID: 1642654478}
+  m_Follow: {fileID: 1642654478}
   m_Lens:
     FieldOfView: 2.864192
     OrthographicSize: 7.41
@@ -12987,6 +12969,24 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1633990740}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1642654478 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4706708948651350250, guid: f7a9867811ce19d41929dfa1692ad933,
+    type: 3}
+  m_PrefabInstance: {fileID: 9195507897728793115}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1642654482 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1762303613279569100, guid: f7a9867811ce19d41929dfa1692ad933,
+    type: 3}
+  m_PrefabInstance: {fileID: 9195507897728793115}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bf2375a21c14fb4f92d2d575947c445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1693398549 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6076032665871756886, guid: c8df93610fa53ed4c82ebdc2ba26c303,
@@ -13377,7 +13377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652661046f0eb1945b6979228fcccf63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 104964332}
+  _player: {fileID: 1642654482}
 --- !u!4 &1819877007
 Transform:
   m_ObjectHideFlags: 0
@@ -14743,6 +14743,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1762303613279569100, guid: f7a9867811ce19d41929dfa1692ad933,
+        type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 963194227}
+    - target: {fileID: 1762303613279569100, guid: f7a9867811ce19d41929dfa1692ad933,
+        type: 3}
+      propertyPath: _joystick
+      value: 
+      objectReference: {fileID: 177835666}
     - target: {fileID: 9195507897691134704, guid: f7a9867811ce19d41929dfa1692ad933,
         type: 3}
       propertyPath: m_RootOrder

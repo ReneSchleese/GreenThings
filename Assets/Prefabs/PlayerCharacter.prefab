@@ -62,7 +62,7 @@ SpringJoint:
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
   serializedVersion: 2
-  m_Spring: 200
+  m_Spring: 300
   m_Damper: 2
   m_MinDistance: 0
   m_MaxDistance: 0
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dressBone: {fileID: 8856680079907154321}
   _target: {fileID: 8770274966253814872}
-  _strength: 0.33
+  _strength: 0.5
 --- !u!114 &58377351868464505
 MonoBehaviour:
   m_ObjectHideFlags: 0

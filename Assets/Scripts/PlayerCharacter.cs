@@ -7,7 +7,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private JoystickBehaviour _joystick;
     [SerializeField] private PushHitbox _pushHitbox;
     [SerializeField] private Camera _camera;
-    
+    [SerializeField] private Animator _animator;
+
     public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
     private Vector3 _positionLastFrame;
@@ -23,6 +24,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
         Velocity = (transform.position - _positionLastFrame) / Time.deltaTime;
         _positionLastFrame = transform.position;
+        _animator.SetFloat("MovementSpeed", Velocity.magnitude);
     }
 
     private void OnMove(Vector2 delta)

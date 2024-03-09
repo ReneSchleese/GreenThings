@@ -7,7 +7,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private JoystickBehaviour _joystick;
     [SerializeField] private PushHitbox _pushHitbox;
     [SerializeField] private Camera _camera;
-    [SerializeField] private Animator _animator;
+    [SerializeField] private HornetAnimator _animator;
 
     public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
@@ -25,46 +25,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
         Velocity = (transform.position - _positionLastFrame) / Time.deltaTime;
         _positionLastFrame = transform.position;
-
-        if (Velocity != Vector3.zero)
-        {
-            _animator.SetFloat("MovementSpeed", Velocity.magnitude);
-            var stateIsMovement = _animator.GetCurrentAnimatorStateInfo(0).IsName("Movement");
-            var isTransitioningToMovement = _animator.GetAnimatorTransitionInfo(0).IsName("IdleToMovement");
-            var isName = _animator.GetNextAnimatorStateInfo(0).IsName("Movement");
-            if (isName)
-            {
-                Debug.Log("WOULD BE RUN");
-            }
-            if (isTransitioningToMovement)
-            {
-                Debug.Log("TRANSITIONING TO IDLE");
-            }
-            if (!stateIsMovement && !isTransitioningToMovement && !isName)
-            {
-                _animator.ResetTrigger("Idle");
-                _animator.ResetTrigger("Run");
-                Debug.Log("Trigger Run!");
-                _animator.SetTrigger("Run");
-            }
-        }
-        else
-        {
-            
-            var stateIsIdle = _animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
-            var isTransitioningToIdle = _animator.GetAnimatorTransitionInfo(0).IsName("MovementToIdle");
-            if (isTransitioningToIdle)
-            {
-                Debug.Log("TRANSITIONING TO IDLE");
-            }
-            if (!stateIsIdle && !isTransitioningToIdle)
-            {
-                _animator.ResetTrigger("Idle");
-                _animator.ResetTrigger("Run");
-                Debug.Log("Trigger Idle!");
-                _animator.SetTrigger("Idle");
-            }
-        }
+        _animator.UpdateAnimator(Velocity);
     }
 
     private void OnMove(Vector2 delta)

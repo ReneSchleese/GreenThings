@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 4706708948651350250}
   - component: {fileID: 1762303613279569100}
   - component: {fileID: 1543763932461397568}
+  - component: {fileID: 4409494975326376872}
   - component: {fileID: 5031911945322610889}
   - component: {fileID: 58377351868464505}
   m_Layer: 8
@@ -128,7 +129,7 @@ MonoBehaviour:
   _joystick: {fileID: 0}
   _pushHitbox: {fileID: 9195507899270742406}
   _camera: {fileID: 0}
-  _animator: {fileID: 4483704528498134680}
+  _animator: {fileID: 4409494975326376872}
   Chain: {fileID: 58377351868464505}
 --- !u!143 &1543763932461397568
 CharacterController:
@@ -148,6 +149,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &4409494975326376872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3728124598571784325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5face0c06277460eb370633e09b99a06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 4483704528498134680}
 --- !u!114 &5031911945322610889
 MonoBehaviour:
   m_ObjectHideFlags: 0

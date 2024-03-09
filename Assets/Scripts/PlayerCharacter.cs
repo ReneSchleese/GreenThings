@@ -18,6 +18,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         _joystick.Move += OnMove;
         _pushHitbox.Init(this);
+        _positionLastFrame = transform.position;
     }
 
     private void Update()

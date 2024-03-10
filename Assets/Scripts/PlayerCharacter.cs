@@ -6,13 +6,13 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private JoystickBehaviour _joystick;
     [SerializeField] private PushHitbox _pushHitbox;
-    [SerializeField] private Camera _camera;
     [SerializeField] private HornetAnimator _animator;
 
     public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
     private Vector3 _positionLastFrame;
     private Vector3 _lastVelocity;
+    private Quaternion _rotDampVelocity;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         _positionLastFrame = transform.position;
         _animator.UpdateAnimator(Velocity);
     }
-
+    
     private void OnMove(Vector2 delta)
     {
         JoystickMagnitude = delta.magnitude;
@@ -42,7 +42,9 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         
         if (delta != Vector2.zero)
         {
-            transform.rotation = Quaternion.LookRotation(new Vector3(offset.x, 0f, offset.z));
+            Vector3 directionZeroY = new(offset.x, 0f, offset.z);
+            Quaternion lookRotation = Quaternion.LookRotation(directionZeroY, Vector3.up);
+            transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.05f);
         }
         Chain.OnUpdate();
     }

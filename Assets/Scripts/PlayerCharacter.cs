@@ -7,6 +7,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private JoystickBehaviour _joystick;
     [SerializeField] private PushHitbox _pushHitbox;
     [SerializeField] private HornetAnimator _animator;
+    [SerializeField] private Transform _actor;
 
     public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
@@ -44,8 +45,17 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         {
             Vector3 directionZeroY = new(offset.x, 0f, offset.z);
             Quaternion lookRotation = Quaternion.LookRotation(directionZeroY, Vector3.up);
-            transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.05f);
+
+            Vector3 desiredUp = (Camera.main.transform.position - _actor.transform.position);
+
+            Debug.DrawRay(transform.position, desiredUp * 5, Color.red);
+            Quaternion perfectlyPointCamera = Quaternion.LookRotation(desiredUp, -directionZeroY)
+                                              * Quaternion.AngleAxis(90f, Vector3.right);
+            Quaternion finalRot = Quaternion.LerpUnclamped(lookRotation, perfectlyPointCamera, -0.125f);
+            _actor.rotation = Utils.SmoothDamp(_actor.rotation, finalRot, ref _rotDampVelocity, 0.05f);
         }
+        
+        
         Chain.OnUpdate();
     }
 

@@ -7,12 +7,14 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private JoystickBehaviour _joystick;
     [SerializeField] private PushHitbox _pushHitbox;
     [SerializeField] private HornetAnimator _animator;
+    [SerializeField] private Transform _actor;
 
     public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
     private Vector3 _positionLastFrame;
     private Vector3 _lastVelocity;
     private Quaternion _rotDampVelocity;
+    private Quaternion _actorRotDampVelocity;
 
     private void Awake()
     {
@@ -45,15 +47,18 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
             Vector3 directionZeroY = new(offset.x, 0f, offset.z);
             Quaternion lookRotation = Quaternion.LookRotation(directionZeroY, Vector3.up);
             transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.05f);
+
+            Vector3 toCamera = App.Instance.MainCamera.transform.position - _actor.transform.position;
+            Quaternion lookRotationTiledTowardsCamera = Utils.AlignNormalWhileLookingAlongDir(toCamera, directionZeroY);
+            Quaternion tiltedAwayFromCamera = Quaternion.LerpUnclamped(lookRotation, lookRotationTiledTowardsCamera, -0.125f);
+            _actor.rotation = Utils.SmoothDamp(_actor.rotation, tiltedAwayFromCamera, ref _actorRotDampVelocity, 0.05f);
         }
+        
+        
         Chain.OnUpdate();
     }
 
-    public Vector3 Position
-    {
-        get => transform.position;
-        set => transform.position = value;
-    }
+    public Vector3 Position => transform.position;
 
     public Transform Transform => transform;
     public void Push(Vector3 direction)

@@ -29,4 +29,11 @@ public static class Utils
 		
         return new Quaternion(result.x, result.y, result.z, result.w);
     }
+
+    // Taken from here: https://gamedev.stackexchange.com/questions/87176/lookrotation-of-a-gameobject-in-just-one-axis
+    public static Quaternion AlignNormalWhileLookingAlongDir(Vector3 normal, Vector3 lookDir)
+    {
+        return Quaternion.LookRotation(normal, -lookDir)
+            * Quaternion.AngleAxis(90f, Vector3.right);
+    }
 }

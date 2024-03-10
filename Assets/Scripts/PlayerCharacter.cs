@@ -35,16 +35,16 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Vector3 offset = new Vector3(delta.x, 0f, delta.y).normalized * (JoystickMagnitude * MOVEMENT_SPEED);
         offset = Quaternion.Euler(0, -45, 0) * offset;
         _characterController.Move(offset * Time.deltaTime);
-        if (Velocity != Vector3.zero)
+        if (Velocity == Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(new Vector3(Velocity.x, 0f, Velocity.z));
-            Chain.OnUpdate();
-            
+            return;
         }
-        else
+        
+        if (delta != Vector2.zero)
         {
-            
+            transform.rotation = Quaternion.LookRotation(new Vector3(offset.x, 0f, offset.z));
         }
+        Chain.OnUpdate();
     }
 
     public Vector3 Position

@@ -3,6 +3,7 @@ using UnityEngine;
 public class App : MonoBehaviour
 {
     [SerializeField] private PlayerCharacter _player;
+    [SerializeField] private Camera _mainCamera;
     
     void Start()
     {
@@ -23,4 +24,5 @@ public class App : MonoBehaviour
     }
 
     public PlayerCharacter Player => _player;
+    public Camera MainCamera => _mainCamera;
 }

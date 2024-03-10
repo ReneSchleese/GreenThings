@@ -14,6 +14,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private Vector3 _positionLastFrame;
     private Vector3 _lastVelocity;
     private Quaternion _rotDampVelocity;
+    private Quaternion _actorRotDampVelocity;
 
     private void Awake()
     {
@@ -45,6 +46,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         {
             Vector3 directionZeroY = new(offset.x, 0f, offset.z);
             Quaternion lookRotation = Quaternion.LookRotation(directionZeroY, Vector3.up);
+            transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.05f);
 
             Vector3 desiredUp = (Camera.main.transform.position - _actor.transform.position);
 
@@ -52,7 +54,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
             Quaternion perfectlyPointCamera = Quaternion.LookRotation(desiredUp, -directionZeroY)
                                               * Quaternion.AngleAxis(90f, Vector3.right);
             Quaternion finalRot = Quaternion.LerpUnclamped(lookRotation, perfectlyPointCamera, -0.125f);
-            _actor.rotation = Utils.SmoothDamp(_actor.rotation, finalRot, ref _rotDampVelocity, 0.05f);
+            _actor.rotation = Utils.SmoothDamp(_actor.rotation, finalRot, ref _actorRotDampVelocity, 0.05f);
         }
         
         

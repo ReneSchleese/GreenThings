@@ -128,7 +128,6 @@ MonoBehaviour:
   _characterController: {fileID: 1543763932461397568}
   _joystick: {fileID: 0}
   _pushHitbox: {fileID: 9195507899270742406}
-  _camera: {fileID: 0}
   _animator: {fileID: 4409494975326376872}
   Chain: {fileID: 58377351868464505}
 --- !u!143 &1543763932461397568
@@ -916,6 +915,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 2803436535603912181, guid: a3cf1707b8803aa4c8cc39a5176de191,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 82e6987dd9d51124abe77db1bb70827c, type: 2}
     - target: {fileID: 2965544697132509058, guid: a3cf1707b8803aa4c8cc39a5176de191,
         type: 3}
       propertyPath: m_Layer

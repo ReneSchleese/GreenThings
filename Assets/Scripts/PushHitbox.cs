@@ -31,7 +31,7 @@ public class PushHitbox : MonoBehaviour
 
 public interface IPushable
 {
-    public Vector3 VelocityPush { get; }
+    public Vector3 Velocity { get; }
     public Transform Transform { get; }
     public void Push(Vector3 direction);
     public bool IsPushable { get; }

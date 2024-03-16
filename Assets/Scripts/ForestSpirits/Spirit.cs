@@ -54,7 +54,6 @@ namespace ForestSpirits
                 _actor.SmoothLookAt(App.Instance.Player.Position);
             }
 
-            Velocity = (Position - _positionLastFrame) / Time.deltaTime;
             _positionLastFrame = Position;
         }
 
@@ -75,7 +74,7 @@ namespace ForestSpirits
             Vector3 pushBackDir = otherPushable.Transform.position - Transform.position;
             const float PUSH_STRENGTH = 0.075f;
 
-            Debug.Log(otherPushable.VelocityPush.magnitude);
+            Debug.Log(otherPushable.Velocity.magnitude);
             if (otherPushable.IsPushable)
             {
                 if (Velocity.magnitude < 4f)
@@ -95,7 +94,7 @@ namespace ForestSpirits
             }
             if (IsPushable)
             {
-                if (otherPushable.VelocityPush.magnitude < 4f)
+                if (otherPushable.Velocity.magnitude < 4f)
                 {
                     // push back
                     pushDirection = -pushBackDir;
@@ -112,8 +111,7 @@ namespace ForestSpirits
             }
         }
 
-        public Vector3 Velocity { get; private set; }
-        public Vector3 VelocityPush => _actor.Velocity;
+        public Vector3 Velocity => _actor.Velocity;
         public PushHitbox PushHitbox => _pushHitbox;
     }
 }

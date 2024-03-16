@@ -72,7 +72,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Vector3 otherPositionInLocalSpace = transform.InverseTransformPoint(otherPushable.Transform.position);
         Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * transform.forward;
         Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
-        var velocityMagnitude = VelocityPush.magnitude;
+        var velocityMagnitude = Velocity.magnitude;
         float pushStrength = 0.05f * velocityMagnitude;
 
         if (otherPushable.IsPushable)
@@ -96,6 +96,5 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     }
 
     public Vector3 Velocity { get; private set; }
-    public Vector3 VelocityPush => Velocity;
     public float JoystickMagnitude { get; private set; }
 }

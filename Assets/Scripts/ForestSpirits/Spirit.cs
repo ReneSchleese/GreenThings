@@ -77,7 +77,7 @@ namespace ForestSpirits
             Debug.Log(otherPushable.Velocity.magnitude);
             if (otherPushable.IsPushable)
             {
-                if (Velocity.magnitude < 4f)
+                if (Velocity.magnitude < 5f)
                 {
                     // push back
                     pushDirection = pushBackDir;
@@ -94,7 +94,7 @@ namespace ForestSpirits
             }
             if (IsPushable)
             {
-                if (otherPushable.Velocity.magnitude < 4f)
+                if (otherPushable.Velocity.magnitude < 5f)
                 {
                     // push back
                     pushDirection = -pushBackDir;

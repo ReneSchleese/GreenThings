@@ -72,10 +72,9 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Vector3 otherPositionInLocalSpace = transform.InverseTransformPoint(otherPushable.Transform.position);
         Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * transform.forward;
         Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
-        var velocityMagnitude = Velocity.magnitude;
+        var velocityMagnitude = VelocityPush.magnitude;
         float pushStrength = 0.05f * velocityMagnitude;
 
-        Debug.Log(otherPushable.Velocity.magnitude);
         if (otherPushable.IsPushable)
         {
             Vector3 pushDirection;
@@ -83,7 +82,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
             {
                 // push back
                 pushDirection = pushBackDir;
-                otherPushable.Push(pushDirection.normalized * pushStrength);
+                otherPushable.Push(pushDirection.normalized * 0.15f);
                 Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
             }
             else
@@ -97,5 +96,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     }
 
     public Vector3 Velocity { get; private set; }
+    public Vector3 VelocityPush => Velocity;
     public float JoystickMagnitude { get; private set; }
 }

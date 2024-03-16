@@ -71,11 +71,11 @@ namespace ForestSpirits
         {
             Vector3 otherPositionInLocalSpace = Transform.InverseTransformPoint(otherPushable.Transform.position);
             Vector3 pushDirection;
-            Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -45 : 45, Vector3.up) * Transform.forward;
+            Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -30 : 30, Vector3.up) * Transform.forward;
             Vector3 pushBackDir = otherPushable.Transform.position - Transform.position;
-            const float PUSH_STRENGTH = 0.15f;
+            const float PUSH_STRENGTH = 0.075f;
 
-            Debug.Log(otherPushable.Velocity.magnitude);
+            Debug.Log(otherPushable.VelocityPush.magnitude);
             if (otherPushable.IsPushable)
             {
                 if (Velocity.magnitude < 4f)
@@ -95,7 +95,7 @@ namespace ForestSpirits
             }
             if (IsPushable)
             {
-                if (otherPushable.Velocity.magnitude < 4f)
+                if (otherPushable.VelocityPush.magnitude < 4f)
                 {
                     // push back
                     pushDirection = -pushBackDir;
@@ -113,6 +113,7 @@ namespace ForestSpirits
         }
 
         public Vector3 Velocity { get; private set; }
+        public Vector3 VelocityPush => _actor.Velocity;
         public PushHitbox PushHitbox => _pushHitbox;
     }
 }

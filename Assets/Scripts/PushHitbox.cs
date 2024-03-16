@@ -23,13 +23,9 @@ public class PushHitbox : MonoBehaviour
             return;
         }
 
-        Vector3 direction = otherPushable.Transform.position - Position;
-        float dot = Vector3.Dot(Pushable.Transform.forward, otherPushable.Transform.forward);
-        if(Pushable.Velocity.sqrMagnitude > 0.1f && dot < 0f)
-        {
-            Vector3 otherPositionInLocalSpace = Pushable.Transform.InverseTransformPoint(otherPushable.Transform.position);
-            direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * Pushable.Transform.forward;
-        }
+        Vector3 otherPositionInLocalSpace = Pushable.Transform.InverseTransformPoint(otherPushable.Transform.position);
+        Vector3 direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * Pushable.Transform.forward;
+        Debug.DrawRay(transform.position, direction * 3f, Color.red);
         otherPushable.Push(direction.normalized * PUSH_STRENGTH);
         if (Pushable.IsPushable)
         {

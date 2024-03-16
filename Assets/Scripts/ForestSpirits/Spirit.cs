@@ -72,42 +72,21 @@ namespace ForestSpirits
             Vector3 pushDirection;
             Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -30 : 30, Vector3.up) * Transform.forward;
             Vector3 pushBackDir = otherPushable.Transform.position - Transform.position;
-            const float PUSH_STRENGTH = 0.075f;
+            const float pushStrength = 0.075f;
 
-            Debug.Log(otherPushable.Velocity.magnitude);
             if (otherPushable.IsPushable)
             {
-                if (Velocity.magnitude < 5f)
-                {
-                    // push back
-                    pushDirection = pushBackDir;
-                    otherPushable.Push(pushDirection.normalized * PUSH_STRENGTH);
-                    Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
-                }
-                else
-                {
-                    // push to side
-                    pushDirection = pushToSideDir;
-                    otherPushable.Push(pushDirection.normalized * PUSH_STRENGTH);
-                    Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
-                }
+                bool pushBack = Velocity.magnitude < 5f;
+                pushDirection = pushBack ? pushBackDir : pushToSideDir;
+                otherPushable.Push(pushDirection.normalized * pushStrength);
+                //Debug.DrawRay(transform.position, pushDirection * 3f, pushBack ? Color.blue : Color.red);
             }
             if (IsPushable)
             {
-                if (otherPushable.Velocity.magnitude < 5f)
-                {
-                    // push back
-                    pushDirection = -pushBackDir;
-                    Push(pushDirection.normalized * PUSH_STRENGTH * 0.5f);
-                    Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
-                }
-                else
-                {
-                    // push to side
-                    pushDirection = -pushToSideDir;
-                    Push(pushDirection.normalized * PUSH_STRENGTH * 0.5f);
-                    Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
-                }
+                bool pushBack = otherPushable.Velocity.magnitude < 5f;
+                pushDirection = pushBack ? -pushBackDir : -pushToSideDir;
+                Push(pushDirection.normalized * pushStrength * 0.5f);
+                //Debug.DrawRay(transform.position, pushDirection * 3f, pushBack ? Color.blue : Color.red);
             }
         }
 

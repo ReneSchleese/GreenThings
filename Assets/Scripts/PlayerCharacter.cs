@@ -75,23 +75,23 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         var velocityMagnitude = Velocity.magnitude;
         float pushStrength = 0.05f * velocityMagnitude;
 
-        if (otherPushable.IsPushable)
+        if (!otherPushable.IsPushable)
         {
-            Vector3 pushDirection;
-            if (velocityMagnitude < 2f)
-            {
-                // push back
-                pushDirection = pushBackDir;
-                otherPushable.Push(pushDirection.normalized * 0.15f);
-                Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
-            }
-            else
-            {
-                // push to side
-                pushDirection = pushToSideDir;
-                otherPushable.Push(pushDirection.normalized * pushStrength);
-                Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
-            }
+            return;
+        }
+        
+        Vector3 pushDirection;
+        if (velocityMagnitude < 2f)
+        {
+            pushDirection = pushBackDir;
+            otherPushable.Push(pushDirection.normalized * 0.15f);
+            //Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
+        }
+        else
+        {
+            pushDirection = pushToSideDir;
+            otherPushable.Push(pushDirection.normalized * pushStrength);
+            //Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
         }
     }
 

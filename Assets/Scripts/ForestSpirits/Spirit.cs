@@ -67,6 +67,50 @@ namespace ForestSpirits
         }
 
         public bool IsPushable => true;
+        public void HandleCollision(IPushable otherPushable)
+        {
+            Vector3 otherPositionInLocalSpace = Transform.InverseTransformPoint(otherPushable.Transform.position);
+            Vector3 pushDirection;
+            Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -45 : 45, Vector3.up) * Transform.forward;
+            Vector3 pushBackDir = otherPushable.Transform.position - Transform.position;
+            const float PUSH_STRENGTH = 0.15f;
+
+            Debug.Log(otherPushable.Velocity.magnitude);
+            if (otherPushable.IsPushable)
+            {
+                if (Velocity.magnitude < 4f)
+                {
+                    // push back
+                    pushDirection = pushBackDir;
+                    otherPushable.Push(pushDirection.normalized * PUSH_STRENGTH);
+                    Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
+                }
+                else
+                {
+                    // push to side
+                    pushDirection = pushToSideDir;
+                    otherPushable.Push(pushDirection.normalized * PUSH_STRENGTH);
+                    Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
+                }
+            }
+            if (IsPushable)
+            {
+                if (otherPushable.Velocity.magnitude < 4f)
+                {
+                    // push back
+                    pushDirection = -pushBackDir;
+                    Push(pushDirection.normalized * PUSH_STRENGTH * 0.5f);
+                    Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
+                }
+                else
+                {
+                    // push to side
+                    pushDirection = -pushToSideDir;
+                    Push(pushDirection.normalized * PUSH_STRENGTH * 0.5f);
+                    Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
+                }
+            }
+        }
 
         public Vector3 Velocity { get; private set; }
         public PushHitbox PushHitbox => _pushHitbox;

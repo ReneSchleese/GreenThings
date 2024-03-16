@@ -85,7 +85,7 @@ namespace ForestSpirits
             base.OnExit();
             _target = null;
             Spirit.Controller.radius = 0.4f;
-            Spirit.PushHitbox.Radius = 0.4f;
+            Spirit.PushHitbox.Radius = 0.5f;
         }
 
         public override void OnUpdate()

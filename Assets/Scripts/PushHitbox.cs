@@ -3,7 +3,7 @@
 public class PushHitbox : MonoBehaviour
 {
     [SerializeField] private CapsuleCollider _collider;
-    private const float PUSH_STRENGTH = 0.2f;
+    private const float PUSH_STRENGTH = 0.05f;
 
     public void Init(IPushable pushable)
     {
@@ -31,6 +31,10 @@ public class PushHitbox : MonoBehaviour
             direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * Pushable.Transform.forward;
         }
         otherPushable.Push(direction.normalized * PUSH_STRENGTH);
+        if (Pushable.IsPushable)
+        {
+            Pushable.Push(-direction.normalized * PUSH_STRENGTH);
+        }
     }
 
     public float Radius

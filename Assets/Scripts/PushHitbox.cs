@@ -18,26 +18,45 @@ public class PushHitbox : MonoBehaviour
         }
 
         IPushable otherPushable = otherHitbox.Pushable;
-        if (!otherPushable.IsPushable)
-        {
-            return;
-        }
-
         Vector3 otherPositionInLocalSpace = Pushable.Transform.InverseTransformPoint(otherPushable.Transform.position);
-        Vector3 direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -45 : 45, Vector3.up) * Pushable.Transform.forward;
-        
+        Vector3 pushDirection;
+        Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -45 : 45, Vector3.up) * Pushable.Transform.forward;
+        Vector3 pushBackDir = otherPushable.Transform.position - Pushable.Transform.position;
+
+        Debug.Log(otherPushable.Velocity.magnitude);
+        if (otherPushable.IsPushable)
+        {
+            if (Pushable.Velocity.magnitude < 4f)
+            {
+                // push back
+                pushDirection = pushBackDir;
+                otherPushable.Push(pushDirection.normalized * PUSH_STRENGTH);
+                Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
+            }
+            else
+            {
+                // push to side
+                pushDirection = pushToSideDir;
+                otherPushable.Push(pushDirection.normalized * PUSH_STRENGTH);
+                Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
+            }
+        }
         if (Pushable.IsPushable)
         {
-            Debug.DrawRay(transform.position, -direction * 3f, Color.yellow);
-            Pushable.Push(-direction.normalized * PUSH_STRENGTH * 0.5f);
-            Debug.DrawRay(transform.position, direction * 3f, Color.red);
-            otherPushable.Push(direction.normalized * PUSH_STRENGTH);
-        }
-        else
-        {
-            direction = otherPushable.Transform.position - Pushable.Transform.position;
-            otherPushable.Push(direction.normalized * PUSH_STRENGTH);
-            Debug.DrawRay(transform.position, direction * 3f, Color.blue);
+            if (otherPushable.Velocity.magnitude < 4f)
+            {
+                // push back
+                pushDirection = -pushBackDir;
+                Pushable.Push(pushDirection.normalized * PUSH_STRENGTH * 0.5f);
+                Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
+            }
+            else
+            {
+                // push to side
+                pushDirection = -pushToSideDir;
+                Pushable.Push(pushDirection.normalized * PUSH_STRENGTH * 0.5f);
+                Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
+            }
         }
     }
 

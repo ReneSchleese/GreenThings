@@ -62,7 +62,7 @@ namespace ForestSpirits
             
             if (distance > DEAD_ZONE_DISTANCE)
             {
-                Spirit.Controller.Move(spiritToPlayerDir.normalized * (Time.deltaTime * SPEED));
+                Spirit.Controller.Move(spiritToPlayerDir.normalized * (SPEED * Time.deltaTime));
             }
         }
     }

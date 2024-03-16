@@ -22,7 +22,7 @@ namespace ForestSpirits
         public void SmoothSetPosition(Vector3 position)
         {
             Vector3 currentPosition = transform.position;
-            transform.position = Vector3.SmoothDamp(currentPosition, position, ref _posDampVelocity, 0.05f);
+            transform.position = Vector3.SmoothDamp(currentPosition, position, ref _posDampVelocity, 0.1f);
             Speed = (currentPosition - _lastPosition).magnitude * (1f / Time.deltaTime);
             _lastPosition = currentPosition;
             _animator.SetFloat(AnimationIds.WalkingSpeed, Speed);

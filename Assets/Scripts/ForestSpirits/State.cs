@@ -22,7 +22,7 @@ namespace ForestSpirits
     
     public class IdleState : State
     {
-        private const float SEEKING_DISTANCE = 3f;
+        private const float SEEKING_DISTANCE = 7f;
 
         public override void OnUpdate()
         {
@@ -41,7 +41,7 @@ namespace ForestSpirits
     public class FollowPlayerState : State
     {
         private const float SPEED = ChainLinkState.SPEED;
-        private const float DEAD_ZONE_DISTANCE = 3f;
+        private const float DEAD_ZONE_DISTANCE = 5.5f;
         private const float ENQUEUEING_DISTANCE = .5f;
 
         public override void OnUpdate()

@@ -3,7 +3,7 @@
 public class PushHitbox : MonoBehaviour
 {
     [SerializeField] private CapsuleCollider _collider;
-    private const float PUSH_STRENGTH = 0.05f;
+    private const float PUSH_STRENGTH = 0.15f;
 
     public void Init(IPushable pushable)
     {
@@ -24,12 +24,20 @@ public class PushHitbox : MonoBehaviour
         }
 
         Vector3 otherPositionInLocalSpace = Pushable.Transform.InverseTransformPoint(otherPushable.Transform.position);
-        Vector3 direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * Pushable.Transform.forward;
-        Debug.DrawRay(transform.position, direction * 3f, Color.red);
-        otherPushable.Push(direction.normalized * PUSH_STRENGTH);
+        Vector3 direction = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -45 : 45, Vector3.up) * Pushable.Transform.forward;
+        
         if (Pushable.IsPushable)
         {
-            Pushable.Push(-direction.normalized * PUSH_STRENGTH);
+            Debug.DrawRay(transform.position, -direction * 3f, Color.yellow);
+            Pushable.Push(-direction.normalized * PUSH_STRENGTH * 0.5f);
+            Debug.DrawRay(transform.position, direction * 3f, Color.red);
+            otherPushable.Push(direction.normalized * PUSH_STRENGTH);
+        }
+        else
+        {
+            direction = otherPushable.Transform.position - Pushable.Transform.position;
+            otherPushable.Push(direction.normalized * PUSH_STRENGTH);
+            Debug.DrawRay(transform.position, direction * 3f, Color.blue);
         }
     }
 

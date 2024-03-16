@@ -22,7 +22,7 @@ namespace ForestSpirits
     
     public class IdleState : State
     {
-        private const float SEEKING_DISTANCE = 3f;
+        private const float SEEKING_DISTANCE = 7f;
 
         public override void OnUpdate()
         {
@@ -41,7 +41,7 @@ namespace ForestSpirits
     public class FollowPlayerState : State
     {
         private const float SPEED = ChainLinkState.SPEED;
-        private const float DEAD_ZONE_DISTANCE = 3f;
+        private const float DEAD_ZONE_DISTANCE = 5.5f;
         private const float ENQUEUEING_DISTANCE = .5f;
 
         public override void OnUpdate()
@@ -62,7 +62,7 @@ namespace ForestSpirits
             
             if (distance > DEAD_ZONE_DISTANCE)
             {
-                Spirit.Controller.Move(spiritToPlayerDir.normalized * (Time.deltaTime * SPEED));
+                Spirit.Controller.Move(spiritToPlayerDir.normalized * (SPEED * Time.deltaTime));
             }
         }
     }
@@ -85,7 +85,7 @@ namespace ForestSpirits
             base.OnExit();
             _target = null;
             Spirit.Controller.radius = 0.4f;
-            Spirit.PushHitbox.Radius = 0.4f;
+            Spirit.PushHitbox.Radius = 0.5f;
         }
 
         public override void OnUpdate()

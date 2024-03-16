@@ -67,6 +67,33 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     }
 
     public bool IsPushable => false;
+    public void HandleCollision(IPushable otherPushable)
+    {
+        Vector3 otherPositionInLocalSpace = transform.InverseTransformPoint(otherPushable.Transform.position);
+        Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * transform.forward;
+        Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
+        var velocityMagnitude = Velocity.magnitude;
+        float pushStrength = 0.05f * velocityMagnitude;
+
+        if (!otherPushable.IsPushable)
+        {
+            return;
+        }
+        
+        Vector3 pushDirection;
+        if (velocityMagnitude < 2f)
+        {
+            pushDirection = pushBackDir;
+            otherPushable.Push(pushDirection.normalized * 0.15f);
+            //Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
+        }
+        else
+        {
+            pushDirection = pushToSideDir;
+            otherPushable.Push(pushDirection.normalized * pushStrength);
+            //Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
+        }
+    }
 
     public Vector3 Velocity { get; private set; }
     public float JoystickMagnitude { get; private set; }

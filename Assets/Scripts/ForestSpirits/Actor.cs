@@ -22,8 +22,9 @@ namespace ForestSpirits
         public void SmoothSetPosition(Vector3 position)
         {
             Vector3 currentPosition = transform.position;
-            transform.position = Vector3.SmoothDamp(currentPosition, position, ref _posDampVelocity, 0.05f);
-            Speed = (currentPosition - _lastPosition).magnitude * (1f / Time.deltaTime);
+            transform.position = Vector3.SmoothDamp(currentPosition, position, ref _posDampVelocity, 0.1f);
+            Velocity = (currentPosition - _lastPosition) / Time.deltaTime;
+            Speed = Velocity.magnitude;
             _lastPosition = currentPosition;
             _animator.SetFloat(AnimationIds.WalkingSpeed, Speed);
         }
@@ -61,6 +62,7 @@ namespace ForestSpirits
         }
 
         private float Speed { get; set; }
+        public Vector3 Velocity { get; private set; }
     }
 
 }

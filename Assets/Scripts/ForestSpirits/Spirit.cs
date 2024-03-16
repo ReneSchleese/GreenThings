@@ -54,7 +54,6 @@ namespace ForestSpirits
                 _actor.SmoothLookAt(App.Instance.Player.Position);
             }
 
-            Velocity = (Position - _positionLastFrame) / Time.deltaTime;
             _positionLastFrame = Position;
         }
 
@@ -67,8 +66,31 @@ namespace ForestSpirits
         }
 
         public bool IsPushable => true;
+        public void HandleCollision(IPushable otherPushable)
+        {
+            Vector3 otherPositionInLocalSpace = Transform.InverseTransformPoint(otherPushable.Transform.position);
+            Vector3 pushDirection;
+            Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -30 : 30, Vector3.up) * Transform.forward;
+            Vector3 pushBackDir = otherPushable.Transform.position - Transform.position;
+            const float pushStrength = 0.075f;
 
-        public Vector3 Velocity { get; private set; }
+            if (otherPushable.IsPushable)
+            {
+                bool pushBack = Velocity.magnitude < 5f;
+                pushDirection = pushBack ? pushBackDir : pushToSideDir;
+                otherPushable.Push(pushDirection.normalized * pushStrength);
+                //Debug.DrawRay(transform.position, pushDirection * 3f, pushBack ? Color.blue : Color.red);
+            }
+            if (IsPushable)
+            {
+                bool pushBack = otherPushable.Velocity.magnitude < 5f;
+                pushDirection = pushBack ? -pushBackDir : -pushToSideDir;
+                Push(pushDirection.normalized * pushStrength * 0.5f);
+                //Debug.DrawRay(transform.position, pushDirection * 3f, pushBack ? Color.blue : Color.red);
+            }
+        }
+
+        public Vector3 Velocity => _actor.Velocity;
         public PushHitbox PushHitbox => _pushHitbox;
     }
 }

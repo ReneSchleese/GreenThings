@@ -9,6 +9,7 @@ namespace ForestSpirits
         private const float BREAK_DISTANCE = 8f;
         private const float UPDATE_SPEED = 20f;
         private const float CHAIN_LINK_DISTANCE = 1.5f;
+        private const float FIRST_CHAIN_LINK_DISTANCE = 2.5f;
         [SerializeField] private ChainLink _chainLinkPrefab;
         
         private readonly List<ChainLink> _chainLinks = new();
@@ -58,9 +59,10 @@ namespace ForestSpirits
             {
                 ChainLink chainLink = _chainLinks[index];
                 IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
+                float requiredDistance = index == 0 ? FIRST_CHAIN_LINK_DISTANCE : CHAIN_LINK_DISTANCE;
                 
                 Vector3 currentPos = chainLink.Position;
-                Vector3 straightPos = Player.Position - Player.transform.forward * ((index + 1) * CHAIN_LINK_DISTANCE);
+                Vector3 straightPos = Player.Position - Player.transform.forward * ((index + 1) * requiredDistance);
 
                 Vector3 stepTowardsStraight = (straightPos - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
                 bool stepWouldOvershootTarget = stepTowardsStraight.magnitude > Vector3.Distance(currentPos, straightPos);
@@ -70,9 +72,9 @@ namespace ForestSpirits
 
                 Vector3 stepTowardsFollow = (followTarget.Position - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
                 Vector3 followTargetPos = currentPos + stepTowardsFollow;
-                if (Vector3.Distance(followTarget.Position, followTargetPos) < CHAIN_LINK_DISTANCE)
+                if (Vector3.Distance(followTarget.Position, followTargetPos) < requiredDistance)
                 {
-                    followTargetPos = followTarget.Position - stepTowardsFollow.normalized * CHAIN_LINK_DISTANCE;
+                    followTargetPos = followTarget.Position - stepTowardsFollow.normalized * requiredDistance;
                 }
 
                 float weight = 1f / (index + 3);

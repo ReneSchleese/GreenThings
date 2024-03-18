@@ -22,7 +22,7 @@ namespace ForestSpirits
     
     public class IdleState : State
     {
-        private const float SEEKING_DISTANCE = 7f;
+        private const float SEEKING_DISTANCE = 6f;
 
         public override void OnUpdate()
         {

@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using Audio;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Footsteps : MonoBehaviour
@@ -8,6 +9,7 @@ public class Footsteps : MonoBehaviour
     [UsedImplicitly]
     public void OnFootStep()
     {
-        Debug.Log("Footstep!");
+        float pitch = Random.Range(0.8f, 1.2f);
+        AudioManager.Instance.PlayEffect(_stepsGrass[Random.Range(0, _stepsGrass.Length)], pitch);
     }
 }

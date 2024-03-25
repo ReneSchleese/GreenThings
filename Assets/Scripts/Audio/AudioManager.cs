@@ -16,8 +16,9 @@ namespace Audio
             _ambientSource.Play();
         }
 
-        public void PlayEffect(AudioClip clip)
+        public void PlayEffect(AudioClip clip, float pitch = 1.0f)
         {
+            _effectSource.pitch = pitch;
             _effectSource.PlayOneShot(clip);
         }
         

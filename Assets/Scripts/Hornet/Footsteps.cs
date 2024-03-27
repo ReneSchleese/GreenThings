@@ -9,7 +9,7 @@ public class Footsteps : MonoBehaviour
     [UsedImplicitly]
     public void OnFootStep()
     {
-        float pitch = Random.Range(0.8f, 1.2f);
+        float pitch = Random.Range(0.7f, 1.2f);
         AudioManager.Instance.PlayEffect(_stepsGrass[Random.Range(0, _stepsGrass.Length)], pitch);
     }
 }

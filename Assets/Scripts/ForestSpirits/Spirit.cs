@@ -38,6 +38,11 @@ namespace ForestSpirits
 
         public void SwitchToState(Type state)
         {
+            if (_currentState is IdleState && state == typeof(FollowPlayerState))
+            {
+                Debug.Log("play yay");
+            }
+            
             _currentState?.OnExit();
             _currentState = _states.First(s => s.GetType() == state);
             _currentState.OnEnter();

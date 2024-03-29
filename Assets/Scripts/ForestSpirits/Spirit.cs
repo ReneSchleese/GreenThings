@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Audio;
 using UnityEngine;
 
 namespace ForestSpirits
@@ -10,8 +11,10 @@ namespace ForestSpirits
         [SerializeField] public CharacterController Controller;
         [SerializeField] private PushHitbox _pushHitbox;
         [SerializeField] private Actor _actor;
+        [SerializeField] private AudioClip[] _followPlayerClips;
         private State _currentState;
         private List<State> _states;
+        private static PseudoRandomIndex _followPlayerClipIndex;
 
         private void Awake()
         {
@@ -19,6 +22,8 @@ namespace ForestSpirits
             SwitchToState(typeof(IdleState));
             _pushHitbox.Init(this);
             _actor.transform.SetParent(null);
+
+            _followPlayerClipIndex ??= new PseudoRandomIndex(_followPlayerClips.Length);
         }
 
         private void SetupStates()
@@ -45,7 +50,7 @@ namespace ForestSpirits
             
             if (stateBefore is IdleState && state == typeof(FollowPlayerState))
             {
-                Debug.Log("play yay");
+                AudioManager.Instance.PlayEffect(_followPlayerClips[_followPlayerClipIndex.Get()]);
             }
 
             if (state == typeof(FlowerState))

@@ -1234,6 +1234,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1417264638121561112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339703755276670265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ffe39f606a74f4db0b38e1747c5f492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stepsGrass:
+  - {fileID: 8300000, guid: 80d0e53a99c0f1d4c8e13af7594362d1, type: 3}
+  - {fileID: 8300000, guid: 920c130ff0dcdf54d88e73ca051429a4, type: 3}
 --- !u!4 &1152092951268134787 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a3cf1707b8803aa4c8cc39a5176de191,

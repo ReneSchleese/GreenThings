@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ForestSpirits
 {
@@ -46,11 +47,13 @@ namespace ForestSpirits
         private const float DEAD_ZONE_DISTANCE = 5.5f;
         private const float ENQUEUEING_DISTANCE = .5f;
         private float _timeStampWhereFast;
+        private float _randomUnfoldDelay;
 
         public override void OnEnter()
         {
             base.OnEnter();
             _timeStampWhereFast = Time.time;
+            _randomUnfoldDelay = Random.Range(0f, 0.3f);
         }
 
         public override void OnUpdate()
@@ -86,7 +89,7 @@ namespace ForestSpirits
             }
 
             bool IsSlowEnoughToUnfold() => actor.Speed <= 0.02f;
-            bool HasBeenSlowLongEnoughToUnfold() => Time.time - _timeStampWhereFast > 1.5f;
+            bool HasBeenSlowLongEnoughToUnfold() => Time.time - (_timeStampWhereFast + _randomUnfoldDelay) > 1.5f;
         }
     }
     

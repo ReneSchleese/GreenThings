@@ -47,6 +47,11 @@ namespace ForestSpirits
             {
                 Debug.Log("play yay");
             }
+
+            if (state == typeof(FlowerState))
+            {
+                Debug.Log("play unfold");
+            }
         }
 
         private void Update()

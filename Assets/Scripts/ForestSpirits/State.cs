@@ -5,13 +5,15 @@ namespace ForestSpirits
 {
     public class State
     {
-        protected Action<Type> SwitchToState;
-        protected Spirit Spirit;
+        protected Action<Type> switchToState;
+        protected Spirit spirit;
+        protected Actor actor;
 
-        public void Init(Spirit spirit, Action<Type> enterStateCallback)
+        public void Init(Spirit spirit, Actor actor, Action<Type> enterStateCallback)
         {
-            Spirit = spirit;
-            SwitchToState = enterStateCallback;
+            this.spirit = spirit;
+            switchToState = enterStateCallback;
+            this.actor = actor;
         }
         
         public virtual void OnEnter() {}
@@ -28,13 +30,13 @@ namespace ForestSpirits
         {
             base.OnUpdate();
             if (!PlayerIsInReach()) return;
-            Player.Chain.Enqueue(Spirit);
-            SwitchToState(typeof(FollowPlayerState));
+            Player.Chain.Enqueue(spirit);
+            switchToState(typeof(FollowPlayerState));
         }
 
         private bool PlayerIsInReach()
         {
-            return Vector3.Distance(Player.transform.position, Spirit.transform.position) <= SEEKING_DISTANCE;
+            return Vector3.Distance(Player.transform.position, spirit.transform.position) <= SEEKING_DISTANCE;
         }
     }
     
@@ -43,27 +45,48 @@ namespace ForestSpirits
         private const float SPEED = ChainLinkState.SPEED;
         private const float DEAD_ZONE_DISTANCE = 5.5f;
         private const float ENQUEUEING_DISTANCE = .5f;
+        private float _timeStampWhereFast;
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            _timeStampWhereFast = Time.time;
+        }
 
         public override void OnUpdate()
         {
             base.OnUpdate();
-            Vector3 spiritToPlayerDir = Player.transform.position - Spirit.transform.position;
+            Vector3 spiritToPlayerDir = Player.transform.position - spirit.transform.position;
             float distance = spiritToPlayerDir.magnitude;
             
             if (Player.JoystickMagnitude >= 0.667f && distance > ENQUEUEING_DISTANCE)
             {
-                SwitchToState(typeof(ChainLinkState));
+                switchToState(typeof(ChainLinkState));
                 return;
             }
             
-            Vector3 lookDir = Player.Position - Spirit.Position;
+            Vector3 lookDir = Player.Position - spirit.Position;
             lookDir = new Vector3(lookDir.x, 0f, lookDir.z);
-            Spirit.transform.rotation = Quaternion.LookRotation(lookDir);
+            spirit.transform.rotation = Quaternion.LookRotation(lookDir);
             
             if (distance > DEAD_ZONE_DISTANCE)
             {
-                Spirit.Controller.Move(spiritToPlayerDir.normalized * (SPEED * Time.deltaTime));
+                spirit.Controller.Move(spiritToPlayerDir.normalized * (SPEED * Time.deltaTime));
             }
+            
+            if (!IsSlowEnoughToUnfold())
+            {
+                _timeStampWhereFast = Time.time;
+            }
+
+            if (HasBeenSlowLongEnoughToUnfold())
+            {
+                switchToState(typeof(FlowerState));
+                return;
+            }
+
+            bool IsSlowEnoughToUnfold() => actor.Speed <= 0.02f;
+            bool HasBeenSlowLongEnoughToUnfold() => Time.time - _timeStampWhereFast > 3.0f;
         }
     }
     
@@ -75,17 +98,17 @@ namespace ForestSpirits
         public override void OnEnter()
         {
             base.OnEnter();
-            _target = Player.Chain.GetTargetFor(Spirit);
-            Spirit.Controller.radius = 0.25f;
-            Spirit.PushHitbox.Radius = 0.25f;
+            _target = Player.Chain.GetTargetFor(spirit);
+            spirit.Controller.radius = 0.25f;
+            spirit.PushHitbox.Radius = 0.25f;
         }
 
         public override void OnExit()
         {
             base.OnExit();
             _target = null;
-            Spirit.Controller.radius = 0.4f;
-            Spirit.PushHitbox.Radius = 0.5f;
+            spirit.Controller.radius = 0.4f;
+            spirit.PushHitbox.Radius = 0.5f;
         }
 
         public override void OnUpdate()
@@ -94,20 +117,39 @@ namespace ForestSpirits
             
             if (Player.JoystickMagnitude < 0.667f)
             {
-                SwitchToState(typeof(FollowPlayerState));
+                switchToState(typeof(FollowPlayerState));
                 return;
             }
             
-            Vector3 lookDir = _target.Position - Spirit.Position;
+            Vector3 lookDir = _target.Position - spirit.Position;
             lookDir = new Vector3(lookDir.x, 0f, lookDir.z);
-            Spirit.transform.rotation = Quaternion.LookRotation(lookDir);
+            spirit.transform.rotation = Quaternion.LookRotation(lookDir);
             
-            if ((_target.Position - Spirit.Position).sqrMagnitude <= 0.1f)
+            if ((_target.Position - spirit.Position).sqrMagnitude <= 0.1f)
             {
                 return;
             }
-            Vector3 direction = _target.Position - Spirit.Position;
-            Spirit.Controller.Move(direction.normalized * (Time.deltaTime * SPEED));
+            Vector3 direction = _target.Position - spirit.Position;
+            spirit.Controller.Move(direction.normalized * (Time.deltaTime * SPEED));
+        }
+    }
+
+    public class FlowerState : State
+    {
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            actor.Unfold();
+        }
+
+        public override void OnUpdate()
+        {
+            base.OnUpdate();
+            if (Player.JoystickMagnitude < 0.667f)
+            {
+                switchToState(typeof(FollowPlayerState));
+                return;
+            }
         }
     }
 }

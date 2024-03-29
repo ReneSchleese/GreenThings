@@ -12,9 +12,11 @@ namespace ForestSpirits
         [SerializeField] private PushHitbox _pushHitbox;
         [SerializeField] private Actor _actor;
         [SerializeField] private AudioClip[] _followPlayerClips;
+        [SerializeField] private AudioClip[] _unfoldingClips;
         private State _currentState;
         private List<State> _states;
         private static PseudoRandomIndex _followPlayerClipIndex;
+        private static PseudoRandomIndex _unfoldingClipIndex;
 
         private void Awake()
         {
@@ -24,6 +26,7 @@ namespace ForestSpirits
             _actor.transform.SetParent(null);
 
             _followPlayerClipIndex ??= new PseudoRandomIndex(_followPlayerClips.Length);
+            _unfoldingClipIndex ??= new PseudoRandomIndex(_unfoldingClips.Length);
         }
 
         private void SetupStates()
@@ -52,10 +55,9 @@ namespace ForestSpirits
             {
                 AudioManager.Instance.PlayEffect(_followPlayerClips[_followPlayerClipIndex.Get()]);
             }
-
             if (state == typeof(FlowerState))
             {
-                Debug.Log("play unfold");
+                AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()]);
             }
         }
 

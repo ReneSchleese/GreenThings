@@ -53,13 +53,36 @@ namespace ForestSpirits
             Controller.Move(Controller.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
             _currentState.OnUpdate();
             _actor.SmoothSetPosition(Position);
-            _actor.HandleUnfold(_currentState);
+            HandleUnfold();
             if (_currentState.GetType() != typeof(IdleState))
             {
                 _actor.SmoothLookAt(App.Instance.Player.Position);
             }
 
             _positionLastFrame = Position;
+        }
+        
+        private bool _isInUnfoldState;
+        private float _timeStampWhereFast;
+
+        private void HandleUnfold()
+        {
+            if (!IsSlowEnoughToUnfold() || !FollowsPlayer())
+            {
+                _timeStampWhereFast = Time.time;
+                _isInUnfoldState = false;
+            }
+
+            if (!_isInUnfoldState && HasBeenSlowLongEnoughToUnfold())
+            {
+                _isInUnfoldState = true;
+                _actor.Unfold();
+                Debug.Log("play unfold");
+            }
+
+            bool IsSlowEnoughToUnfold() => _actor.Speed <= 0.02f;
+            bool HasBeenSlowLongEnoughToUnfold() => Time.time - _timeStampWhereFast > 3.0f;
+            bool FollowsPlayer() => _currentState is FollowPlayerState;
         }
 
         public Vector3 Position => transform.position;

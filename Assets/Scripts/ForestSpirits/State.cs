@@ -145,7 +145,7 @@ namespace ForestSpirits
         public override void OnUpdate()
         {
             base.OnUpdate();
-            if (Player.JoystickMagnitude < 0.667f)
+            if (Player.Velocity.magnitude > Mathf.Epsilon)
             {
                 switchToState(typeof(FollowPlayerState));
                 return;

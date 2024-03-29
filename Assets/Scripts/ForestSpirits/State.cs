@@ -86,7 +86,7 @@ namespace ForestSpirits
             }
 
             bool IsSlowEnoughToUnfold() => actor.Speed <= 0.02f;
-            bool HasBeenSlowLongEnoughToUnfold() => Time.time - _timeStampWhereFast > 3.0f;
+            bool HasBeenSlowLongEnoughToUnfold() => Time.time - _timeStampWhereFast > 1.5f;
         }
     }
     

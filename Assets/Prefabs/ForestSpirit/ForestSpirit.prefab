@@ -132,7 +132,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9992b90556258b54bbafcbe5505c5740, type: 3}
   - {fileID: 8300000, guid: 538c123b3b7341a438e6ddee4a7ec18f, type: 3}
   _unfoldingClips:
-  - {fileID: 8300000, guid: 96a4155c339e2344eb3640b4e59f46a3, type: 3}
+  - {fileID: 8300000, guid: 3bb9d6fd5eb137c43b954feaa55dce9c, type: 3}
+  - {fileID: 8300000, guid: 9c5fa55dc74afde478c9071639494392, type: 3}
 --- !u!143 &5034073738045698575
 CharacterController:
   m_ObjectHideFlags: 0

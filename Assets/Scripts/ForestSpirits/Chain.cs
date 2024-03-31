@@ -17,18 +17,17 @@ namespace ForestSpirits
         
         private readonly List<ChainLink> _chainLinks = new();
         private readonly Dictionary<Spirit, ChainLink> _spiritToLinks = new();
-        private readonly Stack<ChainLink> _inactiveChainLinks = new();
         private PrefabPool<ChainLink> _chainLinkPool;
 
         private void Awake()
         {
-            _chainLinkPool = new PrefabPool<ChainLink>(_chainLinkPrefab, _inactiveContainer, link =>
+            _chainLinkPool = new PrefabPool<ChainLink>(_chainLinkPrefab, _inactiveContainer, onBeforeGet: link =>
             {
                 link.SetInactive();
-                link.transform.position = _chainLinks.Count > 0 
-                    ? _chainLinks[^1].transform.position 
-                    : Player.Position;    
-            });
+                link.transform.position = _chainLinks.Count > 0
+                    ? _chainLinks[^1].transform.position
+                    : Player.Position;
+            }, onBeforeReturn: link => { link.SetInactive(); });
         }
 
         public void Enqueue(Spirit spirit)
@@ -93,8 +92,7 @@ namespace ForestSpirits
             }
             foreach (ChainLink chainLink in _chainLinks)
             {
-                chainLink.SetInactive();
-                _inactiveChainLinks.Push(chainLink);
+                _chainLinkPool.Return(chainLink);
             }
             _chainLinks.Clear();
             _spiritToLinks.Clear();

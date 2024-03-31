@@ -16,9 +16,6 @@ namespace ForestSpirits
         private Vector3 _posDampVelocity;
         private Quaternion _rotDampVelocity;
 
-        private bool _isInUnfoldState;
-        private float _timeStampWhereFast;
-
         public void SmoothSetPosition(Vector3 position)
         {
             Vector3 currentPosition = transform.position;
@@ -29,27 +26,8 @@ namespace ForestSpirits
             _animator.SetFloat(AnimationIds.WalkingSpeed, Speed);
         }
 
-        public void HandleUnfold(State state)
+        public void Unfold()
         {
-            if (!IsSlowEnoughToUnfold() || !FollowsPlayer())
-            {
-                _timeStampWhereFast = Time.time;
-                _isInUnfoldState = false;
-            }
-
-            if (!_isInUnfoldState && HasBeenSlowLongEnoughToUnfold())
-            {
-                Unfold();
-            }
-
-            bool IsSlowEnoughToUnfold() => Speed <= 0.02f;
-            bool HasBeenSlowLongEnoughToUnfold() => Time.time - _timeStampWhereFast > 3.0f;
-            bool FollowsPlayer() => state.GetType() == typeof(FollowPlayerState);
-        }
-
-        private void Unfold()
-        {
-            _isInUnfoldState = true;
             _animator.SetTrigger(AnimationIds.Unfold);
         }
 
@@ -61,7 +39,7 @@ namespace ForestSpirits
             transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.2f);
         }
 
-        private float Speed { get; set; }
+        public float Speed { get; private set; }
         public Vector3 Velocity { get; private set; }
     }
 

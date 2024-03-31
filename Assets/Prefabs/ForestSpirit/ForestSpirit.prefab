@@ -127,6 +127,13 @@ MonoBehaviour:
   Controller: {fileID: 5034073738045698575}
   _pushHitbox: {fileID: 4066260253905792264}
   _actor: {fileID: 6545904419580613203}
+  _followPlayerClips:
+  - {fileID: 8300000, guid: 28d31986de4eca045ae384aae6c15c3d, type: 3}
+  - {fileID: 8300000, guid: 9992b90556258b54bbafcbe5505c5740, type: 3}
+  - {fileID: 8300000, guid: 538c123b3b7341a438e6ddee4a7ec18f, type: 3}
+  _unfoldingClips:
+  - {fileID: 8300000, guid: 3bb9d6fd5eb137c43b954feaa55dce9c, type: 3}
+  - {fileID: 8300000, guid: 9c5fa55dc74afde478c9071639494392, type: 3}
 --- !u!143 &5034073738045698575
 CharacterController:
   m_ObjectHideFlags: 0

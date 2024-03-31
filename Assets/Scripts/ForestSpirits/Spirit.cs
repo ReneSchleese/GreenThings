@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Audio;
 using UnityEngine;
 
 namespace ForestSpirits
@@ -10,9 +11,12 @@ namespace ForestSpirits
         [SerializeField] public CharacterController Controller;
         [SerializeField] private PushHitbox _pushHitbox;
         [SerializeField] private Actor _actor;
+        [SerializeField] private AudioClip[] _followPlayerClips;
+        [SerializeField] private AudioClip[] _unfoldingClips;
         private State _currentState;
         private List<State> _states;
-        private Vector3 _positionLastFrame;
+        private static PseudoRandomIndex _followPlayerClipIndex;
+        private static PseudoRandomIndex _unfoldingClipIndex;
 
         private void Awake()
         {
@@ -20,6 +24,9 @@ namespace ForestSpirits
             SwitchToState(typeof(IdleState));
             _pushHitbox.Init(this);
             _actor.transform.SetParent(null);
+
+            _followPlayerClipIndex ??= new PseudoRandomIndex(_followPlayerClips.Length);
+            _unfoldingClipIndex ??= new PseudoRandomIndex(_unfoldingClips.Length);
         }
 
         private void SetupStates()
@@ -28,19 +35,30 @@ namespace ForestSpirits
             {
                 new IdleState(),
                 new FollowPlayerState(),
-                new ChainLinkState()
+                new ChainLinkState(),
+                new FlowerState()
             };
             foreach (State state in _states)
             {
-                state.Init(spirit: this, SwitchToState);
+                state.Init(spirit: this, _actor, SwitchToState);
             }
         }
 
         public void SwitchToState(Type state)
         {
+            State stateBefore = _currentState;
             _currentState?.OnExit();
             _currentState = _states.First(s => s.GetType() == state);
             _currentState.OnEnter();
+            
+            if (stateBefore is IdleState && state == typeof(FollowPlayerState))
+            {
+                AudioManager.Instance.PlayEffect(_followPlayerClips[_followPlayerClipIndex.Get()]);
+            }
+            if (state == typeof(FlowerState))
+            {
+                AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()]);
+            }
         }
 
         private void Update()
@@ -48,13 +66,10 @@ namespace ForestSpirits
             Controller.Move(Controller.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
             _currentState.OnUpdate();
             _actor.SmoothSetPosition(Position);
-            _actor.HandleUnfold(_currentState);
             if (_currentState.GetType() != typeof(IdleState))
             {
                 _actor.SmoothLookAt(App.Instance.Player.Position);
             }
-
-            _positionLastFrame = Position;
         }
 
         public Vector3 Position => transform.position;

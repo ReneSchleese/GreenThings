@@ -6,36 +6,39 @@ namespace ForestSpirits
 {
     public class Chain : MonoBehaviour
     {
+        [SerializeField] private ChainLink _chainLinkPrefab;
+        [SerializeField] private Transform _activeContainer;
+        [SerializeField] private Transform _inactiveContainer;
+     
         private const float BREAK_DISTANCE = 8f;
         private const float UPDATE_SPEED = 20f;
         private const float CHAIN_LINK_DISTANCE = 1.5f;
         private const float FIRST_CHAIN_LINK_DISTANCE = 2.5f;
-        [SerializeField] private ChainLink _chainLinkPrefab;
         
         private readonly List<ChainLink> _chainLinks = new();
         private readonly Dictionary<Spirit, ChainLink> _spiritToLinks = new();
         private readonly Stack<ChainLink> _inactiveChainLinks = new();
+        private PrefabPool<ChainLink> _chainLinkPool;
+
+        private void Awake()
+        {
+            _chainLinkPool = new PrefabPool<ChainLink>(_chainLinkPrefab, _inactiveContainer, link =>
+            {
+                link.SetInactive();
+                link.transform.position = _chainLinks.Count > 0 
+                    ? _chainLinks[^1].transform.position 
+                    : Player.Position;    
+            });
+        }
 
         public void Enqueue(Spirit spirit)
         {
             Assert.IsFalse(_spiritToLinks.ContainsKey(spirit));
-            ChainLink link = GetOrCreateChainLink();
+            ChainLink link = _chainLinkPool.Get();
             link.SetActive(spirit);
+            link.transform.SetParent(_activeContainer);
             _chainLinks.Add(link);
             _spiritToLinks.Add(spirit, link);
-        }
-
-        private ChainLink GetOrCreateChainLink()
-        {
-            ChainLink chainLink = _inactiveChainLinks.Count > 0
-                ? _inactiveChainLinks.Pop()
-                : Instantiate(_chainLinkPrefab);
-            
-            chainLink.SetInactive();
-            chainLink.transform.position = _chainLinks.Count > 0 
-                ? _chainLinks[^1].transform.position 
-                : Player.Position;
-            return chainLink;
         }
 
         public IChainTarget GetTargetFor(Spirit requester)

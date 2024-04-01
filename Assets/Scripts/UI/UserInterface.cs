@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UserInterface : MonoBehaviour
 {
-    public event Action HornetScreamPress;
+    public event Action HornetScreamInput;
     public event Action<Vector2> JoystickMove;
     
     [SerializeField] private Button _hornetScreamButton;
@@ -24,7 +24,7 @@ public class UserInterface : MonoBehaviour
 
     private void OnHornetScreamPress()
     {
-        HornetScreamPress?.Invoke();
+        HornetScreamInput?.Invoke();
     }
 
     public static UserInterface Instance

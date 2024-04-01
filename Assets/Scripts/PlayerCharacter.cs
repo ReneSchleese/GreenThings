@@ -1,3 +1,4 @@
+using Audio;
 using ForestSpirits;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private PushHitbox _pushHitbox;
     [SerializeField] private HornetAnimator _animator;
     [SerializeField] private Transform _actor;
+    [SerializeField] private AudioClip[] _hornetScreams;
 
     public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
@@ -14,12 +16,15 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private Vector3 _lastVelocity;
     private Quaternion _rotDampVelocity;
     private Quaternion _actorRotDampVelocity;
+    private PseudoRandomIndex _screamIndex;
 
     private void Awake()
     {
         UserInterface.Instance.JoystickMove += OnMove;
+        UserInterface.Instance.HornetScreamInput += OnHornetScream;
         _pushHitbox.Init(this);
         _positionLastFrame = transform.position;
+        _screamIndex = new PseudoRandomIndex(_hornetScreams.Length);
     }
 
     private void Update()
@@ -55,6 +60,11 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         
         
         Chain.OnUpdate();
+    }
+    
+    private void OnHornetScream()
+    {
+        AudioManager.Instance.PlayVoice(_hornetScreams[_screamIndex.Get()]);
     }
 
     public Vector3 Position => transform.position;

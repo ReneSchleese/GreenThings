@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 namespace Audio
 {
@@ -6,9 +8,19 @@ namespace Audio
     {
         [SerializeField] private AudioSource _ambientSource;
         [SerializeField] private AudioSource _effectSource;
+        [SerializeField] private PoolableAudioSource _audioSourcePrefab;
+        [SerializeField] private Transform _inactiveSourcesContainer;
         
         private static AudioManager _instance;
-        
+        private PrefabPool<PoolableAudioSource> _effectSourcePool;
+
+        private void Awake()
+        {
+            _effectSourcePool = new PrefabPool<PoolableAudioSource>(_audioSourcePrefab, _inactiveSourcesContainer,
+                s => s.transform.SetParent(_effectSource.transform),
+                s => s.OnReturn());
+        }
+
         public void PlayAmbient(AudioClip clip, bool loop)
         {
             _ambientSource.clip = clip;
@@ -18,8 +30,15 @@ namespace Audio
 
         public void PlayEffect(AudioClip clip, float pitch = 1.0f)
         {
-            _effectSource.pitch = pitch;
-            _effectSource.PlayOneShot(clip);
+            PoolableAudioSource audioSource = _effectSourcePool.Get();
+            audioSource.Pitch = pitch;
+            StartCoroutine(PlayOneShotThenReturn());
+
+            IEnumerator PlayOneShotThenReturn()
+            {
+                yield return audioSource.PlayOneShot(clip);
+                _effectSourcePool.Return(audioSource);
+            }
         }
         
         public static AudioManager Instance

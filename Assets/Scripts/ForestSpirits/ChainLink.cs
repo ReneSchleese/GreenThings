@@ -13,19 +13,7 @@ namespace ForestSpirits
             _meshRenderer.enabled = DRAW_DEBUG;
         }
 
-        public void SetActive(Spirit spirit)
-        {
-            Spirit = spirit;
-            gameObject.SetActive(true);
-        }
-
-        public void SetInactive()
-        {
-            gameObject.SetActive(false);
-            Spirit = null;
-        }
-        
-        public Spirit Spirit { get; private set; }
+        public Spirit Spirit { get; set; }
 
         public Vector3 Position
         {

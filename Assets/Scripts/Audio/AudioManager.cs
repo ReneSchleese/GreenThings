@@ -16,9 +16,8 @@ namespace Audio
 
         private void Awake()
         {
-            _effectSourcePool = new PrefabPool<PoolableAudioSource>(_audioSourcePrefab, _inactiveSourcesContainer,
-                s => s.transform.SetParent(_effectSource.transform),
-                s => s.OnReturn());
+            _effectSourcePool = new PrefabPool<PoolableAudioSource>(_audioSourcePrefab, _effectSource.transform,
+                _inactiveSourcesContainer, onBeforeReturn: s => s.OnReturn());
         }
 
         public void PlayAmbient(AudioClip clip, bool loop)

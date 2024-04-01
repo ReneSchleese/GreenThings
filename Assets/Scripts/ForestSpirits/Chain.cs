@@ -21,21 +21,19 @@ namespace ForestSpirits
 
         private void Awake()
         {
-            _chainLinkPool = new PrefabPool<ChainLink>(_chainLinkPrefab, _inactiveContainer, onBeforeGet: link =>
+            _chainLinkPool = new PrefabPool<ChainLink>(_chainLinkPrefab, _activeContainer, _inactiveContainer, onBeforeGet: link =>
             {
-                link.SetInactive();
                 link.transform.position = _chainLinks.Count > 0
                     ? _chainLinks[^1].transform.position
                     : Player.Position;
-            }, onBeforeReturn: link => { link.SetInactive(); });
+            }, onBeforeReturn: link => { link.Spirit = null; });
         }
 
         public void Enqueue(Spirit spirit)
         {
             Assert.IsFalse(_spiritToLinks.ContainsKey(spirit));
             ChainLink link = _chainLinkPool.Get();
-            link.SetActive(spirit);
-            link.transform.SetParent(_activeContainer);
+            link.Spirit = spirit;
             _chainLinks.Add(link);
             _spiritToLinks.Add(spirit, link);
         }

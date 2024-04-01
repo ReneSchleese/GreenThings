@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 {
     [SerializeField] private CharacterController _characterController;
-    [SerializeField] private JoystickBehaviour _joystick;
     [SerializeField] private PushHitbox _pushHitbox;
     [SerializeField] private HornetAnimator _animator;
     [SerializeField] private Transform _actor;
@@ -18,7 +17,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void Awake()
     {
-        _joystick.Move += OnMove;
+        UserInterface.Instance.JoystickMove += OnMove;
         _pushHitbox.Init(this);
         _positionLastFrame = transform.position;
     }

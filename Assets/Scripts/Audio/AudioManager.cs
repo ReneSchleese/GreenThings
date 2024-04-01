@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Audio
@@ -7,16 +6,20 @@ namespace Audio
     public class AudioManager : MonoBehaviour
     {
         [SerializeField] private AudioSource _ambientSource;
-        [SerializeField] private AudioSource _effectSource;
+        [SerializeField] private Transform _effectsTransform;
+        [SerializeField] private Transform _voiceTransform;
         [SerializeField] private PoolableAudioSource _audioSourcePrefab;
         [SerializeField] private Transform _inactiveSourcesContainer;
         
         private static AudioManager _instance;
         private PrefabPool<PoolableAudioSource> _effectSourcePool;
+        private PrefabPool<PoolableAudioSource> _voiceSourcePool;
 
         private void Awake()
         {
-            _effectSourcePool = new PrefabPool<PoolableAudioSource>(_audioSourcePrefab, _effectSource.transform,
+            _effectSourcePool = new PrefabPool<PoolableAudioSource>(_audioSourcePrefab, _effectsTransform,
+                _inactiveSourcesContainer, onBeforeReturn: s => s.OnReturn());
+            _voiceSourcePool = new PrefabPool<PoolableAudioSource>(_audioSourcePrefab, _voiceTransform,
                 _inactiveSourcesContainer, onBeforeReturn: s => s.OnReturn());
         }
 
@@ -29,14 +32,24 @@ namespace Audio
 
         public void PlayEffect(AudioClip clip, float pitch = 1.0f)
         {
-            PoolableAudioSource audioSource = _effectSourcePool.Get();
+            PlayPoolable(_effectSourcePool, clip, pitch);
+        }
+        
+        public void PlayVoice(AudioClip clip, float pitch = 1.0f)
+        {
+            PlayPoolable(_voiceSourcePool, clip, pitch);
+        }
+
+        private void PlayPoolable(PrefabPool<PoolableAudioSource> pool, AudioClip clip, float pitch)
+        {
+            PoolableAudioSource audioSource = pool.Get();
             audioSource.Pitch = pitch;
             StartCoroutine(PlayOneShotThenReturn());
 
             IEnumerator PlayOneShotThenReturn()
             {
                 yield return audioSource.PlayOneShot(clip);
-                _effectSourcePool.Return(audioSource);
+                pool.Return(audioSource);
             }
         }
         

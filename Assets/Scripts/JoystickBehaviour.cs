@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class JoystickBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
 {
     [SerializeField] private RectTransform _stick, _root;
-    private const float MAX_RADIUS_IN_PX = 120f;
+    private const float MAX_RADIUS_IN_PX = 80f;
     private const float DEADZONE_RADIUS_IN_PX = 25f;
     public event Action<Vector2> Move;
     private Tween _resetTween;

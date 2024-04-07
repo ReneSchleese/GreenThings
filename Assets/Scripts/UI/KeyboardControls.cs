@@ -1,32 +1,50 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class KeyboardControls : MonoBehaviour
 {
     private JoystickBehaviour _joystick;
-    private bool _hadInput;
+    private Button _screamButton;
+    private bool _hadJoystickInput;
 
     private void Start()
     {
         _joystick = FindObjectOfType<JoystickBehaviour>();
+        _screamButton = UserInterface.Instance.ScreamButton;
     }
 
     private void Update()
     {
+        HandleJoystick();
+        HandleScreamButton();
+    }
+
+    private void HandleScreamButton()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && _screamButton.isActiveAndEnabled)
+        {
+            _screamButton.onClick.Invoke();
+        }
+    }
+
+    private void HandleJoystick()
+    {
         Vector2 amount = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         amount *= 1000;
         bool hasInput = amount != Vector2.zero;
-        if (!_hadInput && hasInput)
+        if (!_hadJoystickInput && hasInput)
         {
             _joystick.OnCustomBeginDrag();
         }
-        else if (_hadInput && !hasInput)
+        else if (_hadJoystickInput && !hasInput)
         {
             _joystick.OnCustomEndDrag();
         }
-        else if (_hadInput && hasInput)
+        else if (_hadJoystickInput && hasInput)
         {
             _joystick.OnCustomDrag(amount);
         }
-        _hadInput = hasInput;
+
+        _hadJoystickInput = hasInput;
     }
 }

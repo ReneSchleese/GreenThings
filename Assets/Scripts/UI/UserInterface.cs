@@ -27,6 +27,8 @@ public class UserInterface : MonoBehaviour
         HornetScreamInput?.Invoke();
     }
 
+    public Button ScreamButton => _hornetScreamButton;
+
     public static UserInterface Instance
     {
         get

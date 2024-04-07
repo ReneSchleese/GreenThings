@@ -23,7 +23,7 @@ namespace ForestSpirits
             SetupStates();
             SwitchToState(typeof(IdleState));
             _pushHitbox.Init(this);
-            _actor.transform.SetParent(null);
+            _actor.transform.SetParent(transform.parent);
 
             _followPlayerClipIndex ??= new PseudoRandomIndex(_followPlayerClips.Length);
             _unfoldingClipIndex ??= new PseudoRandomIndex(_unfoldingClips.Length);

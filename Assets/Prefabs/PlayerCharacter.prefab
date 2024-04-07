@@ -125,10 +125,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterController: {fileID: 1543763932461397568}
-  _joystick: {fileID: 0}
   _pushHitbox: {fileID: 9195507899270742406}
   _animator: {fileID: 4409494975326376872}
   _actor: {fileID: 1152092951268134787}
+  _hornetScreams:
+  - {fileID: 8300000, guid: 2cca196c5721a5b42b36d33c3ed78a7e, type: 3}
+  - {fileID: 8300000, guid: 601e2574079e9d84ba49eb95ab4d8d52, type: 3}
+  - {fileID: 8300000, guid: 081d7d140b04fb741aa279c72143702f, type: 3}
+  - {fileID: 8300000, guid: 1bb232379e178834dae2dbdeff2b7068, type: 3}
+  - {fileID: 8300000, guid: 760cdd34a68205d41b94739788091567, type: 3}
+  - {fileID: 8300000, guid: ee6d79b3218013943aedcfab19d3633a, type: 3}
   Chain: {fileID: 58377351868464505}
 --- !u!143 &1543763932461397568
 CharacterController:
@@ -190,6 +196,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chainLinkPrefab: {fileID: 8649444572914038346, guid: 26f5651a302e93145be2a57c30e723c3,
     type: 3}
+  _activeContainer: {fileID: 0}
+  _inactiveContainer: {fileID: 0}
 --- !u!1 &6617502623452594527
 GameObject:
   m_ObjectHideFlags: 0

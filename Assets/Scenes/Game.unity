@@ -1013,6 +1013,9 @@ MonoBehaviour:
   _audioSourcePrefab: {fileID: 405690290743141499, guid: 6890ef2a990455d4ebf76a14ea82778d,
     type: 3}
   _inactiveSourcesContainer: {fileID: 1820051990}
+  _masterGroup: {fileID: 24300002, guid: 311ca7c7d77c19b43aa5a9f5f7d1f022, type: 2}
+  _voiceGroup: {fileID: 2930973769689689220, guid: 311ca7c7d77c19b43aa5a9f5f7d1f022,
+    type: 2}
 --- !u!4 &235874675
 Transform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PoolableAudioSource : MonoBehaviour
 {
@@ -29,6 +30,12 @@ public class PoolableAudioSource : MonoBehaviour
     {
         get => _audioSource.loop;
         set => _audioSource.loop = value;
+    }
+
+    public AudioMixerGroup AudioMixerGroup
+    {
+        get => _audioSource.outputAudioMixerGroup;
+        set => _audioSource.outputAudioMixerGroup = value;
     }
 
     public bool IsPlaying => _audioSource.isPlaying;

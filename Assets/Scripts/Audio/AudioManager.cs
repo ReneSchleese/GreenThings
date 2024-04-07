@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Audio
 {
@@ -10,6 +11,7 @@ namespace Audio
         [SerializeField] private Transform _voiceTransform;
         [SerializeField] private PoolableAudioSource _audioSourcePrefab;
         [SerializeField] private Transform _inactiveSourcesContainer;
+        [SerializeField] private AudioMixerGroup _masterGroup, _voiceGroup;
         
         private static AudioManager _instance;
         private PrefabPool<PoolableAudioSource> _effectSourcePool;
@@ -37,13 +39,14 @@ namespace Audio
         
         public void PlayVoice(AudioClip clip, float pitch = 1.0f)
         {
-            PlayPoolable(_voiceSourcePool, clip, pitch);
+            PlayPoolable(_voiceSourcePool, clip, pitch, _voiceGroup);
         }
 
-        private void PlayPoolable(PrefabPool<PoolableAudioSource> pool, AudioClip clip, float pitch)
+        private void PlayPoolable(PrefabPool<PoolableAudioSource> pool, AudioClip clip, float pitch, AudioMixerGroup group = null)
         {
             PoolableAudioSource audioSource = pool.Get();
             audioSource.Pitch = pitch;
+            audioSource.AudioMixerGroup = group ? group : _masterGroup;
             StartCoroutine(PlayOneShotThenReturn());
 
             IEnumerator PlayOneShotThenReturn()

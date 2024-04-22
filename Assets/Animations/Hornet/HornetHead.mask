@@ -248,7 +248,7 @@ AvatarMask:
   - m_Path: HornetArmature/Hip/Spine/Chest
     m_Weight: 0
   - m_Path: HornetArmature/Hip/Spine/Chest/Neck
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: HornetArmature/Hip/Spine/Chest/Neck/Head
     m_Weight: 1
   - m_Path: HornetArmature/Hip/Spine/Chest/Neck/Head/Head_end

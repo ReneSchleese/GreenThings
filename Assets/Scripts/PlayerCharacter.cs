@@ -64,9 +64,10 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     
     private void OnHornetScream()
     {
-        AudioClip audioClip = _hornetScreams[_screamIndex.Get()];
-        AudioManager.Instance.PlayVoice(audioClip);
-        _animator.PlayBattlecry(audioClip.length);
+        int index = 0;
+        //int index = _screamIndex.Get();
+        AudioManager.Instance.PlayVoice(_hornetScreams[index]);
+        _animator.PlayBattlecry(index);
     }
 
     public Vector3 Position => transform.position;

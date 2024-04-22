@@ -42,18 +42,35 @@ public class HornetAnimator : MonoBehaviour
         }
     }
 
-    public void PlayBattlecry(float length)
+    public void PlayBattlecry(int index)
     {
         StopAndClearBattlecry();
-        _battlecryRoutine = StartCoroutine(Battlecry());
-        _animator.SetTrigger(Constants.StartBattlecryId);
+        _battlecryRoutine = StartCoroutine(Battlecry(index));
+    }
 
-        IEnumerator Battlecry()
-        {
-            yield return new WaitForSeconds(length);
-            _animator.SetTrigger(Constants.StopBattlecryId);
-            _battlecryRoutine = null;
-        }
+    private IEnumerator Battlecry(int index)
+    {
+        yield return Battlecry01();
+        _battlecryRoutine = null;
+    }
+
+    private IEnumerator Battlecry01()
+    {
+        _animator.SetLayerWeight(1, 0.8f);
+        _animator.SetTrigger(Constants.StartBattlecryId);
+        yield return new WaitForSeconds(0.12f);
+        _animator.SetTrigger(Constants.StopBattlecryId);
+        yield return new WaitForSeconds(0.06f);
+        _animator.SetLayerWeight(1, 0.6f);
+        _animator.SetTrigger(Constants.StartBattlecryId);
+        yield return new WaitForSeconds(0.1f);
+        _animator.SetTrigger(Constants.StopBattlecryId);
+        yield return new WaitForSeconds(0.06f);
+        _animator.SetLayerWeight(1, 0.8f);
+        _animator.SetTrigger(Constants.StartBattlecryId);
+        yield return new WaitForSeconds(0.18f);
+        _animator.SetTrigger(Constants.StopBattlecryId);
+        yield return new WaitForSeconds(0.18f);
     }
     
     private void StopAndClearBattlecry()

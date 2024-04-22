@@ -69,6 +69,9 @@ public class HornetAnimator : MonoBehaviour
             case 4:
                 yield return Battlecry04();
                 break;
+            case 5:
+                yield return Battlecry05();
+                break;
         }
 
         StopAndClearBattlecry();
@@ -122,6 +125,27 @@ public class HornetAnimator : MonoBehaviour
         sequence.Append(DOVirtual.Float(1.0f, 0.7f, 0.1f, UpdateWeight));
         sequence.Append(DOVirtual.Float(0.7f, 0.9f, 0.1f, UpdateWeight));
         sequence.AppendInterval(0.15f);
+        sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
+        yield return sequence.WaitForCompletion();
+
+        void UpdateWeight(float value)
+        {
+            _animator.SetLayerWeight(1, value);
+        }
+    }
+    
+    private IEnumerator Battlecry05()
+    {
+        _animator.SetLayerWeight(1, 0.0f);
+        _animator.SetTrigger(Constants.StartBattlecryId);
+        Sequence sequence = DOTween.Sequence();
+        sequence.SetId(this);
+        sequence.Insert(0.1f, DOVirtual.Float(0.0f, 0.5f, 0.1f, UpdateWeight));
+        sequence.Append(DOVirtual.Float(0.5f, 0.4f, 0.15f, UpdateWeight));
+        sequence.AppendInterval(0.1f);
+        sequence.Append(DOVirtual.Float(0.4f, 1.0f, 0.2f, UpdateWeight));
+        sequence.AppendInterval(0.15f);
+        sequence.Append(DOVirtual.Float(1.0f, 0.0f, 0.2f, UpdateWeight));
         sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
         yield return sequence.WaitForCompletion();
 

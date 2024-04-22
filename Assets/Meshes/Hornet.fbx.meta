@@ -109,14 +109,14 @@ ModelImporter:
       takeName: HornetArmature|Battlecry
       internalID: -2314861783115177194
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
+      hasAdditiveReferencePose: 1
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -132,7 +132,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 3.5299997
     isReadable: 0
   meshes:
     lODScreenPercentages: []

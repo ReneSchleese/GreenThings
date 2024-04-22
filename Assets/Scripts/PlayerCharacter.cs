@@ -1,3 +1,4 @@
+using System.Collections;
 using Audio;
 using ForestSpirits;
 using UnityEngine;
@@ -65,6 +66,14 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private void OnHornetScream()
     {
         AudioManager.Instance.PlayVoice(_hornetScreams[_screamIndex.Get()]);
+        _animator.StartBattlecry();
+        StartCoroutine(WaitThenStop());
+
+        IEnumerator WaitThenStop()
+        {
+            yield return new WaitForSeconds(1f);
+            _animator.StopBattlecry();
+        }
     }
 
     public Vector3 Position => transform.position;

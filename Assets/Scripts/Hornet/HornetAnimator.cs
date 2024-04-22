@@ -33,6 +33,16 @@ public class HornetAnimator : MonoBehaviour
         }
     }
 
+    public void StartBattlecry()
+    {
+        _animator.SetTrigger("StartBattlecry");
+    }
+    
+    public void StopBattlecry()
+    {
+        _animator.SetTrigger("StopBattlecry");
+    }
+
     private bool CurrentStateIs(string state)
     {
         return _animator.GetCurrentAnimatorStateInfo(0).IsName(state);

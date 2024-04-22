@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class HornetAnimator : MonoBehaviour
@@ -21,6 +22,7 @@ public class HornetAnimator : MonoBehaviour
     private void OnDisable()
     {
         StopAndClearBattlecry();
+        DOTween.Kill(this);
     }
 
     public void UpdateAnimator(Vector3 currentVelocity)
@@ -58,6 +60,9 @@ public class HornetAnimator : MonoBehaviour
             case 1:
                 yield return Battlecry02();
                 break;
+            case 2:
+                yield return Battlecry03();
+                break;
         }
         _battlecryRoutine = null;
     }
@@ -86,6 +91,15 @@ public class HornetAnimator : MonoBehaviour
         _animator.SetLayerWeight(1, 1f);
         _animator.SetTrigger(Constants.StartBattlecryId);
         yield return new WaitForSeconds(0.55f);
+        _animator.SetTrigger(Constants.StopBattlecryId);
+    }
+    
+    private IEnumerator Battlecry03()
+    {
+        _animator.SetLayerWeight(1, 0.0f);
+        _animator.SetTrigger(Constants.StartBattlecryId);
+        DOVirtual.Float(0f, 1.0f, 0.25f, value => _animator.SetLayerWeight(1, value)).SetEase(Ease.InSine).SetId(this);
+        yield return new WaitForSeconds(0.65f);
         _animator.SetTrigger(Constants.StopBattlecryId);
     }
 

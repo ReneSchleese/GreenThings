@@ -66,6 +66,9 @@ public class HornetAnimator : MonoBehaviour
             case 3:
                 yield return Battlecry04();
                 break;
+            case 4:
+                yield return Battlecry04();
+                break;
         }
 
         StopAndClearBattlecry();

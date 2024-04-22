@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class HornetAnimator : MonoBehaviour
 {
@@ -7,12 +8,20 @@ public class HornetAnimator : MonoBehaviour
         public static readonly int MovementSpeedId = Animator.StringToHash("MovementSpeed");
         public static readonly int RunTriggerId = Animator.StringToHash("Run");
         public static readonly int IdleTriggerId = Animator.StringToHash("Idle");
+        public static readonly int StartBattlecryId = Animator.StringToHash("StartBattlecry");
+        public static readonly int StopBattlecryId = Animator.StringToHash("StopBattlecry");
         public const string MovementState = "Movement";
         public const string IdleState = "Idle";
         public const float IsMovingThreshold = 0.1f;
     }
     
     [SerializeField] private Animator _animator;
+    private Coroutine _battlecryRoutine;
+
+    private void OnDisable()
+    {
+        StopAndClearBattlecry();
+    }
 
     public void UpdateAnimator(Vector3 currentVelocity)
     {
@@ -33,14 +42,27 @@ public class HornetAnimator : MonoBehaviour
         }
     }
 
-    public void StartBattlecry()
+    public void PlayBattlecry(float length)
     {
-        _animator.SetTrigger("StartBattlecry");
+        StopAndClearBattlecry();
+        _battlecryRoutine = StartCoroutine(Battlecry());
+        _animator.SetTrigger(Constants.StartBattlecryId);
+
+        IEnumerator Battlecry()
+        {
+            yield return new WaitForSeconds(length);
+            _animator.SetTrigger(Constants.StopBattlecryId);
+            _battlecryRoutine = null;
+        }
     }
     
-    public void StopBattlecry()
+    private void StopAndClearBattlecry()
     {
-        _animator.SetTrigger("StopBattlecry");
+        if (_battlecryRoutine != null)
+        {
+            StopCoroutine(_battlecryRoutine);
+        }
+        _battlecryRoutine = null;
     }
 
     private bool CurrentStateIs(string state)

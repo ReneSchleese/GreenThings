@@ -50,7 +50,15 @@ public class HornetAnimator : MonoBehaviour
 
     private IEnumerator Battlecry(int index)
     {
-        yield return Battlecry01();
+        switch (index)
+        {
+            case 0:
+                yield return Battlecry01();
+                break;
+            case 1:
+                yield return Battlecry02();
+                break;
+        }
         _battlecryRoutine = null;
     }
 
@@ -72,7 +80,15 @@ public class HornetAnimator : MonoBehaviour
         _animator.SetTrigger(Constants.StopBattlecryId);
         yield return new WaitForSeconds(0.18f);
     }
-    
+
+    private IEnumerator Battlecry02()
+    {
+        _animator.SetLayerWeight(1, 1f);
+        _animator.SetTrigger(Constants.StartBattlecryId);
+        yield return new WaitForSeconds(0.55f);
+        _animator.SetTrigger(Constants.StopBattlecryId);
+    }
+
     private void StopAndClearBattlecry()
     {
         if (_battlecryRoutine != null)

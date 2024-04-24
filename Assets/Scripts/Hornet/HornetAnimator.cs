@@ -98,17 +98,17 @@ public class HornetAnimator : MonoBehaviour
         sequence.Append(DOTween.To(GetWeight, SetWeight, 0.25f, 0.10f));
         sequence.Append(DOTween.To(GetWeight, SetWeight, 0.45f, 0.1f));
         sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
-        
         yield return sequence.WaitForCompletion();
     }
 
     private IEnumerator Battlecry02()
     {
         Sequence sequence = GetSequence();
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.9f, 0.15f));
-        sequence.AppendInterval(0.4f);
+        sequence.AppendInterval(0.05f);
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.9f, 0.15f).SetEase(Ease.InSine));
+        sequence.AppendInterval(0.3f);
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.2f).SetEase(Ease.InQuad));
         sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
-        
         yield return sequence.WaitForCompletion();
     }
     

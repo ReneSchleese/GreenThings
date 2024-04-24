@@ -124,23 +124,16 @@ public class HornetAnimator : MonoBehaviour
     
     private IEnumerator Battlecry04()
     {
-        _animator.SetLayerWeight(1, 0.5f);
-        _animator.SetTrigger(Constants.StartBattlecryId);
-        Sequence sequence = DOTween.Sequence();
-        sequence.SetId(this);
-        sequence.Insert(0.1f, DOVirtual.Float(0.5f, 0.3f, 0.1f, UpdateWeight));
-        sequence.Append(DOVirtual.Float(0.5f, 1.0f, 0.15f, UpdateWeight));
+        Sequence sequence = GetSequence();
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.5f, 0.1f));
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.3f, 0.1f));
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 1.0f, 0.15f));
         sequence.AppendInterval(0.1f);
-        sequence.Append(DOVirtual.Float(1.0f, 0.7f, 0.1f, UpdateWeight));
-        sequence.Append(DOVirtual.Float(0.7f, 0.9f, 0.1f, UpdateWeight));
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.7f, 0.1f));
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.9f, 0.1f));
         sequence.AppendInterval(0.15f);
         sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
         yield return sequence.WaitForCompletion();
-
-        void UpdateWeight(float value)
-        {
-            _animator.SetLayerWeight(1, value);
-        }
     }
     
     private IEnumerator Battlecry05()

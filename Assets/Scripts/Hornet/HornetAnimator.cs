@@ -80,28 +80,40 @@ public class HornetAnimator : MonoBehaviour
     private float GetWeight() => _animator.GetLayerWeight(1);
     private void SetWeight(float value) => _animator.SetLayerWeight(1, value);
 
+    private Sequence GetSequence()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence.SetId(this);
+        return sequence;
+    }
+
     private IEnumerator Battlecry01()
     {
         _animator.SetLayerWeight(1, 0.0f);
         _animator.SetTrigger(Constants.StartBattlecryId);
-        Sequence sequence = DOTween.Sequence();
-        sequence.SetId(this);
         
+        Sequence sequence = GetSequence();
         sequence.Insert(0.1f, DOTween.To(GetWeight, SetWeight, 0.2f, 0.06f));
         sequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.10f));
         sequence.Append(DOTween.To(GetWeight, SetWeight, 0.3f, 0.06f));
         sequence.Append(DOTween.To(GetWeight, SetWeight, 0.15f, 0.10f));
         sequence.Append(DOTween.To(GetWeight, SetWeight, 0.4f, 0.1f));
         sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
+        
         yield return sequence.WaitForCompletion();
     }
 
     private IEnumerator Battlecry02()
     {
-        _animator.SetLayerWeight(1, 1f);
+        _animator.SetLayerWeight(1, 0.0f);
         _animator.SetTrigger(Constants.StartBattlecryId);
-        yield return new WaitForSeconds(0.55f);
-        _animator.SetTrigger(Constants.StopBattlecryId);
+        
+        Sequence sequence = GetSequence();
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.9f, 0.15f));
+        sequence.AppendInterval(0.4f);
+        sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
+        
+        yield return sequence.WaitForCompletion();
     }
     
     private IEnumerator Battlecry03()

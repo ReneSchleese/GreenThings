@@ -94,7 +94,7 @@ public class HornetAnimator : MonoBehaviour
     private void Battlecry02()
     {
         _battlecrySequence.AppendInterval(0.05f);
-        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.9f, 0.15f).SetEase(Ease.InSine));
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.9f, 0.2f));
         _battlecrySequence.AppendInterval(0.3f);
         _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.2f).SetEase(Ease.InQuad));
         _battlecrySequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));

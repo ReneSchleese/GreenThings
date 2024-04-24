@@ -93,10 +93,10 @@ public class HornetAnimator : MonoBehaviour
     {
         Sequence sequence = GetSequence();
         sequence.Insert(0.1f, DOTween.To(GetWeight, SetWeight, 0.2f, 0.06f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.10f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.3f, 0.06f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.15f, 0.10f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.4f, 0.1f));
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.1f, 0.10f));
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.35f, 0.06f));
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.25f, 0.10f));
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.45f, 0.1f));
         sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
         
         yield return sequence.WaitForCompletion();

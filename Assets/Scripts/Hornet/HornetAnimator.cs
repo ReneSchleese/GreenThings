@@ -115,8 +115,9 @@ public class HornetAnimator : MonoBehaviour
     private IEnumerator Battlecry03()
     {
         Sequence sequence = GetSequence();
-        sequence.Insert(0.1f, DOTween.To(GetWeight, SetWeight, 0.9f, 0.15f).SetEase(Ease.InSine));
-        sequence.AppendInterval(0.4f);
+        sequence.Insert(0.125f, DOTween.To(GetWeight, SetWeight, 1.0f, 0.15f).SetEase(Ease.InSine));
+        sequence.AppendInterval(0.3f);
+        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.2f).SetEase(Ease.InQuad));
         sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
         
         yield return sequence.WaitForCompletion();

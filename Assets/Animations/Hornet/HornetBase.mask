@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HornetBase
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Dress
+    m_Weight: 1
+  - m_Path: Eyes
+    m_Weight: 1
+  - m_Path: HornetArmature
+    m_Weight: 1
+  - m_Path: HornetArmature/Heel_IK.L
+    m_Weight: 1
+  - m_Path: HornetArmature/Heel_IK.L/Heel_IK.L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Heel_IK.R
+    m_Weight: 1
+  - m_Path: HornetArmature/Heel_IK.R/Heel_IK.R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_Dress4_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_Dress4_L.001/DEF_Dress4_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_Dress4_L.001/DEF_Dress4_L/DEF_Dress4_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_Dress4_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_Dress4_R.001/DEF_Dress4_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_Dress4_R.001/DEF_Dress4_R/DEF_Dress4_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressBack4.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressBack4.001/DEF_DressBack4
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressBack4.001/DEF_DressBack4/DEF_DressBack4_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressBack4_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressBack4_L.001/DEF_DressBack4_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressBack4_L.001/DEF_DressBack4_L/DEF_DressBack4_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressBack4_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressBack4_R.001/DEF_DressBack4_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressBack4_R.001/DEF_DressBack4_R/DEF_DressBack4_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressFront4.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressFront4.001/DEF_DressFront4
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressFront4.001/DEF_DressFront4/DEF_DressFront4_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressFront4_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressFront4_L.001/DEF_DressFront4_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressFront4_L.001/DEF_DressFront4_L/DEF_DressFront4_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressFront4_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressFront4_R.001/DEF_DressFront4_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/Dress4/MCH_DressFront4_R.001/DEF_DressFront4_R/DEF_DressFront4_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_Dress3_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_Dress3_L.001/DEF_Dress3_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_Dress3_L.001/DEF_Dress3_L/DEF_Dress3_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_Dress3_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_Dress3_R.001/DEF_Dress3_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_Dress3_R.001/DEF_Dress3_R/DEF_Dress3_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressBack3.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressBack3.001/DEF_DressBack3
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressBack3.001/DEF_DressBack3/DEF_DressBack3_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressBack3_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressBack3_L.001/DEF_DressBack3_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressBack3_L.001/DEF_DressBack3_L/DEF_DressBack3_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressBack3_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressBack3_R.001/DEF_DressBack3_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressBack3_R.001/DEF_DressBack3_R/DEF_DressBack3_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressFront3.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressFront3.001/DEF_DressFront3
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressFront3.001/DEF_DressFront3/DEF_DressFront3_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressFront3_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressFront3_L.001/DEF_DressFront3_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressFront3_L.001/DEF_DressFront3_L/DEF_DressFront3_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressFront3_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressFront3_R.001/DEF_DressFront3_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/Dress3/MCH_DressFront3_R.001/DEF_DressFront3_R/DEF_DressFront3_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_Dress2_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_Dress2_L.001/DEF_Dress2_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_Dress2_L.001/DEF_Dress2_L/DEF_Dress2_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_Dress2_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_Dress2_R.001/DEF_Dress2_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_Dress2_R.001/DEF_Dress2_R/DEF_Dress2_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressBack2.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressBack2.001/DEF_DressBack2
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressBack2.001/DEF_DressBack2/DEF_DressBack2_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressBack2_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressBack2_L.001/DEF_DressBack2_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressBack2_L.001/DEF_DressBack2_L/DEF_DressBack2_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressBack2_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressBack2_R.001/DEF_DressBack2_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressBack2_R.001/DEF_DressBack2_R/DEF_DressBack2_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressFront2.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressFront2.001/DEF_DressFront2
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressFront2.001/DEF_DressFront2/DEF_DressFront2_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressFront2_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressFront2_L.001/DEF_DressFront2_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressFront2_L.001/DEF_DressFront2_L/DEF_DressFront2_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressFront2_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressFront2_R.001/DEF_DressFront2_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/Dress2/MCH_DressFront2_R.001/DEF_DressFront2_R/DEF_DressFront2_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_Dress1_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_Dress1_L.001/DEF_Dress1_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_Dress1_L.001/DEF_Dress1_L/DEF_Dress1_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_Dress1_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_Dress1_R.001/DEF_Dress1_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_Dress1_R.001/DEF_Dress1_R/DEF_Dress1_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressBack1.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressBack1.001/DEF_DressBack1
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressBack1.001/DEF_DressBack1/DEF_DressBack1_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressBack1_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressBack1_L.001/DEF_DressBack1_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressBack1_L.001/DEF_DressBack1_L/DEF_DressBack1_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressBack1_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressBack1_R.001/DEF_DressBack1_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressBack1_R.001/DEF_DressBack1_R/DEF_DressBack1_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressFront1.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressFront1.001/DEF_DressFront1
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressFront1.001/DEF_DressFront1/DEF_DressFront1_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressFront1_L.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressFront1_L.001/DEF_DressFront1_L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressFront1_L.001/DEF_DressFront1_L/DEF_DressFront1_L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressFront1_R.001
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressFront1_R.001/DEF_DressFront1_R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Dress1/MCH_DressFront1_R.001/DEF_DressFront1_R/DEF_DressFront1_R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Hip.L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Hip.L/UpperLeg.L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Hip.L/UpperLeg.L/LowerLeg.L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Hip.L/UpperLeg.L/LowerLeg.L/LowerLeg.L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Hip.R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Hip.R/UpperLeg.R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Hip.R/UpperLeg.R/LowerLeg.R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Hip.R/UpperLeg.R/LowerLeg.R/LowerLeg.R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest/Neck
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest/Neck/Head
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest/Neck/Head/Head_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.L/Shoulder.L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.L/Shoulder.L/UpperArm.L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.L/Shoulder.L/UpperArm.L/LowerArm.L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.L/Shoulder.L/UpperArm.L/LowerArm.L/Hand.L
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.L/Shoulder.L/UpperArm.L/LowerArm.L/Hand.L/Hand.L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.R/Shoulder.R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.R/Shoulder.R/UpperArm.R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.R/Shoulder.R/UpperArm.R/LowerArm.R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.R/Shoulder.R/UpperArm.R/LowerArm.R/Hand.R
+    m_Weight: 1
+  - m_Path: HornetArmature/Hip/Spine/Chest.R/Shoulder.R/UpperArm.R/LowerArm.R/Hand.R/Hand.R_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Knee_IK.L
+    m_Weight: 1
+  - m_Path: HornetArmature/Knee_IK.L/Knee_IK.L_end
+    m_Weight: 1
+  - m_Path: HornetArmature/Knee_IK.R
+    m_Weight: 1
+  - m_Path: HornetArmature/Knee_IK.R/Knee_IK.R_end
+    m_Weight: 1
+  - m_Path: HornetBody
+    m_Weight: 1
+  - m_Path: HornetHead
+    m_Weight: 1

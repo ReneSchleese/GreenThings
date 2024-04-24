@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 public class HornetAnimator : MonoBehaviour
@@ -17,12 +16,11 @@ public class HornetAnimator : MonoBehaviour
     }
     
     [SerializeField] private Animator _animator;
-    private Coroutine _battlecryRoutine;
+    private Sequence _battlecrySequence;
 
     private void OnDisable()
     {
-        StopAndClearBattlecry();
-        DOTween.Kill(this);
+        KillActiveSequence();
     }
 
     public void UpdateAnimator(Vector3 currentVelocity)
@@ -46,118 +44,100 @@ public class HornetAnimator : MonoBehaviour
 
     public void PlayBattlecry(int index)
     {
-        StopAndClearBattlecry();
+        KillActiveSequence();
+        RenewSequence();
         _animator.SetLayerWeight(1, 0.0f);
         _animator.SetTrigger(Constants.StartBattlecryId);
-        _battlecryRoutine = StartCoroutine(Battlecry(index));
-    }
-
-    private IEnumerator Battlecry(int index)
-    {
+        
         switch (index)
         {
             case 0:
-                yield return Battlecry01();
+                Battlecry01();
                 break;
             case 1:
-                yield return Battlecry02();
+                Battlecry02();
                 break;
             case 2:
-                yield return Battlecry03();
+                Battlecry03();
                 break;
             case 3:
-                yield return Battlecry04();
+                Battlecry04();
                 break;
             case 4:
-                yield return Battlecry04();
+                Battlecry04();
                 break;
             case 5:
-                yield return Battlecry05();
+                Battlecry05();
                 break;
         }
-
-        StopAndClearBattlecry();
     }
 
     private float GetWeight() => _animator.GetLayerWeight(1);
     private void SetWeight(float value) => _animator.SetLayerWeight(1, value);
 
-    private Sequence GetSequence()
+    private void RenewSequence()
     {
-        Sequence sequence = DOTween.Sequence();
-        sequence.SetId(this);
-        return sequence;
+        _battlecrySequence = DOTween.Sequence();
+        _battlecrySequence.SetId(this);
     }
 
-    private IEnumerator Battlecry01()
+    private void Battlecry01()
     {
-        Sequence sequence = GetSequence();
-        sequence.Insert(0.1f, DOTween.To(GetWeight, SetWeight, 0.2f, 0.06f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.1f, 0.10f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.35f, 0.06f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.25f, 0.10f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.45f, 0.1f));
-        sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
-        yield return sequence.WaitForCompletion();
+        _battlecrySequence.Insert(0.1f, DOTween.To(GetWeight, SetWeight, 0.2f, 0.06f));
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.1f, 0.10f));
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.35f, 0.06f));
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.25f, 0.10f));
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.45f, 0.1f));
+        _battlecrySequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
     }
 
-    private IEnumerator Battlecry02()
+    private void Battlecry02()
     {
-        Sequence sequence = GetSequence();
-        sequence.AppendInterval(0.05f);
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.9f, 0.15f).SetEase(Ease.InSine));
-        sequence.AppendInterval(0.3f);
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.2f).SetEase(Ease.InQuad));
-        sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
-        yield return sequence.WaitForCompletion();
+        _battlecrySequence.AppendInterval(0.05f);
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.9f, 0.15f).SetEase(Ease.InSine));
+        _battlecrySequence.AppendInterval(0.3f);
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.2f).SetEase(Ease.InQuad));
+        _battlecrySequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
     }
     
-    private IEnumerator Battlecry03()
+    private void Battlecry03()
     {
-        Sequence sequence = GetSequence();
-        sequence.Insert(0.125f, DOTween.To(GetWeight, SetWeight, 1.0f, 0.15f).SetEase(Ease.InSine));
-        sequence.AppendInterval(0.3f);
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.2f).SetEase(Ease.InQuad));
-        sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
+        _battlecrySequence.Insert(0.125f, DOTween.To(GetWeight, SetWeight, 1.0f, 0.15f).SetEase(Ease.InSine));
+        _battlecrySequence.AppendInterval(0.3f);
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.2f).SetEase(Ease.InQuad));
+        _battlecrySequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
         
-        yield return sequence.WaitForCompletion();
     }
     
-    private IEnumerator Battlecry04()
+    private void Battlecry04()
     {
-        Sequence sequence = GetSequence();
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.5f, 0.1f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.3f, 0.1f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 1.0f, 0.15f));
-        sequence.AppendInterval(0.1f);
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.7f, 0.1f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.9f, 0.1f));
-        sequence.AppendInterval(0.15f);
-        sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
-        yield return sequence.WaitForCompletion();
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.5f, 0.1f));
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.3f, 0.1f));
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 1.0f, 0.15f));
+        _battlecrySequence.AppendInterval(0.1f);
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.7f, 0.1f));
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.9f, 0.1f));
+        _battlecrySequence.AppendInterval(0.15f);
+        _battlecrySequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
     }
     
-    private IEnumerator Battlecry05()
+    private void Battlecry05()
     {
-        Sequence sequence = GetSequence();
-        sequence.Insert(0.1f, DOTween.To(GetWeight, SetWeight, 0.5f, 0.1f));
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.45f, 0.15f));
-        sequence.AppendInterval(0.1f);
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 1.0f, 0.2f));
-        sequence.AppendInterval(0.15f);
-        sequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.2f));
-        sequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
-        yield return sequence.WaitForCompletion();
+        _battlecrySequence.Insert(0.1f, DOTween.To(GetWeight, SetWeight, 0.5f, 0.1f));
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.45f, 0.15f));
+        _battlecrySequence.AppendInterval(0.1f);
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 1.0f, 0.2f));
+        _battlecrySequence.AppendInterval(0.15f);
+        _battlecrySequence.Append(DOTween.To(GetWeight, SetWeight, 0.0f, 0.2f));
+        _battlecrySequence.AppendCallback(() => _animator.SetTrigger(Constants.StopBattlecryId));
     }
 
-    private void StopAndClearBattlecry()
+    private void KillActiveSequence()
     {
-        if (_battlecryRoutine != null)
+        if (_battlecrySequence is { active: true})
         {
-            StopCoroutine(_battlecryRoutine);
-            DOTween.Kill(this);
+            DOTween.Kill(_battlecrySequence);
         }
-        _battlecryRoutine = null;
     }
 
     private bool CurrentStateIs(string state)

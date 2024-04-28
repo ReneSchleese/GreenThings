@@ -64,6 +64,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     
     private void OnHornetScream()
     {
+        if (_animator.IsInActiveBattlecry) return;
         int index = _screamIndex.Get();
         AudioManager.Instance.PlayVoice(_hornetScreams[index]);
         _animator.PlayBattlecry(index);

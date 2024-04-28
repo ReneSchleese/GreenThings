@@ -134,11 +134,13 @@ public class HornetAnimator : MonoBehaviour
 
     private void KillActiveSequence()
     {
-        if (_battlecrySequence is { active: true})
+        if (IsInActiveBattlecry)
         {
             DOTween.Kill(_battlecrySequence);
         }
     }
+
+    public bool IsInActiveBattlecry => _battlecrySequence is { active: true };
 
     private bool CurrentStateIs(string state)
     {

@@ -21,7 +21,7 @@ public class KeyboardControls : MonoBehaviour
 
     private void HandleScreamButton()
     {
-        if (Input.GetKeyDown(KeyCode.E) && _screamButton.isActiveAndEnabled)
+        if (Input.GetButtonUp("Jump") && _screamButton.isActiveAndEnabled)
         {
             _screamButton.onClick.Invoke();
         }

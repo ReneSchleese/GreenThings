@@ -91,6 +91,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: StoneFence_3_closed
       objectReference: {fileID: 0}
+    - target: {fileID: 3479788568304768097, guid: 112f3e93fc2dfe64a93d3a2dbdd4809e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6181818405499954226, guid: 112f3e93fc2dfe64a93d3a2dbdd4809e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415217562062144658, guid: 112f3e93fc2dfe64a93d3a2dbdd4809e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8419539101535809021, guid: 112f3e93fc2dfe64a93d3a2dbdd4809e,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8419539101535809021, guid: 112f3e93fc2dfe64a93d3a2dbdd4809e,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9119428961480320605, guid: 112f3e93fc2dfe64a93d3a2dbdd4809e,
         type: 3}
       propertyPath: m_RootOrder

@@ -9,6 +9,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private HornetAnimator _animator;
     [SerializeField] private Transform _actor;
     [SerializeField] private AudioClip[] _hornetScreams;
+    [SerializeField] private bool _applyGravity;
 
     public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
@@ -29,7 +30,10 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void Update()
     {
-        _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
+        if (_applyGravity)
+        {
+            _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
+        }
         Velocity = (transform.position - _positionLastFrame) / Time.deltaTime;
         _positionLastFrame = transform.position;
         _animator.UpdateAnimator(Velocity);

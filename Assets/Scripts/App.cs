@@ -8,6 +8,7 @@ public class App : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 60;
+        _mainCamera.depthTextureMode = DepthTextureMode.Depth;
     }
 
     private static App _instance;

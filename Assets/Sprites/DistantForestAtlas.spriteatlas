@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DistantForestAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 0cb13be331ea7e14ab5eff2aa45c4a6c, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 661ffbe0a7908b144a936c87618c7e23, type: 3}
+  - {fileID: 21300000, guid: 62ae401109233f840a52d8ee462ab3cb, type: 3}
+  - {fileID: 21300000, guid: 00628312553af024d820376f2061402a, type: 3}
+  - {fileID: 21300000, guid: 1472be927a354444bbb82f7f1a55787c, type: 3}
+  - {fileID: 21300000, guid: bad4257615a354145876e0c5ac8f3a52, type: 3}
+  - {fileID: 21300000, guid: ee0f27a7fee826748864e21c23ff9dc1, type: 3}
+  - {fileID: 21300000, guid: f09188d9c33401b44a052ca48b00be1c, type: 3}
+  - {fileID: 21300000, guid: 897ba7e97db5471419141f0ef04e34bd, type: 3}
+  - {fileID: 21300000, guid: cfb0458b6c336554f8bc3625b1867502, type: 3}
+  - {fileID: 21300000, guid: 9646cfeb11cb5fc428ca03e853f16dc7, type: 3}
+  - {fileID: 21300000, guid: 5ea87fed7d6cf6e4c8d2857dcb10901a, type: 3}
+  - {fileID: 21300000, guid: 01053b5eedcc6f5499f12e2a4fd1b287, type: 3}
+  - {fileID: 21300000, guid: d3772ffec3e67a84f989d74d955e9b65, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - FoggedTreeYellowLow1
+  - FoggedTreeYellowMedium1
+  - FoggedTreeRedMedium1
+  - FoggedTreeYellow1
+  - FoggedTreeRedMedium2
+  - FoggedTreeRedLow2
+  - FoggedTreeRedLow1
+  - FoggedTreeRed1
+  - FoggedTreeYellowMedium2
+  - FoggedTreeRed2
+  - FoggedTreeYellow2
+  - FoggedTreeYellow3
+  - FoggedTreeYellowLow2
+  m_RenderDataMap: {}
+  m_Tag: DistantForestAtlas
+  m_IsVariant: 0

@@ -23,6 +23,8 @@ Material:
   m_Name: FogWall
   m_Shader: {fileID: -6465566751694194690, guid: 66f2d5cd8567b9c47947e862512ed16d,
     type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -31,6 +33,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -74,7 +77,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: 4876e0aed8dbaea479e7bdd833fb0126, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_184043d4a2ce4336ac438519e42a4e5c_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 4876e0aed8dbaea479e7bdd833fb0126, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_fd9f220096f94238b1387b270cbdf269_Texture_1:
+        m_Texture: {fileID: 2800000, guid: ec0bdb86413f9144db4e1dc084f5b44b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_fd9f220096f94238b1387b270cbdf269_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: ec0bdb86413f9144db4e1dc084f5b44b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}

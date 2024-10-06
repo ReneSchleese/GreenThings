@@ -135,6 +135,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1bb232379e178834dae2dbdeff2b7068, type: 3}
   - {fileID: 8300000, guid: 760cdd34a68205d41b94739788091567, type: 3}
   - {fileID: 8300000, guid: ee6d79b3218013943aedcfab19d3633a, type: 3}
+  _applyGravity: 1
   Chain: {fileID: 58377351868464505}
 --- !u!143 &1543763932461397568
 CharacterController:

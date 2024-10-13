@@ -24,6 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4615730638002646603}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,7 +33,6 @@ Transform:
   - {fileID: 9038222118033043104}
   - {fileID: 6511617503737454728}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6929054752930396895
 MonoBehaviour:
@@ -52,6 +52,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4959865657025504133}
     m_Modifications:
     - target: {fileID: 5619425534911844576, guid: 129ddee25e2f67c48a35c0ab735abfba,
@@ -115,6 +116,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 129ddee25e2f67c48a35c0ab735abfba, type: 3}
 --- !u!4 &6511617503737454728 stripped
 Transform:
@@ -127,6 +131,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4959865657025504133}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 163415c1c07a4524391478b64636243e,
@@ -242,7 +247,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 163415c1c07a4524391478b64636243e,
         type: 3}
       propertyPath: m_Name
-      value: ForestSpiritsFBX
+      value: ForestSpirits
       objectReference: {fileID: 0}
     - target: {fileID: 1630794972795428178, guid: 163415c1c07a4524391478b64636243e,
         type: 3}
@@ -265,6 +270,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 163415c1c07a4524391478b64636243e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5389666185912931659}
   m_SourcePrefab: {fileID: 100100000, guid: 163415c1c07a4524391478b64636243e, type: 3}
 --- !u!1 &8513465266087162906 stripped
 GameObject:

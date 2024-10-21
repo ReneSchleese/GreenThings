@@ -9,12 +9,14 @@ public class UserInterface : MonoBehaviour
     
     [SerializeField] private Button _hornetScreamButton;
     [SerializeField] private JoystickBehaviour _joystickBehaviour;
+    [SerializeField] private CanvasGroup _canvasGroup;
     private static UserInterface _instance;
 
     private void Awake()
     {
         _joystickBehaviour.Move += OnJoystickInput;
         _hornetScreamButton.onClick.AddListener(OnHornetScreamPress);
+        _canvasGroup.alpha = 0f;
     }
 
     private void OnJoystickInput(Vector2 delta)
@@ -28,6 +30,12 @@ public class UserInterface : MonoBehaviour
     }
 
     public Button ScreamButton => _hornetScreamButton;
+
+    public float CanvasGroupAlpha
+    {
+        get => _canvasGroup.alpha;
+        set => _canvasGroup.alpha = value;
+    }
 
     public static UserInterface Instance
     {

@@ -9,6 +9,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private HornetAnimator _animator;
     [SerializeField] private Transform _actor;
     [SerializeField] private AudioClip[] _hornetScreams;
+    [SerializeField] private AudioClip[] _footstepsGrass;
+    [SerializeField] private HornetAnimationEvents _animationEvents;
     [SerializeField] private bool _applyGravity;
 
     public Chain Chain;
@@ -18,6 +20,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private Quaternion _rotDampVelocity;
     private Quaternion _actorRotDampVelocity;
     private PseudoRandomIndex _screamIndex;
+    private PseudoRandomIndex _footstepIndex;
 
     private void Awake()
     {
@@ -26,6 +29,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         _pushHitbox.Init(this);
         _positionLastFrame = transform.position;
         _screamIndex = new PseudoRandomIndex(_hornetScreams.Length);
+        _footstepIndex = new PseudoRandomIndex(_footstepsGrass.Length);
+        _animationEvents.PlayFootStep += PlayFootStep;
     }
 
     private void Update()
@@ -72,6 +77,12 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         int index = _screamIndex.Get();
         AudioManager.Instance.PlayVoice(_hornetScreams[index]);
         _animator.PlayBattlecry(index);
+    }
+    
+    private void PlayFootStep()
+    {
+        float pitch = Random.Range(0.7f, 1.2f);
+        AudioManager.Instance.PlayEffect(_footstepsGrass[_footstepIndex.Get()], pitch);
     }
 
     public Vector3 Position => transform.position;

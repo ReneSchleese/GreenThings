@@ -15,7 +15,7 @@ public class KeyboardControls : MonoBehaviour
 
     private void Update()
     {
-        HandleJoystick();
+        TranslateKeyboardInputsToJoystick();
         HandleScreamButton();
     }
 
@@ -27,7 +27,7 @@ public class KeyboardControls : MonoBehaviour
         }
     }
 
-    private void HandleJoystick()
+    private void TranslateKeyboardInputsToJoystick()
     {
         Vector2 amount = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         amount *= 1000;

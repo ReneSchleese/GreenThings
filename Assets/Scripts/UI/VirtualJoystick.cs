@@ -87,7 +87,7 @@ public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         TryKillTween();
     }
-    
+
     private void TryKillTween()
     {
         if (_resetTween is { active: true })

@@ -24,7 +24,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void Awake()
     {
-        UserInterface.Instance.JoystickMove += OnMove;
+        UserInterface.Instance.VirtualJoystick.Move += OnMove;
         UserInterface.Instance.HornetScreamInput += OnHornetScream;
         _pushHitbox.Init(this);
         _positionLastFrame = transform.position;

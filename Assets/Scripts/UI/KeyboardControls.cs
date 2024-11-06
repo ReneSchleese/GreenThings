@@ -3,13 +3,13 @@ using UnityEngine.UI;
 
 public class KeyboardControls : MonoBehaviour
 {
-    private JoystickBehaviour _joystick;
+    private VirtualJoystick _virtualJoystick;
     private Button _screamButton;
     private bool _hadJoystickInput;
 
     private void Start()
     {
-        _joystick = FindObjectOfType<JoystickBehaviour>();
+        _virtualJoystick = FindObjectOfType<VirtualJoystick>();
         _screamButton = UserInterface.Instance.ScreamButton;
     }
 
@@ -34,15 +34,15 @@ public class KeyboardControls : MonoBehaviour
         bool hasInput = amount != Vector2.zero;
         if (!_hadJoystickInput && hasInput)
         {
-            _joystick.OnCustomBeginDrag();
+            _virtualJoystick.OnCustomBeginDrag();
         }
         else if (_hadJoystickInput && !hasInput)
         {
-            _joystick.OnCustomEndDrag();
+            _virtualJoystick.OnCustomEndDrag();
         }
         else if (_hadJoystickInput && hasInput)
         {
-            _joystick.OnCustomDrag(amount);
+            _virtualJoystick.OnCustomDrag(amount);
         }
 
         _hadJoystickInput = hasInput;

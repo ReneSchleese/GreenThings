@@ -14,7 +14,6 @@ public class UserInterface : MonoBehaviour
     private void Awake()
     {
         _hornetScreamButton.onClick.AddListener(OnHornetScreamPress);
-        _canvasGroup.alpha = 0f;
     }
 
     private void OnHornetScreamPress()

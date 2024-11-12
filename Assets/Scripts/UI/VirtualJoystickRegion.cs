@@ -5,11 +5,11 @@ public class VirtualJoystickRegion : MonoBehaviour, IPointerDownHandler, IPointe
 {
     [SerializeField] private VirtualJoystick _virtualJoystick;
 
-    private Vector3 _initialRootPos; 
+    private Vector3 _initialSickPos; 
 
     public void Awake()
     {
-        _initialRootPos = _virtualJoystick.transform.position;
+        _initialSickPos = _virtualJoystick.transform.position;
         _virtualJoystick.Clear();
     }
 
@@ -35,7 +35,7 @@ public class VirtualJoystickRegion : MonoBehaviour, IPointerDownHandler, IPointe
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        _virtualJoystick.transform.position = _initialRootPos;
+        _virtualJoystick.transform.position = _initialSickPos;
     }
 
     public VirtualJoystick VirtualJoystick => _virtualJoystick;

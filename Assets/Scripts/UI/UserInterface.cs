@@ -5,23 +5,15 @@ using UnityEngine.UI;
 public class UserInterface : MonoBehaviour
 {
     public event Action HornetScreamInput;
-    public event Action<Vector2> JoystickMove;
     
     [SerializeField] private Button _hornetScreamButton;
-    [SerializeField] private JoystickBehaviour _joystickBehaviour;
+    [SerializeField] private VirtualJoystickRegion _joystickRegion;
     [SerializeField] private CanvasGroup _canvasGroup;
     private static UserInterface _instance;
 
     private void Awake()
     {
-        _joystickBehaviour.Move += OnJoystickInput;
         _hornetScreamButton.onClick.AddListener(OnHornetScreamPress);
-        _canvasGroup.alpha = 0f;
-    }
-
-    private void OnJoystickInput(Vector2 delta)
-    {
-        JoystickMove?.Invoke(delta);
     }
 
     private void OnHornetScreamPress()
@@ -36,6 +28,8 @@ public class UserInterface : MonoBehaviour
         get => _canvasGroup.alpha;
         set => _canvasGroup.alpha = value;
     }
+
+    public VirtualJoystick VirtualJoystick => _joystickRegion.VirtualJoystick;
 
     public static UserInterface Instance
     {

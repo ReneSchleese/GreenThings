@@ -15,8 +15,10 @@ public class SplashScreen : MonoBehaviour
         LoadingScreen loadingScreen = FindObjectOfType<LoadingScreen>();
         yield return loadingScreen.FadeIn();
         _canvas.gameObject.SetActive(false);
-        yield return new WaitUntil(() => loadGame.isDone && loadingScreen.EnoughTimeHasPassed);
-        
+        yield return new WaitUntil(() => loadGame.isDone);
+        UserInterface.Instance.CanvasGroupAlpha = 0f;
+        yield return new WaitUntil(() => loadingScreen.EnoughTimeHasPassed);
+
         UserInterface.Instance.CanvasGroupAlpha = 1f;
         yield return loadingScreen.FadeOut();
         SceneManager.UnloadSceneAsync("SplashScreen");

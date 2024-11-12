@@ -4,24 +4,22 @@ using UnityEngine.EventSystems;
 public class VirtualJoystickRegion : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private VirtualJoystick _virtualJoystick;
-    [SerializeField] private Transform _virtualJoystickRoot;
 
     private Vector3 _initialRootPos; 
 
     public void Awake()
     {
-        _initialRootPos = _virtualJoystickRoot.position;
+        _initialRootPos = _virtualJoystick.transform.position;
         _virtualJoystick.Clear();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        _virtualJoystickRoot.position = eventData.position;
+        _virtualJoystick.transform.position = eventData.position;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("begin drag VirtualJoystickRegion");
         _virtualJoystick.SimulateBeginDrag();
     }
 
@@ -37,7 +35,7 @@ public class VirtualJoystickRegion : MonoBehaviour, IPointerDownHandler, IPointe
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        _virtualJoystickRoot.position = _initialRootPos;
+        _virtualJoystick.transform.position = _initialRootPos;
     }
 
     public VirtualJoystick VirtualJoystick => _virtualJoystick;

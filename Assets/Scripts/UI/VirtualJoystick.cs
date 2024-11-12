@@ -48,7 +48,6 @@ public class VirtualJoystick : MonoBehaviour
 
     public void SimulateBeginDrag()
     {
-        Debug.Log("begin drag virtual joystick");
         Clear();
         _isDragging = true;
         UpdateAppearance();

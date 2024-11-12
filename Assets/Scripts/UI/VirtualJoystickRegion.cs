@@ -18,22 +18,22 @@ public class VirtualJoystickRegion : MonoBehaviour, IPointerDownHandler, IPointe
     {
         Debug.Log("PointerDown");
         _virtualJoystickRoot.position = eventData.position;
-        _virtualJoystick.OnPointerDown(eventData);
+        _virtualJoystick.OnPointerDown();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        _virtualJoystick.OnBeginDrag(eventData);
+        _virtualJoystick.SimulateBeginDrag();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        _virtualJoystick.OnDrag(eventData);
+        _virtualJoystick.SimulateDrag(eventData.delta);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        _virtualJoystick.OnEndDrag(eventData);
+        _virtualJoystick.SimulateEndDrag();
     }
 
     public void OnPointerUp(PointerEventData eventData)

@@ -34,15 +34,15 @@ public class KeyboardControls : MonoBehaviour
         bool hasInput = amount != Vector2.zero;
         if (!_hadJoystickInput && hasInput)
         {
-            _virtualJoystick.OnCustomBeginDrag();
+            _virtualJoystick.SimulateBeginDrag();
         }
         else if (_hadJoystickInput && !hasInput)
         {
-            _virtualJoystick.OnCustomEndDrag();
+            _virtualJoystick.SimulateEndDrag();
         }
         else if (_hadJoystickInput && hasInput)
         {
-            _virtualJoystick.OnCustomDrag(amount);
+            _virtualJoystick.SimulateDrag(amount);
         }
 
         _hadJoystickInput = hasInput;

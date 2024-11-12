@@ -3,7 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
+public class VirtualJoystick : MonoBehaviour
 {
     [SerializeField] private RectTransform _stick, _root;
     private const float MAX_RADIUS_IN_PX = 80f;
@@ -41,28 +41,18 @@ public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnPointerDown()
     {
-        OnCustomBeginDrag();
+        TryKillTween();
     }
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        OnCustomDrag(eventData.delta);
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        OnCustomEndDrag();
-    }
-
-    public void OnCustomBeginDrag()
+    public void SimulateBeginDrag()
     {
         TryKillTween();
         _isDragging = true;
     }
 
-    public void OnCustomDrag(Vector2 delta)
+    public void SimulateDrag(Vector2 delta)
     {
         _stick.anchoredPosition += delta;
         float distance = Direction.magnitude;
@@ -76,16 +66,11 @@ public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         }
     }
 
-    public void OnCustomEndDrag()
+    public void SimulateEndDrag()
     {
         Move?.Invoke(Vector2.zero);
         _isDragging = false;
         _resetTween = _stick.DOAnchorPos(Vector2.zero, 0.1f).SetEase(Ease.InOutSine);
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        TryKillTween();
     }
 
     private void TryKillTween()

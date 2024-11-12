@@ -4,10 +4,18 @@ using UnityEngine;
 public class VirtualJoystick : MonoBehaviour
 {
     [SerializeField] private RectTransform _stick, _root;
+    [SerializeField] private CanvasGroup _joystickGroup;
     private const float MAX_RADIUS_IN_PX = 80f;
     private const float DEADZONE_RADIUS_IN_PX = 25f;
     public event Action<Vector2> Move;
     private bool _isDragging;
+
+    public void Clear()
+    {
+        _stick.anchoredPosition = Vector2.zero;
+        _isDragging = false;
+        UpdateAppearance();
+    }
 
     private void Update()
     {
@@ -40,8 +48,10 @@ public class VirtualJoystick : MonoBehaviour
 
     public void SimulateBeginDrag()
     {
+        Debug.Log("begin drag virtual joystick");
         Clear();
         _isDragging = true;
+        UpdateAppearance();
     }
 
     public void SimulateDrag(Vector2 delta)
@@ -61,14 +71,13 @@ public class VirtualJoystick : MonoBehaviour
     public void SimulateEndDrag()
     {
         Move?.Invoke(Vector2.zero);
-        _isDragging = false;
         Clear();
     }
 
-    private void Clear()
+    private void UpdateAppearance()
     {
-        _stick.anchoredPosition = Vector2.zero;
+        _joystickGroup.alpha = _isDragging ? 1f : 0.4f;
     }
-    
+
     private Vector2 Direction => _stick.anchoredPosition - _root.anchoredPosition;
 }

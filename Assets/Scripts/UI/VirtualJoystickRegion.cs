@@ -5,24 +5,23 @@ public class VirtualJoystickRegion : MonoBehaviour, IPointerDownHandler, IPointe
 {
     [SerializeField] private VirtualJoystick _virtualJoystick;
     [SerializeField] private Transform _virtualJoystickRoot;
-    [SerializeField] private CanvasGroup _joystickGroup;
 
     private Vector3 _initialRootPos; 
 
     public void Awake()
     {
         _initialRootPos = _virtualJoystickRoot.position;
-        SetAppearance(isDragging:false);
+        _virtualJoystick.Clear();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        SetAppearance(isDragging:true);
         _virtualJoystickRoot.position = eventData.position;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        Debug.Log("begin drag VirtualJoystickRegion");
         _virtualJoystick.SimulateBeginDrag();
     }
 
@@ -39,12 +38,6 @@ public class VirtualJoystickRegion : MonoBehaviour, IPointerDownHandler, IPointe
     public void OnPointerUp(PointerEventData eventData)
     {
         _virtualJoystickRoot.position = _initialRootPos;
-        SetAppearance(isDragging:false);
-    }
-
-    private void SetAppearance(bool isDragging)
-    {
-        _joystickGroup.alpha = isDragging ? 1f : 0.4f;
     }
 
     public VirtualJoystick VirtualJoystick => _virtualJoystick;

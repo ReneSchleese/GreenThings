@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
+    [SerializeField] private EntityManager _entityManager;
     [SerializeField] private AudioClip _ambientClip;
     private List<ForestSpiritSpawn> _forestSpiritSpawns = new();
     private static Game _instance;
@@ -26,12 +27,17 @@ public class Game : MonoBehaviour
 
     private void SpawnForestSpirits()
     {
-        
+        Debug.Assert(_forestSpiritSpawns.Count > 0, "no forest-spirit spawns have been registered");
+        List<ForestSpiritSpawn> actualSpawns = new List<ForestSpiritSpawn>(_forestSpiritSpawns);
+        foreach (ForestSpiritSpawn spawn in actualSpawns)
+        {
+            var spawnTransform = spawn.transform;
+            _entityManager.SpawnForestSpirit(spawnTransform.position, spawnTransform.rotation);
+        }
     }
 
     public void Register(ForestSpiritSpawn spawn)
     {
-        Debug.Log($"Register {spawn}");
         _forestSpiritSpawns.Add(spawn);
     }
 

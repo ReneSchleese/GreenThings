@@ -1,7 +1,7 @@
 ﻿using Audio;
 using UnityEngine;
 
-public class Level : MonoBehaviour
+public class Game : MonoBehaviour
 {
     [SerializeField] private AudioClip _ambientClip;
 

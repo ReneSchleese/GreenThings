@@ -5,8 +5,19 @@ public class Game : MonoBehaviour
 {
     [SerializeField] private AudioClip _ambientClip;
 
-    private void Start()
+    public void Awake()
     {
+        Setup();
+    }
+
+    private void Setup()
+    {
+        SpawnForestSpirits();
         AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
+    }
+
+    private void SpawnForestSpirits()
+    {
+        
     }
 }

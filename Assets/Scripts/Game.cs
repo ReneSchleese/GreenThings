@@ -42,6 +42,11 @@ public class Game : MonoBehaviour
             var spawnTransform = spawn.transform;
             _entityManager.SpawnForestSpirit(spawnTransform.position, spawnTransform.rotation);
         }
+        foreach (ForestSpiritSpawn spawn in _forestSpiritSpawns)
+        {
+            Destroy(spawn.gameObject);
+        }
+        _forestSpiritSpawns.Clear();
     }
 
     public void Register(ForestSpiritSpawn spawn)

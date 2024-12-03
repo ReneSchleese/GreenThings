@@ -1,6 +1,7 @@
 using Audio;
 using ForestSpirits;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 {
@@ -94,21 +95,27 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     }
 
     public bool IsPushable => false;
-    public void HandleCollision(IPushable otherPushable)
+    public void HandleCollision(float radius, IPushable otherPushable)
     {
         Vector3 otherPositionInLocalSpace = transform.InverseTransformPoint(otherPushable.Transform.position);
-        Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * transform.forward;
+        Vector3 velocityNormalized = Velocity.normalized;
+        Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * velocityNormalized;
         Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
         var velocityMagnitude = Velocity.magnitude;
         float pushStrength = 0.05f * velocityMagnitude;
-
+        var distance = Vector3.Distance(transform.position, otherPushable.Transform.position);
+        var lerpPushStrength = Mathf.Lerp(3f, 0f, distance / radius);
+        
+        var dot = Vector3.Dot(velocityNormalized, otherPushable.Velocity.normalized);
+        Debug.Log($"dot={dot}, lerpPushStrength={lerpPushStrength}");
+        
         if (!otherPushable.IsPushable)
         {
             return;
         }
         
         Vector3 pushDirection;
-        if (velocityMagnitude < 2f)
+        if (dot > 0f)
         {
             pushDirection = pushBackDir;
             otherPushable.Push(pushDirection.normalized * 0.15f);
@@ -117,7 +124,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         else
         {
             pushDirection = pushToSideDir;
-            otherPushable.Push(pushDirection.normalized * pushStrength);
+            otherPushable.Push(pushDirection.normalized * lerpPushStrength);
             //Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
         }
     }

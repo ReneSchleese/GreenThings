@@ -17,7 +17,7 @@ public class PushHitbox : MonoBehaviour
         }
 
         IPushable otherPushable = otherHitbox.Pushable;
-        Pushable.HandleCollision(otherPushable);
+        Pushable.HandleCollision(_collider.radius, otherPushable);
     }
 
     public float Radius
@@ -35,5 +35,5 @@ public interface IPushable
     public Transform Transform { get; }
     public void Push(Vector3 direction);
     public bool IsPushable { get; }
-    public void HandleCollision(IPushable otherPushable);
+    public void HandleCollision(float radius, IPushable otherPushable);
 }

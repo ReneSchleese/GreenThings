@@ -81,7 +81,7 @@ namespace ForestSpirits
         }
 
         public bool IsPushable => true;
-        public void HandleCollision(IPushable otherPushable)
+        public void HandleCollision(float radius, IPushable otherPushable)
         {
             Vector3 otherPositionInLocalSpace = Transform.InverseTransformPoint(otherPushable.Transform.position);
             Vector3 pushDirection;

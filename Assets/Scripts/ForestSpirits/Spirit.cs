@@ -99,14 +99,14 @@ namespace ForestSpirits
             Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
             Vector3 pushDirection = pushBackDir;
             
-            if (TargetDir.HasValue && otherPushable.TargetDir.HasValue && TargetDir.Value.magnitude > 1f)
+            if (TargetDir.HasValue && otherPushable.TargetDir.HasValue )
             {
                 var dot = Vector3.Dot(TargetDir.Value.normalized, otherPushable.TargetDir.Value.normalized);
                 bool haveOpposingTargets = dot < 0;
                 if (haveOpposingTargets)
                 {
                     Vector3 otherPositionInLocalSpace = _targetLookRotator.InverseTransformPoint(otherPushable.Transform.position);
-                    Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * Velocity.normalized;
+                    Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * TargetDir.Value.normalized;
                     pushDirection = pushToSideDir;
                 }
             }

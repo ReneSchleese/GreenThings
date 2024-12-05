@@ -91,7 +91,7 @@ namespace ForestSpirits
 
         public void HandleCollision(float radius, IPushable otherPushable)
         {
-            if (!otherPushable.IsPushable || otherPushable.Priority < Priority)
+            if (!otherPushable.IsPushable)
             {
                 return;
             }
@@ -99,7 +99,7 @@ namespace ForestSpirits
             Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
             Vector3 pushDirection = pushBackDir;
             
-            if (TargetDir.HasValue && otherPushable.TargetDir.HasValue)
+            if (TargetDir.HasValue && otherPushable.TargetDir.HasValue && TargetDir.Value.magnitude > 1f)
             {
                 var dot = Vector3.Dot(TargetDir.Value.normalized, otherPushable.TargetDir.Value.normalized);
                 bool haveOpposingTargets = dot < 0;
@@ -112,11 +112,14 @@ namespace ForestSpirits
             }
             
             var distance = Vector3.Distance(transform.position, otherPushable.Transform.position);
-            var lerpPushStrength = Mathf.Lerp(3f, 0f, distance / radius);
-        
-            
-            otherPushable.Push(pushDirection.normalized * lerpPushStrength);
-            Debug.DrawRay(transform.position, pushDirection.normalized * lerpPushStrength * 3f, Color.blue);
+            var lerpPushStrength = Mathf.Max(0.05f, Mathf.Lerp(3f, 0f, distance / radius));
+            Debug.Log($"HandleCollision, distance / radius={distance / radius}, distance={distance}, radius={radius}");
+
+
+            Vector3 pushDirectionNormalized = pushDirection.normalized;
+            otherPushable.Push(pushDirectionNormalized * lerpPushStrength);
+            Push(-pushDirectionNormalized * lerpPushStrength);
+            Debug.DrawRay(transform.position, pushDirectionNormalized * lerpPushStrength * 3f, Color.blue);
         }
 
         public Vector3 Position => transform.position;

@@ -15,10 +15,20 @@
         _index = (_index + 1) % _buffer.Length;
     }
 
-    public T GetLastNth(int n)
+    public T GetPreviousNth(int n)
     {
         var index = Utils.Mod(_index - n, _buffer.Length);
         return _buffer[index];
+    }
+
+    public T GetYoungest()
+    {
+        return GetPreviousNth(1);
+    }
+
+    public T GetOldest()
+    {
+        return _buffer[_index];
     }
 
     public void SetAll(T value)

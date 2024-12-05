@@ -30,7 +30,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         _pushHitbox.Init(this);
         _screamIndex = new PseudoRandomIndex(_hornetScreams.Length);
         _footstepIndex = new PseudoRandomIndex(_footstepsGrass.Length);
-        _positionBuffer = new CircularBuffer<Vector3>(10);
+        _positionBuffer = new CircularBuffer<Vector3>(20);
         _positionBuffer.SetAll(transform.position);
         _animationEvents.PlayFootStep += PlayFootStep;
     }
@@ -42,7 +42,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
             _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
         }
         _positionBuffer.Add(transform.position);
-        Velocity = (_positionBuffer.GetLastNth(1) - _positionBuffer.GetLastNth(2)) / Time.deltaTime;
+        Velocity = (_positionBuffer.GetPreviousNth(1) - _positionBuffer.GetPreviousNth(2)) / Time.deltaTime;
         _animator.UpdateAnimator(Velocity);
     }
     
@@ -99,36 +99,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     public int Priority => 0;
     public void HandleCollision(float radius, IPushable otherPushable)
     {
-        // Vector3 otherPositionInLocalSpace = transform.InverseTransformPoint(otherPushable.Transform.position);
-        // Vector3 velocityNormalized = Velocity.normalized;
-        // Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * Velocity.normalized;
-        // Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
-        // var velocityMagnitude = Velocity.magnitude;
-        // float pushStrength = 0.05f * velocityMagnitude;
-        // var distance = Vector3.Distance(transform.position, otherPushable.Transform.position);
-        // var lerpPushStrength = Mathf.Lerp(3f, 0f, distance / radius);
-        //
-        // var dot = Vector3.Dot(velocityNormalized, otherPushable.Velocity.normalized);
-        //
-        // if (!otherPushable.IsPushable)
-        // {
-        //     return;
-        // }
-        //
-        // Vector3 pushDirection;
-        // if (dot > 0f)
-        // {
-        //     pushDirection = pushBackDir;
-        //     otherPushable.Push(pushDirection.normalized * 0.15f);
-        //     //Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
-        // }
-        // else
-        // {
-        //     pushDirection = pushToSideDir;
-        //     otherPushable.Push(pushDirection.normalized * lerpPushStrength);
-        //     //Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
-        // }
-        
         if (!otherPushable.IsPushable) return;
         
         const float pushStrengthMax = 3f;
@@ -138,9 +108,9 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         float pushStrength = Mathf.Max(0.1f, Mathf.Lerp(pushStrengthMax, 0f, distance / radius));
         Vector3 otherPositionInLocalSpace = _targetLookRotator.InverseTransformPoint(otherPushablePos);
         Vector3 velocityNormalized = Velocity.normalized;
-        float dot = Vector3.Dot(velocityNormalized, otherPushable.Velocity.normalized);
-        bool hasOpposingVelocities = dot < 0;
-        Vector3 pushDir = Velocity.magnitude > 1f && hasOpposingVelocities
+        float dot = Vector3.Dot(velocityNormalized, (_positionBuffer.GetYoungest() - _positionBuffer.GetOldest()).normalized);
+        bool directionHasBeenSimilarForManyFrames = dot > 0;
+        Vector3 pushDir = Velocity.magnitude > 1f && directionHasBeenSimilarForManyFrames
             ? Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * velocityNormalized
             : (otherPushablePos - position).normalized;
         otherPushable.Push(pushDir * pushStrength);

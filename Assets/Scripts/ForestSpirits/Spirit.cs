@@ -11,6 +11,7 @@ namespace ForestSpirits
         [SerializeField] public CharacterController Controller;
         [SerializeField] private PushHitbox _pushHitbox;
         [SerializeField] private Actor _actor;
+        [SerializeField] private Transform _targetLookRotator;
         [SerializeField] private AudioClip[] _followPlayerClips;
         [SerializeField] private AudioClip[] _unfoldingClips;
         private State _currentState;
@@ -76,56 +77,64 @@ namespace ForestSpirits
             {
                 _actor.SmoothLookAt(App.Instance.Player.Position);
             }
+            IChainTarget chainTarget = App.Instance.Player.Chain.GetTargetFor(this);
+            if (chainTarget != null)
+            {
+                _targetLookRotator.LookAt(chainTarget.Position, Vector3.up);
+            }
         }
 
-        public Vector3 Position => transform.position;
-
-        public Transform Transform => transform;
         public void Push(Vector3 direction)
         {
             Controller.Move(direction);
         }
 
-        public bool IsPushable => true;
-        public int Priority { get; private set; }
         public void HandleCollision(float radius, IPushable otherPushable)
         {
-            Vector3 otherPositionInLocalSpace = transform.InverseTransformPoint(otherPushable.Transform.position);
-            Vector3 velocityNormalized = Velocity.normalized;
-            Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * velocityNormalized;
+            if (!otherPushable.IsPushable || otherPushable.Priority < Priority)
+            {
+                return;
+            }
+
             Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
-            var velocityMagnitude = Velocity.magnitude;
-            float pushStrength = 0.05f * velocityMagnitude;
+            Vector3 pushDirection = pushBackDir;
+            
+            if (TargetDir.HasValue && otherPushable.TargetDir.HasValue)
+            {
+                var dot = Vector3.Dot(TargetDir.Value.normalized, otherPushable.TargetDir.Value.normalized);
+                bool haveOpposingTargets = dot < 0;
+                if (haveOpposingTargets)
+                {
+                    Vector3 otherPositionInLocalSpace = _targetLookRotator.InverseTransformPoint(otherPushable.Transform.position);
+                    Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * Velocity.normalized;
+                    pushDirection = pushToSideDir;
+                }
+            }
+            
             var distance = Vector3.Distance(transform.position, otherPushable.Transform.position);
             var lerpPushStrength = Mathf.Lerp(3f, 0f, distance / radius);
         
-            var dot = Vector3.Dot(velocityNormalized, otherPushable.Velocity.normalized);
-            //Debug.Log($"dot={dot}, lerpPushStrength={lerpPushStrength}");
-        
-            if (!otherPushable.IsPushable)
-            {
-                return;
-            }
+            
+            otherPushable.Push(pushDirection.normalized * lerpPushStrength);
+            Debug.DrawRay(transform.position, pushDirection.normalized * lerpPushStrength * 3f, Color.blue);
+        }
 
-            if (otherPushable.Priority < Priority)
-            {
-                return;
-            }
+        public Vector3 Position => transform.position;
 
-            Vector3 pushDirection;
-            if (dot > 0f)
+        public Vector3? TargetDir
+        {
+            get
             {
-                pushDirection = pushBackDir;
-                otherPushable.Push(pushDirection.normalized * lerpPushStrength);
-                Debug.DrawRay(transform.position, pushDirection.normalized * lerpPushStrength * 3f, Color.blue);
-            }
-            else
-            {
-                pushDirection = pushToSideDir;
-                otherPushable.Push(pushDirection.normalized * lerpPushStrength);
-                Debug.DrawRay(transform.position, pushDirection.normalized * lerpPushStrength * 3f, Color.red);
+                IChainTarget chainTarget = App.Instance.Player.Chain.GetTargetFor(this);
+                return chainTarget == null ? null : chainTarget.Position - transform.position;
             }
         }
+
+        public Transform Transform => transform;
+
+        public bool IsPushable => true;
+
+        public int Priority { get; private set; }
 
         public Vector3 Velocity => _actor.Velocity;
         public PushHitbox PushHitbox => _pushHitbox;

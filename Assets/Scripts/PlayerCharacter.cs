@@ -130,5 +130,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     }
 
     public Vector3 Velocity { get; private set; }
+    public Vector3? TargetDir => null;
     public float JoystickMagnitude { get; private set; }
 }

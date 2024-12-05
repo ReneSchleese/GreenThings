@@ -40,8 +40,7 @@ namespace ForestSpirits
 
         public IChainTarget GetTargetFor(Spirit requester)
         {
-            Debug.Assert(_spiritToLinks.ContainsKey(requester));
-            return _spiritToLinks[requester];
+            return !_spiritToLinks.ContainsKey(requester) ? null : _spiritToLinks[requester];
         }
 
         public int GetIndex(Spirit spirit)

@@ -16,21 +16,22 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
-    private Vector3 _positionLastFrame;
     private Vector3 _lastVelocity;
     private Quaternion _rotDampVelocity;
     private Quaternion _actorRotDampVelocity;
     private PseudoRandomIndex _screamIndex;
     private PseudoRandomIndex _footstepIndex;
+    private CircularBuffer<Vector3> _positionBuffer;
 
     private void Awake()
     {
         UserInterface.Instance.VirtualJoystick.Move += OnMove;
         UserInterface.Instance.HornetScreamInput += OnHornetScream;
         _pushHitbox.Init(this);
-        _positionLastFrame = transform.position;
         _screamIndex = new PseudoRandomIndex(_hornetScreams.Length);
         _footstepIndex = new PseudoRandomIndex(_footstepsGrass.Length);
+        _positionBuffer = new CircularBuffer<Vector3>(10);
+        _positionBuffer.SetAll(transform.position);
         _animationEvents.PlayFootStep += PlayFootStep;
     }
 
@@ -40,8 +41,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         {
             _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
         }
-        Velocity = (transform.position - _positionLastFrame) / Time.deltaTime;
-        _positionLastFrame = transform.position;
+        _positionBuffer.Add(transform.position);
+        Velocity = (_positionBuffer.GetLastNth(1) - _positionBuffer.GetLastNth(2)) / Time.deltaTime;
         _animator.UpdateAnimator(Velocity);
     }
     
@@ -68,7 +69,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
             Quaternion tiltedAwayFromCamera = Quaternion.LerpUnclamped(lookRotation, lookRotationTiledTowardsCamera, -0.125f);
             _actor.rotation = Utils.SmoothDamp(_actor.rotation, tiltedAwayFromCamera, ref _actorRotDampVelocity, 0.05f);
         }
-        
         
         Chain.OnUpdate();
     }

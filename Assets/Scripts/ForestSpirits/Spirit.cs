@@ -113,7 +113,6 @@ namespace ForestSpirits
             
             var distance = Vector3.Distance(transform.position, otherPushable.Transform.position);
             var lerpPushStrength = Mathf.Max(0.05f, Mathf.Lerp(3f, 0f, distance / radius));
-            Debug.Log($"HandleCollision, distance / radius={distance / radius}, distance={distance}, radius={radius}");
 
 
             Vector3 pushDirectionNormalized = pushDirection.normalized;

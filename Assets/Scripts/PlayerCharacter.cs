@@ -1,7 +1,6 @@
 using Audio;
 using ForestSpirits;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
 public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 {
@@ -9,6 +8,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private PushHitbox _pushHitbox;
     [SerializeField] private HornetAnimator _animator;
     [SerializeField] private Transform _actor;
+    [SerializeField] private Transform _targetLookRotator;
     [SerializeField] private AudioClip[] _hornetScreams;
     [SerializeField] private AudioClip[] _footstepsGrass;
     [SerializeField] private HornetAnimationEvents _animationEvents;
@@ -61,6 +61,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
             Vector3 directionZeroY = new(offset.x, 0f, offset.z);
             Quaternion lookRotation = Quaternion.LookRotation(directionZeroY, Vector3.up);
             transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.05f);
+            _targetLookRotator.rotation = lookRotation;
 
             Vector3 toCamera = App.Instance.MainCamera.transform.position - _actor.transform.position;
             Quaternion lookRotationTiledTowardsCamera = Utils.AlignNormalWhileLookingAlongDir(toCamera, directionZeroY);
@@ -98,38 +99,54 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     public int Priority => 0;
     public void HandleCollision(float radius, IPushable otherPushable)
     {
-        Vector3 otherPositionInLocalSpace = transform.InverseTransformPoint(otherPushable.Transform.position);
+        // Vector3 otherPositionInLocalSpace = transform.InverseTransformPoint(otherPushable.Transform.position);
+        // Vector3 velocityNormalized = Velocity.normalized;
+        // Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * Velocity.normalized;
+        // Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
+        // var velocityMagnitude = Velocity.magnitude;
+        // float pushStrength = 0.05f * velocityMagnitude;
+        // var distance = Vector3.Distance(transform.position, otherPushable.Transform.position);
+        // var lerpPushStrength = Mathf.Lerp(3f, 0f, distance / radius);
+        //
+        // var dot = Vector3.Dot(velocityNormalized, otherPushable.Velocity.normalized);
+        //
+        // if (!otherPushable.IsPushable)
+        // {
+        //     return;
+        // }
+        //
+        // Vector3 pushDirection;
+        // if (dot > 0f)
+        // {
+        //     pushDirection = pushBackDir;
+        //     otherPushable.Push(pushDirection.normalized * 0.15f);
+        //     //Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
+        // }
+        // else
+        // {
+        //     pushDirection = pushToSideDir;
+        //     otherPushable.Push(pushDirection.normalized * lerpPushStrength);
+        //     //Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
+        // }
+        
+        if (!otherPushable.IsPushable) return;
+        
+        const float pushStrengthMax = 3f;
+        Vector3 position = transform.position;
+        Vector3 otherPushablePos = otherPushable.Transform.position;
+        float distance = Vector3.Distance(position, otherPushablePos);
+        float pushStrength = Mathf.Max(0.1f, Mathf.Lerp(pushStrengthMax, 0f, distance / radius));
+        Vector3 otherPositionInLocalSpace = _targetLookRotator.InverseTransformPoint(otherPushablePos);
         Vector3 velocityNormalized = Velocity.normalized;
-        Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * transform.forward;
-        Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
-        var velocityMagnitude = Velocity.magnitude;
-        float pushStrength = 0.05f * velocityMagnitude;
-        var distance = Vector3.Distance(transform.position, otherPushable.Transform.position);
-        var lerpPushStrength = Mathf.Lerp(3f, 0f, distance / radius);
-        
-        var dot = Vector3.Dot(velocityNormalized, otherPushable.Velocity.normalized);
-        
-        if (!otherPushable.IsPushable)
-        {
-            return;
-        }
-        
-        Vector3 pushDirection;
-        if (dot > 0f)
-        {
-            pushDirection = pushBackDir;
-            otherPushable.Push(pushDirection.normalized * 0.15f);
-            //Debug.DrawRay(transform.position, pushDirection * 3f, Color.blue);
-        }
-        else
-        {
-            pushDirection = pushToSideDir;
-            otherPushable.Push(pushDirection.normalized * lerpPushStrength);
-            //Debug.DrawRay(transform.position, pushDirection * 3f, Color.red);
-        }
+        float dot = Vector3.Dot(velocityNormalized, otherPushable.Velocity.normalized);
+        bool hasOpposingVelocities = dot < 0;
+        Vector3 pushDir = Velocity.magnitude > 1f && hasOpposingVelocities
+            ? Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * velocityNormalized
+            : (otherPushablePos - position).normalized;
+        otherPushable.Push(pushDir * pushStrength);
     }
 
     public Vector3 Velocity { get; private set; }
-    public Vector3? TargetDir => null;
+    public Vector3? TargetDir => transform.position + _targetLookRotator.forward;
     public float JoystickMagnitude { get; private set; }
 }

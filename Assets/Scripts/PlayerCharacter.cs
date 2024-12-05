@@ -95,6 +95,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     }
 
     public bool IsPushable => false;
+    public int Priority => 0;
     public void HandleCollision(float radius, IPushable otherPushable)
     {
         Vector3 otherPositionInLocalSpace = transform.InverseTransformPoint(otherPushable.Transform.position);
@@ -107,7 +108,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         var lerpPushStrength = Mathf.Lerp(3f, 0f, distance / radius);
         
         var dot = Vector3.Dot(velocityNormalized, otherPushable.Velocity.normalized);
-        Debug.Log($"dot={dot}, lerpPushStrength={lerpPushStrength}");
         
         if (!otherPushable.IsPushable)
         {

@@ -102,16 +102,16 @@ namespace ForestSpirits
         {
             base.OnEnter();
             _target = Player.Chain.GetTargetFor(spirit);
-            spirit.Controller.radius = 0.25f;
-            spirit.PushHitbox.Radius = 0.25f;
+            spirit.PushHitbox.Radius = 0.8f;
+            spirit.Controller.radius = spirit.PushHitbox.Radius * 0.7f;
         }
 
         public override void OnExit()
         {
             base.OnExit();
             _target = null;
-            spirit.Controller.radius = 0.4f;
             spirit.PushHitbox.Radius = 0.5f;
+            spirit.Controller.radius = spirit.PushHitbox.Radius * 0.7f;
         }
 
         public override void OnUpdate()

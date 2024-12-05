@@ -59,6 +59,12 @@ namespace ForestSpirits
             {
                 AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()]);
             }
+
+            if (state == typeof(ChainLinkState))
+            {
+                Priority = 1 + App.Instance.Player.Chain.GetIndex(this);
+                Debug.Log(Priority);
+            }
         }
 
         private void Update()
@@ -81,27 +87,43 @@ namespace ForestSpirits
         }
 
         public bool IsPushable => true;
+        public int Priority { get; private set; }
         public void HandleCollision(float radius, IPushable otherPushable)
         {
-            Vector3 otherPositionInLocalSpace = Transform.InverseTransformPoint(otherPushable.Transform.position);
-            Vector3 pushDirection;
-            Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -30 : 30, Vector3.up) * Transform.forward;
-            Vector3 pushBackDir = otherPushable.Transform.position - Transform.position;
-            const float pushStrength = 0.075f;
-
-            if (otherPushable.IsPushable)
+            Vector3 otherPositionInLocalSpace = transform.InverseTransformPoint(otherPushable.Transform.position);
+            Vector3 velocityNormalized = Velocity.normalized;
+            Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * velocityNormalized;
+            Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
+            var velocityMagnitude = Velocity.magnitude;
+            float pushStrength = 0.05f * velocityMagnitude;
+            var distance = Vector3.Distance(transform.position, otherPushable.Transform.position);
+            var lerpPushStrength = Mathf.Lerp(3f, 0f, distance / radius);
+        
+            var dot = Vector3.Dot(velocityNormalized, otherPushable.Velocity.normalized);
+            //Debug.Log($"dot={dot}, lerpPushStrength={lerpPushStrength}");
+        
+            if (!otherPushable.IsPushable)
             {
-                bool pushBack = Velocity.magnitude < 5f;
-                pushDirection = pushBack ? pushBackDir : pushToSideDir;
-                otherPushable.Push(pushDirection.normalized * pushStrength);
-                //Debug.DrawRay(transform.position, pushDirection * 3f, pushBack ? Color.blue : Color.red);
+                return;
             }
-            if (IsPushable)
+
+            if (otherPushable.Priority < Priority)
             {
-                bool pushBack = otherPushable.Velocity.magnitude < 5f;
-                pushDirection = pushBack ? -pushBackDir : -pushToSideDir;
-                Push(pushDirection.normalized * pushStrength * 0.5f);
-                //Debug.DrawRay(transform.position, pushDirection * 3f, pushBack ? Color.blue : Color.red);
+                return;
+            }
+
+            Vector3 pushDirection;
+            if (dot > 0f)
+            {
+                pushDirection = pushBackDir;
+                otherPushable.Push(pushDirection.normalized * lerpPushStrength);
+                Debug.DrawRay(transform.position, pushDirection.normalized * lerpPushStrength * 3f, Color.blue);
+            }
+            else
+            {
+                pushDirection = pushToSideDir;
+                otherPushable.Push(pushDirection.normalized * lerpPushStrength);
+                Debug.DrawRay(transform.position, pushDirection.normalized * lerpPushStrength * 3f, Color.red);
             }
         }
 

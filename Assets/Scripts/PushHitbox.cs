@@ -35,5 +35,6 @@ public interface IPushable
     public Transform Transform { get; }
     public void Push(Vector3 direction);
     public bool IsPushable { get; }
+    public int Priority { get; }
     public void HandleCollision(float radius, IPushable otherPushable);
 }

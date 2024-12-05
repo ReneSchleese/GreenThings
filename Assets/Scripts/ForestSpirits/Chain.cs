@@ -44,6 +44,11 @@ namespace ForestSpirits
             return _spiritToLinks[requester];
         }
 
+        public int GetIndex(Spirit spirit)
+        {
+            return _chainLinks.IndexOf(_spiritToLinks[spirit]);
+        }
+
         public void OnUpdate()
         {
             if (_chainLinks.Count == 0)

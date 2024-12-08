@@ -97,7 +97,7 @@ namespace ForestSpirits
     {
         public const float BASE_SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.8f;
         public const float DISTANCE_BASED_SPEED_BOOST = PlayerCharacter.MOVEMENT_SPEED * 0.15f;
-        private const float SPEED_BOOST_MAX_DISTANCE = 4f;
+        private const float SPEED_BOOST_MAX_DISTANCE = 3f;
         private IChainTarget _target;
 
         public override void OnEnter()

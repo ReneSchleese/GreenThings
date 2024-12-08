@@ -12,7 +12,7 @@ namespace ForestSpirits
      
         private const float BREAK_DISTANCE = 8f;
         private const float UPDATE_SPEED = 20f;
-        private const float CHAIN_LINK_DISTANCE = 1.5f;
+        private const float CHAIN_LINK_DISTANCE = 1.7f;
         private const float FIRST_CHAIN_LINK_DISTANCE = 2.5f;
         
         private readonly List<ChainLink> _chainLinks = new();

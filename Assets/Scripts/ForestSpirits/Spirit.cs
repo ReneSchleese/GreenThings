@@ -66,6 +66,10 @@ namespace ForestSpirits
                 Priority = 1 + App.Instance.Player.Chain.GetIndex(this);
                 Debug.Log(Priority);
             }
+            else
+            {
+                Priority = 2;
+            }
         }
 
         private void Update()
@@ -91,7 +95,7 @@ namespace ForestSpirits
 
         public void HandleCollision(float radius, IPushable otherPushable)
         {
-            if (!otherPushable.IsPushable)
+            if (!otherPushable.IsPushable || otherPushable.Priority < Priority)
             {
                 return;
             }
@@ -117,8 +121,7 @@ namespace ForestSpirits
 
             Vector3 pushDirectionNormalized = pushDirection.normalized;
             otherPushable.Push(pushDirectionNormalized * lerpPushStrength);
-            Push(-pushDirectionNormalized * lerpPushStrength);
-            Debug.DrawRay(transform.position, pushDirectionNormalized * lerpPushStrength * 3f, Color.blue);
+            //Push(-pushDirectionNormalized * lerpPushStrength);
         }
 
         public Vector3 Position => transform.position;

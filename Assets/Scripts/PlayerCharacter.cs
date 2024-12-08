@@ -88,6 +88,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     }
 
     public Vector3 Position => transform.position;
+    public Vector3 BreakPosition => Position;
 
     public Transform Transform => transform;
     public void Push(Vector3 direction)

@@ -61,12 +61,17 @@ namespace ForestSpirits
             {
                 ChainLink chainLink = _chainLinks[index];
                 IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
-
-                Vector3 targetToSpirit = followTarget.Position - chainLink.Spirit.Position;
-                if (chainLink.IsAllowedToBreak && targetToSpirit.sqrMagnitude > BREAK_DISTANCE_SQR)
+                
+                if (chainLink.IsAllowedToBreak)
                 {
-                    BreakAt(index);
-                    return;
+                    Vector3 spiritToTarget = followTarget.BreakPosition - chainLink.Spirit.Position;
+                    Vector3 spiritToTargetZeroY = new(spiritToTarget.x, 0f, spiritToTarget.z);
+                    bool isTooFarAway = spiritToTargetZeroY.magnitude > BREAK_DISTANCE;
+                    if(isTooFarAway)
+                    {
+                        BreakAt(index);
+                        return;
+                    }
                 }
                 
                 float requiredDistance = index == 0 ? FIRST_CHAIN_LINK_DISTANCE : CHAIN_LINK_DISTANCE;
@@ -111,5 +116,6 @@ namespace ForestSpirits
     public interface IChainTarget
     {
         public Vector3 Position { get; }
+        public Vector3 BreakPosition { get; }
     }
 }

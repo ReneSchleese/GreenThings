@@ -63,11 +63,6 @@ namespace ForestSpirits
                 IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
 
                 Vector3 targetToSpirit = followTarget.Position - chainLink.Spirit.Position;
-                if (index == 0)
-                {
-                    Debug.DrawRay(followTarget.Position, Vector3.up * 5, Color.red);
-                    Debug.DrawRay(chainLink.Spirit.Position, Vector3.up * 5, Color.blue);
-                }
                 if (chainLink.IsAllowedToBreak && targetToSpirit.sqrMagnitude > BREAK_DISTANCE_SQR)
                 {
                     BreakAt(index);
@@ -94,20 +89,6 @@ namespace ForestSpirits
                 float weight = 1f / (index + 3);
                 chainLink.Position = Vector3.Lerp(followTargetPos, straightTargetPos, weight);
             }
-        }
-
-        private void Break()
-        {
-            foreach (Spirit forestSpirit in _spiritToLinks.Keys)
-            {
-                forestSpirit.SwitchToState(typeof(IdleState));
-            }
-            foreach (ChainLink chainLink in _chainLinks)
-            {
-                _chainLinkPool.Return(chainLink);
-            }
-            _chainLinks.Clear();
-            _spiritToLinks.Clear();
         }
 
         private void BreakAt(int index)

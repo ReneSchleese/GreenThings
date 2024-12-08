@@ -54,17 +54,25 @@ namespace ForestSpirits
             {
                 return;
             }
-            if ((Player.Position - _chainLinks[0].Spirit.Position).magnitude > BREAK_DISTANCE)
-            {
-                Break();
-                return;
-            }
+            
             for (int index = 0; index < _chainLinks.Count; index++)
             {
                 ChainLink chainLink = _chainLinks[index];
                 IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
-                float requiredDistance = index == 0 ? FIRST_CHAIN_LINK_DISTANCE : CHAIN_LINK_DISTANCE;
+
+                Vector3 targetToSpirit = followTarget.Position - chainLink.Spirit.Position;
+                if (index == 0)
+                {
+                    Debug.DrawRay(followTarget.Position, Vector3.up * 5, Color.red);
+                    Debug.DrawRay(chainLink.Spirit.Position, Vector3.up * 5, Color.blue);
+                }
+                if (targetToSpirit.magnitude > BREAK_DISTANCE)
+                {
+                    BreakAt(index);
+                    return;
+                }
                 
+                float requiredDistance = index == 0 ? FIRST_CHAIN_LINK_DISTANCE : CHAIN_LINK_DISTANCE;
                 Vector3 currentPos = chainLink.Position;
                 Vector3 straightPos = Player.Position - Player.transform.forward * ((index + 1) * requiredDistance);
 
@@ -98,6 +106,20 @@ namespace ForestSpirits
             }
             _chainLinks.Clear();
             _spiritToLinks.Clear();
+        }
+
+        private void BreakAt(int index)
+        {
+            Debug.Log($"BreakAt index={index}");
+            for (int i = index; i < _chainLinks.Count; i++)
+            {
+                ChainLink chainLink = _chainLinks[i];
+                chainLink.Spirit.SwitchToState(typeof(IdleState));
+                _spiritToLinks.Remove(chainLink.Spirit);
+                _chainLinkPool.Return(chainLink);
+            }
+
+            _chainLinks.RemoveAll(link => _chainLinks.IndexOf(link) >= index);
         }
 
         private static PlayerCharacter Player => App.Instance.Player;

@@ -61,14 +61,14 @@ namespace ForestSpirits
                 AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()]);
             }
 
+            int playerPriority = App.Instance.Player.Priority;
             if (state == typeof(ChainLinkState))
             {
-                Priority = 1 + App.Instance.Player.Chain.GetIndex(this);
-                Debug.Log(Priority);
+                Priority = playerPriority + 1 + App.Instance.Player.Chain.GetIndex(this);
             }
             else
             {
-                Priority = 2;
+                Priority = playerPriority + 1;
             }
         }
 

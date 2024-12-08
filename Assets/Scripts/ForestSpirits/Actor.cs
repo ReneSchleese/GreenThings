@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace ForestSpirits
@@ -25,11 +24,6 @@ namespace ForestSpirits
             Speed = Velocity.magnitude;
             _lastPosition = currentPosition;
             _animator.SetFloat(AnimationIds.WalkingSpeed, Speed);
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            Debug.Log($"speed={Speed}");
         }
 
         public void Unfold()

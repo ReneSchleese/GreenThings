@@ -100,12 +100,13 @@ namespace ForestSpirits
                 return;
             }
 
-            Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
+            Vector3 pushBackDir = Utils.CloneAndSetY(otherPushable.Transform.position - transform.position, 0f);
             const float pushStrength = 0.1f;
             if (otherPushable.Priority == Priority || !TargetDir.HasValue)
             {
-                otherPushable.Push(pushBackDir.normalized * pushStrength);
-                Push(-pushBackDir.normalized * pushStrength);
+                Vector3 direction = pushBackDir.normalized * pushStrength;
+                otherPushable.Push(direction);
+                Push(-direction);
             }
             else
             {

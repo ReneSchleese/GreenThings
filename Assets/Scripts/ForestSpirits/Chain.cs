@@ -65,8 +65,7 @@ namespace ForestSpirits
                 if (chainLink.IsAllowedToBreak)
                 {
                     Vector3 spiritToTarget = followTarget.BreakPosition - chainLink.Spirit.Position;
-                    Vector3 spiritToTargetZeroY = new(spiritToTarget.x, 0f, spiritToTarget.z);
-                    bool isTooFarAway = spiritToTargetZeroY.magnitude > BREAK_DISTANCE;
+                    bool isTooFarAway = Utils.CloneAndSetY(spiritToTarget, 0f).magnitude > BREAK_DISTANCE;
                     if(isTooFarAway)
                     {
                         BreakAt(index);

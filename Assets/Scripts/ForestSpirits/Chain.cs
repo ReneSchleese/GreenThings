@@ -11,6 +11,7 @@ namespace ForestSpirits
         [SerializeField] private Transform _inactiveContainer;
      
         private const float BREAK_DISTANCE = 8f;
+        private const float BREAK_DISTANCE_SQR = BREAK_DISTANCE * BREAK_DISTANCE;
         private const float UPDATE_SPEED = 20f;
         private const float CHAIN_LINK_DISTANCE = 1.7f;
         private const float FIRST_CHAIN_LINK_DISTANCE = 2.5f;
@@ -67,7 +68,7 @@ namespace ForestSpirits
                     Debug.DrawRay(followTarget.Position, Vector3.up * 5, Color.red);
                     Debug.DrawRay(chainLink.Spirit.Position, Vector3.up * 5, Color.blue);
                 }
-                if (chainLink.IsAllowedToBreak && targetToSpirit.magnitude > BREAK_DISTANCE)
+                if (chainLink.IsAllowedToBreak && targetToSpirit.sqrMagnitude > BREAK_DISTANCE_SQR)
                 {
                     BreakAt(index);
                     return;

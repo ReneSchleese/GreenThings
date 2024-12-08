@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ForestSpirits
 {
@@ -7,11 +6,14 @@ namespace ForestSpirits
     {
         [SerializeField] private MeshRenderer _meshRenderer;
         private const bool DRAW_DEBUG = false;
+        private const float BREAK_GRACE_SECONDS = 2f;
 
         private void Awake()
         {
             _meshRenderer.enabled = DRAW_DEBUG;
         }
+
+        public bool IsAllowedToBreak => Time.realtimeSinceStartup - RealTimeSecondsWhenPooled > BREAK_GRACE_SECONDS;
 
         public Spirit Spirit { get; set; }
 
@@ -20,5 +22,7 @@ namespace ForestSpirits
             get => transform.position;
             set => transform.position = value;
         }
+
+        public float RealTimeSecondsWhenPooled { get; set; }
     }
 }

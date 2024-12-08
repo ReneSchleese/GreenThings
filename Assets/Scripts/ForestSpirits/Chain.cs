@@ -26,6 +26,7 @@ namespace ForestSpirits
                 link.transform.position = _chainLinks.Count > 0
                     ? _chainLinks[^1].transform.position
                     : Player.Position;
+                link.RealTimeSecondsWhenPooled = Time.realtimeSinceStartup;
             }, onBeforeReturn: link => { link.Spirit = null; });
         }
 
@@ -66,7 +67,7 @@ namespace ForestSpirits
                     Debug.DrawRay(followTarget.Position, Vector3.up * 5, Color.red);
                     Debug.DrawRay(chainLink.Spirit.Position, Vector3.up * 5, Color.blue);
                 }
-                if (targetToSpirit.magnitude > BREAK_DISTANCE)
+                if (chainLink.IsAllowedToBreak && targetToSpirit.magnitude > BREAK_DISTANCE)
                 {
                     BreakAt(index);
                     return;

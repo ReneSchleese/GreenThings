@@ -36,4 +36,10 @@ public static class Utils
         return Quaternion.LookRotation(normal, -lookDir)
             * Quaternion.AngleAxis(90f, Vector3.right);
     }
+
+    public static int Mod(int x, int m)
+    {
+        int r = x % m;
+        return r < 0 ? r + m : r;
+    }
 }

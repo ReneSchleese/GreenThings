@@ -32,7 +32,6 @@ public class GridSpawner : MonoBehaviour
         foreach (ForestSpiritSpawn spawn in spawns)
         {
             GridSegment<ForestSpiritSpawn> segment = _grid.First(segment => segment.ContainsPoint(spawn.transform.position));
-            Debug.Log($"added spawn to grid segment, min={segment.Min}, max={segment.Max}");
             segment.Spawns.Add(spawn);
         }
     }

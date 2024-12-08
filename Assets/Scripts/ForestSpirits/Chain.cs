@@ -12,7 +12,7 @@ namespace ForestSpirits
      
         private const float BREAK_DISTANCE = 8f;
         private const float UPDATE_SPEED = 20f;
-        private const float CHAIN_LINK_DISTANCE = 1.5f;
+        private const float CHAIN_LINK_DISTANCE = 1.7f;
         private const float FIRST_CHAIN_LINK_DISTANCE = 2.5f;
         
         private readonly List<ChainLink> _chainLinks = new();
@@ -40,8 +40,12 @@ namespace ForestSpirits
 
         public IChainTarget GetTargetFor(Spirit requester)
         {
-            Debug.Assert(_spiritToLinks.ContainsKey(requester));
-            return _spiritToLinks[requester];
+            return !_spiritToLinks.ContainsKey(requester) ? null : _spiritToLinks[requester];
+        }
+
+        public int GetIndex(Spirit spirit)
+        {
+            return _chainLinks.IndexOf(_spiritToLinks[spirit]);
         }
 
         public void OnUpdate()

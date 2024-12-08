@@ -18,8 +18,8 @@ namespace ForestSpirits
 
         public void SmoothSetPosition(Vector3 position)
         {
+            transform.position = Vector3.SmoothDamp(transform.position, position, ref _posDampVelocity, 0.1f);
             Vector3 currentPosition = transform.position;
-            transform.position = Vector3.SmoothDamp(currentPosition, position, ref _posDampVelocity, 0.1f);
             Velocity = (currentPosition - _lastPosition) / Time.deltaTime;
             Speed = Velocity.magnitude;
             _lastPosition = currentPosition;

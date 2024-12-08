@@ -11,6 +11,7 @@ namespace ForestSpirits
         [SerializeField] public CharacterController Controller;
         [SerializeField] private PushHitbox _pushHitbox;
         [SerializeField] private Actor _actor;
+        [SerializeField] private Transform _targetLookRotator;
         [SerializeField] private AudioClip[] _followPlayerClips;
         [SerializeField] private AudioClip[] _unfoldingClips;
         private State _currentState;
@@ -59,6 +60,16 @@ namespace ForestSpirits
             {
                 AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()]);
             }
+
+            int playerPriority = App.Instance.Player.Priority;
+            if (state == typeof(ChainLinkState))
+            {
+                Priority = playerPriority + 1 + App.Instance.Player.Chain.GetIndex(this);
+            }
+            else
+            {
+                Priority = playerPriority + 1;
+            }
         }
 
         private void Update()
@@ -70,40 +81,57 @@ namespace ForestSpirits
             {
                 _actor.SmoothLookAt(App.Instance.Player.Position);
             }
+            IChainTarget chainTarget = App.Instance.Player.Chain.GetTargetFor(this);
+            if (chainTarget != null)
+            {
+                _targetLookRotator.LookAt(chainTarget.Position, Vector3.up);
+            }
         }
 
-        public Vector3 Position => transform.position;
-
-        public Transform Transform => transform;
         public void Push(Vector3 direction)
         {
             Controller.Move(direction);
         }
 
-        public bool IsPushable => true;
-        public void HandleCollision(IPushable otherPushable)
+        public void HandleCollision(float radius, IPushable otherPushable)
         {
-            Vector3 otherPositionInLocalSpace = Transform.InverseTransformPoint(otherPushable.Transform.position);
-            Vector3 pushDirection;
-            Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -30 : 30, Vector3.up) * Transform.forward;
-            Vector3 pushBackDir = otherPushable.Transform.position - Transform.position;
-            const float pushStrength = 0.075f;
-
-            if (otherPushable.IsPushable)
+            if (!otherPushable.IsPushable || otherPushable.Priority < Priority)
             {
-                bool pushBack = Velocity.magnitude < 5f;
-                pushDirection = pushBack ? pushBackDir : pushToSideDir;
-                otherPushable.Push(pushDirection.normalized * pushStrength);
-                //Debug.DrawRay(transform.position, pushDirection * 3f, pushBack ? Color.blue : Color.red);
+                return;
             }
-            if (IsPushable)
+
+            Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
+            const float pushStrength = 0.1f;
+            if (otherPushable.Priority == Priority || !TargetDir.HasValue)
             {
-                bool pushBack = otherPushable.Velocity.magnitude < 5f;
-                pushDirection = pushBack ? -pushBackDir : -pushToSideDir;
-                Push(pushDirection.normalized * pushStrength * 0.5f);
-                //Debug.DrawRay(transform.position, pushDirection * 3f, pushBack ? Color.blue : Color.red);
+                otherPushable.Push(pushBackDir.normalized * pushStrength);
+                Push(-pushBackDir.normalized * pushStrength);
+            }
+            else
+            {
+                Vector3 otherPositionInLocalSpace = _targetLookRotator.InverseTransformPoint(otherPushable.Transform.position);
+                Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * TargetDir.Value.normalized;
+                otherPushable.Push(pushToSideDir.normalized * pushStrength);
+                Push(-pushToSideDir.normalized * pushStrength * 0.5f);
             }
         }
+
+        public Vector3 Position => transform.position;
+
+        public Vector3? TargetDir
+        {
+            get
+            {
+                IChainTarget chainTarget = App.Instance.Player.Chain.GetTargetFor(this);
+                return chainTarget == null ? null : chainTarget.Position - transform.position;
+            }
+        }
+
+        public Transform Transform => transform;
+
+        public bool IsPushable => true;
+
+        public int Priority { get; private set; }
 
         public Vector3 Velocity => _actor.Velocity;
         public PushHitbox PushHitbox => _pushHitbox;

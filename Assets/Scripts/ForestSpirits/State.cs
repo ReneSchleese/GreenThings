@@ -43,7 +43,7 @@ namespace ForestSpirits
     
     public class FollowPlayerState : State
     {
-        private const float SPEED = ChainLinkState.SPEED;
+        private const float SPEED = ChainLinkState.BASE_SPEED + ChainLinkState.DISTANCE_BASED_SPEED_BOOST;
         private const float DEAD_ZONE_DISTANCE = 5.5f;
         private const float ENQUEUEING_DISTANCE = .5f;
         private float _timeStampWhereFast;
@@ -95,23 +95,25 @@ namespace ForestSpirits
     
     public class ChainLinkState : State
     {
-        public const float SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.95f;
+        public const float BASE_SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.8f;
+        public const float DISTANCE_BASED_SPEED_BOOST = PlayerCharacter.MOVEMENT_SPEED * 0.15f;
+        private const float SPEED_BOOST_MAX_DISTANCE = 3f;
         private IChainTarget _target;
 
         public override void OnEnter()
         {
             base.OnEnter();
             _target = Player.Chain.GetTargetFor(spirit);
-            spirit.Controller.radius = 0.25f;
-            spirit.PushHitbox.Radius = 0.25f;
+            spirit.Controller.radius = 0.35f;
+            spirit.PushHitbox.Radius = 1.42f * spirit.Controller.radius;
         }
 
         public override void OnExit()
         {
             base.OnExit();
             _target = null;
-            spirit.Controller.radius = 0.4f;
-            spirit.PushHitbox.Radius = 0.5f;
+            spirit.Controller.radius = 0.3f;
+            spirit.PushHitbox.Radius = 1.42f * spirit.Controller.radius;
         }
 
         public override void OnUpdate()
@@ -133,7 +135,9 @@ namespace ForestSpirits
                 return;
             }
             Vector3 direction = _target.Position - spirit.Position;
-            spirit.Controller.Move(direction.normalized * (Time.deltaTime * SPEED));
+            float distanceFactor = Mathf.InverseLerp(0f, SPEED_BOOST_MAX_DISTANCE, direction.magnitude);
+            float speed = BASE_SPEED + DISTANCE_BASED_SPEED_BOOST * distanceFactor;
+            spirit.Controller.Move(direction.normalized * (Time.deltaTime * speed));
         }
     }
 

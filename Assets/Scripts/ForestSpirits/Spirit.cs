@@ -101,19 +101,21 @@ namespace ForestSpirits
             }
 
             Vector3 pushBackDir = Utils.CloneAndSetY(otherPushable.Transform.position - transform.position, 0f);
-            const float pushStrength = 0.1f;
             if (otherPushable.Priority == Priority || !TargetDir.HasValue)
             {
+                const float pushStrength = 0.10f;
                 Vector3 direction = pushBackDir.normalized * pushStrength;
                 otherPushable.Push(direction);
                 Push(-direction);
             }
             else
             {
+                const float pushStrength = 0.20f;
                 Vector3 otherPositionInLocalSpace = _targetLookRotator.InverseTransformPoint(otherPushable.Transform.position);
                 Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * TargetDir.Value.normalized;
-                otherPushable.Push(pushToSideDir.normalized * pushStrength);
-                Push(-pushToSideDir.normalized * pushStrength * 0.5f);
+                Vector3 direction = Utils.CloneAndSetY(pushToSideDir, 0f).normalized * pushStrength;
+                otherPushable.Push(direction);
+                Push(-direction * 0.5f);
             }
         }
 

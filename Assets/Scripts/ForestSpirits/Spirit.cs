@@ -112,6 +112,7 @@ namespace ForestSpirits
                 Vector3 otherPositionInLocalSpace = _targetLookRotator.InverseTransformPoint(otherPushable.Transform.position);
                 Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * TargetDir.Value.normalized;
                 otherPushable.Push(pushToSideDir.normalized * pushStrength);
+                Push(-pushToSideDir.normalized * pushStrength * 0.5f);
             }
         }
 

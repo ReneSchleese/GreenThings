@@ -101,27 +101,18 @@ namespace ForestSpirits
             }
 
             Vector3 pushBackDir = otherPushable.Transform.position - transform.position;
-            Vector3 pushDirection = pushBackDir;
-            
-            if (TargetDir.HasValue && otherPushable.TargetDir.HasValue )
+            const float pushStrength = 0.1f;
+            if (otherPushable.Priority == Priority || !TargetDir.HasValue)
             {
-                var dot = Vector3.Dot(TargetDir.Value.normalized, otherPushable.TargetDir.Value.normalized);
-                bool haveOpposingTargets = dot < 0;
-                if (haveOpposingTargets)
-                {
-                    Vector3 otherPositionInLocalSpace = _targetLookRotator.InverseTransformPoint(otherPushable.Transform.position);
-                    Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * TargetDir.Value.normalized;
-                    pushDirection = pushToSideDir;
-                }
+                otherPushable.Push(pushBackDir.normalized * pushStrength);
+                Push(-pushBackDir.normalized * pushStrength);
             }
-            
-            var distance = Vector3.Distance(transform.position, otherPushable.Transform.position);
-            var lerpPushStrength = Mathf.Max(0.05f, Mathf.Lerp(3f, 0f, distance / radius));
-
-
-            Vector3 pushDirectionNormalized = pushDirection.normalized;
-            otherPushable.Push(pushDirectionNormalized * lerpPushStrength);
-            //Push(-pushDirectionNormalized * lerpPushStrength);
+            else
+            {
+                Vector3 otherPositionInLocalSpace = _targetLookRotator.InverseTransformPoint(otherPushable.Transform.position);
+                Vector3 pushToSideDir = Quaternion.AngleAxis(otherPositionInLocalSpace.x < 0f ? -90 : 90, Vector3.up) * TargetDir.Value.normalized;
+                otherPushable.Push(pushToSideDir.normalized * pushStrength);
+            }
         }
 
         public Vector3 Position => transform.position;

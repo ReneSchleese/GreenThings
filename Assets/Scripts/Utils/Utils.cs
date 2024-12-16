@@ -42,4 +42,9 @@ public static class Utils
         int r = x % m;
         return r < 0 ? r + m : r;
     }
+
+    public static Vector3 CloneAndSetY(Vector3 target, float y)
+    {
+        return new Vector3(target.x, y, target.z);
+    }
 }

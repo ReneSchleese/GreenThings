@@ -11,6 +11,7 @@ namespace ForestSpirits
         [SerializeField] private Transform _inactiveContainer;
      
         private const float BREAK_DISTANCE = 8f;
+        private const float BREAK_DISTANCE_SQR = BREAK_DISTANCE * BREAK_DISTANCE;
         private const float UPDATE_SPEED = 20f;
         private const float CHAIN_LINK_DISTANCE = 1.7f;
         private const float FIRST_CHAIN_LINK_DISTANCE = 2.5f;
@@ -26,6 +27,7 @@ namespace ForestSpirits
                 link.transform.position = _chainLinks.Count > 0
                     ? _chainLinks[^1].transform.position
                     : Player.Position;
+                link.RealTimeSecondsWhenPooled = Time.realtimeSinceStartup;
             }, onBeforeReturn: link => { link.Spirit = null; });
         }
 
@@ -54,17 +56,24 @@ namespace ForestSpirits
             {
                 return;
             }
-            if ((Player.Position - _chainLinks[0].Spirit.Position).magnitude > BREAK_DISTANCE)
-            {
-                Break();
-                return;
-            }
+            
             for (int index = 0; index < _chainLinks.Count; index++)
             {
                 ChainLink chainLink = _chainLinks[index];
                 IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
-                float requiredDistance = index == 0 ? FIRST_CHAIN_LINK_DISTANCE : CHAIN_LINK_DISTANCE;
                 
+                if (chainLink.IsAllowedToBreak)
+                {
+                    Vector3 spiritToTarget = followTarget.BreakPosition - chainLink.Spirit.Position;
+                    bool isTooFarAway = Utils.CloneAndSetY(spiritToTarget, 0f).magnitude > BREAK_DISTANCE;
+                    if(isTooFarAway)
+                    {
+                        BreakAt(index);
+                        return;
+                    }
+                }
+                
+                float requiredDistance = index == 0 ? FIRST_CHAIN_LINK_DISTANCE : CHAIN_LINK_DISTANCE;
                 Vector3 currentPos = chainLink.Position;
                 Vector3 straightPos = Player.Position - Player.transform.forward * ((index + 1) * requiredDistance);
 
@@ -86,18 +95,18 @@ namespace ForestSpirits
             }
         }
 
-        private void Break()
+        private void BreakAt(int index)
         {
-            foreach (Spirit forestSpirit in _spiritToLinks.Keys)
+            Debug.Log($"BreakAt index={index}");
+            for (int i = index; i < _chainLinks.Count; i++)
             {
-                forestSpirit.SwitchToState(typeof(IdleState));
-            }
-            foreach (ChainLink chainLink in _chainLinks)
-            {
+                ChainLink chainLink = _chainLinks[i];
+                chainLink.Spirit.SwitchToState(typeof(IdleState));
+                _spiritToLinks.Remove(chainLink.Spirit);
                 _chainLinkPool.Return(chainLink);
             }
-            _chainLinks.Clear();
-            _spiritToLinks.Clear();
+
+            _chainLinks.RemoveAll(link => _chainLinks.IndexOf(link) >= index);
         }
 
         private static PlayerCharacter Player => App.Instance.Player;
@@ -106,5 +115,6 @@ namespace ForestSpirits
     public interface IChainTarget
     {
         public Vector3 Position { get; }
+        public Vector3 BreakPosition { get; }
     }
 }

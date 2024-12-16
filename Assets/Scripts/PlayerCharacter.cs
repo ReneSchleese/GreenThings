@@ -44,6 +44,13 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         _positionBuffer.Add(transform.position);
         Velocity = (_positionBuffer.GetPreviousNth(1) - _positionBuffer.GetPreviousNth(2)) / Time.deltaTime;
         _animator.UpdateAnimator(Velocity);
+
+        Vector3 directionZeroY = Utils.CloneAndSetY(transform.forward, 0f);
+        Quaternion lookRotation = Quaternion.LookRotation(directionZeroY, Vector3.up);
+        Vector3 toCamera = App.Instance.MainCamera.transform.position - _actor.transform.position;
+        Quaternion lookRotationTiledTowardsCamera = Utils.AlignNormalWhileLookingAlongDir(toCamera, directionZeroY);
+        Quaternion tiltedAwayFromCamera = Quaternion.LerpUnclamped(lookRotation, lookRotationTiledTowardsCamera, -0.125f);
+        _actor.rotation = Utils.SmoothDamp(_actor.rotation, tiltedAwayFromCamera, ref _actorRotDampVelocity, 0.05f);
     }
     
     private void OnMove(Vector2 delta)
@@ -63,11 +70,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
             Quaternion lookRotation = Quaternion.LookRotation(directionZeroY, Vector3.up);
             transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.05f);
             _targetLookRotator.rotation = lookRotation;
-
-            Vector3 toCamera = App.Instance.MainCamera.transform.position - _actor.transform.position;
-            Quaternion lookRotationTiledTowardsCamera = Utils.AlignNormalWhileLookingAlongDir(toCamera, directionZeroY);
-            Quaternion tiltedAwayFromCamera = Quaternion.LerpUnclamped(lookRotation, lookRotationTiledTowardsCamera, -0.125f);
-            _actor.rotation = Utils.SmoothDamp(_actor.rotation, tiltedAwayFromCamera, ref _actorRotDampVelocity, 0.05f);
         }
         
         Chain.OnUpdate();
@@ -88,6 +90,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     }
 
     public Vector3 Position => transform.position;
+    public Vector3 BreakPosition => Position;
 
     public Transform Transform => transform;
     public void Push(Vector3 direction)

@@ -1,24 +1,20 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpriteBlobShadow : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _shadowRenderer;
     [SerializeField] private BoxCollider _boxCollider;
     private const float PUSH_UP_Y = 0.2f;
-    private Bounds _bounds;
     private Box _box;
 
     private void Awake()
     {
-        _bounds = _boxCollider.bounds;
         _box = Box.FromCollider(_boxCollider);
     }
 
     private void Update()
     {
         UpdateShadow();
-        _box.ToWorld(transform).Draw(Color.red, 0.01f);
     }
 
     private void UpdateShadow()

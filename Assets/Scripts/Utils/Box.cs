@@ -28,31 +28,35 @@ public struct Box
         return new Box(vertices);
     }
     
-    public Vector3[] ToWorld(Transform target)
+    public Box ToWorld(Transform target)
     {
         for (var i = 0; i < _verticesWorldBuffer.Length; i++)
         {
             _verticesWorldBuffer[i] = target.TransformPoint(_vertices[i]);
         }
 
-        return _verticesWorldBuffer;
+        return new Box(_verticesWorldBuffer);
     }
 
-    public static void Draw(Vector3[] vertices, Color color, float duration)
+    public void Draw(Color color, float duration)
     {
-        Debug.DrawLine(vertices[0], vertices[1], color, duration);
-        Debug.DrawLine(vertices[0], vertices[3], color, duration);
-        Debug.DrawLine(vertices[1], vertices[2], color, duration);
-        Debug.DrawLine(vertices[3], vertices[2], color, duration);
+        Debug.DrawLine(_vertices[0], _vertices[1], color, duration);
+        Debug.DrawLine(_vertices[0], _vertices[3], color, duration);
+        Debug.DrawLine(_vertices[1], _vertices[2], color, duration);
+        Debug.DrawLine(_vertices[3], _vertices[2], color, duration);
         
-        Debug.DrawLine(vertices[4], vertices[5], color, duration);
-        Debug.DrawLine(vertices[4], vertices[7], color, duration);
-        Debug.DrawLine(vertices[5], vertices[6], color, duration);
-        Debug.DrawLine(vertices[7], vertices[6], color, duration);
+        Debug.DrawLine(_vertices[4], _vertices[5], color, duration);
+        Debug.DrawLine(_vertices[4], _vertices[7], color, duration);
+        Debug.DrawLine(_vertices[5], _vertices[6], color, duration);
+        Debug.DrawLine(_vertices[7], _vertices[6], color, duration);
         
-        Debug.DrawLine(vertices[0], vertices[4], color, duration);
-        Debug.DrawLine(vertices[1], vertices[5], color, duration);
-        Debug.DrawLine(vertices[2], vertices[6], color, duration);
-        Debug.DrawLine(vertices[3], vertices[7], color, duration);
+        Debug.DrawLine(_vertices[0], _vertices[4], color, duration);
+        Debug.DrawLine(_vertices[1], _vertices[5], color, duration);
+        Debug.DrawLine(_vertices[2], _vertices[6], color, duration);
+        Debug.DrawLine(_vertices[3], _vertices[7], color, duration);
     }
+
+    public Vector3 TopCenter => _vertices[4] + 0.5f * (_vertices[6] - _vertices[4]);
+    public Vector3 BotCenter => _vertices[0] + 0.5f * (_vertices[2] - _vertices[0]);
+    public float Height => Vector3.Distance(TopCenter, BotCenter);
 }

@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 512
+      m_MaxTextureSize: 1024
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
       m_TextureCompression: 1
@@ -52,13 +52,16 @@ SpriteAtlas:
     packedSpriteRenderDataKeys:
     - c9cf47d0e74c153408e9f247dd3856d6: 21300000
     - 539eb7d00168c1545bdc0f2df530d346: 21300000
+    - e88dc02e2c148364cbee6e1c126dc9e5: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: c9cf47d0e74c153408e9f247dd3856d6, type: 3}
   - {fileID: 21300000, guid: 539eb7d00168c1545bdc0f2df530d346, type: 3}
+  - {fileID: 21300000, guid: e88dc02e2c148364cbee6e1c126dc9e5, type: 3}
   m_PackedSpriteNamesToIndex:
   - EyesDefault
   - EyesDefault-2
+  - ForestSpiritShadow
   m_RenderDataMap: {}
   m_Tag: ForestSpirit
   m_IsVariant: 0

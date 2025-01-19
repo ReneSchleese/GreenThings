@@ -3,49 +3,56 @@
 public struct Box
 {
     private readonly Vector3[] _vertices;
+    private readonly Vector3[] _verticesWorldBuffer;
 
     public Box(Vector3[] vertices)
     {
         _vertices = vertices;
+        _verticesWorldBuffer = new Vector3[vertices.Length];
     }
 
     public static Box FromCollider(BoxCollider collider)
     {
         Vector3 extends = 0.5f * collider.size;
-        Vector3 lossyScale = collider.transform.lossyScale;
-        Vector3 scaledExtends = new(
-            lossyScale.x * extends.x,
-            lossyScale.y * extends.y,
-            lossyScale.z * extends.z);
-        Vector3 worldCenter = collider.transform.TransformPoint(collider.center);
+        Vector3 center = collider.center;
         Vector3[] vertices = {
-            worldCenter - Vector3.up * scaledExtends.y - Vector3.right * scaledExtends.x - Vector3.forward * scaledExtends.z,
-            worldCenter - Vector3.up * scaledExtends.y - Vector3.right * scaledExtends.x + Vector3.forward * scaledExtends.z,
-            worldCenter - Vector3.up * scaledExtends.y + Vector3.right * scaledExtends.x + Vector3.forward * scaledExtends.z,
-            worldCenter - Vector3.up * scaledExtends.y + Vector3.right * scaledExtends.x - Vector3.forward * scaledExtends.z,
-            worldCenter + Vector3.up * scaledExtends.y - Vector3.right * scaledExtends.x - Vector3.forward * scaledExtends.z,
-            worldCenter + Vector3.up * scaledExtends.y - Vector3.right * scaledExtends.x + Vector3.forward * scaledExtends.z,
-            worldCenter + Vector3.up * scaledExtends.y + Vector3.right * scaledExtends.x + Vector3.forward * scaledExtends.z,
-            worldCenter + Vector3.up * scaledExtends.y + Vector3.right * scaledExtends.x - Vector3.forward * scaledExtends.z,
+            center - Vector3.up * extends.y - Vector3.right * extends.x - Vector3.forward * extends.z,
+            center - Vector3.up * extends.y - Vector3.right * extends.x + Vector3.forward * extends.z,
+            center - Vector3.up * extends.y + Vector3.right * extends.x + Vector3.forward * extends.z,
+            center - Vector3.up * extends.y + Vector3.right * extends.x - Vector3.forward * extends.z,
+            center + Vector3.up * extends.y - Vector3.right * extends.x - Vector3.forward * extends.z,
+            center + Vector3.up * extends.y - Vector3.right * extends.x + Vector3.forward * extends.z,
+            center + Vector3.up * extends.y + Vector3.right * extends.x + Vector3.forward * extends.z,
+            center + Vector3.up * extends.y + Vector3.right * extends.x - Vector3.forward * extends.z,
         };
         return new Box(vertices);
     }
-
-    public void Draw(Color color, float duration)
+    
+    public Vector3[] ToWorld(Transform target)
     {
-        Debug.DrawLine(_vertices[0], _vertices[1], color, duration);
-        Debug.DrawLine(_vertices[0], _vertices[3], color, duration);
-        Debug.DrawLine(_vertices[1], _vertices[2], color, duration);
-        Debug.DrawLine(_vertices[3], _vertices[2], color, duration);
+        for (var i = 0; i < _verticesWorldBuffer.Length; i++)
+        {
+            _verticesWorldBuffer[i] = target.TransformPoint(_vertices[i]);
+        }
+
+        return _verticesWorldBuffer;
+    }
+
+    public static void Draw(Vector3[] vertices, Color color, float duration)
+    {
+        Debug.DrawLine(vertices[0], vertices[1], color, duration);
+        Debug.DrawLine(vertices[0], vertices[3], color, duration);
+        Debug.DrawLine(vertices[1], vertices[2], color, duration);
+        Debug.DrawLine(vertices[3], vertices[2], color, duration);
         
-        Debug.DrawLine(_vertices[4], _vertices[5], color, duration);
-        Debug.DrawLine(_vertices[4], _vertices[7], color, duration);
-        Debug.DrawLine(_vertices[5], _vertices[6], color, duration);
-        Debug.DrawLine(_vertices[7], _vertices[6], color, duration);
+        Debug.DrawLine(vertices[4], vertices[5], color, duration);
+        Debug.DrawLine(vertices[4], vertices[7], color, duration);
+        Debug.DrawLine(vertices[5], vertices[6], color, duration);
+        Debug.DrawLine(vertices[7], vertices[6], color, duration);
         
-        Debug.DrawLine(_vertices[0], _vertices[4], color, duration);
-        Debug.DrawLine(_vertices[1], _vertices[5], color, duration);
-        Debug.DrawLine(_vertices[2], _vertices[6], color, duration);
-        Debug.DrawLine(_vertices[3], _vertices[7], color, duration);
+        Debug.DrawLine(vertices[0], vertices[4], color, duration);
+        Debug.DrawLine(vertices[1], vertices[5], color, duration);
+        Debug.DrawLine(vertices[2], vertices[6], color, duration);
+        Debug.DrawLine(vertices[3], vertices[7], color, duration);
     }
 }

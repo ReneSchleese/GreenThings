@@ -18,7 +18,7 @@ public class SpriteBlobShadow : MonoBehaviour
     private void Update()
     {
         UpdateShadow();
-        _box.Draw(Color.red, 0.01f);
+        Box.Draw(_box.ToWorld(transform), Color.red, 0.01f);
     }
 
     private void UpdateShadow()
@@ -30,7 +30,6 @@ public class SpriteBlobShadow : MonoBehaviour
         float distance = _bounds.size.y;
         Physics.Raycast(new Ray(origin, Vector3.down), out RaycastHit hit, distance);
         Debug.DrawRay(origin, Vector3.down * distance, Color.red);
-        Debug.Log($"origin={origin}, distance={distance}");
         bool isGrounded = hit.collider != null;
         if (isGrounded)
         {

@@ -86,6 +86,11 @@ namespace ForestSpirits
             {
                 _targetLookRotator.LookAt(chainTarget.Position, Vector3.up);
             }
+
+            if (Velocity.sqrMagnitude > 0f)
+            {
+                _actor.BlobShadow.UpdateShadow();
+            }
         }
 
         public void Push(Vector3 direction)

@@ -11,6 +11,7 @@ namespace ForestSpirits
         }
 
         [SerializeField] private Animator _animator;
+        [SerializeField] private SpriteBlobShadow _blobShadow;
 
         private Vector3 _lastPosition;
         private Vector3 _posDampVelocity;
@@ -41,6 +42,7 @@ namespace ForestSpirits
 
         public float Speed { get; private set; }
         public Vector3 Velocity { get; private set; }
+        public SpriteBlobShadow BlobShadow => _blobShadow;
     }
 
 }

@@ -21,12 +21,7 @@ public class SpriteBlobShadow : MonoBehaviour
         DOTween.Kill(this);
     }
 
-    private void Update()
-    {
-        UpdateShadow();
-    }
-
-    private void UpdateShadow()
+    public void UpdateShadow()
     {
         Box worldBox = _box.ToWorld(transform);
         Vector3 origin = worldBox.TopCenter;

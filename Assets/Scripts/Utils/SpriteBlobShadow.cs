@@ -1,12 +1,11 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 public class SpriteBlobShadow : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _shadowRenderer;
     [SerializeField] private BoxCollider _boxCollider;
-    private const float PUSH_UP_Y = 0.2f;
+    private const float PUSH_UP_Y = 0.1f;
     private Box _box;
     private float _initialAlpha;
     private bool _wasGrounded;

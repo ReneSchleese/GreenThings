@@ -31,6 +31,12 @@ public class PoolableAudioSource : MonoBehaviour
         get => _audioSource.loop;
         set => _audioSource.loop = value;
     }
+    
+    public float Volume
+    {
+        get => _audioSource.volume;
+        set => _audioSource.volume = value;
+    }
 
     public AudioMixerGroup AudioMixerGroup
     {

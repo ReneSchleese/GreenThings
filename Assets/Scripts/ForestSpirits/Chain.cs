@@ -114,7 +114,8 @@ namespace ForestSpirits
         {
             if(_chainLinks.Count > 0)
             {
-                _sounds.PlayEchoed(index, clipLength);
+                int repetitions = 2;
+                _sounds.PlayEchoed(index, clipLength, repetitions);
             }
         }
 

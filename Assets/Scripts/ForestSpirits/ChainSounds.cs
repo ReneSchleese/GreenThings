@@ -10,7 +10,7 @@ public class ChainSounds : MonoBehaviour
     {
         AudioClip audioClip = _audioClips[index];
         float audioClipLength = audioClip.length;
-        float volume = 0.7f;
+        float volume = 0.5f;
         DOTween.Kill(this);
         Sequence sequence = DOTween.Sequence().AppendInterval(clipSeconds).AppendCallback(() =>
         {

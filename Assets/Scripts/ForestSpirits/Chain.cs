@@ -119,7 +119,6 @@ namespace ForestSpirits
                 if (repetitions == repetitionsMax) break;
                 if (Random.Range(0f, 1f) < 0.5f) repetitions++;
             }
-            Debug.Log(repetitions);
             
             if(_chainLinks.Count > 0)
             {

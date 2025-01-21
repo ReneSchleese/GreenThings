@@ -127,8 +127,7 @@ namespace ForestSpirits
                 _sounds.PlayEchoed(index, clipLength, repetitions);
             }
 
-            DOTween.Kill(this);
-            Sequence sequence = DOTween.Sequence().SetId(this);
+            Sequence sequence = DOTween.Sequence();
             sequence.AppendInterval(clipLength);
             foreach (Spirit t in _chainLinks.Select(chainLink => chainLink.Spirit).ToList())
             {

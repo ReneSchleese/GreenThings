@@ -130,7 +130,7 @@ namespace ForestSpirits
             DOTween.Kill(this);
             Sequence sequence = DOTween.Sequence().SetId(this);
             sequence.AppendInterval(clipLength);
-            foreach (Spirit t in _spiritToLinks.Keys.ToList())
+            foreach (Spirit t in _chainLinks.Select(chainLink => chainLink.Spirit).ToList())
             {
                 sequence.AppendInterval(0.1f);
                 sequence.AppendCallback(() => t.BumpUpwards());

@@ -112,9 +112,17 @@ namespace ForestSpirits
 
         public void PlayEchoed(int index, float clipLength)
         {
+            int repetitions = 0;
+            const int repetitionsMax = 3;
+            for (int i = 0; i < _chainLinks.Count - 1; i++)
+            {
+                if (repetitions == repetitionsMax) break;
+                if (Random.Range(0f, 1f) < 0.5f) repetitions++;
+            }
+            Debug.Log(repetitions);
+            
             if(_chainLinks.Count > 0)
             {
-                int repetitions = 2;
                 _sounds.PlayEchoed(index, clipLength, repetitions);
             }
         }

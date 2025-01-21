@@ -110,8 +110,15 @@ namespace ForestSpirits
             _chainLinks.RemoveAll(link => _chainLinks.IndexOf(link) >= index);
         }
 
+        public void PlayEchoed(int index, float clipLength)
+        {
+            if(_chainLinks.Count > 0)
+            {
+                _sounds.PlayEchoed(index, clipLength);
+            }
+        }
+
         private static PlayerCharacter Player => App.Instance.Player;
-        public ChainSounds ChainSounds => _sounds;
     }
 
     public interface IChainTarget

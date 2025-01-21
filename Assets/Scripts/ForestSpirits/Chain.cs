@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -123,6 +125,15 @@ namespace ForestSpirits
             if(_chainLinks.Count > 0)
             {
                 _sounds.PlayEchoed(index, clipLength, repetitions);
+            }
+
+            DOTween.Kill(this);
+            Sequence sequence = DOTween.Sequence().SetId(this);
+            sequence.AppendInterval(clipLength);
+            foreach (Spirit t in _spiritToLinks.Keys.ToList())
+            {
+                sequence.AppendInterval(0.1f);
+                sequence.AppendCallback(() => t.BumpUpwards());
             }
         }
 

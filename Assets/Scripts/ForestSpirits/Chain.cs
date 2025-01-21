@@ -9,6 +9,7 @@ namespace ForestSpirits
         [SerializeField] private ChainLink _chainLinkPrefab;
         [SerializeField] private Transform _activeContainer;
         [SerializeField] private Transform _inactiveContainer;
+        [SerializeField] private ChainSounds _sounds;
      
         private const float BREAK_DISTANCE = 8f;
         private const float BREAK_DISTANCE_SQR = BREAK_DISTANCE * BREAK_DISTANCE;
@@ -110,6 +111,7 @@ namespace ForestSpirits
         }
 
         private static PlayerCharacter Player => App.Instance.Player;
+        public ChainSounds ChainSounds => _sounds;
     }
 
     public interface IChainTarget

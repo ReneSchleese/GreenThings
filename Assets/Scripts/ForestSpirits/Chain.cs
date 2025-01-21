@@ -113,7 +113,7 @@ namespace ForestSpirits
         public void PlayEchoed(int index, float clipLength)
         {
             int repetitions = 0;
-            const int repetitionsMax = 3;
+            const int repetitionsMax = 2;
             for (int i = 0; i < _chainLinks.Count - 1; i++)
             {
                 if (repetitions == repetitionsMax) break;

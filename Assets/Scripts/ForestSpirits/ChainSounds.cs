@@ -14,12 +14,12 @@ public class ChainSounds : MonoBehaviour
         DOTween.Kill(this);
         Sequence sequence = DOTween.Sequence().AppendInterval(clipSeconds).AppendCallback(() =>
         {
-            float pitch = Random.Range(1.2f, 1.35f);
+            float pitch = Random.Range(1.0f, 1.2f);
             AudioManager.Instance.PlayVoice(audioClip, pitch, volume);
         }).SetId(this);
         for (int i = 0; i < repetitions; i++)
         {
-            float pitch = Random.Range(0.98f, 1.4f);
+            float pitch = Random.Range(0.95f, 1.25f);
             sequence.AppendInterval(Random.Range(0.1f * audioClipLength, 0.25f * audioClipLength));
             sequence.AppendCallback(() => PlayVoice(audioClip, pitch, volume));
         }

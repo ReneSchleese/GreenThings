@@ -1212,7 +1212,7 @@ PrefabInstance:
     - target: {fileID: 1325747843828048007, guid: c1502f10034c6be4ea8c514206218ba2,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 8226
+      value: 8232
       objectReference: {fileID: 0}
     - target: {fileID: 6051914040063984581, guid: c1502f10034c6be4ea8c514206218ba2,
         type: 3}
@@ -1227,7 +1227,7 @@ PrefabInstance:
     - target: {fileID: 6051914040063984590, guid: c1502f10034c6be4ea8c514206218ba2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6051914040063984590, guid: c1502f10034c6be4ea8c514206218ba2,
         type: 3}

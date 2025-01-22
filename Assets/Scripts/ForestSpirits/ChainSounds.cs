@@ -12,7 +12,6 @@ public class ChainSounds : MonoBehaviour
         AudioClip audioClip = _primaryClips[index];
         float audioClipLength = audioClip.length;
         float volume = 0.4f;
-        DOTween.Kill(this);
         Sequence sequence = DOTween.Sequence().AppendInterval(clipSeconds).AppendCallback(() =>
         {
             float pitch = Random.Range(1.1f, 1.2f);

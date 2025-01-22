@@ -44,7 +44,6 @@ namespace ForestSpirits
 
         public void BumpUpwards()
         {
-            DOTween.Kill(this);
             float duration = Mathf.Clamp(Mathf.InverseLerp(0f, 7f, Speed) * 0.3f, 0.18f, 0.3f);
             _animationContainer.DOPunchPosition(Vector3.up * Mathf.Clamp(Speed, 0.2f, 0.7f), duration, 2).SetId(this);
         }

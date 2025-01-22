@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ChainSounds : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] _audioClips;
+    [SerializeField] private AudioClip[] _primaryClips;
+    [SerializeField] private AudioClip[] _secondaryClips;
 
     public void PlayEchoed(int index, float clipSeconds, int repetitions)
     {
-        AudioClip audioClip = _audioClips[index];
+        AudioClip audioClip = _primaryClips[index];
         float audioClipLength = audioClip.length;
         float volume = 0.5f;
         DOTween.Kill(this);
@@ -17,11 +18,15 @@ public class ChainSounds : MonoBehaviour
             float pitch = Random.Range(1.1f, 1.2f);
             AudioManager.Instance.PlayVoice(audioClip, pitch, volume);
         }).SetId(this);
+        
+        bool usedSecondaryLastTime = false;
         for (int i = 0; i < repetitions; i++)
         {
             float pitch = Random.Range(0.98f, 1.25f);
+            AudioClip clip = usedSecondaryLastTime ? audioClip : _secondaryClips[index];
             sequence.AppendInterval(Random.Range(0.1f * audioClipLength, 0.25f * audioClipLength));
-            sequence.AppendCallback(() => PlayVoice(audioClip, pitch, volume));
+            sequence.AppendCallback(() => { PlayVoice(clip, pitch, volume); });
+            usedSecondaryLastTime = !usedSecondaryLastTime;
         }
     }
 

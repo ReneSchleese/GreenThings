@@ -37,15 +37,16 @@ namespace Audio
             PlayPoolable(_effectSourcePool, clip, pitch);
         }
         
-        public void PlayVoice(AudioClip clip, float pitch = 1.0f)
+        public void PlayVoice(AudioClip clip, float pitch = 1.0f, float volume = 1.0f)
         {
-            PlayPoolable(_voiceSourcePool, clip, pitch, _voiceGroup);
+            PlayPoolable(_voiceSourcePool, clip, pitch, _voiceGroup, volume);
         }
 
-        private void PlayPoolable(PrefabPool<PoolableAudioSource> pool, AudioClip clip, float pitch, AudioMixerGroup group = null)
+        private void PlayPoolable(PrefabPool<PoolableAudioSource> pool, AudioClip clip, float pitch, AudioMixerGroup group = null, float volume = 1.0f)
         {
             PoolableAudioSource audioSource = pool.Get();
             audioSource.Pitch = pitch;
+            audioSource.Volume = volume;
             audioSource.AudioMixerGroup = group ? group : _masterGroup;
             StartCoroutine(PlayOneShotThenReturn());
 

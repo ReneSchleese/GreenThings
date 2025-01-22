@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace ForestSpirits
@@ -12,6 +13,7 @@ namespace ForestSpirits
 
         [SerializeField] private Animator _animator;
         [SerializeField] private SpriteBlobShadow _blobShadow;
+        [SerializeField] private Transform _animationContainer;
 
         private Vector3 _lastPosition;
         private Vector3 _posDampVelocity;
@@ -38,6 +40,13 @@ namespace ForestSpirits
             Vector3 directionZeroY = new(direction.x, 0f, direction.z);
             Quaternion lookRotation = Quaternion.LookRotation(directionZeroY, Vector3.up);
             transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.2f);
+        }
+
+        public void BumpUpwards()
+        {
+            var relativeSpeed = Mathf.InverseLerp(0f, 7f, Speed);
+            float duration = Mathf.Clamp(relativeSpeed * 0.3f, 0.18f, 0.3f);
+            _animationContainer.DOPunchPosition(Vector3.up * Mathf.Clamp(relativeSpeed, 0.2f, 0.7f), duration, 2).SetId(this);
         }
 
         public float Speed { get; private set; }

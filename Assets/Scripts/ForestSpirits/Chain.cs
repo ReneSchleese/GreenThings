@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -9,6 +11,7 @@ namespace ForestSpirits
         [SerializeField] private ChainLink _chainLinkPrefab;
         [SerializeField] private Transform _activeContainer;
         [SerializeField] private Transform _inactiveContainer;
+        [SerializeField] private ChainSounds _sounds;
      
         private const float BREAK_DISTANCE = 8f;
         private const float BREAK_DISTANCE_SQR = BREAK_DISTANCE * BREAK_DISTANCE;
@@ -107,6 +110,30 @@ namespace ForestSpirits
             }
 
             _chainLinks.RemoveAll(link => _chainLinks.IndexOf(link) >= index);
+        }
+
+        public void PlayEchoed(int index, float clipLength)
+        {
+            int repetitions = 0;
+            const int repetitionsMax = 2;
+            for (int i = 0; i < _chainLinks.Count - 1; i++)
+            {
+                if (repetitions == repetitionsMax) break;
+                if (Random.Range(0f, 1f) < 0.5f) repetitions++;
+            }
+            
+            if(_chainLinks.Count > 0)
+            {
+                _sounds.PlayEchoed(index, clipLength, repetitions);
+            }
+
+            Sequence sequence = DOTween.Sequence();
+            sequence.AppendInterval(clipLength);
+            foreach (Spirit t in _chainLinks.Select(chainLink => chainLink.Spirit).ToList())
+            {
+                sequence.AppendInterval(0.1f);
+                sequence.AppendCallback(() => t.BumpUpwards());
+            }
         }
 
         private static PlayerCharacter Player => App.Instance.Player;

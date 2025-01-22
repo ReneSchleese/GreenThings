@@ -124,6 +124,8 @@ namespace ForestSpirits
             }
         }
 
+        public void BumpUpwards() => _actor.BumpUpwards();
+
         public Vector3 Position => transform.position;
 
         public Vector3? TargetDir

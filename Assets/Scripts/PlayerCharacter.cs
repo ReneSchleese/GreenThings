@@ -81,6 +81,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         int index = _screamIndex.Get();
         AudioManager.Instance.PlayVoice(_hornetScreams[index]);
         _animator.PlayBattlecry(index);
+        Chain.PlayEchoed(index, _hornetScreams[index].length);
     }
     
     private void PlayFootStep()

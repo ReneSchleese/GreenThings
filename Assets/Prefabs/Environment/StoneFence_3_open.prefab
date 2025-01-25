@@ -124,6 +124,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 7f8c01ee77b91f84f902c674d59d4959,
         type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7f8c01ee77b91f84f902c674d59d4959,
+        type: 3}
+      propertyPath: m_ReflectionProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7f8c01ee77b91f84f902c674d59d4959,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 714ab5b0870626f4da94a2c7c5714b6d, type: 2}
@@ -209,6 +219,16 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7f8c01ee77b91f84f902c674d59d4959,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7f8c01ee77b91f84f902c674d59d4959,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7f8c01ee77b91f84f902c674d59d4959,
+        type: 3}
+      propertyPath: m_ReflectionProbeUsage
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 7f8c01ee77b91f84f902c674d59d4959,
@@ -302,6 +322,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 7f8c01ee77b91f84f902c674d59d4959,
         type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7f8c01ee77b91f84f902c674d59d4959,
+        type: 3}
+      propertyPath: m_ReflectionProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7f8c01ee77b91f84f902c674d59d4959,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 714ab5b0870626f4da94a2c7c5714b6d, type: 2}
@@ -387,6 +417,16 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f1a107c1542a8474d9b727b26ff4bcb5,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1a107c1542a8474d9b727b26ff4bcb5,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1a107c1542a8474d9b727b26ff4bcb5,
+        type: 3}
+      propertyPath: m_ReflectionProbeUsage
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: f1a107c1542a8474d9b727b26ff4bcb5,
@@ -490,6 +530,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: f1a107c1542a8474d9b727b26ff4bcb5,
         type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1a107c1542a8474d9b727b26ff4bcb5,
+        type: 3}
+      propertyPath: m_ReflectionProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1a107c1542a8474d9b727b26ff4bcb5,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 714ab5b0870626f4da94a2c7c5714b6d, type: 2}
@@ -575,6 +625,16 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3604e3ba838102948803ecb80d2d61b2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3604e3ba838102948803ecb80d2d61b2,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3604e3ba838102948803ecb80d2d61b2,
+        type: 3}
+      propertyPath: m_ReflectionProbeUsage
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 3604e3ba838102948803ecb80d2d61b2,

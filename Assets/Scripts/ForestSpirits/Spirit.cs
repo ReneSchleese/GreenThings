@@ -10,7 +10,7 @@ namespace ForestSpirits
     {
         [SerializeField] public CharacterController Controller;
         [SerializeField] private PushHitbox _pushHitbox;
-        [SerializeField] private Actor _actor;
+        [SerializeField] private Puppet _puppet;
         [SerializeField] private Transform _targetLookRotator;
         [SerializeField] private AudioClip[] _followPlayerClips;
         [SerializeField] private AudioClip[] _unfoldingClips;
@@ -24,7 +24,7 @@ namespace ForestSpirits
             SetupStates();
             SwitchToState(typeof(IdleState));
             _pushHitbox.Init(this);
-            _actor.transform.SetParent(transform.parent);
+            _puppet.transform.SetParent(transform.parent);
 
             _followPlayerClipIndex ??= new PseudoRandomIndex(_followPlayerClips.Length);
             _unfoldingClipIndex ??= new PseudoRandomIndex(_unfoldingClips.Length);
@@ -41,7 +41,7 @@ namespace ForestSpirits
             };
             foreach (State state in _states)
             {
-                state.Init(spirit: this, _actor, SwitchToState);
+                state.Init(spirit: this, _puppet, SwitchToState);
             }
         }
 
@@ -76,10 +76,10 @@ namespace ForestSpirits
         {
             Controller.Move(Controller.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
             _currentState.OnUpdate();
-            _actor.SmoothSetPosition(Position);
+            _puppet.SmoothSetPosition(Position);
             if (_currentState.GetType() != typeof(IdleState))
             {
-                _actor.SmoothLookAt(App.Instance.Player.Position);
+                _puppet.SmoothLookAt(App.Instance.Player.Position);
             }
             IChainTarget chainTarget = App.Instance.Player.Chain.GetTargetFor(this);
             if (chainTarget != null)
@@ -89,7 +89,7 @@ namespace ForestSpirits
 
             if (Velocity.sqrMagnitude > 0f)
             {
-                _actor.BlobShadow.UpdateShadow();
+                _puppet.BlobShadow.UpdateShadow();
             }
         }
 
@@ -124,7 +124,7 @@ namespace ForestSpirits
             }
         }
 
-        public void BumpUpwards() => _actor.BumpUpwards();
+        public void BumpUpwards() => _puppet.BumpUpwards();
 
         public Vector3 Position => transform.position;
 
@@ -143,7 +143,7 @@ namespace ForestSpirits
 
         public int Priority { get; private set; }
 
-        public Vector3 Velocity => _actor.Velocity;
+        public Vector3 Velocity => _puppet.Velocity;
         public PushHitbox PushHitbox => _pushHitbox;
     }
 }

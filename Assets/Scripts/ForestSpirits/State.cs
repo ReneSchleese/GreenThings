@@ -8,13 +8,13 @@ namespace ForestSpirits
     {
         protected Action<Type> switchToState;
         protected Spirit spirit;
-        protected Actor actor;
+        protected Puppet Puppet;
 
-        public void Init(Spirit spirit, Actor actor, Action<Type> enterStateCallback)
+        public void Init(Spirit spirit, Puppet puppet, Action<Type> enterStateCallback)
         {
             this.spirit = spirit;
             switchToState = enterStateCallback;
-            this.actor = actor;
+            Puppet = puppet;
         }
         
         public virtual void OnEnter() {}
@@ -88,7 +88,7 @@ namespace ForestSpirits
                 return;
             }
 
-            bool IsSlowEnoughToUnfold() => actor.Speed <= 0.02f;
+            bool IsSlowEnoughToUnfold() => Puppet.Speed <= 0.02f;
             bool HasBeenSlowLongEnoughToUnfold() => Time.time - (_timeStampWhereFast + _randomUnfoldDelay) > 1.5f;
         }
     }
@@ -146,7 +146,7 @@ namespace ForestSpirits
         public override void OnEnter()
         {
             base.OnEnter();
-            actor.Unfold();
+            Puppet.Unfold();
         }
 
         public override void OnUpdate()

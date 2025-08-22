@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ForestSpirits
 {
-    public class Actor : MonoBehaviour
+    public class Puppet : MonoBehaviour
     {
         private static class AnimationIds
         {

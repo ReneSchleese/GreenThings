@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UserInterface : MonoBehaviour
+public class UserInterface : Singleton<UserInterface>
 {
     public event Action HornetScreamInput;
     
@@ -30,16 +30,4 @@ public class UserInterface : MonoBehaviour
     }
 
     public VirtualJoystick VirtualJoystick => _joystickRegion.VirtualJoystick;
-
-    public static UserInterface Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<UserInterface>();
-            }
-            return _instance;
-        }
-    }
 }

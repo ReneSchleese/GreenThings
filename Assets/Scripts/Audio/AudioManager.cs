@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 
 namespace Audio
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : Singleton<AudioManager>
     {
         [SerializeField] private AudioSource _ambientSource;
         [SerializeField] private Transform _effectsTransform;
@@ -13,7 +13,6 @@ namespace Audio
         [SerializeField] private Transform _inactiveSourcesContainer;
         [SerializeField] private AudioMixerGroup _masterGroup, _voiceGroup;
         
-        private static AudioManager _instance;
         private PrefabPool<PoolableAudioSource> _effectSourcePool;
         private PrefabPool<PoolableAudioSource> _voiceSourcePool;
 
@@ -54,18 +53,6 @@ namespace Audio
             {
                 yield return audioSource.PlayOneShot(clip);
                 pool.Return(audioSource);
-            }
-        }
-        
-        public static AudioManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<AudioManager>();
-                }
-                return _instance;
             }
         }
     }

@@ -9,7 +9,7 @@ public class KeyboardControls : MonoBehaviour
 
     private void Start()
     {
-        _virtualJoystick = FindObjectOfType<VirtualJoystick>();
+        _virtualJoystick = FindFirstObjectByType<VirtualJoystick>();
         _screamButton = UserInterface.Instance.ScreamButton;
     }
 

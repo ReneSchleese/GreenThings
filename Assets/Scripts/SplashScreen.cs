@@ -12,7 +12,7 @@ public class SplashScreen : MonoBehaviour
         yield return new WaitUntil(() => loadLoadingScreen.isDone);
         
         AsyncOperation loadGame = SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);
-        LoadingScreen loadingScreen = FindObjectOfType<LoadingScreen>();
+        LoadingScreen loadingScreen = FindFirstObjectByType<LoadingScreen>();
         yield return loadingScreen.FadeIn();
         _canvas.gameObject.SetActive(false);
         yield return new WaitUntil(() => loadGame.isDone);

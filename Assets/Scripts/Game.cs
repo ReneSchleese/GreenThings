@@ -4,17 +4,14 @@ using Audio;
 using ForestSpirits;
 using UnityEngine;
 
-public class Game : MonoBehaviour
+public class Game : Singleton<Game>
 {
     [SerializeField] private EntityManager _entityManager;
     [SerializeField] private GridSpawner _forestSpiritSpawner;
     [SerializeField] private AudioClip _ambientClip;
     [SerializeField] private int _forestSpiritAmount;
     
-    
-    
     private readonly List<ForestSpiritSpawn> _forestSpiritSpawns = new();
-    private static Game _instance;
 
     public void Awake()
     {
@@ -52,17 +49,5 @@ public class Game : MonoBehaviour
     public void Register(ForestSpiritSpawn spawn)
     {
         _forestSpiritSpawns.Add(spawn);
-    }
-
-    public static Game Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<Game>();
-            }
-            return _instance;
-        }
     }
 }

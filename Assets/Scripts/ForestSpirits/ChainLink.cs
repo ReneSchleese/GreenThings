@@ -22,9 +22,10 @@ namespace ForestSpirits
             get => transform.position;
             set => transform.position = value;
         }
-
-        public Vector3 BreakPosition => Spirit.Position;
-
+        
+        public Vector3 DesiredPositionStraight { get; set; }
+        public Vector3 DesiredPositionFollow { get; set; }
+        public Vector3 DesiredPositionLerped { get; set; }
         public float RealTimeSecondsWhenPooled { get; set; }
     }
 }

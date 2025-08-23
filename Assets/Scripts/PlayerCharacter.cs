@@ -51,6 +51,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Quaternion lookRotationTiledTowardsCamera = Utils.AlignNormalWhileLookingAlongDir(toCamera, directionZeroY);
         Quaternion tiltedAwayFromCamera = Quaternion.LerpUnclamped(lookRotation, lookRotationTiledTowardsCamera, -0.125f);
         _actor.rotation = Utils.SmoothDamp(_actor.rotation, tiltedAwayFromCamera, ref _actorRotDampVelocity, 0.05f);
+        
+        Chain.OnUpdate();
     }
     
     private void OnMove(Vector2 delta)
@@ -59,6 +61,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Vector3 offset = new Vector3(delta.x, 0f, delta.y).normalized * (JoystickMagnitude * MOVEMENT_SPEED);
         offset = Quaternion.Euler(0, -45, 0) * offset;
         _characterController.Move(offset * Time.deltaTime);
+        IsMoving = delta != Vector2.zero;
         if (Velocity == Vector3.zero)
         {
             return;
@@ -71,8 +74,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
             transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.05f);
             _targetLookRotator.rotation = lookRotation;
         }
-        
-        Chain.OnUpdate();
     }
     
     private void OnHornetScream()
@@ -123,4 +124,5 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     public Vector3 Velocity { get; private set; }
     public Vector3? TargetDir => transform.position + _targetLookRotator.forward;
     public float JoystickMagnitude { get; private set; }
+    public bool IsMoving { get; private set; }
 }

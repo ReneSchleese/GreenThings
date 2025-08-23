@@ -12,6 +12,8 @@ namespace ForestSpirits
         [SerializeField] private Transform _activeContainer;
         [SerializeField] private Transform _inactiveContainer;
         [SerializeField] private ChainSounds _sounds;
+        [SerializeField] [Range(0, 1f)] private float _straightDesire = 0.15f;
+        [SerializeField] [Range(0, 1f)] private float _fallOff = 0.15f;
      
         private const float BREAK_DISTANCE = 8f;
         private const float BREAK_DISTANCE_SQR = BREAK_DISTANCE * BREAK_DISTANCE;
@@ -67,7 +69,7 @@ namespace ForestSpirits
                 
                 if (chainLink.IsAllowedToBreak)
                 {
-                    Vector3 spiritToTarget = followTarget.BreakPosition - chainLink.Spirit.Position;
+                    Vector3 spiritToTarget = followTarget.Position - chainLink.Spirit.Position;
                     bool isTooFarAway = Utils.CloneAndSetY(spiritToTarget, 0f).magnitude > BREAK_DISTANCE;
                     if(isTooFarAway)
                     {
@@ -78,23 +80,36 @@ namespace ForestSpirits
                 
                 float requiredDistance = index == 0 ? FIRST_CHAIN_LINK_DISTANCE : CHAIN_LINK_DISTANCE;
                 Vector3 currentPos = chainLink.Position;
-                Vector3 straightPos = Player.Position - Player.transform.forward * ((index + 1) * requiredDistance);
+                var forward = Player.transform.forward;
+                Vector3 straightPos = Player.Position - forward * FIRST_CHAIN_LINK_DISTANCE - forward * (index * requiredDistance);
 
-                Vector3 stepTowardsStraight = (straightPos - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
+                Vector3 stepTowardsStraight = (straightPos - currentPos).normalized * (App.Instance.Player.IsMoving ? 20f * Time.deltaTime : 0f);
                 bool stepWouldOvershootTarget = stepTowardsStraight.magnitude > Vector3.Distance(currentPos, straightPos);
                 Vector3 straightTargetPos = stepWouldOvershootTarget
                     ? straightPos
                     : currentPos + stepTowardsStraight;
 
-                Vector3 stepTowardsFollow = (followTarget.Position - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
+                Vector3 stepTowardsFollow = (followTarget.Position - currentPos).normalized * (PlayerCharacter.MOVEMENT_SPEED * 0.95f * Time.deltaTime);
                 Vector3 followTargetPos = currentPos + stepTowardsFollow;
                 if (Vector3.Distance(followTarget.Position, followTargetPos) < requiredDistance)
                 {
                     followTargetPos = followTarget.Position - stepTowardsFollow.normalized * requiredDistance;
                 }
-
-                float weight = 1f / (index + 3);
-                chainLink.Position = Vector3.Lerp(followTargetPos, straightTargetPos, weight);
+                
+                float weightInChain = _straightDesire * (1f / (10 * _fallOff * index + 1));
+                chainLink.DesiredPositionFollow = followTargetPos;
+                chainLink.DesiredPositionStraight = straightPos;
+                chainLink.DesiredPositionLerped = Vector3.Lerp(chainLink.DesiredPositionFollow, chainLink.DesiredPositionStraight, App.Instance.Player.IsMoving ? weightInChain : 0f);
+                
+                Vector3 stepTowardsLerped = (chainLink.DesiredPositionLerped - currentPos).normalized * (PlayerCharacter.MOVEMENT_SPEED * 0.95f * Time.deltaTime);
+                Vector3 lerpedTargetPos = currentPos + stepTowardsLerped;
+                if (Vector3.Distance(followTarget.Position, lerpedTargetPos) < requiredDistance)
+                {
+                    lerpedTargetPos = followTarget.Position - stepTowardsFollow.normalized * requiredDistance;
+                }
+                
+                //chainLink.Position = Vector3.Lerp(followTargetPos, straightTargetPos, App.Instance.Player.IsMoving ? weightInChain : 0f);
+                chainLink.Position = lerpedTargetPos;
             }
         }
 
@@ -136,12 +151,24 @@ namespace ForestSpirits
             }
         }
 
+        private void OnDrawGizmosSelected()
+        {
+            foreach (ChainLink chainLink in _chainLinks)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawCube(chainLink.DesiredPositionFollow, Vector3.one * 0.25f);
+                Gizmos.color = Color.red;
+                Gizmos.DrawCube(chainLink.DesiredPositionStraight, Vector3.one * 0.25f);
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawCube(chainLink.DesiredPositionLerped, Vector3.one * 0.25f);
+            }
+        }
+
         private static PlayerCharacter Player => App.Instance.Player;
     }
 
     public interface IChainTarget
     {
         public Vector3 Position { get; }
-        public Vector3 BreakPosition { get; }
     }
 }

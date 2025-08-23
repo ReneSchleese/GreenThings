@@ -85,9 +85,12 @@ namespace ForestSpirits
                 {
                     return Utils.Mod(_bufferIndex - (index + 1), _playerPositionsBuffer.Length);
                 }
-
+                
+                Vector3 target = _playerPositionsBuffer[GetRouteIndex()];
+                Vector3 currentPos = chainLink.MimicRoutePosition;
+                float distance = Vector3.Distance(target, currentPos);
                 float speed = Mathf.Clamp(Player.Velocity.magnitude, PlayerCharacter.MOVEMENT_SPEED * 0.8f, PlayerCharacter.MOVEMENT_SPEED * 0.95f);
-                chainLink.MimicRoutePosition += (_playerPositionsBuffer[GetRouteIndex()] - chainLink.MimicRoutePosition).normalized * (speed * Time.deltaTime);
+                chainLink.MimicRoutePosition += (target - currentPos).normalized * Mathf.Min(speed * Time.deltaTime, distance);
                 chainLink.Position = chainLink.MimicRoutePosition;
 
                 /*if (chainLink.IsAllowedToBreak)

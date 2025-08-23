@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Audio;
 using ForestSpirits;
@@ -10,12 +11,18 @@ public class Game : Singleton<Game>
     [SerializeField] private GridSpawner _forestSpiritSpawner;
     [SerializeField] private AudioClip _ambientClip;
     [SerializeField] private int _forestSpiritAmount;
+    [SerializeField] private Chain _chain;
     
     private readonly List<ForestSpiritSpawn> _forestSpiritSpawns = new();
 
     public void Awake()
     {
         StartCoroutine(Setup());
+    }
+
+    private void Update()
+    {
+        _chain.OnUpdate();
     }
 
     private IEnumerator Setup()
@@ -50,4 +57,6 @@ public class Game : Singleton<Game>
     {
         _forestSpiritSpawns.Add(spawn);
     }
+
+    public Chain Chain => _chain;
 }

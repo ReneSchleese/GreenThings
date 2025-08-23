@@ -31,7 +31,7 @@ namespace ForestSpirits
         {
             base.OnUpdate();
             if (!PlayerIsInReach()) return;
-            Player.Chain.Enqueue(spirit);
+            Game.Instance.Chain.Enqueue(spirit);
             switchToState(typeof(FollowPlayerState));
         }
 
@@ -103,7 +103,7 @@ namespace ForestSpirits
         public override void OnEnter()
         {
             base.OnEnter();
-            _target = Player.Chain.GetTargetFor(spirit);
+            _target = Game.Instance.Chain.GetTargetFor(spirit);
         }
 
         public override void OnExit()

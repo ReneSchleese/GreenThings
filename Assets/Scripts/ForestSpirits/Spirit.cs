@@ -64,7 +64,7 @@ namespace ForestSpirits
             int playerPriority = App.Instance.Player.Priority;
             if (state == typeof(ChainLinkState))
             {
-                Priority = playerPriority + 1 + App.Instance.Player.Chain.GetIndex(this);
+                Priority = playerPriority + 1 + Game.Instance.Chain.GetIndex(this);
             }
             else
             {
@@ -81,7 +81,7 @@ namespace ForestSpirits
             {
                 _puppet.SmoothLookAt(App.Instance.Player.Position);
             }
-            IChainTarget chainTarget = App.Instance.Player.Chain.GetTargetFor(this);
+            IChainTarget chainTarget = Game.Instance.Chain.GetTargetFor(this);
             if (chainTarget != null)
             {
                 _targetLookRotator.LookAt(chainTarget.Position, Vector3.up);
@@ -131,7 +131,7 @@ namespace ForestSpirits
         {
             get
             {
-                IChainTarget chainTarget = App.Instance.Player.Chain.GetTargetFor(this);
+                IChainTarget chainTarget = Game.Instance.Chain.GetTargetFor(this);
                 return chainTarget == null ? null : chainTarget.Position - transform.position;
             }
         }

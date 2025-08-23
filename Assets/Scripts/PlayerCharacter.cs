@@ -14,7 +14,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private HornetAnimationEvents _animationEvents;
     [SerializeField] private bool _applyGravity;
 
-    public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
     private Vector3 _lastVelocity;
     private Quaternion _rotDampVelocity;
@@ -51,8 +50,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Quaternion lookRotationTiledTowardsCamera = Utils.AlignNormalWhileLookingAlongDir(toCamera, directionZeroY);
         Quaternion tiltedAwayFromCamera = Quaternion.LerpUnclamped(lookRotation, lookRotationTiledTowardsCamera, -0.125f);
         _actor.rotation = Utils.SmoothDamp(_actor.rotation, tiltedAwayFromCamera, ref _actorRotDampVelocity, 0.05f);
-        
-        Chain.OnUpdate();
     }
     
     private void OnMove(Vector2 delta)
@@ -82,7 +79,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         int index = _screamIndex.Get();
         AudioManager.Instance.PlayVoice(_hornetScreams[index]);
         _animator.PlayBattlecry(index);
-        Chain.PlayEchoed(index, _hornetScreams[index].length);
+        Game.Instance.Chain.PlayEchoed(index, _hornetScreams[index].length);
     }
     
     private void PlayFootStep()

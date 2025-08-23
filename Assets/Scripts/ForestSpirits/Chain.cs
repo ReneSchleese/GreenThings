@@ -51,21 +51,21 @@ namespace ForestSpirits
             return _chainLinks.IndexOf(_spiritToLinks[spirit]);
         }
 
-        private readonly Vector3[] _playerPositionsBuffer = new Vector3[20];
+        private readonly Vector3[] _playerRoutePointBuffer = new Vector3[20];
         private int _bufferIndex;
 
         public void OnUpdate()
         {
-            if (_playerPositionsBuffer[_bufferIndex] == default)
+            if (_playerRoutePointBuffer[_bufferIndex] == default)
             {
-                _playerPositionsBuffer[_bufferIndex] = Player.Position;
+                _playerRoutePointBuffer[_bufferIndex] = Player.Position;
             }
 
-            bool createNewRoutePoint = Vector3.Distance(Player.Position, _playerPositionsBuffer[_bufferIndex]) > CHAIN_LINK_DISTANCE;
+            bool createNewRoutePoint = Vector3.Distance(Player.Position, _playerRoutePointBuffer[_bufferIndex]) > CHAIN_LINK_DISTANCE;
             if (createNewRoutePoint)
             {
-                _bufferIndex = (_bufferIndex + 1) % _playerPositionsBuffer.Length;
-                _playerPositionsBuffer[_bufferIndex] = Player.Position;
+                _bufferIndex = (_bufferIndex + 1) % _playerRoutePointBuffer.Length;
+                _playerRoutePointBuffer[_bufferIndex] = Player.Position;
             }
             if (_chainLinks.Count == 0)
             {
@@ -89,10 +89,10 @@ namespace ForestSpirits
                 
                 int GetRouteIndex()
                 {
-                    return Utils.Mod(_bufferIndex - (index + 1), _playerPositionsBuffer.Length);
+                    return Utils.Mod(_bufferIndex - (index + 1), _playerRoutePointBuffer.Length);
                 }
                 
-                Vector3 target = _playerPositionsBuffer[GetRouteIndex()];
+                Vector3 target = _playerRoutePointBuffer[GetRouteIndex()];
                 Vector3 currentPos = chainLink.FollowPlayerRoutePosition;
                 float distance = Vector3.Distance(target, currentPos);
                 const float minSpeed = PlayerCharacter.MOVEMENT_SPEED * 0.2f;
@@ -144,7 +144,7 @@ namespace ForestSpirits
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
-            foreach (Vector3 vector3 in _playerPositionsBuffer)
+            foreach (Vector3 vector3 in _playerRoutePointBuffer)
             {
                 Gizmos.DrawCube(vector3, Vector3.one * 0.25f);   
             }

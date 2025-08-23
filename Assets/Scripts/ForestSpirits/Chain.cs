@@ -19,6 +19,7 @@ namespace ForestSpirits
         private readonly List<ChainLink> _chainLinks = new();
         private readonly Dictionary<Spirit, ChainLink> _spiritToLinks = new();
         private PrefabPool<ChainLink> _chainLinkPool;
+        private readonly CircularBuffer<Vector3> _playerRoutePointBuffer = new(20);
 
         private void Awake()
         {
@@ -29,6 +30,7 @@ namespace ForestSpirits
                     : Player.Position;
                 link.RealTimeSecondsWhenPooled = Time.realtimeSinceStartup;
             }, onBeforeReturn: link => { link.Spirit = null; });
+            _playerRoutePointBuffer.Add(Player.Position);
         }
 
         public void Enqueue(Spirit spirit)
@@ -51,48 +53,39 @@ namespace ForestSpirits
             return _chainLinks.IndexOf(_spiritToLinks[spirit]);
         }
 
-        private readonly Vector3[] _playerRoutePointBuffer = new Vector3[20];
-        private int _bufferIndex;
-
         public void OnUpdate()
         {
-            if (_playerRoutePointBuffer[_bufferIndex] == default)
-            {
-                _playerRoutePointBuffer[_bufferIndex] = Player.Position;
-            }
-
-            bool createNewRoutePoint = Vector3.Distance(Player.Position, _playerRoutePointBuffer[_bufferIndex]) > CHAIN_LINK_DISTANCE;
+            bool createNewRoutePoint = Vector3.Distance(Player.Position, _playerRoutePointBuffer.GetYoungest()) > CHAIN_LINK_DISTANCE;
             if (createNewRoutePoint)
             {
-                _bufferIndex = (_bufferIndex + 1) % _playerRoutePointBuffer.Length;
-                _playerRoutePointBuffer[_bufferIndex] = Player.Position;
+                _playerRoutePointBuffer.Add(Player.Position);
             }
             if (_chainLinks.Count == 0)
             {
                 return;
             }
             
-            for (int index = 0; index < _chainLinks.Count; index++)
+            for (int chainLinkIndex = 0; chainLinkIndex < _chainLinks.Count; chainLinkIndex++)
             {
-                ChainLink chainLink = _chainLinks[index];
-                IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
+                ChainLink chainLink = _chainLinks[chainLinkIndex];
+                IChainTarget followTarget = chainLinkIndex == 0 ? Player : _chainLinks[chainLinkIndex - 1];
                 if (chainLink.IsAllowedToBreak)
                 {
                     Vector3 spiritToTarget = followTarget.Position - chainLink.Spirit.Position;
                     bool isTooFarAway = Utils.CloneAndSetY(spiritToTarget, 0f).magnitude > BREAK_DISTANCE;
                     if(isTooFarAway)
                     {
-                        BreakAt(index);
+                        BreakAt(chainLinkIndex);
                         return;
                     }
                 }
                 
                 int GetRouteIndex()
                 {
-                    return Utils.Mod(_bufferIndex - (index + 1), _playerRoutePointBuffer.Length);
+                    return Utils.Mod(_playerRoutePointBuffer.Index - (chainLinkIndex + 1), _playerRoutePointBuffer.Length);
                 }
                 
-                Vector3 target = _playerRoutePointBuffer[GetRouteIndex()];
+                Vector3 target = _playerRoutePointBuffer.Get(GetRouteIndex());
                 Vector3 currentPos = chainLink.FollowPlayerRoutePosition;
                 float distance = Vector3.Distance(target, currentPos);
                 const float minSpeed = PlayerCharacter.MOVEMENT_SPEED * 0.2f;
@@ -144,7 +137,7 @@ namespace ForestSpirits
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
-            foreach (Vector3 vector3 in _playerRoutePointBuffer)
+            foreach (Vector3 vector3 in _playerRoutePointBuffer.Values)
             {
                 Gizmos.DrawCube(vector3, Vector3.one * 0.25f);   
             }

@@ -80,7 +80,17 @@ namespace ForestSpirits
             {
                 ChainLink chainLink = _chainLinks[index];
                 IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
-
+                if (chainLink.IsAllowedToBreak)
+                {
+                    Vector3 spiritToTarget = followTarget.Position - chainLink.Spirit.Position;
+                    bool isTooFarAway = Utils.CloneAndSetY(spiritToTarget, 0f).magnitude > BREAK_DISTANCE;
+                    if(isTooFarAway)
+                    {
+                        BreakAt(index);
+                        return;
+                    }
+                }
+                
                 int GetRouteIndex()
                 {
                     return Utils.Mod(_bufferIndex - (index + 1), _playerPositionsBuffer.Length);
@@ -93,16 +103,7 @@ namespace ForestSpirits
                 chainLink.MimicRoutePosition += (target - currentPos).normalized * Mathf.Min(speed * Time.deltaTime, distance);
                 chainLink.Position = chainLink.MimicRoutePosition;
 
-                /*if (chainLink.IsAllowedToBreak)
-                {
-                    Vector3 spiritToTarget = followTarget.Position - chainLink.Spirit.Position;
-                    bool isTooFarAway = Utils.CloneAndSetY(spiritToTarget, 0f).magnitude > BREAK_DISTANCE;
-                    if(isTooFarAway)
-                    {
-                        BreakAt(index);
-                        return;
-                    }
-                }
+                /*
                 
                 float requiredDistance = index == 0 ? FIRST_CHAIN_LINK_DISTANCE : CHAIN_LINK_DISTANCE;
                 Vector3 currentPos = chainLink.Position;

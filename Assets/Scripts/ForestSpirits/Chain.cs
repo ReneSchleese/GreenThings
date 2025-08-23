@@ -82,7 +82,7 @@ namespace ForestSpirits
                 
                 int GetRouteIndex()
                 {
-                    return Utils.Mod(_playerRoutePointBuffer.Index - (chainLinkIndex + 1), _playerRoutePointBuffer.Length);
+                    return Utils.Mod(_playerRoutePointBuffer.Index - (chainLinkIndex + 2), _playerRoutePointBuffer.Length);
                 }
                 
                 Vector3 target = _playerRoutePointBuffer.Get(GetRouteIndex());

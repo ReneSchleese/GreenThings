@@ -26,6 +26,7 @@ namespace ForestSpirits
         public Vector3 DesiredPositionStraight { get; set; }
         public Vector3 DesiredPositionFollow { get; set; }
         public Vector3 DesiredPositionLerped { get; set; }
+        public Vector3 MimicRoutePosition { get; set; }
         public float RealTimeSecondsWhenPooled { get; set; }
     }
 }

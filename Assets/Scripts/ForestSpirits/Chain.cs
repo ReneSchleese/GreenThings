@@ -12,7 +12,7 @@ namespace ForestSpirits
         [SerializeField] private Transform _activeContainer;
         [SerializeField] private Transform _inactiveContainer;
         [SerializeField] private ChainSounds _sounds;
-        [SerializeField] [Range(0, 1f)] private float _straightDesire = 0.15f;
+        [SerializeField] [Range(0, 1f)] private float _stiffness = 0.15f;
         [SerializeField] [Range(0, 1f)] private float _fallOff = 0.15f;
      
         private const float BREAK_DISTANCE = 8f;
@@ -43,6 +43,7 @@ namespace ForestSpirits
             link.Spirit = spirit;
             _chainLinks.Add(link);
             _spiritToLinks.Add(spirit, link);
+            link.MimicRoutePosition = link.Position;
         }
 
         public IChainTarget GetTargetFor(Spirit requester)
@@ -55,8 +56,21 @@ namespace ForestSpirits
             return _chainLinks.IndexOf(_spiritToLinks[spirit]);
         }
 
+        private readonly Vector3[] _playerPositionsBuffer = new Vector3[20];
+        private int _bufferIndex = 0;
+        private float _timeLastSnapshot;
+
         public void OnUpdate()
         {
+            if (_playerPositionsBuffer[_bufferIndex] == default)
+            {
+                _playerPositionsBuffer[_bufferIndex] = Player.Position;
+            }
+            if (Vector3.Distance(Player.Position, _playerPositionsBuffer[_bufferIndex]) > CHAIN_LINK_DISTANCE)
+            {
+                _bufferIndex = (_bufferIndex + 1) % _playerPositionsBuffer.Length;
+                _playerPositionsBuffer[_bufferIndex] = Player.Position;
+            }
             if (_chainLinks.Count == 0)
             {
                 return;
@@ -66,8 +80,17 @@ namespace ForestSpirits
             {
                 ChainLink chainLink = _chainLinks[index];
                 IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
-                
-                if (chainLink.IsAllowedToBreak)
+
+                int GetRouteIndex()
+                {
+                    return Utils.Mod(_bufferIndex - (index + 1), _playerPositionsBuffer.Length);
+                }
+
+                float speed = Mathf.Clamp(Player.Velocity.magnitude, PlayerCharacter.MOVEMENT_SPEED * 0.8f, PlayerCharacter.MOVEMENT_SPEED * 0.95f);
+                chainLink.MimicRoutePosition += (_playerPositionsBuffer[GetRouteIndex()] - chainLink.MimicRoutePosition).normalized * (speed * Time.deltaTime);
+                chainLink.Position = chainLink.MimicRoutePosition;
+
+                /*if (chainLink.IsAllowedToBreak)
                 {
                     Vector3 spiritToTarget = followTarget.Position - chainLink.Spirit.Position;
                     bool isTooFarAway = Utils.CloneAndSetY(spiritToTarget, 0f).magnitude > BREAK_DISTANCE;
@@ -83,33 +106,27 @@ namespace ForestSpirits
                 var forward = Player.transform.forward;
                 Vector3 straightPos = Player.Position - forward * FIRST_CHAIN_LINK_DISTANCE - forward * (index * requiredDistance);
 
-                Vector3 stepTowardsStraight = (straightPos - currentPos).normalized * (App.Instance.Player.IsMoving ? 20f * Time.deltaTime : 0f);
-                bool stepWouldOvershootTarget = stepTowardsStraight.magnitude > Vector3.Distance(currentPos, straightPos);
-                Vector3 straightTargetPos = stepWouldOvershootTarget
-                    ? straightPos
-                    : currentPos + stepTowardsStraight;
-
-                Vector3 stepTowardsFollow = (followTarget.Position - currentPos).normalized * (PlayerCharacter.MOVEMENT_SPEED * 0.95f * Time.deltaTime);
+                Vector3 stepTowardsFollow = (followTarget.Position - currentPos).normalized;
                 Vector3 followTargetPos = currentPos + stepTowardsFollow;
                 if (Vector3.Distance(followTarget.Position, followTargetPos) < requiredDistance)
                 {
                     followTargetPos = followTarget.Position - stepTowardsFollow.normalized * requiredDistance;
                 }
                 
-                float weightInChain = _straightDesire * (1f / (10 * _fallOff * index + 1));
+                float weightInChain = _stiffness * (1f / (1 * _fallOff * index + Mathf.Epsilon));
                 chainLink.DesiredPositionFollow = followTargetPos;
                 chainLink.DesiredPositionStraight = straightPos;
                 chainLink.DesiredPositionLerped = Vector3.Lerp(chainLink.DesiredPositionFollow, chainLink.DesiredPositionStraight, App.Instance.Player.IsMoving ? weightInChain : 0f);
                 
                 Vector3 stepTowardsLerped = (chainLink.DesiredPositionLerped - currentPos).normalized * (PlayerCharacter.MOVEMENT_SPEED * 0.95f * Time.deltaTime);
                 Vector3 lerpedTargetPos = currentPos + stepTowardsLerped;
-                if (Vector3.Distance(followTarget.Position, lerpedTargetPos) < requiredDistance)
-                {
-                    lerpedTargetPos = followTarget.Position - stepTowardsFollow.normalized * requiredDistance;
-                }
+                // if (Vector3.Distance(followTarget.Position, lerpedTargetPos) < requiredDistance)
+                // {
+                //     lerpedTargetPos = followTarget.Position - stepTowardsFollow.normalized * requiredDistance;
+                // }
                 
                 //chainLink.Position = Vector3.Lerp(followTargetPos, straightTargetPos, App.Instance.Player.IsMoving ? weightInChain : 0f);
-                chainLink.Position = lerpedTargetPos;
+                chainLink.Position = lerpedTargetPos;*/
             }
         }
 
@@ -153,6 +170,11 @@ namespace ForestSpirits
 
         private void OnDrawGizmosSelected()
         {
+            Gizmos.color = Color.blue;
+            foreach (Vector3 vector3 in _playerPositionsBuffer)
+            {
+                Gizmos.DrawCube(vector3, Vector3.one * 0.25f);   
+            }
             foreach (ChainLink chainLink in _chainLinks)
             {
                 Gizmos.color = Color.green;
@@ -161,6 +183,8 @@ namespace ForestSpirits
                 Gizmos.DrawCube(chainLink.DesiredPositionStraight, Vector3.one * 0.25f);
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawCube(chainLink.DesiredPositionLerped, Vector3.one * 0.25f);
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawCube(chainLink.MimicRoutePosition + Vector3.right * 0.2f, Vector3.one * 0.25f);
             }
         }
 

@@ -38,7 +38,7 @@ namespace ForestSpirits
             link.Spirit = spirit;
             _chainLinks.Add(link);
             _spiritToLinks.Add(spirit, link);
-            link.MimicRoutePosition = link.Position;
+            link.FollowPlayerRoutePosition = link.Position;
         }
 
         public IChainTarget GetTargetFor(Spirit requester)
@@ -60,7 +60,9 @@ namespace ForestSpirits
             {
                 _playerPositionsBuffer[_bufferIndex] = Player.Position;
             }
-            if (Vector3.Distance(Player.Position, _playerPositionsBuffer[_bufferIndex]) > CHAIN_LINK_DISTANCE)
+
+            bool createNewRoutePoint = Vector3.Distance(Player.Position, _playerPositionsBuffer[_bufferIndex]) > CHAIN_LINK_DISTANCE;
+            if (createNewRoutePoint)
             {
                 _bufferIndex = (_bufferIndex + 1) % _playerPositionsBuffer.Length;
                 _playerPositionsBuffer[_bufferIndex] = Player.Position;
@@ -91,11 +93,13 @@ namespace ForestSpirits
                 }
                 
                 Vector3 target = _playerPositionsBuffer[GetRouteIndex()];
-                Vector3 currentPos = chainLink.MimicRoutePosition;
+                Vector3 currentPos = chainLink.FollowPlayerRoutePosition;
                 float distance = Vector3.Distance(target, currentPos);
-                float speed = Mathf.Clamp(Player.Velocity.magnitude, PlayerCharacter.MOVEMENT_SPEED * 0.2f, PlayerCharacter.MOVEMENT_SPEED * 0.95f);
-                chainLink.MimicRoutePosition += (target - currentPos).normalized * Mathf.Min(speed * Time.deltaTime, distance);
-                chainLink.Position = chainLink.MimicRoutePosition;
+                const float minSpeed = PlayerCharacter.MOVEMENT_SPEED * 0.2f;
+                const float maxSpeed = PlayerCharacter.MOVEMENT_SPEED * 0.95f;
+                float speed = Mathf.Clamp(Player.Velocity.magnitude, minSpeed, maxSpeed);
+                chainLink.FollowPlayerRoutePosition += (target - currentPos).normalized * Mathf.Min(speed * Time.deltaTime, distance);
+                chainLink.Position = chainLink.FollowPlayerRoutePosition;
             }
         }
 
@@ -146,14 +150,8 @@ namespace ForestSpirits
             }
             foreach (ChainLink chainLink in _chainLinks)
             {
-                Gizmos.color = Color.green;
-                Gizmos.DrawCube(chainLink.DesiredPositionFollow, Vector3.one * 0.25f);
-                Gizmos.color = Color.red;
-                Gizmos.DrawCube(chainLink.DesiredPositionStraight, Vector3.one * 0.25f);
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawCube(chainLink.DesiredPositionLerped, Vector3.one * 0.25f);
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawCube(chainLink.MimicRoutePosition + Vector3.right * 0.2f, Vector3.one * 0.25f);
+                Gizmos.DrawCube(chainLink.FollowPlayerRoutePosition + Vector3.right * 0.2f, Vector3.one * 0.25f);
             }
         }
 

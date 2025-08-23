@@ -12,14 +12,9 @@ namespace ForestSpirits
         [SerializeField] private Transform _activeContainer;
         [SerializeField] private Transform _inactiveContainer;
         [SerializeField] private ChainSounds _sounds;
-        [SerializeField] [Range(0, 1f)] private float _stiffness = 0.15f;
-        [SerializeField] [Range(0, 1f)] private float _fallOff = 0.15f;
-     
+
         private const float BREAK_DISTANCE = 8f;
-        private const float BREAK_DISTANCE_SQR = BREAK_DISTANCE * BREAK_DISTANCE;
-        private const float UPDATE_SPEED = 20f;
         private const float CHAIN_LINK_DISTANCE = 1.7f;
-        private const float FIRST_CHAIN_LINK_DISTANCE = 2.5f;
         
         private readonly List<ChainLink> _chainLinks = new();
         private readonly Dictionary<Spirit, ChainLink> _spiritToLinks = new();
@@ -57,8 +52,7 @@ namespace ForestSpirits
         }
 
         private readonly Vector3[] _playerPositionsBuffer = new Vector3[20];
-        private int _bufferIndex = 0;
-        private float _timeLastSnapshot;
+        private int _bufferIndex;
 
         public void OnUpdate()
         {
@@ -102,35 +96,6 @@ namespace ForestSpirits
                 float speed = Mathf.Clamp(Player.Velocity.magnitude, PlayerCharacter.MOVEMENT_SPEED * 0.2f, PlayerCharacter.MOVEMENT_SPEED * 0.95f);
                 chainLink.MimicRoutePosition += (target - currentPos).normalized * Mathf.Min(speed * Time.deltaTime, distance);
                 chainLink.Position = chainLink.MimicRoutePosition;
-
-                /*
-                
-                float requiredDistance = index == 0 ? FIRST_CHAIN_LINK_DISTANCE : CHAIN_LINK_DISTANCE;
-                Vector3 currentPos = chainLink.Position;
-                var forward = Player.transform.forward;
-                Vector3 straightPos = Player.Position - forward * FIRST_CHAIN_LINK_DISTANCE - forward * (index * requiredDistance);
-
-                Vector3 stepTowardsFollow = (followTarget.Position - currentPos).normalized;
-                Vector3 followTargetPos = currentPos + stepTowardsFollow;
-                if (Vector3.Distance(followTarget.Position, followTargetPos) < requiredDistance)
-                {
-                    followTargetPos = followTarget.Position - stepTowardsFollow.normalized * requiredDistance;
-                }
-                
-                float weightInChain = _stiffness * (1f / (1 * _fallOff * index + Mathf.Epsilon));
-                chainLink.DesiredPositionFollow = followTargetPos;
-                chainLink.DesiredPositionStraight = straightPos;
-                chainLink.DesiredPositionLerped = Vector3.Lerp(chainLink.DesiredPositionFollow, chainLink.DesiredPositionStraight, App.Instance.Player.IsMoving ? weightInChain : 0f);
-                
-                Vector3 stepTowardsLerped = (chainLink.DesiredPositionLerped - currentPos).normalized * (PlayerCharacter.MOVEMENT_SPEED * 0.95f * Time.deltaTime);
-                Vector3 lerpedTargetPos = currentPos + stepTowardsLerped;
-                // if (Vector3.Distance(followTarget.Position, lerpedTargetPos) < requiredDistance)
-                // {
-                //     lerpedTargetPos = followTarget.Position - stepTowardsFollow.normalized * requiredDistance;
-                // }
-                
-                //chainLink.Position = Vector3.Lerp(followTargetPos, straightTargetPos, App.Instance.Player.IsMoving ? weightInChain : 0f);
-                chainLink.Position = lerpedTargetPos;*/
             }
         }
 

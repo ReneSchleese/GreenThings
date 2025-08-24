@@ -31,15 +31,16 @@ public class Game : Singleton<Game>
     {
         // wait for spawners to register
         yield return null;
+        SpawnForestSpirits();
+        AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
         
         if(!SceneManager.GetSceneByName("Game_Treasure").isLoaded)
         {
             AsyncOperation gameTreasureOperation = SceneManager.LoadSceneAsync("Game_Treasure", LoadSceneMode.Additive);
             yield return new WaitUntil(() => gameTreasureOperation.isDone);
         }
-        
-        SpawnForestSpirits();
-        AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
+        GameTreasureManager treasureManager = FindFirstObjectByType<GameTreasureManager>();
+        yield return treasureManager.Setup();
     }
 
     private void SpawnForestSpirits()

@@ -26,6 +26,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         UserInterface.Instance.VirtualJoystick.Move += OnMove;
         UserInterface.Instance.HornetScreamInput += OnHornetScream;
+        UserInterface.Instance.HornetDigInput += OnHornetDigInput;
         _pushHitbox.Init(this);
         _screamIndex = new PseudoRandomIndex(_hornetScreams.Length);
         _footstepIndex = new PseudoRandomIndex(_footstepsGrass.Length);
@@ -80,6 +81,11 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         AudioManager.Instance.PlayVoice(_hornetScreams[index]);
         _animator.PlayBattlecry(index);
         Game.Instance.Chain.PlayEchoed(index, _hornetScreams[index].length);
+    }
+
+    private void OnHornetDigInput()
+    {
+        Debug.Log("Dig");
     }
     
     private void PlayFootStep()

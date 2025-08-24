@@ -14,8 +14,7 @@ public class Game : Singleton<Game>
     [SerializeField] private int _forestSpiritAmount;
     [SerializeField] private Chain _chain;
     [SerializeField] private PlayerCharacter _player;
-    
-    private readonly List<ForestSpiritSpawn> _forestSpiritSpawns = new();
+    [SerializeField] private List<Transform> _forestSpiritSpawns;
 
     public void Awake()
     {
@@ -50,21 +49,15 @@ public class Game : Singleton<Game>
         Debug.Assert(_forestSpiritSpawns.Count > 0, "no forest-spirit spawns have been registered");
         _forestSpiritSpawner.SortIntoGrid(_forestSpiritSpawns.Select(spawn => spawn.transform));
         
-        foreach (ForestSpiritSpawn spawn in _forestSpiritSpawner.DrawAmountWithoutReturning(_forestSpiritAmount).Select(trans => trans.GetComponent<ForestSpiritSpawn>()))
+        foreach (Transform spawn in _forestSpiritSpawner.DrawAmountWithoutReturning(_forestSpiritAmount))
         {
-            var spawnTransform = spawn.transform;
-            _spawner.SpawnForestSpirit(spawnTransform.position, spawnTransform.rotation);
+            _spawner.SpawnForestSpirit(spawn.position, spawn.rotation);
         }
-        foreach (ForestSpiritSpawn spawn in _forestSpiritSpawns)
+        foreach (Transform spawn in _forestSpiritSpawns)
         {
             Destroy(spawn.gameObject);
         }
         _forestSpiritSpawns.Clear();
-    }
-
-    public void Register(ForestSpiritSpawn spawn)
-    {
-        _forestSpiritSpawns.Add(spawn);
     }
 
     public PlayerCharacter Player => _player;

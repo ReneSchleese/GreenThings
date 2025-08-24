@@ -6,7 +6,8 @@ using UnityEngine;
 public class GameTreasureManager : MonoBehaviour
 {
     [SerializeField] private GridSortedObjects _gridSortedTreasures;
-    [SerializeField] private BuriedTreasureSpawn[] _treasureSpawns;
+    [SerializeField] private Transform _treasureSpawnsParent;
+    [SerializeField] private Transform[] _treasureSpawns;
 
     public IEnumerator Setup()
     {
@@ -15,5 +16,6 @@ public class GameTreasureManager : MonoBehaviour
         yield break;
     }
 
-    public void SetTreasureSpawns(IEnumerable<BuriedTreasureSpawn> spawns) => _treasureSpawns = spawns.ToArray();
+    public void SetTreasureSpawns(IEnumerable<Transform> spawns) => _treasureSpawns = spawns.ToArray();
+    public Transform TreasureSpawnsParent => _treasureSpawnsParent;
 }

@@ -12,8 +12,8 @@ public class CustomGameTreasureManagerEditor : Editor
         GameTreasureManager manager = (GameTreasureManager)target;
         if (GUILayout.Button("Find and set all treasure-spawns"))
         {
-            BuriedTreasureSpawn[] spawns = Resources.FindObjectsOfTypeAll<BuriedTreasureSpawn>()
-                .Where(spawn => spawn.gameObject.scene.IsValid()).ToArray();
+            Transform[] spawns = manager.TreasureSpawnsParent.GetComponentsInChildren<Transform>()
+                .Where(spawn => spawn.name.StartsWith("BuriedTreasureSpawn")).ToArray();
             Undo.RecordObject(manager, "Set Treasure Spawns");
             manager.SetTreasureSpawns(spawns);
             EditorUtility.SetDirty(manager);

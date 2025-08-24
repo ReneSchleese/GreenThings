@@ -11,7 +11,7 @@ public class GridSortedObjects : MonoBehaviour
     [SerializeField] private Vector2 _gridMin;
     [SerializeField] private Vector2 _gridMax;
     [SerializeField] private int _segmentsX, _segmentsZ;
-    private readonly List<GridSegment<MonoBehaviour>> _grid = new();
+    private readonly List<GridSegment<Transform>> _grid = new();
 
     public void CalculateGrid()
     {
@@ -23,24 +23,24 @@ public class GridSortedObjects : MonoBehaviour
             {
                 Vector2 currentMin = _gridMin + new Vector2(x * segmentSizeX, z * segmentSizeZ);;
                 Vector2 currentMax = _gridMin + new Vector2((x + 1) * segmentSizeX, (z + 1) * segmentSizeZ);
-                _grid.Add(new GridSegment<MonoBehaviour>(currentMin, currentMax));
+                _grid.Add(new GridSegment<Transform>(currentMin, currentMax));
             }
         }
     }
 
-    public void SortIntoGrid(IEnumerable<MonoBehaviour> spawns)
+    public void SortIntoGrid(IEnumerable<Transform> spawns)
     {
-        foreach (MonoBehaviour spawn in spawns)
+        foreach (Transform spawn in spawns)
         {
-            GridSegment<MonoBehaviour> segment = _grid.First(segment => segment.ContainsPoint(spawn.transform.position));
+            GridSegment<Transform> segment = _grid.First(segment => segment.ContainsPoint(spawn.position));
             segment.Objects.Add(spawn);
         }
     }
 
-    public IEnumerable<T> DrawAmountWithoutReturning<T>(int amount) where T : MonoBehaviour
+    public IEnumerable<Transform> DrawAmountWithoutReturning(int amount)
     {
-        List<MonoBehaviour> result = new();
-        List<GridSegment<MonoBehaviour>> availableSegments = _grid.Where(segment => segment.Objects.Count > 0).ToList();
+        List<Transform> result = new();
+        List<GridSegment<Transform>> availableSegments = _grid.Where(segment => segment.Objects.Count > 0).ToList();
         Debug.Assert(availableSegments.Count > 0);
 
         for (int i = 0; i < amount; i++)
@@ -54,7 +54,7 @@ public class GridSortedObjects : MonoBehaviour
             }
         }
 
-        return result.Cast<T>();
+        return result;
     }
 
     public void Clear()
@@ -65,7 +65,7 @@ public class GridSortedObjects : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         List<Vector3> lines = new();
-        foreach (GridSegment<MonoBehaviour> segment in _grid)
+        foreach (GridSegment<Transform> segment in _grid)
         {
             lines.Add(new Vector3(segment.Min.x, 0f, segment.Min.y));
             lines.Add(new Vector3(segment.Min.x, 0f, segment.Max.y));

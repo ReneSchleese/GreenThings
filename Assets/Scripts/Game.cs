@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Audio;
 using ForestSpirits;
 using UnityEngine;
@@ -48,9 +48,9 @@ public class Game : Singleton<Game>
         _forestSpiritSpawner.CalculateGrid();
         
         Debug.Assert(_forestSpiritSpawns.Count > 0, "no forest-spirit spawns have been registered");
-        _forestSpiritSpawner.SortIntoGrid(_forestSpiritSpawns);
+        _forestSpiritSpawner.SortIntoGrid(_forestSpiritSpawns.Select(spawn => spawn.transform));
         
-        foreach (ForestSpiritSpawn spawn in _forestSpiritSpawner.DrawAmountWithoutReturning<ForestSpiritSpawn>(_forestSpiritAmount))
+        foreach (ForestSpiritSpawn spawn in _forestSpiritSpawner.DrawAmountWithoutReturning(_forestSpiritAmount).Select(trans => trans.GetComponent<ForestSpiritSpawn>()))
         {
             var spawnTransform = spawn.transform;
             _spawner.SpawnForestSpirit(spawnTransform.position, spawnTransform.rotation);
@@ -65,11 +65,6 @@ public class Game : Singleton<Game>
     public void Register(ForestSpiritSpawn spawn)
     {
         _forestSpiritSpawns.Add(spawn);
-    }
-    
-    public void Register(BuriedTreasureSpawn spawn)
-    {
-        Debug.Log($"registered! {spawn}");
     }
 
     public PlayerCharacter Player => _player;

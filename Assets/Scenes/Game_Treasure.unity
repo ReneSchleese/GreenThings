@@ -224,10 +224,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gridSortedTreasures: {fileID: 380001342}
+  _treasureSpawnsParent: {fileID: 1093374809}
   _treasureSpawns:
-  - {fileID: 1788710574}
-  - {fileID: 1956959054}
-  - {fileID: 1054098199}
+  - {fileID: 194406096}
+  - {fileID: 1448482086}
+  - {fileID: 1788710573}
 --- !u!4 &380001341
 Transform:
   m_ObjectHideFlags: 0
@@ -259,18 +260,6 @@ MonoBehaviour:
   _gridMax: {x: 43.75, y: 67.5}
   _segmentsX: 4
   _segmentsZ: 5
---- !u!114 &1054098199 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2622704035014578543, guid: f72c914c77420bf48a81588b22cc7a44,
-    type: 3}
-  m_PrefabInstance: {fileID: 194406095}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e8528e260ed76489a2a9a3451da6b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1093374808
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,30 +442,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1788710572}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1788710574 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2622704035014578543, guid: f72c914c77420bf48a81588b22cc7a44,
-    type: 3}
-  m_PrefabInstance: {fileID: 1788710572}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e8528e260ed76489a2a9a3451da6b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1956959054 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2622704035014578543, guid: f72c914c77420bf48a81588b22cc7a44,
-    type: 3}
-  m_PrefabInstance: {fileID: 1448482085}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e8528e260ed76489a2a9a3451da6b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

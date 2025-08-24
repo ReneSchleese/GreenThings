@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Game : Singleton<Game>
 {
-    [SerializeField] private EntityManager _entityManager;
+    [SerializeField] private Spawner _spawner;
     [SerializeField] private GridSpawner _forestSpiritSpawner;
     [SerializeField] private AudioClip _ambientClip;
     [SerializeField] private int _forestSpiritAmount;
@@ -44,7 +44,7 @@ public class Game : Singleton<Game>
         foreach (ForestSpiritSpawn spawn in _forestSpiritSpawner.TakeAtRandom(_forestSpiritAmount))
         {
             var spawnTransform = spawn.transform;
-            _entityManager.SpawnForestSpirit(spawnTransform.position, spawnTransform.rotation);
+            _spawner.SpawnForestSpirit(spawnTransform.position, spawnTransform.rotation);
         }
         foreach (ForestSpiritSpawn spawn in _forestSpiritSpawns)
         {

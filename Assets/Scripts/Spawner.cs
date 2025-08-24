@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EntityManager : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     [SerializeField] private ForestSpirits.Spirit _forestSpiritPrefab;
     [SerializeField] private Transform _forestSpiritParent;

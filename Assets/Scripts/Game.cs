@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Audio;
 using ForestSpirits;
@@ -6,16 +7,23 @@ using UnityEngine;
 
 public class Game : Singleton<Game>
 {
-    [SerializeField] private EntityManager _entityManager;
+    [SerializeField] private Spawner _spawner;
     [SerializeField] private GridSpawner _forestSpiritSpawner;
     [SerializeField] private AudioClip _ambientClip;
     [SerializeField] private int _forestSpiritAmount;
+    [SerializeField] private Chain _chain;
+    [SerializeField] private PlayerCharacter _player;
     
     private readonly List<ForestSpiritSpawn> _forestSpiritSpawns = new();
 
     public void Awake()
     {
         StartCoroutine(Setup());
+    }
+
+    private void Update()
+    {
+        _chain.OnUpdate();
     }
 
     private IEnumerator Setup()
@@ -37,7 +45,7 @@ public class Game : Singleton<Game>
         foreach (ForestSpiritSpawn spawn in _forestSpiritSpawner.TakeAtRandom(_forestSpiritAmount))
         {
             var spawnTransform = spawn.transform;
-            _entityManager.SpawnForestSpirit(spawnTransform.position, spawnTransform.rotation);
+            _spawner.SpawnForestSpirit(spawnTransform.position, spawnTransform.rotation);
         }
         foreach (ForestSpiritSpawn spawn in _forestSpiritSpawns)
         {
@@ -50,4 +58,7 @@ public class Game : Singleton<Game>
     {
         _forestSpiritSpawns.Add(spawn);
     }
+
+    public PlayerCharacter Player => _player;
+    public Chain Chain => _chain;
 }

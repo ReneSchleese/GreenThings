@@ -22,9 +22,7 @@ namespace ForestSpirits
             get => transform.position;
             set => transform.position = value;
         }
-
-        public Vector3 BreakPosition => Spirit.Position;
-
+        public Vector3 FollowPlayerRoutePosition { get; set; }
         public float RealTimeSecondsWhenPooled { get; set; }
     }
 }

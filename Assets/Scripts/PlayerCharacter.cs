@@ -14,7 +14,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private HornetAnimationEvents _animationEvents;
     [SerializeField] private bool _applyGravity;
 
-    public Chain Chain;
     public const float MOVEMENT_SPEED = 8f;
     private Vector3 _lastVelocity;
     private Quaternion _rotDampVelocity;
@@ -59,6 +58,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Vector3 offset = new Vector3(delta.x, 0f, delta.y).normalized * (JoystickMagnitude * MOVEMENT_SPEED);
         offset = Quaternion.Euler(0, -45, 0) * offset;
         _characterController.Move(offset * Time.deltaTime);
+        IsMoving = delta != Vector2.zero;
         if (Velocity == Vector3.zero)
         {
             return;
@@ -71,8 +71,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
             transform.rotation = Utils.SmoothDamp(transform.rotation, lookRotation, ref _rotDampVelocity, 0.05f);
             _targetLookRotator.rotation = lookRotation;
         }
-        
-        Chain.OnUpdate();
     }
     
     private void OnHornetScream()
@@ -81,7 +79,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         int index = _screamIndex.Get();
         AudioManager.Instance.PlayVoice(_hornetScreams[index]);
         _animator.PlayBattlecry(index);
-        Chain.PlayEchoed(index, _hornetScreams[index].length);
+        Game.Instance.Chain.PlayEchoed(index, _hornetScreams[index].length);
     }
     
     private void PlayFootStep()
@@ -123,4 +121,5 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     public Vector3 Velocity { get; private set; }
     public Vector3? TargetDir => transform.position + _targetLookRotator.forward;
     public float JoystickMagnitude { get; private set; }
+    public bool IsMoving { get; private set; }
 }

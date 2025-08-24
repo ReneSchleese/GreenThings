@@ -8,19 +8,19 @@ namespace ForestSpirits
     {
         protected Action<Type> switchToState;
         protected Spirit spirit;
-        protected Actor actor;
+        protected Puppet Puppet;
 
-        public void Init(Spirit spirit, Actor actor, Action<Type> enterStateCallback)
+        public void Init(Spirit spirit, Puppet puppet, Action<Type> enterStateCallback)
         {
             this.spirit = spirit;
             switchToState = enterStateCallback;
-            this.actor = actor;
+            Puppet = puppet;
         }
         
         public virtual void OnEnter() {}
         public virtual void OnExit() {}
         public virtual void OnUpdate() {}
-        protected static PlayerCharacter Player => App.Instance.Player;
+        protected static PlayerCharacter Player => Game.Instance.Player;
     }
     
     public class IdleState : State
@@ -31,7 +31,7 @@ namespace ForestSpirits
         {
             base.OnUpdate();
             if (!PlayerIsInReach()) return;
-            Player.Chain.Enqueue(spirit);
+            Game.Instance.Chain.Enqueue(spirit);
             switchToState(typeof(FollowPlayerState));
         }
 
@@ -88,7 +88,7 @@ namespace ForestSpirits
                 return;
             }
 
-            bool IsSlowEnoughToUnfold() => actor.Speed <= 0.02f;
+            bool IsSlowEnoughToUnfold() => Puppet.Speed <= 0.02f;
             bool HasBeenSlowLongEnoughToUnfold() => Time.time - (_timeStampWhereFast + _randomUnfoldDelay) > 1.5f;
         }
     }
@@ -96,24 +96,20 @@ namespace ForestSpirits
     public class ChainLinkState : State
     {
         public const float BASE_SPEED = PlayerCharacter.MOVEMENT_SPEED * 0.8f;
-        public const float DISTANCE_BASED_SPEED_BOOST = PlayerCharacter.MOVEMENT_SPEED * 0.15f;
+        public const float DISTANCE_BASED_SPEED_BOOST = PlayerCharacter.MOVEMENT_SPEED * 0.5f;
         private const float SPEED_BOOST_MAX_DISTANCE = 3f;
         private IChainTarget _target;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            _target = Player.Chain.GetTargetFor(spirit);
-            spirit.Controller.radius = 0.35f;
-            spirit.PushHitbox.Radius = 1.42f * spirit.Controller.radius;
+            _target = Game.Instance.Chain.GetTargetFor(spirit);
         }
 
         public override void OnExit()
         {
             base.OnExit();
             _target = null;
-            spirit.Controller.radius = 0.3f;
-            spirit.PushHitbox.Radius = 1.42f * spirit.Controller.radius;
         }
 
         public override void OnUpdate()
@@ -146,7 +142,7 @@ namespace ForestSpirits
         public override void OnEnter()
         {
             base.OnEnter();
-            actor.Unfold();
+            Puppet.Unfold();
         }
 
         public override void OnUpdate()

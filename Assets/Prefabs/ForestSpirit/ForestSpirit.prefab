@@ -66,7 +66,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.44
   m_Height: 2.2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Controller: {fileID: 5034073738045698575}
   _pushHitbox: {fileID: 4066260253905792264}
-  _actor: {fileID: 6545904419580613203}
+  _puppet: {fileID: 6545904419580613203}
   _targetLookRotator: {fileID: 1071927000785715012}
   _followPlayerClips:
   - {fileID: 8300000, guid: 28d31986de4eca045ae384aae6c15c3d, type: 3}
@@ -171,7 +171,6 @@ CharacterController:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -317,17 +316,17 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 357205485618862640, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
     - target: {fileID: 815263469803006294, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
     - target: {fileID: 2432151851512401340, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
     - target: {fileID: 2853603447907187647, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
@@ -342,22 +341,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3283226348877893344, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
     - target: {fileID: 4044077876541148932, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 665267265b5b96c49a5875a5b8db9670, type: 2}
     - target: {fileID: 4615730638002646603, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
       propertyPath: m_Name
-      value: ForestSpiritActor
+      value: ForestSpiritPuppet
       objectReference: {fileID: 0}
     - target: {fileID: 4632464326995795443, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 7940bf5788a4e2547be24332bff06b77, type: 2}
     - target: {fileID: 4959865657025504133, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
@@ -417,12 +416,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6387396782795305996, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: f3bc6c372d3e4b24d81316801f6277e1, type: 2}
     - target: {fileID: 6891172576659659691, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 19a03216ec972824990f1e487d501fff, type: 2}
     - target: {fileID: 9038222118033043104, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
@@ -447,7 +446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9138343535080232941, guid: 0dd47a572d4e3e6479187aa93a8f89c3,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b60afae92fe777a419c30a976395ab69, type: 2}
     m_RemovedComponents: []

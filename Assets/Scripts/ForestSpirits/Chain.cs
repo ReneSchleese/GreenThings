@@ -12,16 +12,14 @@ namespace ForestSpirits
         [SerializeField] private Transform _activeContainer;
         [SerializeField] private Transform _inactiveContainer;
         [SerializeField] private ChainSounds _sounds;
-     
+
         private const float BREAK_DISTANCE = 8f;
-        private const float BREAK_DISTANCE_SQR = BREAK_DISTANCE * BREAK_DISTANCE;
-        private const float UPDATE_SPEED = 20f;
         private const float CHAIN_LINK_DISTANCE = 1.7f;
-        private const float FIRST_CHAIN_LINK_DISTANCE = 2.5f;
         
         private readonly List<ChainLink> _chainLinks = new();
         private readonly Dictionary<Spirit, ChainLink> _spiritToLinks = new();
         private PrefabPool<ChainLink> _chainLinkPool;
+        private readonly CircularBuffer<Vector3> _playerRoutePointBuffer = new(20);
 
         private void Awake()
         {
@@ -32,6 +30,7 @@ namespace ForestSpirits
                     : Player.Position;
                 link.RealTimeSecondsWhenPooled = Time.realtimeSinceStartup;
             }, onBeforeReturn: link => { link.Spirit = null; });
+            _playerRoutePointBuffer.Add(Player.Position);
         }
 
         public void Enqueue(Spirit spirit)
@@ -41,6 +40,7 @@ namespace ForestSpirits
             link.Spirit = spirit;
             _chainLinks.Add(link);
             _spiritToLinks.Add(spirit, link);
+            link.FollowPlayerRoutePosition = link.Position;
         }
 
         public IChainTarget GetTargetFor(Spirit requester)
@@ -55,46 +55,44 @@ namespace ForestSpirits
 
         public void OnUpdate()
         {
+            bool createNewRoutePoint = Vector3.Distance(Player.Position, _playerRoutePointBuffer.GetYoungest()) > CHAIN_LINK_DISTANCE;
+            if (createNewRoutePoint)
+            {
+                _playerRoutePointBuffer.Add(Player.Position);
+            }
             if (_chainLinks.Count == 0)
             {
                 return;
             }
             
-            for (int index = 0; index < _chainLinks.Count; index++)
+            for (int chainLinkIndex = 0; chainLinkIndex < _chainLinks.Count; chainLinkIndex++)
             {
-                ChainLink chainLink = _chainLinks[index];
-                IChainTarget followTarget = index == 0 ? Player : _chainLinks[index - 1];
-                
+                ChainLink chainLink = _chainLinks[chainLinkIndex];
+                IChainTarget followTarget = chainLinkIndex == 0 ? Player : _chainLinks[chainLinkIndex - 1];
                 if (chainLink.IsAllowedToBreak)
                 {
-                    Vector3 spiritToTarget = followTarget.BreakPosition - chainLink.Spirit.Position;
+                    Vector3 spiritToTarget = followTarget.Position - chainLink.Spirit.Position;
                     bool isTooFarAway = Utils.CloneAndSetY(spiritToTarget, 0f).magnitude > BREAK_DISTANCE;
                     if(isTooFarAway)
                     {
-                        BreakAt(index);
+                        BreakAt(chainLinkIndex);
                         return;
                     }
                 }
                 
-                float requiredDistance = index == 0 ? FIRST_CHAIN_LINK_DISTANCE : CHAIN_LINK_DISTANCE;
-                Vector3 currentPos = chainLink.Position;
-                Vector3 straightPos = Player.Position - Player.transform.forward * ((index + 1) * requiredDistance);
-
-                Vector3 stepTowardsStraight = (straightPos - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
-                bool stepWouldOvershootTarget = stepTowardsStraight.magnitude > Vector3.Distance(currentPos, straightPos);
-                Vector3 straightTargetPos = stepWouldOvershootTarget
-                    ? straightPos
-                    : currentPos + stepTowardsStraight;
-
-                Vector3 stepTowardsFollow = (followTarget.Position - currentPos).normalized * (UPDATE_SPEED * Time.deltaTime);
-                Vector3 followTargetPos = currentPos + stepTowardsFollow;
-                if (Vector3.Distance(followTarget.Position, followTargetPos) < requiredDistance)
+                int GetRouteIndex()
                 {
-                    followTargetPos = followTarget.Position - stepTowardsFollow.normalized * requiredDistance;
+                    return Utils.Mod(_playerRoutePointBuffer.Index - (chainLinkIndex + 2), _playerRoutePointBuffer.Length);
                 }
-
-                float weight = 1f / (index + 3);
-                chainLink.Position = Vector3.Lerp(followTargetPos, straightTargetPos, weight);
+                
+                Vector3 target = _playerRoutePointBuffer.Get(GetRouteIndex());
+                Vector3 currentPos = chainLink.FollowPlayerRoutePosition;
+                float distance = Vector3.Distance(target, currentPos);
+                const float minSpeed = PlayerCharacter.MOVEMENT_SPEED * 0.2f;
+                const float maxSpeed = PlayerCharacter.MOVEMENT_SPEED * 0.95f;
+                float speed = Mathf.Clamp(Player.Velocity.magnitude, minSpeed, maxSpeed);
+                chainLink.FollowPlayerRoutePosition += (target - currentPos).normalized * Mathf.Min(speed * Time.deltaTime, distance);
+                chainLink.Position = chainLink.FollowPlayerRoutePosition;
             }
         }
 
@@ -136,12 +134,25 @@ namespace ForestSpirits
             }
         }
 
-        private static PlayerCharacter Player => App.Instance.Player;
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            foreach (Vector3 vector3 in _playerRoutePointBuffer.Values)
+            {
+                Gizmos.DrawCube(vector3, Vector3.one * 0.25f);   
+            }
+            foreach (ChainLink chainLink in _chainLinks)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawCube(chainLink.FollowPlayerRoutePosition + Vector3.right * 0.2f, Vector3.one * 0.25f);
+            }
+        }
+
+        private static PlayerCharacter Player => Game.Instance.Player;
     }
 
     public interface IChainTarget
     {
         public Vector3 Position { get; }
-        public Vector3 BreakPosition { get; }
     }
 }

@@ -93,7 +93,11 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         int amount = Physics.OverlapSphereNonAlloc(transform.position, 1f, _digColliders, LayerMask.GetMask("BuriedTreasure"));
         for (int i = 0; i < amount; i++)
         {
-            Debug.Log(_digColliders[i].name);
+            if (_digColliders[i].TryGetComponent(out BuriedTreasure buriedTreasure))
+            {
+                buriedTreasure.OnBeingDug();
+                break;
+            }
         }
 
         _drawDebugSphere = true;

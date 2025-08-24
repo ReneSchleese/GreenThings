@@ -225,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridSortedTreasures: {fileID: 380001342}
   _treasureSpawnsParent: {fileID: 1093374809}
+  _treasuresParent: {fileID: 1088670969}
   _treasureSpawns:
   - {fileID: 194406096}
   - {fileID: 1448482086}
@@ -260,6 +261,37 @@ MonoBehaviour:
   _gridMax: {x: 43.75, y: 67.5}
   _segmentsX: 4
   _segmentsZ: 5
+--- !u!1 &1088670968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1088670969}
+  m_Layer: 0
+  m_Name: Treasures
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1088670969
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088670968}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1093374808
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,3 +480,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 380001341}
   - {fileID: 1093374809}
+  - {fileID: 1088670969}

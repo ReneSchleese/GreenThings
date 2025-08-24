@@ -39,7 +39,7 @@ public class Game : Singleton<Game>
             yield return new WaitUntil(() => gameTreasureOperation.isDone);
         }
         GameTreasureManager treasureManager = FindFirstObjectByType<GameTreasureManager>();
-        yield return treasureManager.Setup();
+        yield return treasureManager.Setup(numberOfTreasures: 3);
     }
 
     private void SpawnForestSpirits()
@@ -62,4 +62,5 @@ public class Game : Singleton<Game>
 
     public PlayerCharacter Player => _player;
     public Chain Chain => _chain;
+    public Spawner Spawner => _spawner;
 }

@@ -4,9 +4,15 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private ForestSpirits.Spirit _forestSpiritPrefab;
     [SerializeField] private Transform _forestSpiritParent;
+    [SerializeField] private BuriedTreasure _buriedTreasurePrefab;
     
     public void SpawnForestSpirit(Vector3 position, Quaternion rotation)
     {
         Instantiate(_forestSpiritPrefab, position, rotation, _forestSpiritParent);
+    }
+
+    public void SpawnBuriedTreasure(Vector3 position, Quaternion rotation, Transform parent)
+    {
+        Instantiate(_buriedTreasurePrefab, position, rotation, parent);
     }
 }

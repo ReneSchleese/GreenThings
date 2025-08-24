@@ -7,12 +7,17 @@ public class GameTreasureManager : MonoBehaviour
 {
     [SerializeField] private GridSortedObjects _gridSortedTreasures;
     [SerializeField] private Transform _treasureSpawnsParent;
+    [SerializeField] private Transform _treasuresParent;
     [SerializeField] private Transform[] _treasureSpawns;
 
-    public IEnumerator Setup()
+    public IEnumerator Setup(int numberOfTreasures)
     {
         _gridSortedTreasures.CalculateGrid();
         _gridSortedTreasures.SortIntoGrid(_treasureSpawns);
+        foreach (Transform spawn in _gridSortedTreasures.DrawAmountWithoutReturning(numberOfTreasures))
+        {
+            Game.Instance.Spawner.SpawnBuriedTreasure(spawn.position, spawn.rotation, _treasuresParent);
+        }
         yield break;
     }
 

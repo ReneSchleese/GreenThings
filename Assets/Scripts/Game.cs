@@ -32,8 +32,11 @@ public class Game : Singleton<Game>
         // wait for spawners to register
         yield return null;
         
-        AsyncOperation gameTreasureOperation = SceneManager.LoadSceneAsync("Game_Treasure", LoadSceneMode.Additive);
-        yield return new WaitUntil(() => gameTreasureOperation.isDone);
+        if(!SceneManager.GetSceneByName("Game_Treasure").isLoaded)
+        {
+            AsyncOperation gameTreasureOperation = SceneManager.LoadSceneAsync("Game_Treasure", LoadSceneMode.Additive);
+            yield return new WaitUntil(() => gameTreasureOperation.isDone);
+        }
         
         SpawnForestSpirits();
         AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);

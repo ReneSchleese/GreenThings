@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameTreasureManager : MonoBehaviour
@@ -10,4 +12,6 @@ public class GameTreasureManager : MonoBehaviour
     {
         yield break;
     }
+
+    public void SetTreasureSpawns(IEnumerable<BuriedTreasureSpawn> spawns) => _treasureSpawns = spawns.ToArray();
 }

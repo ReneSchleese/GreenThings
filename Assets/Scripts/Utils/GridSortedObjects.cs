@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using ForestSpirits;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-public class GridSpawner : MonoBehaviour
+public class GridSortedObjects : MonoBehaviour
 {
     [SerializeField] private Vector2 _gridMin;
     [SerializeField] private Vector2 _gridMax;
     [SerializeField] private int _segmentsX, _segmentsZ;
-    private readonly List<GridSegment<ForestSpiritSpawn>> _grid = new();
+    private readonly List<GridSegment<MonoBehaviour>> _grid = new();
 
     public void CalculateGrid()
     {
@@ -22,38 +23,38 @@ public class GridSpawner : MonoBehaviour
             {
                 Vector2 currentMin = _gridMin + new Vector2(x * segmentSizeX, z * segmentSizeZ);;
                 Vector2 currentMax = _gridMin + new Vector2((x + 1) * segmentSizeX, (z + 1) * segmentSizeZ);
-                _grid.Add(new GridSegment<ForestSpiritSpawn>(currentMin, currentMax));
+                _grid.Add(new GridSegment<MonoBehaviour>(currentMin, currentMax));
             }
         }
     }
 
-    public void SortIntoGrid(IEnumerable<ForestSpiritSpawn> spawns)
+    public void SortIntoGrid(IEnumerable<MonoBehaviour> spawns)
     {
-        foreach (ForestSpiritSpawn spawn in spawns)
+        foreach (MonoBehaviour spawn in spawns)
         {
-            GridSegment<ForestSpiritSpawn> segment = _grid.First(segment => segment.ContainsPoint(spawn.transform.position));
-            segment.Spawns.Add(spawn);
+            GridSegment<MonoBehaviour> segment = _grid.First(segment => segment.ContainsPoint(spawn.transform.position));
+            segment.Objects.Add(spawn);
         }
     }
 
-    public IEnumerable<ForestSpiritSpawn> TakeAtRandom(int amount)
+    public IEnumerable<T> DrawAmountWithoutReturning<T>(int amount) where T : MonoBehaviour
     {
-        List<ForestSpiritSpawn> result = new();
-        List<GridSegment<ForestSpiritSpawn>> availableSegments = _grid.Where(segment => segment.Spawns.Count > 0).ToList();
+        List<MonoBehaviour> result = new();
+        List<GridSegment<MonoBehaviour>> availableSegments = _grid.Where(segment => segment.Objects.Count > 0).ToList();
         Debug.Assert(availableSegments.Count > 0);
 
         for (int i = 0; i < amount; i++)
         {
             int index = Random.Range(0, availableSegments.Count);
-            result.Add(availableSegments[index].GetRandomSpawn());
+            result.Add(availableSegments[index].GetRandomObject());
             availableSegments.RemoveAt(index);
             if (availableSegments.Count == 0)
             {
-                availableSegments = _grid.Where(segment => segment.Spawns.Count > 0).ToList();
+                availableSegments = _grid.Where(segment => segment.Objects.Count > 0).ToList();
             }
         }
 
-        return result;
+        return result.Cast<T>();
     }
 
     public void Clear()
@@ -64,7 +65,7 @@ public class GridSpawner : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         List<Vector3> lines = new();
-        foreach (GridSegment<ForestSpiritSpawn> segment in _grid)
+        foreach (GridSegment<MonoBehaviour> segment in _grid)
         {
             lines.Add(new Vector3(segment.Min.x, 0f, segment.Min.y));
             lines.Add(new Vector3(segment.Min.x, 0f, segment.Max.y));
@@ -84,7 +85,7 @@ public class GridSpawner : MonoBehaviour
     {
         public readonly Vector2 Min;
         public readonly Vector2 Max;
-        public readonly List<T> Spawns = new();
+        public readonly List<T> Objects = new();
 
         public GridSegment(Vector2 min, Vector2 max)
         {
@@ -97,10 +98,10 @@ public class GridSpawner : MonoBehaviour
             return point.x <= Max.x && point.x >= Min.x && point.z <= Max.y && point.z >= Min.y;
         }
 
-        public T GetRandomSpawn()
+        public T GetRandomObject()
         {
-            Debug.Assert(Spawns.Count > 0, "Spawns.Count > 0");
-            return Spawns[Random.Range(0, Spawns.Count)];
+            Debug.Assert(Objects.Count > 0, "Objects.Count > 0");
+            return Objects[Random.Range(0, Objects.Count)];
         }
     }
 }

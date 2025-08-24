@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class Game : Singleton<Game>
 {
     [SerializeField] private Spawner _spawner;
-    [SerializeField] private GridSpawner _forestSpiritSpawner;
+    [SerializeField] private GridSortedObjects _forestSpiritSpawner;
     [SerializeField] private AudioClip _ambientClip;
     [SerializeField] private int _forestSpiritAmount;
     [SerializeField] private Chain _chain;
@@ -46,7 +46,7 @@ public class Game : Singleton<Game>
         Debug.Assert(_forestSpiritSpawns.Count > 0, "no forest-spirit spawns have been registered");
         _forestSpiritSpawner.SortIntoGrid(_forestSpiritSpawns);
         
-        foreach (ForestSpiritSpawn spawn in _forestSpiritSpawner.TakeAtRandom(_forestSpiritAmount))
+        foreach (ForestSpiritSpawn spawn in _forestSpiritSpawner.DrawAmountWithoutReturning<ForestSpiritSpawn>(_forestSpiritAmount))
         {
             var spawnTransform = spawn.transform;
             _spawner.SpawnForestSpirit(spawnTransform.position, spawnTransform.rotation);

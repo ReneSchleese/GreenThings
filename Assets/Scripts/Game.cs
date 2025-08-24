@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Audio;
 using ForestSpirits;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Game : Singleton<Game>
 {
@@ -30,6 +31,9 @@ public class Game : Singleton<Game>
     {
         // wait for spawners to register
         yield return null;
+        
+        AsyncOperation gameTreasureOperation = SceneManager.LoadSceneAsync("Game_Treasure", LoadSceneMode.Additive);
+        yield return new WaitUntil(() => gameTreasureOperation.isDone);
         
         SpawnForestSpirits();
         AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
@@ -61,6 +65,7 @@ public class Game : Singleton<Game>
     
     public void Register(BuriedTreasureSpawn spawn)
     {
+        Debug.Log($"registered! {spawn}");
     }
 
     public PlayerCharacter Player => _player;

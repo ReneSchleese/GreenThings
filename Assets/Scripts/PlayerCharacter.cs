@@ -1,6 +1,9 @@
+using System;
 using Audio;
+using DG.Tweening;
 using ForestSpirits;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 {
@@ -83,11 +86,29 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Game.Instance.Chain.PlayEchoed(index, _hornetScreams[index].length);
     }
 
+    private readonly Collider[] _digColliders = new Collider[128];
+    private bool _drawDebugSphere;
     private void OnHornetDigInput()
     {
-        Debug.Log("Dig");
+        int amount = Physics.OverlapSphereNonAlloc(transform.position, 1f, _digColliders, LayerMask.GetMask("BuriedTreasure"));
+        for (int i = 0; i < amount; i++)
+        {
+            Debug.Log(_digColliders[i].name);
+        }
+
+        _drawDebugSphere = true;
+        DOVirtual.DelayedCall(1f, () => { _drawDebugSphere = false; });
     }
-    
+
+    private void OnDrawGizmos()
+    {
+        if (_drawDebugSphere)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, 1f);
+        }
+    }
+
     private void PlayFootStep()
     {
         float pitch = Random.Range(0.7f, 1.2f);

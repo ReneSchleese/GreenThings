@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class GameTreasureManager : MonoBehaviour
 {
-    [SerializeField] private GridSortedObjects _gidSortedTreasures;
+    [SerializeField] private GridSortedObjects _gridSortedTreasures;
     [SerializeField] private BuriedTreasureSpawn[] _treasureSpawns;
 
     public IEnumerator Setup()
     {
+        _gridSortedTreasures.CalculateGrid();
+        _gridSortedTreasures.SortIntoGrid(_treasureSpawns);
         yield break;
     }
 

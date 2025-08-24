@@ -203,6 +203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 380001341}
   - component: {fileID: 380001340}
+  - component: {fileID: 380001342}
   m_Layer: 0
   m_Name: TreasureManager
   m_TagString: Untagged
@@ -222,7 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b9586eb7cd4cdf9d7b5c04adf67bcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gidSortedTreasures: {fileID: 0}
+  _gridSortedTreasures: {fileID: 380001342}
   _treasureSpawns:
   - {fileID: 1788710574}
   - {fileID: 1956959054}
@@ -242,6 +243,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &380001342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380001339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b118c52c6144fdcb0f96061fa63961d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gridMin: {x: -38.5, y: -47.5}
+  _gridMax: {x: 43.75, y: 67.5}
+  _segmentsX: 4
+  _segmentsZ: 5
 --- !u!114 &1054098199 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2622704035014578543, guid: f72c914c77420bf48a81588b22cc7a44,

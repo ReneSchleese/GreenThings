@@ -58,6 +58,10 @@ public class Game : Singleton<Game>
     {
         _forestSpiritSpawns.Add(spawn);
     }
+    
+    public void Register(BuriedTreasureSpawn spawn)
+    {
+    }
 
     public PlayerCharacter Player => _player;
     public Chain Chain => _chain;

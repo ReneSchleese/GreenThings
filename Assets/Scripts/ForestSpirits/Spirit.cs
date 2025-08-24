@@ -61,7 +61,7 @@ namespace ForestSpirits
                 AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()]);
             }
 
-            int playerPriority = App.Instance.Player.Priority;
+            int playerPriority = Game.Instance.Player.Priority;
             if (state == typeof(ChainLinkState))
             {
                 Priority = playerPriority + 1 + Game.Instance.Chain.GetIndex(this);
@@ -79,7 +79,7 @@ namespace ForestSpirits
             _puppet.SmoothSetPosition(Position);
             if (_currentState.GetType() != typeof(IdleState))
             {
-                _puppet.SmoothLookAt(App.Instance.Player.Position);
+                _puppet.SmoothLookAt(Game.Instance.Player.Position);
             }
             IChainTarget chainTarget = Game.Instance.Chain.GetTargetFor(this);
             if (chainTarget != null)
@@ -143,6 +143,5 @@ namespace ForestSpirits
         public int Priority { get; private set; }
 
         public Vector3 Velocity => _puppet.Velocity;
-        public PushHitbox PushHitbox => _pushHitbox;
     }
 }

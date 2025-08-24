@@ -148,7 +148,7 @@ namespace ForestSpirits
             }
         }
 
-        private static PlayerCharacter Player => App.Instance.Player;
+        private static PlayerCharacter Player => Game.Instance.Player;
     }
 
     public interface IChainTarget

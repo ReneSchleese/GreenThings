@@ -20,7 +20,7 @@ namespace ForestSpirits
         public virtual void OnEnter() {}
         public virtual void OnExit() {}
         public virtual void OnUpdate() {}
-        protected static PlayerCharacter Player => App.Instance.Player;
+        protected static PlayerCharacter Player => Game.Instance.Player;
     }
     
     public class IdleState : State

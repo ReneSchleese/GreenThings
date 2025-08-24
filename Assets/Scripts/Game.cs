@@ -12,6 +12,7 @@ public class Game : Singleton<Game>
     [SerializeField] private AudioClip _ambientClip;
     [SerializeField] private int _forestSpiritAmount;
     [SerializeField] private Chain _chain;
+    [SerializeField] private PlayerCharacter _player;
     
     private readonly List<ForestSpiritSpawn> _forestSpiritSpawns = new();
 
@@ -58,5 +59,6 @@ public class Game : Singleton<Game>
         _forestSpiritSpawns.Add(spawn);
     }
 
+    public PlayerCharacter Player => _player;
     public Chain Chain => _chain;
 }

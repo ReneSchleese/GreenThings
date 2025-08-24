@@ -31,24 +31,35 @@ public class GridSortedObjects : MonoBehaviour
         foreach (Transform spawn in spawns)
         {
             GridSegment<Transform> segment = _grid.First(segment => segment.ContainsPoint(spawn.position));
-            segment.Objects.Add(spawn);
+            segment.RemainingObjects.Add(spawn);
         }
     }
 
     public IEnumerable<Transform> DrawAmountWithoutReturning(int amount)
     {
         List<Transform> result = new();
-        List<GridSegment<Transform>> availableSegments = _grid.Where(segment => segment.Objects.Count > 0).ToList();
-        Debug.Assert(availableSegments.Count > 0);
+        List<GridSegment<Transform>> remainingSegments = _grid.Where(segment => segment.RemainingObjects.Count > 0).ToList();
+        List<GridSegment<Transform>> alreadyUsedSegments = new();
+        Debug.Assert(remainingSegments.Count > 0);
 
         for (int i = 0; i < amount; i++)
         {
-            int index = Random.Range(0, availableSegments.Count);
-            result.Add(availableSegments[index].GetRandomObject());
-            availableSegments.RemoveAt(index);
-            if (availableSegments.Count == 0)
+            int randomIndex = Random.Range(0, remainingSegments.Count);
+            GridSegment<Transform> randomSegment = remainingSegments[randomIndex];
+            Transform randomObject = randomSegment.GetRandomObject(markAsUsed: true);
+            result.Add(randomObject);
+
+            if (randomSegment.RemainingObjects.Count == 0)
             {
-                availableSegments = _grid.Where(segment => segment.Objects.Count > 0).ToList();
+                randomSegment.SetAllRemaining();
+            }
+            
+            remainingSegments.Remove(randomSegment);
+            alreadyUsedSegments.Add(randomSegment);
+            if (remainingSegments.Count == 0)
+            {
+                remainingSegments.AddRange(alreadyUsedSegments);
+                alreadyUsedSegments.Clear();
             }
         }
 
@@ -83,7 +94,8 @@ public class GridSortedObjects : MonoBehaviour
     {
         public readonly Vector2 Min;
         public readonly Vector2 Max;
-        public readonly List<T> Objects = new();
+        public readonly List<T> RemainingObjects = new();
+        public readonly List<T> AlreadyUsedObjects = new();
 
         public GridSegment(Vector2 min, Vector2 max)
         {
@@ -96,10 +108,22 @@ public class GridSortedObjects : MonoBehaviour
             return point.x <= Max.x && point.x >= Min.x && point.z <= Max.y && point.z >= Min.y;
         }
 
-        public T GetRandomObject()
+        public T GetRandomObject(bool markAsUsed)
         {
-            Debug.Assert(Objects.Count > 0, "Objects.Count > 0");
-            return Objects[Random.Range(0, Objects.Count)];
+            Debug.Assert(RemainingObjects.Count > 0, "Objects.Count > 0");
+            T result = RemainingObjects[Random.Range(0, RemainingObjects.Count)];
+            if (markAsUsed)
+            {
+                RemainingObjects.Remove(result);
+                AlreadyUsedObjects.Add(result);
+            }
+            return result;
+        }
+
+        public void SetAllRemaining()
+        {
+            RemainingObjects.AddRange(AlreadyUsedObjects);
+            AlreadyUsedObjects.Clear();
         }
     }
 }

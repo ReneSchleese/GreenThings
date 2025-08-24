@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 1762303613279569100}
   - component: {fileID: 1543763932461397568}
   - component: {fileID: 4409494975326376872}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 920c130ff0dcdf54d88e73ca051429a4, type: 3}
   _animationEvents: {fileID: 5775221112172985800}
   _applyGravity: 1
-  Chain: {fileID: 0}
 --- !u!143 &1543763932461397568
 CharacterController:
   m_ObjectHideFlags: 0

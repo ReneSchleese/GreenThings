@@ -7,6 +7,7 @@ public class BuriedTreasure : MonoBehaviour
     private const int INITIAL_HEALTH = 3;
     private const float DEPTH_PER_HEALTH = 0.5f;
     private int _currentHealth;
+    private bool _isOpen;
 
     private void Awake()
     {
@@ -18,6 +19,11 @@ public class BuriedTreasure : MonoBehaviour
     {
         _currentHealth = Mathf.Clamp(_currentHealth - 1, 0, INITIAL_HEALTH);
         UpdateVisuals(animate: true);
+        if (!_isOpen && _currentHealth == 0)
+        {
+            _isOpen = true;
+            DOVirtual.DelayedCall(1f, Open);
+        }
     }
 
     private void UpdateVisuals(bool animate)
@@ -34,5 +40,10 @@ public class BuriedTreasure : MonoBehaviour
         {
             _animationContainer.localPosition = Vector3.down * _currentHealth * DEPTH_PER_HEALTH;   
         }
+    }
+
+    private void Open()
+    {
+        
     }
 }

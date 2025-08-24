@@ -15,9 +15,9 @@ TagManager:
   - PostProcessingVolumes
   - IgnoreProjector
   - BuriedTreasure
-  - 
-  - 
-  - 
+  - Coin
+  - Player
+  - ForestSpirit
   - 
   - 
   - 

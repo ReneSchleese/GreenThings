@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotationAnimationContainer: {fileID: 3279688678897240234}
   _hoverAnimationContainer: {fileID: 2960933557135842289}
+  _rigidbody: {fileID: 6052170830519877406}
   _blobShadow: {fileID: 7217495218141699754}
 --- !u!54 &6052170830519877406
 Rigidbody:

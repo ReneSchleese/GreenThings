@@ -5,6 +5,7 @@ public class Coin : MonoBehaviour
 {
     [SerializeField] private Transform _rotationAnimationContainer;
     [SerializeField] private Transform _hoverAnimationContainer;
+    [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private SpriteBlobShadow _blobShadow;
     
     private void Start()
@@ -18,4 +19,6 @@ public class Coin : MonoBehaviour
     {
         _blobShadow.UpdateShadow();
     }
+    
+    public void ApplyForce(Vector3 force) => _rigidbody.AddForce(force, ForceMode.Impulse);
 }

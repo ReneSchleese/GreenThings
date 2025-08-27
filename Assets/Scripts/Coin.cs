@@ -24,7 +24,7 @@ public class Coin : MonoBehaviour
     private void FixedUpdate()
     {
         if (_blobShadow.IsGrounded) return;
-        Vector3 gravity = Physics.gravity * 2f;
+        Vector3 gravity = Physics.gravity * 3f;
         _rigidbody.AddForce(gravity, ForceMode.Acceleration);
     }
     

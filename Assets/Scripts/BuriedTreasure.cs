@@ -49,10 +49,10 @@ public class BuriedTreasure : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Coin coin = Game.Instance.Spawner.SpawnCoin(transform.position, Quaternion.identity);
-            const float strength = 22f;
             float angle = i * Mathf.PI * 2f / count;
             Vector3 dir = (1f - upToSidewaysWeight) * Vector3.up + upToSidewaysWeight * new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
-            coin.ApplyForce(dir.normalized * strength);
+            const float strength = 1.5f;
+            coin.ApplyForce(dir.normalized * strength * Physics.gravity.magnitude);
         }
     }
 }

@@ -25,8 +25,8 @@ public class SpriteBlobShadow : MonoBehaviour
         Physics.Raycast(new Ray(rayOrigin, Vector3.down), out RaycastHit hit, rayDistance);
 
         float distanceToGround = rayDistance;
-        bool isGrounded = hit.collider != null;
-        if (isGrounded)
+        bool floorIsWithinBox = hit.collider != null;
+        if (floorIsWithinBox)
         {
             _shadowRenderer.transform.rotation = Quaternion.LookRotation(hit.normal);
             Vector3 hitPointInLocal = transform.InverseTransformPoint(hit.point);
@@ -38,7 +38,9 @@ public class SpriteBlobShadow : MonoBehaviour
         float targetAlpha = (rayDistance - distanceToGround)/rayDistance * _initialAlpha;
         float smoothedAlpha = Mathf.SmoothDamp(_shadowRenderer.color.a, targetAlpha, ref _smoothedAlphaVelocity, 0.05f);
         SetAlpha(smoothedAlpha);
+        IsGrounded = distanceToGround < 0.25f;
     }
     
     private void SetAlpha(float alpha) => _shadowRenderer.color = new Color(_shadowRenderer.color.r, _shadowRenderer.color.g, _shadowRenderer.color.b, alpha);
+    public bool IsGrounded { get; private set; }
 }

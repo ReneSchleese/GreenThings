@@ -10,6 +10,7 @@ public class Coin : MonoBehaviour
     
     private void Start()
     {
+        _rigidbody.useGravity = false;
         DOTween.Sequence(this)
             .Append(_rotationAnimationContainer.DOLocalRotate(Vector3.up * 360f, 2f, RotateMode.WorldAxisAdd).SetEase(Ease.Linear))
             .SetLoops(-1);
@@ -18,6 +19,13 @@ public class Coin : MonoBehaviour
     private void Update()
     {
         _blobShadow.UpdateShadow();
+    }
+
+    private void FixedUpdate()
+    {
+        if (_blobShadow.IsGrounded) return;
+        Vector3 gravity = Physics.gravity * 2f;
+        _rigidbody.AddForce(gravity, ForceMode.Acceleration);
     }
     
     public void ApplyForce(Vector3 force) => _rigidbody.AddForce(force, ForceMode.Impulse);

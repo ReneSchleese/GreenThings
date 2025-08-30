@@ -30,7 +30,8 @@ public class Coin : MonoBehaviour
         const float OFFSET = 0.1f;
         if(GroundedCheckIsEnabled)
         {
-            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _collider.radius + OFFSET);
+            float distance = _collider.radius + OFFSET;
+            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, distance, LayerMask.GetMask("Default"));
             _isGrounded = hit.collider != null;
             if (_isGrounded)
             {

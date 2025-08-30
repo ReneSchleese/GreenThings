@@ -6,7 +6,9 @@ public class Coin : MonoBehaviour
     [SerializeField] private Transform _rotationAnimationContainer;
     [SerializeField] private Transform _hoverAnimationContainer;
     [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField]  private SphereCollider _collider;
     [SerializeField] private SpriteBlobShadow _blobShadow;
+    private bool _isGrounded;
     
     private void Start()
     {
@@ -23,9 +25,18 @@ public class Coin : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_blobShadow.IsGrounded) return;
-        Vector3 gravity = Physics.gravity * 3f;
-        _rigidbody.AddForce(gravity, ForceMode.Acceleration);
+        const float OFFSET = 0.1f;
+        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _collider.radius + OFFSET);
+        _isGrounded = hit.collider != null;
+        if (_isGrounded)
+        {
+            transform.position = hit.point + Vector3.up * _collider.radius;
+        }
+        else
+        {
+            Vector3 gravity = Physics.gravity * 3f;
+            _rigidbody.AddForce(gravity, ForceMode.Acceleration);       
+        }
     }
     
     public void ApplyForce(Vector3 force) => _rigidbody.AddForce(force, ForceMode.Impulse);

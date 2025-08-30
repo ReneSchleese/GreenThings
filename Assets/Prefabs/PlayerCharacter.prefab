@@ -95,6 +95,7 @@ MonoBehaviour:
   _footstepsGrass:
   - {fileID: 8300000, guid: 80d0e53a99c0f1d4c8e13af7594362d1, type: 3}
   - {fileID: 8300000, guid: 920c130ff0dcdf54d88e73ca051429a4, type: 3}
+  _collectCoin: {fileID: 8300000, guid: a69687d167b833340aa9fa26f1bf8b48, type: 3}
   _animationEvents: {fileID: 5775221112172985800}
   _applyGravity: 1
 --- !u!143 &1543763932461397568

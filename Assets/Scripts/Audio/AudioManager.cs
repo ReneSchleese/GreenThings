@@ -31,9 +31,9 @@ namespace Audio
             _ambientSource.Play();
         }
 
-        public void PlayEffect(AudioClip clip, float pitch = 1.0f)
+        public void PlayEffect(AudioClip clip, float pitch = 1.0f, float  volume = 1.0f)
         {
-            PlayPoolable(_effectSourcePool, clip, pitch);
+            PlayPoolable(_effectSourcePool, clip, pitch, group: null, volume);
         }
         
         public void PlayVoice(AudioClip clip, float pitch = 1.0f, float volume = 1.0f)

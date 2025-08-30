@@ -14,6 +14,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private Transform _targetLookRotator;
     [SerializeField] private AudioClip[] _hornetScreams;
     [SerializeField] private AudioClip[] _footstepsGrass;
+    [SerializeField] private AudioClip _collectCoin;
     [SerializeField] private HornetAnimationEvents _animationEvents;
     [SerializeField] private bool _applyGravity;
 
@@ -69,6 +70,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private void Collect(Coin coin)
     {
         Debug.Log("Collecting coin");
+        AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
         Destroy(coin.gameObject);
     }
 

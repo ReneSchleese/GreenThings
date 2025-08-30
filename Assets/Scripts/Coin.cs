@@ -1,6 +1,5 @@
 ﻿using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Coin : MonoBehaviour
 {
@@ -23,6 +22,11 @@ public class Coin : MonoBehaviour
     private void Update()
     {
         _blobShadow.UpdateShadow();
+    }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(this);
     }
 
     private void FixedUpdate()

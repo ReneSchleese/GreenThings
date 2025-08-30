@@ -54,7 +54,11 @@ public class BuriedTreasure : MonoBehaviour
             const float strength = 1.75f;
             coin.ApplyForce(dir.normalized * strength * Physics.gravity.magnitude);
             coin.GroundedCheckIsEnabled = false;
-            DOVirtual.DelayedCall(0.2f, () => coin.GroundedCheckIsEnabled = true);
+            DOVirtual.DelayedCall(0.2f, () =>
+            {
+                coin.GroundedCheckIsEnabled = true;
+                coin.IsCollectable = true;
+            });
         }
     }
 }

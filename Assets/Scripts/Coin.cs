@@ -61,6 +61,8 @@ public class Coin : MonoBehaviour
             }
         }
     }
+    
+    public bool IsCollectable { get; set; }
 
     public void ApplyForce(Vector3 force) => _rigidbody.AddForce(force, ForceMode.Impulse);
 }

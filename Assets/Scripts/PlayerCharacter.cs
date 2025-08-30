@@ -59,7 +59,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         int colliderAmount = Physics.OverlapSphereNonAlloc(transform.position + Vector3.up, 1.0f, _colliders, LayerMask.GetMask("Coin"), QueryTriggerInteraction.Collide);
         for (int i = 0; i < colliderAmount; i++)
         {
-            if (_colliders[i].TryGetComponent(out Coin coin))
+            if (_colliders[i].TryGetComponent(out Coin coin) && coin.IsCollectable)
             {
                 Collect(coin);
             }

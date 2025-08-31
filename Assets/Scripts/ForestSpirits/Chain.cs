@@ -32,14 +32,8 @@ namespace ForestSpirits
                 link.RealTimeSecondsWhenPooled = Time.realtimeSinceStartup;
             }, onBeforeReturn: link => { link.Spirit = null; });
             _playerRoutePointBuffer.Add(Player.Position);
-            UserInterface.Instance.SpiritModeToggleInput += () =>
-            {
-                _chainMode = _chainMode == ChainMode.Default ? ChainMode.ForceChain : ChainMode.Default;
-                foreach (Spirit spirit in _spiritToLinks.Keys)
-                {
-                    spirit.SwitchToState(typeof(ChainLinkState));
-                }
-            };
+            UserInterface.Instance.SpiritModeToggleInput += ToggleMode;
+            UserInterface.Instance.ScanInput += Scan;
         }
 
         public void Enqueue(Spirit spirit)
@@ -143,6 +137,20 @@ namespace ForestSpirits
                 sequence.AppendInterval(0.1f);
                 sequence.AppendCallback(() => t.BumpUpwards());
             }
+        }
+
+        private void ToggleMode()
+        {
+            _chainMode = _chainMode == ChainMode.Default ? ChainMode.ForceChain : ChainMode.Default;
+            foreach (Spirit spirit in _spiritToLinks.Keys)
+            {
+                spirit.SwitchToState(typeof(ChainLinkState));
+            }
+        }
+
+        private void Scan()
+        {
+            Debug.Log("Scan");
         }
 
         private void OnDrawGizmosSelected()

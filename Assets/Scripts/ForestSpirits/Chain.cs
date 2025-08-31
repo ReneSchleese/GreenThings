@@ -97,7 +97,7 @@ namespace ForestSpirits
                 Vector3 target = _playerRoutePointBuffer.Get(GetRouteIndex());
                 Vector3 currentPos = chainLink.FollowPlayerRoutePosition;
                 float distance = Vector3.Distance(target, currentPos);
-                const float minSpeed = PlayerCharacter.MOVEMENT_SPEED * 0.2f;
+                float minSpeed = _chainMode == ChainMode.Default ? PlayerCharacter.MOVEMENT_SPEED * 0.2f : 0f;
                 const float maxSpeed = PlayerCharacter.MOVEMENT_SPEED * 0.95f;
                 float speed = Mathf.Clamp(Player.Velocity.magnitude, minSpeed, maxSpeed);
                 chainLink.FollowPlayerRoutePosition += (target - currentPos).normalized * Mathf.Min(speed * Time.deltaTime, distance);

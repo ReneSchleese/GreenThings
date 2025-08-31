@@ -40,7 +40,7 @@ public class Coin : MonoBehaviour
             if (_isGrounded)
             {
                 transform.position = hit.point + Vector3.up * _collider.radius;
-                _rigidbody.linearVelocity = new Vector3(0f, _rigidbody.linearVelocity.y, 0f);
+                _rigidbody.linearVelocity = new Vector3(0.5f * _rigidbody.linearVelocity.x, _rigidbody.linearVelocity.y, 0.5f * _rigidbody.linearVelocity.z);
             }
         }
 

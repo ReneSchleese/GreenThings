@@ -20,6 +20,7 @@ namespace ForestSpirits
         private readonly Dictionary<Spirit, ChainLink> _spiritToLinks = new();
         private PrefabPool<ChainLink> _chainLinkPool;
         private readonly CircularBuffer<Vector3> _playerRoutePointBuffer = new(20);
+        private ChainMode _chainMode;
 
         private void Awake()
         {
@@ -31,6 +32,10 @@ namespace ForestSpirits
                 link.RealTimeSecondsWhenPooled = Time.realtimeSinceStartup;
             }, onBeforeReturn: link => { link.Spirit = null; });
             _playerRoutePointBuffer.Add(Player.Position);
+            UserInterface.Instance.SpiritModeToggleInput += () =>
+            {
+                _chainMode = _chainMode == ChainMode.Default ? ChainMode.KeepChain : ChainMode.Default;
+            };
         }
 
         public void Enqueue(Spirit spirit)
@@ -149,10 +154,17 @@ namespace ForestSpirits
         }
 
         private static PlayerCharacter Player => Game.Instance.Player;
+        public ChainMode ChainMode => _chainMode;
     }
 
     public interface IChainTarget
     {
         public Vector3 Position { get; }
+    }
+    
+    public enum ChainMode
+    {
+        Default,
+        KeepChain
     }
 }

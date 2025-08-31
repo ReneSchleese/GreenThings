@@ -34,7 +34,11 @@ namespace ForestSpirits
             _playerRoutePointBuffer.Add(Player.Position);
             UserInterface.Instance.SpiritModeToggleInput += () =>
             {
-                _chainMode = _chainMode == ChainMode.Default ? ChainMode.KeepChain : ChainMode.Default;
+                _chainMode = _chainMode == ChainMode.Default ? ChainMode.ForceChain : ChainMode.Default;
+                foreach (Spirit spirit in _spiritToLinks.Keys)
+                {
+                    spirit.SwitchToState(typeof(ChainLinkState));
+                }
             };
         }
 
@@ -165,6 +169,6 @@ namespace ForestSpirits
     public enum ChainMode
     {
         Default,
-        KeepChain
+        ForceChain
     }
 }

@@ -150,7 +150,6 @@ namespace ForestSpirits
 
         private void Scan()
         {
-            Debug.Log("Scan");
             bool treasureManagerExists = Game.Instance.TryGetTreasureManager(out GameTreasureManager treasureManager);
             Debug.Assert(treasureManagerExists);
             Sequence sequence = DOTween.Sequence();

@@ -20,6 +20,7 @@ namespace ForestSpirits
         private readonly Dictionary<Spirit, ChainLink> _spiritToLinks = new();
         private PrefabPool<ChainLink> _chainLinkPool;
         private readonly CircularBuffer<Vector3> _playerRoutePointBuffer = new(20);
+        private ChainMode _chainMode;
 
         private void Awake()
         {
@@ -31,6 +32,14 @@ namespace ForestSpirits
                 link.RealTimeSecondsWhenPooled = Time.realtimeSinceStartup;
             }, onBeforeReturn: link => { link.Spirit = null; });
             _playerRoutePointBuffer.Add(Player.Position);
+            UserInterface.Instance.SpiritModeToggleInput += () =>
+            {
+                _chainMode = _chainMode == ChainMode.Default ? ChainMode.ForceChain : ChainMode.Default;
+                foreach (Spirit spirit in _spiritToLinks.Keys)
+                {
+                    spirit.SwitchToState(typeof(ChainLinkState));
+                }
+            };
         }
 
         public void Enqueue(Spirit spirit)
@@ -41,6 +50,7 @@ namespace ForestSpirits
             _chainLinks.Add(link);
             _spiritToLinks.Add(spirit, link);
             link.FollowPlayerRoutePosition = link.Position;
+            spirit.ChainIndex = GetIndex(spirit);
         }
 
         public IChainTarget GetTargetFor(Spirit requester)
@@ -88,7 +98,7 @@ namespace ForestSpirits
                 Vector3 target = _playerRoutePointBuffer.Get(GetRouteIndex());
                 Vector3 currentPos = chainLink.FollowPlayerRoutePosition;
                 float distance = Vector3.Distance(target, currentPos);
-                const float minSpeed = PlayerCharacter.MOVEMENT_SPEED * 0.2f;
+                float minSpeed = _chainMode == ChainMode.Default ? PlayerCharacter.MOVEMENT_SPEED * 0.2f : 0f;
                 const float maxSpeed = PlayerCharacter.MOVEMENT_SPEED * 0.95f;
                 float speed = Mathf.Clamp(Player.Velocity.magnitude, minSpeed, maxSpeed);
                 chainLink.FollowPlayerRoutePosition += (target - currentPos).normalized * Mathf.Min(speed * Time.deltaTime, distance);
@@ -103,6 +113,7 @@ namespace ForestSpirits
             {
                 ChainLink chainLink = _chainLinks[i];
                 chainLink.Spirit.SwitchToState(typeof(IdleState));
+                chainLink.Spirit.ChainIndex = null;
                 _spiritToLinks.Remove(chainLink.Spirit);
                 _chainLinkPool.Return(chainLink);
             }
@@ -149,10 +160,17 @@ namespace ForestSpirits
         }
 
         private static PlayerCharacter Player => Game.Instance.Player;
+        public ChainMode ChainMode => _chainMode;
     }
 
     public interface IChainTarget
     {
         public Vector3 Position { get; }
+    }
+    
+    public enum ChainMode
+    {
+        Default,
+        ForceChain
     }
 }

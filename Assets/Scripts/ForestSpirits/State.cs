@@ -116,7 +116,7 @@ namespace ForestSpirits
         {
             base.OnUpdate();
             
-            if (Player.JoystickMagnitude < 0.667f)
+            if (Player.JoystickMagnitude < 0.667f && Game.Instance.Chain.ChainMode == ChainMode.Default)
             {
                 switchToState(typeof(FollowPlayerState));
                 return;

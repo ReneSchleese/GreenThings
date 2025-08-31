@@ -10,15 +10,25 @@ public class GameTreasureManager : MonoBehaviour
     [SerializeField] private Transform _treasuresParent;
     [SerializeField] private Transform[] _treasureSpawns;
 
+    private readonly List<BuriedTreasure> _buriedTreasures = new();
+
     public IEnumerator Setup(int numberOfTreasures)
     {
         _gridSortedTreasures.CalculateGrid();
         _gridSortedTreasures.SortIntoGrid(_treasureSpawns);
         foreach (Transform spawn in _gridSortedTreasures.DrawAmountWithoutReturning(numberOfTreasures))
         {
-            Game.Instance.Spawner.SpawnBuriedTreasure(spawn.position, spawn.rotation, _treasuresParent);
+            BuriedTreasure treasure = Game.Instance.Spawner.SpawnBuriedTreasure(spawn.position, spawn.rotation, _treasuresParent);
+            _buriedTreasures.Add(treasure);
         }
         yield break;
+    }
+
+    public BuriedTreasure GetNearestTreasure(Vector3 position)
+    {
+        _buriedTreasures.Sort((treasure1, treasure2) => Vector3.Distance(treasure1.transform.position, position)
+            .CompareTo(Vector3.Distance(treasure2.transform.position, position)));
+        return _buriedTreasures[0];
     }
 
     public void SetTreasureSpawns(IEnumerable<Transform> spawns) => _treasureSpawns = spawns.ToArray();

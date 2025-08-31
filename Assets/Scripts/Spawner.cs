@@ -12,9 +12,9 @@ public class Spawner : MonoBehaviour
         Instantiate(_forestSpiritPrefab, position, rotation, _forestSpiritParent);
     }
 
-    public void SpawnBuriedTreasure(Vector3 position, Quaternion rotation, Transform parent)
+    public BuriedTreasure SpawnBuriedTreasure(Vector3 position, Quaternion rotation, Transform parent)
     {
-        Instantiate(_buriedTreasurePrefab, position, rotation, parent);
+        return Instantiate(_buriedTreasurePrefab, position, rotation, parent);
     }
     
     public Coin SpawnCoin(Vector3 position, Quaternion rotation)

@@ -151,6 +151,13 @@ namespace ForestSpirits
         private void Scan()
         {
             Debug.Log("Scan");
+            Game.Instance.TryGetTreasureManager(out GameTreasureManager treasureManager);
+            Sequence sequence = DOTween.Sequence();
+            foreach (Spirit spirit in _chainLinks.Select(chainLink => chainLink.Spirit).ToList())
+            {
+                sequence.AppendInterval(0.1f);
+                sequence.AppendCallback(() => spirit.BumpUpwards());
+            }
         }
 
         private void OnDrawGizmosSelected()

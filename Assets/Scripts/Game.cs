@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Audio;
 using ForestSpirits;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +16,8 @@ public class Game : Singleton<Game>
     [SerializeField] private Chain _chain;
     [SerializeField] private PlayerCharacter _player;
     [SerializeField] private List<Transform> _forestSpiritSpawns;
+    
+    [CanBeNull] private GameTreasureManager _gameTreasureManager;
 
     public void Awake()
     {
@@ -28,18 +31,18 @@ public class Game : Singleton<Game>
 
     private IEnumerator Setup()
     {
-        // wait for spawners to register
-        yield return null;
         SpawnForestSpirits();
         AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
         
         if(!SceneManager.GetSceneByName("Game_Treasure").isLoaded)
         {
             AsyncOperation gameTreasureOperation = SceneManager.LoadSceneAsync("Game_Treasure", LoadSceneMode.Additive);
+            Debug.Assert(gameTreasureOperation != null);
             yield return new WaitUntil(() => gameTreasureOperation.isDone);
         }
-        GameTreasureManager treasureManager = FindFirstObjectByType<GameTreasureManager>();
-        yield return treasureManager.Setup(numberOfTreasures: 3);
+        _gameTreasureManager = FindFirstObjectByType<GameTreasureManager>();
+        Debug.Assert(_gameTreasureManager != null);
+        yield return _gameTreasureManager.Setup(numberOfTreasures: 3);
     }
 
     private void SpawnForestSpirits()
@@ -58,6 +61,12 @@ public class Game : Singleton<Game>
             Destroy(spawn.gameObject);
         }
         _forestSpiritSpawns.Clear();
+    }
+
+    public bool TryGetTreasureManager(out GameTreasureManager treasureManager)
+    {
+        treasureManager = _gameTreasureManager;
+        return treasureManager != null;
     }
 
     public PlayerCharacter Player => _player;

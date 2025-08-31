@@ -1,5 +1,4 @@
-﻿using DG.Tweening;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpriteBlobShadow : MonoBehaviour
 {
@@ -9,40 +8,37 @@ public class SpriteBlobShadow : MonoBehaviour
     private Box _box;
     private float _initialAlpha;
     private bool _wasGrounded;
+    private float _smoothedAlphaVelocity;
 
     private void Awake()
     {
         _box = Box.FromCollider(_boxCollider);
         _initialAlpha = _shadowRenderer.color.a;
-    }
-
-    private void OnDestroy()
-    {
-        DOTween.Kill(this);
+        SetAlpha(0f);
     }
 
     public void UpdateShadow()
     {
         Box worldBox = _box.ToWorld(transform);
-        Vector3 origin = worldBox.TopCenter;
-        float distance = worldBox.Height;
-        Physics.Raycast(new Ray(origin, Vector3.down), out RaycastHit hit, distance);
-        
-        bool isGrounded = hit.collider != null;
-        if (isGrounded)
+        Vector3 rayOrigin = worldBox.TopCenter;
+        float rayDistance = worldBox.Height;
+        Physics.Raycast(new Ray(rayOrigin, Vector3.down), out RaycastHit hit, rayDistance, LayerMask.GetMask("Default"));
+
+        float distanceToGround = rayDistance;
+        bool floorIsWithinBox = hit.collider != null;
+        if (floorIsWithinBox)
         {
             _shadowRenderer.transform.rotation = Quaternion.LookRotation(hit.normal);
             Vector3 hitPointInLocal = transform.InverseTransformPoint(hit.point);
             float y = Mathf.Clamp(hitPointInLocal.y + PUSH_UP_Y, _box.BotCenter.y, _box.TopCenter.y);
             _shadowRenderer.transform.localPosition = Vector3.up * y;
+            distanceToGround = hit.distance;
         }
-
-        bool changed = _wasGrounded != isGrounded;
-        _wasGrounded = isGrounded;
-        if (changed)
-        {
-            DOTween.Kill(this);
-            _shadowRenderer.DOFade(isGrounded ? _initialAlpha : 0f, 0.2f).SetId(this);
-        }
+        
+        float targetAlpha = (rayDistance - distanceToGround)/rayDistance * _initialAlpha;
+        float smoothedAlpha = Mathf.SmoothDamp(_shadowRenderer.color.a, targetAlpha, ref _smoothedAlphaVelocity, 0.05f);
+        SetAlpha(smoothedAlpha);
     }
+    
+    private void SetAlpha(float alpha) => _shadowRenderer.color = new Color(_shadowRenderer.color.r, _shadowRenderer.color.g, _shadowRenderer.color.b, alpha);
 }

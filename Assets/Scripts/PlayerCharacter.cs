@@ -1,6 +1,9 @@
+using System;
 using Audio;
+using DG.Tweening;
 using ForestSpirits;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 {
@@ -11,6 +14,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private Transform _targetLookRotator;
     [SerializeField] private AudioClip[] _hornetScreams;
     [SerializeField] private AudioClip[] _footstepsGrass;
+    [SerializeField] private AudioClip _collectCoin;
     [SerializeField] private HornetAnimationEvents _animationEvents;
     [SerializeField] private bool _applyGravity;
 
@@ -21,11 +25,13 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private PseudoRandomIndex _screamIndex;
     private PseudoRandomIndex _footstepIndex;
     private CircularBuffer<Vector3> _positionBuffer;
+    private readonly Collider[] _colliders = new Collider[128];
 
     private void Awake()
     {
         UserInterface.Instance.VirtualJoystick.Move += OnMove;
         UserInterface.Instance.HornetScreamInput += OnHornetScream;
+        UserInterface.Instance.HornetDigInput += OnHornetDigInput;
         _pushHitbox.Init(this);
         _screamIndex = new PseudoRandomIndex(_hornetScreams.Length);
         _footstepIndex = new PseudoRandomIndex(_footstepsGrass.Length);
@@ -50,8 +56,24 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Quaternion lookRotationTiledTowardsCamera = Utils.AlignNormalWhileLookingAlongDir(toCamera, directionZeroY);
         Quaternion tiltedAwayFromCamera = Quaternion.LerpUnclamped(lookRotation, lookRotationTiledTowardsCamera, -0.125f);
         _actor.rotation = Utils.SmoothDamp(_actor.rotation, tiltedAwayFromCamera, ref _actorRotDampVelocity, 0.05f);
+
+        int colliderAmount = Physics.OverlapSphereNonAlloc(transform.position + Vector3.up, 1.0f, _colliders, LayerMask.GetMask("Coin"), QueryTriggerInteraction.Collide);
+        for (int i = 0; i < colliderAmount; i++)
+        {
+            if (_colliders[i].TryGetComponent(out Coin coin) && coin.IsCollectable)
+            {
+                Collect(coin);
+            }
+        }
     }
-    
+
+    private void Collect(Coin coin)
+    {
+        Debug.Log("Collecting coin");
+        AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
+        Destroy(coin.gameObject);
+    }
+
     private void OnMove(Vector2 delta)
     {
         JoystickMagnitude = delta.magnitude;
@@ -81,7 +103,34 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         _animator.PlayBattlecry(index);
         Game.Instance.Chain.PlayEchoed(index, _hornetScreams[index].length);
     }
-    
+
+    private readonly Collider[] _digColliders = new Collider[128];
+    private bool _drawDebugSphere;
+    private void OnHornetDigInput()
+    {
+        int amount = Physics.OverlapSphereNonAlloc(transform.position, 1f, _digColliders, LayerMask.GetMask("BuriedTreasure"));
+        for (int i = 0; i < amount; i++)
+        {
+            if (_digColliders[i].TryGetComponent(out BuriedTreasure buriedTreasure))
+            {
+                buriedTreasure.OnBeingDug();
+                break;
+            }
+        }
+
+        _drawDebugSphere = true;
+        DOVirtual.DelayedCall(1f, () => { _drawDebugSphere = false; });
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_drawDebugSphere)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, 1f);
+        }
+    }
+
     private void PlayFootStep()
     {
         float pitch = Random.Range(0.7f, 1.2f);

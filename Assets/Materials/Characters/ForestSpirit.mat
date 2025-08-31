@@ -89,6 +89,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _FresnelPower: 2
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -105,6 +106,8 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ScanColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FresnelColor: {r: 1, g: 0.68731886, b: 0, a: 1}
+    - _ScanBaseColor: {r: 0.9339623, g: 0.92193305, b: 0.5066305, a: 1}
+    - _ScanColor: {r: 1, g: 0.93155885, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

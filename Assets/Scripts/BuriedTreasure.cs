@@ -51,7 +51,7 @@ public class BuriedTreasure : MonoBehaviour
             Coin coin = Game.Instance.Spawner.SpawnCoin(transform.position, Quaternion.identity);
             float angle = i * Mathf.PI * 2f / count;
             Vector3 dir = (1f - upToSidewaysWeight) * Vector3.up + upToSidewaysWeight * new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
-            const float strength = 1.75f;
+            const float strength = 1.4f;
             coin.ApplyForce(dir.normalized * strength * Physics.gravity.magnitude);
             coin.GroundedCheckIsEnabled = false;
             DOVirtual.DelayedCall(0.2f, () =>

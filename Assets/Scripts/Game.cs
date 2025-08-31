@@ -31,6 +31,7 @@ public class Game : Singleton<Game>
 
     private IEnumerator Setup()
     {
+        yield return null;
         SpawnForestSpirits();
         AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
         

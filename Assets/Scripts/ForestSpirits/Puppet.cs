@@ -26,7 +26,7 @@ namespace ForestSpirits
             Velocity = (currentPosition - _lastPosition) / Time.deltaTime;
             Speed = Velocity.magnitude;
             _lastPosition = currentPosition;
-            _animator.SetFloat(AnimationIds.WalkingSpeed, Speed);
+            _animator.SetFloat(AnimationIds.WalkingSpeed, Speed > 0.5f? Speed : 0f);
         }
 
         public void Unfold()

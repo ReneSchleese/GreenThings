@@ -143,5 +143,10 @@ namespace ForestSpirits
         public int Priority { get; private set; }
 
         public Vector3 Velocity => _puppet.Velocity;
+
+        public int? ChainIndex
+        {
+            set => _puppet.NormalizedWalkingOffset = !value.HasValue ? 0f : value.Value * 0.2f;
+        }
     }
 }

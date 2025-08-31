@@ -50,6 +50,7 @@ namespace ForestSpirits
             _chainLinks.Add(link);
             _spiritToLinks.Add(spirit, link);
             link.FollowPlayerRoutePosition = link.Position;
+            spirit.ChainIndex = GetIndex(spirit);
         }
 
         public IChainTarget GetTargetFor(Spirit requester)
@@ -112,6 +113,7 @@ namespace ForestSpirits
             {
                 ChainLink chainLink = _chainLinks[i];
                 chainLink.Spirit.SwitchToState(typeof(IdleState));
+                chainLink.Spirit.ChainIndex = null;
                 _spiritToLinks.Remove(chainLink.Spirit);
                 _chainLinkPool.Return(chainLink);
             }

@@ -9,6 +9,7 @@ namespace ForestSpirits
         {
             public static readonly int WalkingSpeed = Animator.StringToHash("WalkingSpeed");
             public static readonly int Unfold = Animator.StringToHash("Unfold");
+            public static readonly int WalkingOffset = Animator.StringToHash("WalkingOffset");
         }
 
         [SerializeField] private Animator _animator;
@@ -52,6 +53,11 @@ namespace ForestSpirits
         public float Speed { get; private set; }
         public Vector3 Velocity { get; private set; }
         public SpriteBlobShadow BlobShadow => _blobShadow;
+
+        public float NormalizedWalkingOffset
+        {
+            set => _animator.SetFloat(AnimationIds.WalkingOffset, Mathf.Clamp01(value));
+        }
     }
 
 }

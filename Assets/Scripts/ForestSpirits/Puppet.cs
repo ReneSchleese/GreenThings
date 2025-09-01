@@ -52,6 +52,15 @@ namespace ForestSpirits
                 .OnComplete(() => _animationContainer.localPosition = Vector3.zero)
                 .SetId(this);
         }
+        
+        public void OnScan(BuriedTreasure treasure)
+        {
+            if (treasure == null)
+            {
+                return;
+            }
+            Debug.DrawLine(transform.position, treasure.transform.position, Color.green, 2f);
+        }
 
         public float Speed { get; private set; }
         public Vector3 Velocity { get; private set; }

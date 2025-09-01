@@ -124,6 +124,7 @@ namespace ForestSpirits
         }
 
         public void BumpUpwards() => _puppet.BumpUpwards();
+        public void OnScan(BuriedTreasure treasure) => _puppet.OnScan(treasure);
 
         public Vector3 Position => transform.position;
 

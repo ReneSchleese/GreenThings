@@ -158,7 +158,7 @@ namespace ForestSpirits
                 BuriedTreasure nearestTreasure = treasureManager.GetNearestTreasure(spirit.Position);
                 if(nearestTreasure != null)
                 {
-                    Debug.DrawLine(spirit.Position, nearestTreasure.transform.position, Color.green, 2f);
+                    spirit.OnScan(nearestTreasure);
                 }
                 sequence.AppendInterval(0.1f);
                 sequence.AppendCallback(() => spirit.BumpUpwards());

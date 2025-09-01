@@ -156,12 +156,15 @@ namespace ForestSpirits
             foreach (Spirit spirit in _chainLinks.Select(chainLink => chainLink.Spirit).ToList())
             {
                 BuriedTreasure nearestTreasure = treasureManager.GetNearestTreasure(spirit.Position);
-                if(nearestTreasure != null)
-                {
-                    spirit.OnScan(nearestTreasure);
-                }
                 sequence.AppendInterval(0.1f);
-                sequence.AppendCallback(() => spirit.BumpUpwards());
+                sequence.AppendCallback(() =>
+                {
+                    spirit.BumpUpwards();
+                    if(nearestTreasure != null)
+                    {
+                        spirit.OnScan(nearestTreasure);
+                    }
+                });
             }
         }
 

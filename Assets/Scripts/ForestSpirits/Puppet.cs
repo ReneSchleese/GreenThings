@@ -15,6 +15,7 @@ namespace ForestSpirits
         [SerializeField] private Animator _animator;
         [SerializeField] private SpriteBlobShadow _blobShadow;
         [SerializeField] private Transform _animationContainer;
+        [SerializeField] private SkinnedMeshRenderer _meshRenderer;
 
         private Vector3 _lastPosition;
         private Vector3 _posDampVelocity;
@@ -60,16 +61,29 @@ namespace ForestSpirits
                 return;
             }
             Debug.DrawLine(transform.position, treasure.transform.position, Color.green, 2f);
+            float distance = Vector3.Distance(transform.position, treasure.transform.position);
+            const float distanceMin = 2f;
+            const float distanceMax = 8f;
+            float inverseLerp = Mathf.InverseLerp(distanceMax, distanceMin, distance);
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(DOVirtual.Float(0f, 1f, 0.25f, value => NormalizedScanProgress = value));
+            sequence.Append(DOVirtual.Float(1f, 0f, 0.25f, value => NormalizedScanProgress = value));
+            sequence.OnUpdate(() =>
+            {
+                _meshRenderer.material.SetFloat(ScanNormalized, NormalizedScanProgress * inverseLerp);
+            });
+            sequence.OnComplete(() => Debug.Log("Complete"));
         }
 
+        private static readonly int ScanNormalized = Shader.PropertyToID("_ScanNormalized");
         public float Speed { get; private set; }
         public Vector3 Velocity { get; private set; }
         public SpriteBlobShadow BlobShadow => _blobShadow;
-
         public float NormalizedWalkingOffset
         {
             set => _animator.SetFloat(AnimationIds.WalkingOffset, Mathf.Clamp01(value));
         }
+        private float NormalizedScanProgress { get; set; }
     }
 
 }

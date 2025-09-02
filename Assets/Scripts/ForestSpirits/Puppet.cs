@@ -66,10 +66,10 @@ namespace ForestSpirits
             
             float distance = Vector3.Distance(transform.position, treasure.transform.position);
             const float distanceMin = 2f;
-            const float distanceMax = 10f;
+            const float distanceMax = 14f;
             float inverseLerp = Mathf.InverseLerp(distanceMax, distanceMin, distance);
             Sequence sequence = DOTween.Sequence(id);
-            const float duration = 0.5f;
+            const float duration = 0.75f;
             const float durationHalf = duration * 0.5f;
             sequence.Append(DOVirtual.Float(0f, 1f, durationHalf, value => NormalizedScanProgress = value));
             sequence.Append(DOVirtual.Float(1f, 0f, durationHalf, value => NormalizedScanProgress = value));

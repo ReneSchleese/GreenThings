@@ -62,16 +62,16 @@ namespace ForestSpirits
             }
 
             string id = $"{GetInstanceID()}_Scan";
-            DOTween.Kill(id, complete: true);
+            DOTween.Kill(id);
             
             float distance = Vector3.Distance(transform.position, treasure.transform.position);
             const float distanceMin = 2f;
             const float distanceMax = 14f;
             float inverseLerp = Mathf.InverseLerp(distanceMax, distanceMin, distance);
-            Sequence sequence = DOTween.Sequence(id);
+            Sequence sequence = DOTween.Sequence().SetId(id);
             const float duration = 1f;
             sequence.InsertCallback(0, () => _animator.SetTrigger(AnimationIds.Unfold));
-            sequence.Insert(0.3f, DOVirtual.Float(0f, 1f, 0.05f, value => NormalizedScanProgress = value));
+            sequence.Insert(0.3f, DOVirtual.Float(NormalizedScanProgress, 1f, 0.05f, value => NormalizedScanProgress = value));
             sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));
             sequence.OnUpdate(() =>
             {

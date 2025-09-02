@@ -69,10 +69,10 @@ namespace ForestSpirits
             const float distanceMax = 14f;
             float inverseLerp = Mathf.InverseLerp(distanceMax, distanceMin, distance);
             Sequence sequence = DOTween.Sequence(id);
-            const float duration = 0.75f;
-            const float durationHalf = duration * 0.5f;
-            sequence.Append(DOVirtual.Float(0f, 1f, durationHalf, value => NormalizedScanProgress = value));
-            sequence.Append(DOVirtual.Float(1f, 0f, durationHalf, value => NormalizedScanProgress = value));
+            const float duration = 1f;
+            sequence.InsertCallback(0, () => _animator.SetTrigger(AnimationIds.Unfold));
+            sequence.Insert(0.3f, DOVirtual.Float(0f, 1f, 0.05f, value => NormalizedScanProgress = value));
+            sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));
             sequence.OnUpdate(() =>
             {
                 _meshRenderer.material.SetFloat(ScanNormalized, NormalizedScanProgress * inverseLerp);

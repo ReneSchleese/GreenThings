@@ -159,7 +159,6 @@ namespace ForestSpirits
                 sequence.AppendInterval(0.1f);
                 sequence.AppendCallback(() =>
                 {
-                    spirit.BumpUpwards();
                     if(nearestTreasure != null)
                     {
                         spirit.OnScan(nearestTreasure);

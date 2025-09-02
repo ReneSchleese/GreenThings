@@ -16,6 +16,9 @@ public class Game : Singleton<Game>
     [SerializeField] private Chain _chain;
     [SerializeField] private PlayerCharacter _player;
     [SerializeField] private List<Transform> _forestSpiritSpawns;
+    [Space]
+    [SerializeField] private bool _useDebugSpawn;
+    [SerializeField] private Transform _debugSpawnPoint;
     
     [CanBeNull] private GameTreasureManager _gameTreasureManager;
 
@@ -48,20 +51,27 @@ public class Game : Singleton<Game>
 
     private void SpawnForestSpirits()
     {
-        _forestSpiritSpawner.CalculateGrid();
-        
-        Debug.Assert(_forestSpiritSpawns.Count > 0, "no forest-spirit spawns have been registered");
-        _forestSpiritSpawner.SortIntoGrid(_forestSpiritSpawns.Select(spawn => spawn.transform));
-        
-        foreach (Transform spawn in _forestSpiritSpawner.DrawAmountWithoutReturning(_forestSpiritAmount))
+        if (_useDebugSpawn)
         {
-            _spawner.SpawnForestSpirit(spawn.position, spawn.rotation);
+            for (int i = 0; i < _forestSpiritAmount; i++)
+            {
+                _spawner.SpawnForestSpirit(_debugSpawnPoint.position, Quaternion.identity);
+            }
         }
-        foreach (Transform spawn in _forestSpiritSpawns)
+        else
         {
-            Destroy(spawn.gameObject);
+            _forestSpiritSpawner.CalculateGrid();
+            _forestSpiritSpawner.SortIntoGrid(_forestSpiritSpawns.Select(spawn => spawn.transform));
+            foreach (Transform spawn in _forestSpiritSpawner.DrawAmountWithoutReturning(_forestSpiritAmount))
+            {
+                _spawner.SpawnForestSpirit(spawn.position, spawn.rotation);
+            }
+            foreach (Transform spawn in _forestSpiritSpawns)
+            {
+                Destroy(spawn.gameObject);
+            }
+            _forestSpiritSpawns.Clear();
         }
-        _forestSpiritSpawns.Clear();
     }
 
     public bool TryGetTreasureManager(out GameTreasureManager treasureManager)

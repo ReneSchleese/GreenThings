@@ -60,19 +60,23 @@ namespace ForestSpirits
             {
                 return;
             }
-            Debug.DrawLine(transform.position, treasure.transform.position, Color.green, 2f);
+
+            string id = $"{GetInstanceID()}_Scan";
+            DOTween.Kill(id, complete: true);
+            
             float distance = Vector3.Distance(transform.position, treasure.transform.position);
             const float distanceMin = 2f;
-            const float distanceMax = 8f;
+            const float distanceMax = 10f;
             float inverseLerp = Mathf.InverseLerp(distanceMax, distanceMin, distance);
-            Sequence sequence = DOTween.Sequence();
-            sequence.Append(DOVirtual.Float(0f, 1f, 0.25f, value => NormalizedScanProgress = value));
-            sequence.Append(DOVirtual.Float(1f, 0f, 0.25f, value => NormalizedScanProgress = value));
+            Sequence sequence = DOTween.Sequence(id);
+            const float duration = 0.5f;
+            const float durationHalf = duration * 0.5f;
+            sequence.Append(DOVirtual.Float(0f, 1f, durationHalf, value => NormalizedScanProgress = value));
+            sequence.Append(DOVirtual.Float(1f, 0f, durationHalf, value => NormalizedScanProgress = value));
             sequence.OnUpdate(() =>
             {
                 _meshRenderer.material.SetFloat(ScanNormalized, NormalizedScanProgress * inverseLerp);
             });
-            sequence.OnComplete(() => Debug.Log("Complete"));
         }
 
         private static readonly int ScanNormalized = Shader.PropertyToID("_ScanNormalized");

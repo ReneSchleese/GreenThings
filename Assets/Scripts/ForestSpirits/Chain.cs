@@ -153,15 +153,17 @@ namespace ForestSpirits
             bool treasureManagerExists = Game.Instance.TryGetTreasureManager(out GameTreasureManager treasureManager);
             Debug.Assert(treasureManagerExists);
             Sequence sequence = DOTween.Sequence();
-            foreach (Spirit spirit in _chainLinks.Select(chainLink => chainLink.Spirit).ToList())
+            for (var index = 0; index < _chainLinks.Select(chainLink => chainLink.Spirit).ToList().Count; index++)
             {
+                Spirit spirit = _chainLinks.Select(chainLink => chainLink.Spirit).ToList()[index];
                 BuriedTreasure nearestTreasure = treasureManager.GetNearestTreasure(spirit.Position);
                 sequence.AppendInterval(0.07f);
+                var index1 = index;
                 sequence.AppendCallback(() =>
                 {
-                    if(nearestTreasure != null)
+                    if (nearestTreasure != null)
                     {
-                        spirit.OnScan(nearestTreasure);
+                        spirit.OnScan(nearestTreasure, index1);
                     }
                 });
             }

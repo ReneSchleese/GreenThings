@@ -1,3 +1,4 @@
+using Audio;
 using DG.Tweening;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ namespace ForestSpirits
         [SerializeField] private SpriteBlobShadow _blobShadow;
         [SerializeField] private Transform _animationContainer;
         [SerializeField] private SkinnedMeshRenderer _meshRenderer;
+        [SerializeField] private AudioClip _scanSound;
 
         private Vector3 _lastPosition;
         private Vector3 _posDampVelocity;
@@ -55,7 +57,7 @@ namespace ForestSpirits
                 .SetId(this);
         }
         
-        public void OnScan(BuriedTreasure treasure)
+        public void OnScan(BuriedTreasure treasure, int index)
         {
             if (treasure == null)
             {
@@ -73,6 +75,10 @@ namespace ForestSpirits
             const float duration = 1f;
             sequence.InsertCallback(0, () => _animator.SetTrigger(AnimationIds.Unfold));
             sequence.Insert(0.25f, DOVirtual.Float(NormalizedScanProgress, 1f, 0.05f, value => NormalizedScanProgress = value));
+            if (inverseLerp > 0.05f && index % 2 == 0)
+            {
+                sequence.InsertCallback(0.3f, () => AudioManager.Instance.PlayEffect(_scanSound, Mathf.Lerp(1f, 2f, inverseLerp)));
+            }
             sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));
             sequence.InsertCallback(0.35f, () =>
             {

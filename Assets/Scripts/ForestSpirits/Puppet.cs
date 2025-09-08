@@ -10,6 +10,7 @@ namespace ForestSpirits
             public static readonly int WalkingSpeed = Animator.StringToHash("WalkingSpeed");
             public static readonly int Unfold = Animator.StringToHash("Unfold");
             public static readonly int WalkingOffset = Animator.StringToHash("WalkingOffset");
+            public static readonly int MayUnfold = Animator.StringToHash("MayUnfold");
         }
 
         [SerializeField] private Animator _animator;
@@ -73,10 +74,25 @@ namespace ForestSpirits
             sequence.InsertCallback(0, () => _animator.SetTrigger(AnimationIds.Unfold));
             sequence.Insert(0.25f, DOVirtual.Float(NormalizedScanProgress, 1f, 0.05f, value => NormalizedScanProgress = value));
             sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));
+            sequence.InsertCallback(0.35f, () =>
+            {
+                SetMayUnfold(true);
+                _animator.speed = 1.0f;
+            });
+            sequence.OnStart(() =>
+            {
+                SetMayUnfold(false);
+                _animator.speed = 1.3f;
+            });
             sequence.OnUpdate(() =>
             {
                 _meshRenderer.material.SetFloat(ScanNormalized, NormalizedScanProgress * inverseLerp);
             });
+        }
+        
+        public void SetMayUnfold(bool value)
+        {
+            _animator.SetBool(AnimationIds.MayUnfold, value);
         }
 
         private static readonly int ScanNormalized = Shader.PropertyToID("_ScanNormalized");

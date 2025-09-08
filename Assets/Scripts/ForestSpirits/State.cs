@@ -104,6 +104,7 @@ namespace ForestSpirits
         {
             base.OnEnter();
             _target = Game.Instance.Chain.GetTargetFor(spirit);
+            Puppet.SetMayUnfold(true);
         }
 
         public override void OnExit()

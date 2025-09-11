@@ -19,6 +19,7 @@ namespace ForestSpirits
         [SerializeField] private Transform _animationContainer;
         [SerializeField] private SkinnedMeshRenderer _meshRenderer;
         [SerializeField] private AudioClip _scanSound;
+        [SerializeField] private AudioClip _scanSoundClose;
         [SerializeField] private float _minPitch, _maxPitch;
         [SerializeField] private float _volume;
 
@@ -72,14 +73,18 @@ namespace ForestSpirits
             float distance = Vector3.Distance(transform.position, treasure.transform.position);
             const float distanceMin = 2f;
             const float distanceMax = 14f;
-            float inverseLerp = Mathf.InverseLerp(distanceMax, distanceMin, distance);
+            float closeness = Mathf.InverseLerp(distanceMax, distanceMin, distance);
             Sequence sequence = DOTween.Sequence().SetId(id);
             const float duration = 1f;
             sequence.InsertCallback(0, () => _animator.SetTrigger(AnimationIds.Unfold));
             sequence.Insert(0.25f, DOVirtual.Float(NormalizedScanProgress, 1f, 0.05f, value => NormalizedScanProgress = value));
-            if (inverseLerp > 0.05f && index % 2 == 0)
+            bool playSound = closeness > 0.05f && index % 2 == 0;
+            if (playSound)
             {
-                sequence.InsertCallback(0.3f, () => AudioManager.Instance.PlayEffect(_scanSound, Mathf.Lerp(_minPitch, _maxPitch, inverseLerp), _volume));
+                bool isReallyClose = closeness > 0.9f;
+                sequence.InsertCallback(0.3f,
+                    () => AudioManager.Instance.PlayEffect(isReallyClose ? _scanSoundClose : _scanSound,
+                        Mathf.Lerp(_minPitch, _maxPitch, closeness), _volume));
             }
             sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));
             sequence.InsertCallback(0.35f, () =>
@@ -94,7 +99,7 @@ namespace ForestSpirits
             });
             sequence.OnUpdate(() =>
             {
-                _meshRenderer.material.SetFloat(ScanNormalized, NormalizedScanProgress * inverseLerp);
+                _meshRenderer.material.SetFloat(ScanNormalized, NormalizedScanProgress * closeness);
             });
         }
         

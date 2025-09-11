@@ -23,6 +23,7 @@ namespace ForestSpirits
         [SerializeField] private float _minPitch, _maxPitch;
         [SerializeField] private float _minVolume, _maxVolume;
         [SerializeField] private ParticleSystem _particles;
+        [SerializeField] private ParticleSystem _sparkles;
 
         private Vector3 _lastPosition;
         private Vector3 _posDampVelocity;
@@ -93,11 +94,15 @@ namespace ForestSpirits
                     }
 
                     const float particleClosenessThreshold = 0.7f;
-                    const float remainer = 1f - particleClosenessThreshold;
-                    float thresholdLerp = Mathf.Clamp01((closeness - particleClosenessThreshold) / remainer);
-                    float particleAmount = Mathf.Lerp(0, 7, thresholdLerp);
+                    const float remainder = 1f - particleClosenessThreshold;
+                    float thresholdLerp = Mathf.Clamp01((closeness - particleClosenessThreshold) / remainder);
+                    float particleAmount = Mathf.Lerp(0, 5, thresholdLerp);
                     float particleMultiplier = isClose ? 1.5f : 1f;
                     _particles.Emit(Mathf.RoundToInt(particleAmount * particleMultiplier));
+                    if (isClose)
+                    {
+                        _sparkles.Emit(Mathf.RoundToInt(particleAmount * particleMultiplier * 0.25f));
+                    }
                 });
             sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));
             sequence.InsertCallback(0.35f, () =>

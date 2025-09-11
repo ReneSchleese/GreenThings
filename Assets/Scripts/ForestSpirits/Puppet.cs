@@ -90,10 +90,10 @@ namespace ForestSpirits
                         AudioManager.Instance.PlayEffect(
                             isClose ? _scanSoundClose : _scanSound,
                             Mathf.Lerp(_minPitch, _maxPitch, closeness) - (isClose ? 0.1f : 0f),
-                            Mathf.Lerp(_minVolume, _maxVolume, closeness));
+                            Mathf.Lerp(_minVolume, _maxVolume - (isClose ? 0.2f : 0f), closeness));
                     }
 
-                    const float particleClosenessThreshold = 0.7f;
+                    const float particleClosenessThreshold = 0.8f;
                     const float remainder = 1f - particleClosenessThreshold;
                     float thresholdLerp = Mathf.Clamp01((closeness - particleClosenessThreshold) / remainder);
                     float particleAmount = Mathf.Lerp(0, 5, thresholdLerp);

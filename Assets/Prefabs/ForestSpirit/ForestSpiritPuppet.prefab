@@ -82,7 +82,10 @@ MonoBehaviour:
   _blobShadow: {fileID: 2589716831295656181}
   _animationContainer: {fileID: 8190945760981267464}
   _meshRenderer: {fileID: 7801696077924242457}
-  _scanSound: {fileID: 8300000, guid: 55e2a53d4bc2b9d44bbbd3dc1eebda13, type: 3}
+  _scanSound: {fileID: 8300000, guid: 76c42055c30aa564198979475c8694f5, type: 3}
+  _minPitch: 0.7
+  _maxPitch: 1.5
+  _volume: 0.5
 --- !u!1001 &8346828183837102195
 PrefabInstance:
   m_ObjectHideFlags: 0

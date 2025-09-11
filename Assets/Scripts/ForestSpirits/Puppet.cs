@@ -19,6 +19,8 @@ namespace ForestSpirits
         [SerializeField] private Transform _animationContainer;
         [SerializeField] private SkinnedMeshRenderer _meshRenderer;
         [SerializeField] private AudioClip _scanSound;
+        [SerializeField] private float _minPitch, _maxPitch;
+        [SerializeField] private float _volume;
 
         private Vector3 _lastPosition;
         private Vector3 _posDampVelocity;
@@ -77,7 +79,7 @@ namespace ForestSpirits
             sequence.Insert(0.25f, DOVirtual.Float(NormalizedScanProgress, 1f, 0.05f, value => NormalizedScanProgress = value));
             if (inverseLerp > 0.05f && index % 2 == 0)
             {
-                sequence.InsertCallback(0.3f, () => AudioManager.Instance.PlayEffect(_scanSound, Mathf.Lerp(1f, 2f, inverseLerp)));
+                sequence.InsertCallback(0.3f, () => AudioManager.Instance.PlayEffect(_scanSound, Mathf.Lerp(_minPitch, _maxPitch, inverseLerp), _volume));
             }
             sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));
             sequence.InsertCallback(0.35f, () =>

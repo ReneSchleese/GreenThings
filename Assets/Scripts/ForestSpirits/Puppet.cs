@@ -73,19 +73,22 @@ namespace ForestSpirits
             float distance = Vector3.Distance(transform.position, treasure.transform.position);
             const float distanceMin = 2f;
             const float distanceMax = 14f;
-            float closeness = Mathf.InverseLerp(distanceMax, distanceMin, distance);
             Sequence sequence = DOTween.Sequence().SetId(id);
             const float duration = 1f;
             sequence.InsertCallback(0, () => _animator.SetTrigger(AnimationIds.Unfold));
             sequence.Insert(0.25f, DOVirtual.Float(NormalizedScanProgress, 1f, 0.05f, value => NormalizedScanProgress = value));
-            bool playSound = closeness > 0.05f && index % 2 == 0;
-            if (playSound)
-            {
-                bool isReallyClose = closeness > 0.9f;
-                sequence.InsertCallback(0.3f,
-                    () => AudioManager.Instance.PlayEffect(isReallyClose ? _scanSoundClose : _scanSound,
-                        Mathf.Lerp(_minPitch, _maxPitch, closeness), _volume));
-            }
+            sequence.InsertCallback(0.3f,
+                () =>
+                {
+                    float closeness = Mathf.InverseLerp(distanceMax, distanceMin, distance);
+                    bool isReallyClose = closeness > 0.9f;
+                    bool playSound = closeness > 0.05f && index % 2 == 0;
+                    if(playSound)
+                    {
+                        AudioManager.Instance.PlayEffect(isReallyClose ? _scanSoundClose : _scanSound,
+                            Mathf.Lerp(_minPitch, _maxPitch, closeness) - (isReallyClose ? 0.1f : 0f), _volume);
+                    }
+                });
             sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));
             sequence.InsertCallback(0.35f, () =>
             {
@@ -99,6 +102,7 @@ namespace ForestSpirits
             });
             sequence.OnUpdate(() =>
             {
+                float closeness = Mathf.InverseLerp(distanceMax, distanceMin, distance);
                 _meshRenderer.material.SetFloat(ScanNormalized, NormalizedScanProgress * closeness);
             });
         }

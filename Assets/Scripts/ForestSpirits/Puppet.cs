@@ -21,7 +21,7 @@ namespace ForestSpirits
         [SerializeField] private AudioClip _scanSound;
         [SerializeField] private AudioClip _scanSoundClose;
         [SerializeField] private float _minPitch, _maxPitch;
-        [SerializeField] private float _volume;
+        [SerializeField] private float _minVolume, _maxVolume;
 
         private Vector3 _lastPosition;
         private Vector3 _posDampVelocity;
@@ -81,12 +81,14 @@ namespace ForestSpirits
                 () =>
                 {
                     float closeness = Mathf.InverseLerp(distanceMax, distanceMin, distance);
-                    bool isReallyClose = closeness > 0.9f;
+                    bool isClose = closeness > 0.9f;
                     bool playSound = closeness > 0.05f && index % 2 == 0;
                     if(playSound)
                     {
-                        AudioManager.Instance.PlayEffect(isReallyClose ? _scanSoundClose : _scanSound,
-                            Mathf.Lerp(_minPitch, _maxPitch, closeness) - (isReallyClose ? 0.1f : 0f), _volume);
+                        AudioManager.Instance.PlayEffect(
+                            isClose ? _scanSoundClose : _scanSound,
+                            Mathf.Lerp(_minPitch, _maxPitch, closeness) - (isClose ? 0.1f : 0f),
+                            Mathf.Lerp(_minVolume, _maxVolume, closeness));
                     }
                 });
             sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));

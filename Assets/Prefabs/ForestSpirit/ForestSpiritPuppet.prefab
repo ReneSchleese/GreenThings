@@ -86,7 +86,8 @@ MonoBehaviour:
   _scanSoundClose: {fileID: 8300000, guid: 31429235556ac234daa15953da7901da, type: 3}
   _minPitch: 0.7
   _maxPitch: 1.5
-  _volume: 0.5
+  _minVolume: 0.25
+  _maxVolume: 0.4
 --- !u!1001 &8346828183837102195
 PrefabInstance:
   m_ObjectHideFlags: 0

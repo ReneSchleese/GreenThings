@@ -89,6 +89,7 @@ MonoBehaviour:
   _maxPitch: 1.5
   _minVolume: 0.25
   _maxVolume: 0.4
+  _particles: {fileID: 3343309535375207045}
 --- !u!1 &7865617616294823817
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +117,7 @@ Transform:
   m_GameObject: {fileID: 7865617616294823817}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -139,7 +140,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -376,7 +377,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1144,17 +1145,17 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0.107255526
           value: 0.9534051
-          inSlope: 0.50497705
-          outSlope: 0.50497705
+          inSlope: 0.6492575
+          outSlope: 0.6492575
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.060606048
+          outWeight: 0.14840987
         - serializedVersion: 3
-          time: 0.9873817
-          value: 0.2795699
-          inSlope: -0.765612
-          outSlope: -0.765612
+          time: 1
+          value: 0.5
+          inSlope: -0.50787777
+          outSlope: -0.50787777
           tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334

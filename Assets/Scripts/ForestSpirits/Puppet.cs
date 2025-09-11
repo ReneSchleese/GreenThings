@@ -84,7 +84,7 @@ namespace ForestSpirits
                 {
                     float closeness = Mathf.InverseLerp(distanceMax, distanceMin, distance);
                     bool isClose = closeness > 0.9f;
-                    bool playSound = closeness > 0.05f && index % 2 == 0;
+                    bool playSound = closeness > 0.05f && (index % 2 == 0 || isClose);
                     if(playSound)
                     {
                         AudioManager.Instance.PlayEffect(

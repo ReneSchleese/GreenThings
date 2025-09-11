@@ -95,7 +95,7 @@ namespace ForestSpirits
                     const float particleClosenessThreshold = 0.7f;
                     const float remainer = 1f - particleClosenessThreshold;
                     float thresholdLerp = Mathf.Clamp01((closeness - particleClosenessThreshold) / remainer);
-                    float particleAmount = Mathf.Lerp(0, 10, thresholdLerp);
+                    float particleAmount = Mathf.Lerp(0, 7, thresholdLerp);
                     float particleMultiplier = isClose ? 1.5f : 1f;
                     _particles.Emit(Mathf.RoundToInt(particleAmount * particleMultiplier));
                 });

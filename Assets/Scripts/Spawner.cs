@@ -7,6 +7,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private BuriedTreasure _buriedTreasurePrefab;
     [SerializeField] private Coin _coinPrefab;
     [SerializeField] private GameObject _diggingHole;
+    [SerializeField] private Transform _diggingHoleParent;
     
     public void SpawnForestSpirit(Vector3 position, Quaternion rotation)
     {
@@ -23,8 +24,8 @@ public class Spawner : MonoBehaviour
         return Instantiate(_coinPrefab, position, rotation);
     }
 
-    public GameObject SpawnDiggingHole(Vector3 position, Transform parent)
+    public GameObject SpawnDiggingHole(Vector3 position)
     {
-        return Instantiate(_diggingHole, position, Quaternion.identity, parent);
+        return Instantiate(_diggingHole, position, Quaternion.identity, _diggingHoleParent);
     }
 }

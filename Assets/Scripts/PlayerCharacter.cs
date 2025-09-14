@@ -109,6 +109,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private void OnHornetDigInput()
     {
         int amount = Physics.OverlapSphereNonAlloc(transform.position, 1f, _digColliders, LayerMask.GetMask("BuriedTreasure"));
+        Game.Instance.Spawner.SpawnDiggingHole(transform.position);
         for (int i = 0; i < amount; i++)
         {
             if (_digColliders[i].TryGetComponent(out BuriedTreasure buriedTreasure))

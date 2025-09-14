@@ -109,7 +109,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private void OnHornetDigInput()
     {
         bool spawnDiggingHole = true;
-        int amount = Physics.OverlapSphereNonAlloc(transform.position, 1f, _digColliders, LayerMask.GetMask("BuriedTreasure"));
+        Vector3 digPosition = transform.position + _actor.transform.forward;
+        int amount = Physics.OverlapSphereNonAlloc(digPosition, 1f, _digColliders, LayerMask.GetMask("BuriedTreasure"));
         for (int i = 0; i < amount; i++)
         {
             if (_digColliders[i].TryGetComponent(out BuriedTreasure buriedTreasure))
@@ -125,7 +126,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
         if (spawnDiggingHole)
         {
-            Game.Instance.Spawner.SpawnDiggingHole(transform.position);
+            Game.Instance.Spawner.SpawnDiggingHole(digPosition);
         }
         _drawDebugSphere = true;
         DOVirtual.DelayedCall(1f, () => { _drawDebugSphere = false; });
@@ -136,7 +137,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         if (_drawDebugSphere)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, 1f);
+            Gizmos.DrawWireSphere(transform.position + _actor.transform.forward, 1f);
         }
     }
 

@@ -118,7 +118,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         int amount = Physics.OverlapSphereNonAlloc(digPosition, 1f, _digColliders, LayerMask.GetMask("BuriedTreasure"));
         if (amount == 0)
         {
-            Game.Instance.Spawner.SpawnDiggingHole(digPosition);
+            DiggingHole diggingHole = Game.Instance.Spawner.SpawnDiggingHole(digPosition);
+            diggingHole.OnBeingDug();
         }
         else
         {
@@ -143,7 +144,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
                 if (closestTreasure.IsFullHealth)
                 {
                     closestTreasure.transform.position = digPosition;
-                    Game.Instance.Spawner.SpawnDiggingHole(digPosition);
+                    DiggingHole diggingHole = Game.Instance.Spawner.SpawnDiggingHole(digPosition);
+                    diggingHole.OnBeingDug();
                 }
                 closestTreasure.OnBeingDug();
             }

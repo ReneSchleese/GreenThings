@@ -61,4 +61,6 @@ public class BuriedTreasure : MonoBehaviour
             });
         }
     }
+    
+    public bool IsFullHealth =>  _currentHealth == INITIAL_HEALTH;
 }

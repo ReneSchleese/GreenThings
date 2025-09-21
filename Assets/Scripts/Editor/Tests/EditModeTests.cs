@@ -6,7 +6,6 @@ public static class EditModeTests
     [Test]
     public static void Test()
     {
-        Debug.Log("Test");
         GridSortedObjects objects  = new GridSortedObjects
         {
             GridMax = new Vector2(10, 10),
@@ -14,6 +13,7 @@ public static class EditModeTests
             SegmentsX = 2,
             SegmentsZ = 2
         };
-        Debug.Log(objects.GridMax);
+        objects.CalculateGrid();
+        //objects.SortIntoGrid();
     }
 }

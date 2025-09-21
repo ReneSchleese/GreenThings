@@ -31,7 +31,7 @@ public class GridSortedObjects
     {
         foreach (Transform spawn in spawns)
         {
-            GridBucket<Transform> bucket = _grid.First(segment => segment.ContainsPoint(spawn.position));
+            GridBucket<Transform> bucket = _grid.First(bucket => bucket.ContainsPoint(spawn.position));
             bucket.RemainingObjects.Add(spawn);
         }
     }
@@ -39,7 +39,7 @@ public class GridSortedObjects
     public IEnumerable<Transform> DrawAmountWithoutReturning(int amount)
     {
         List<Transform> result = new();
-        List<GridBucket<Transform>> remainingSegments = _grid.Where(segment => segment.RemainingObjects.Count > 0).ToList();
+        List<GridBucket<Transform>> remainingSegments = _grid.Where(bucket => bucket.RemainingObjects.Count > 0).ToList();
         List<GridBucket<Transform>> alreadyUsedSegments = new();
         Debug.Assert(remainingSegments.Count > 0);
 
@@ -113,43 +113,5 @@ public class GridSortedObjects
     {
         get => _segmentsZ;
         set => _segmentsZ = value;
-    }
-
-    private class GridBucket<T>
-    {
-        public readonly Vector2 CoordinateMin;
-        public readonly Vector2 CoordinateMax;
-        public readonly List<T> RemainingObjects = new();
-        public readonly List<T> AlreadyUsedObjects = new();
-
-        public GridBucket(Vector2 coordinateMin, Vector2 coordinateMax)
-        {
-            CoordinateMin = coordinateMin;
-            CoordinateMax = coordinateMax;
-        }
-
-        public bool ContainsPoint(Vector3 point)
-        {
-            return point.x <= CoordinateMax.x && point.x >= CoordinateMin.x 
-                                              && point.z <= CoordinateMax.y && point.z >= CoordinateMin.y;
-        }
-
-        public T GetRandomObject(bool markAsUsed)
-        {
-            Debug.Assert(RemainingObjects.Count > 0, "Objects.Count > 0");
-            T result = RemainingObjects[Random.Range(0, RemainingObjects.Count)];
-            if (markAsUsed)
-            {
-                RemainingObjects.Remove(result);
-                AlreadyUsedObjects.Add(result);
-            }
-            return result;
-        }
-
-        public void SetAllRemaining()
-        {
-            RemainingObjects.AddRange(AlreadyUsedObjects);
-            AlreadyUsedObjects.Clear();
-        }
     }
 }

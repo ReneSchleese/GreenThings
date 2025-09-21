@@ -23,6 +23,26 @@ public static class EditModeTests
             Assert.That(drawnPoints.Count, Is.EqualTo(3));   
         }
     }
+    
+    [Test]
+    public static void AllBucketsWithOnePointMax_AssertNoDuplicates()
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            var pointsGrid = GenerateTestGrid();
+            var spawnPoints = new List<Point>
+            {
+                new() { X = -5, Y = 0, Z = -5},
+                new() { X = -5, Y = 0, Z = 5},
+                new() { X = 5, Y = 0, Z = -5},
+                new() { X = 5, Y = 0, Z = 5},
+            };
+            pointsGrid.SortIntoGrid(spawnPoints);
+            const int amountToDraw = 3;
+            HashSet<Point> drawnPoints = pointsGrid.DrawAmountWithoutReturning(amountToDraw).ToHashSet();
+            Assert.That(drawnPoints.Count, Is.EqualTo(3));   
+        }
+    }
 
     private static GridSortedPoints GenerateTestGrid()
     {

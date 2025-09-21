@@ -4,12 +4,13 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class GridSortedObjects : MonoBehaviour
+[Serializable]
+public class GridSortedObjects
 {
     [SerializeField] private Vector2 _gridMin;
     [SerializeField] private Vector2 _gridMax;
     [SerializeField] private int _segmentsX, _segmentsZ;
-    private readonly List<GridSegment<Transform>> _grid = new();
+    private readonly List<GridBucket<Transform>> _grid = new();
 
     public void CalculateGrid()
     {
@@ -21,7 +22,7 @@ public class GridSortedObjects : MonoBehaviour
             {
                 Vector2 currentMin = _gridMin + new Vector2(x * segmentSizeX, z * segmentSizeZ);;
                 Vector2 currentMax = _gridMin + new Vector2((x + 1) * segmentSizeX, (z + 1) * segmentSizeZ);
-                _grid.Add(new GridSegment<Transform>(currentMin, currentMax));
+                _grid.Add(new GridBucket<Transform>(currentMin, currentMax));
             }
         }
     }
@@ -30,32 +31,32 @@ public class GridSortedObjects : MonoBehaviour
     {
         foreach (Transform spawn in spawns)
         {
-            GridSegment<Transform> segment = _grid.First(segment => segment.ContainsPoint(spawn.position));
-            segment.RemainingObjects.Add(spawn);
+            GridBucket<Transform> bucket = _grid.First(segment => segment.ContainsPoint(spawn.position));
+            bucket.RemainingObjects.Add(spawn);
         }
     }
 
     public IEnumerable<Transform> DrawAmountWithoutReturning(int amount)
     {
         List<Transform> result = new();
-        List<GridSegment<Transform>> remainingSegments = _grid.Where(segment => segment.RemainingObjects.Count > 0).ToList();
-        List<GridSegment<Transform>> alreadyUsedSegments = new();
+        List<GridBucket<Transform>> remainingSegments = _grid.Where(segment => segment.RemainingObjects.Count > 0).ToList();
+        List<GridBucket<Transform>> alreadyUsedSegments = new();
         Debug.Assert(remainingSegments.Count > 0);
 
         for (int i = 0; i < amount; i++)
         {
             int randomIndex = Random.Range(0, remainingSegments.Count);
-            GridSegment<Transform> randomSegment = remainingSegments[randomIndex];
-            Transform randomObject = randomSegment.GetRandomObject(markAsUsed: true);
+            GridBucket<Transform> randomBucket = remainingSegments[randomIndex];
+            Transform randomObject = randomBucket.GetRandomObject(markAsUsed: true);
             result.Add(randomObject);
 
-            if (randomSegment.RemainingObjects.Count == 0)
+            if (randomBucket.RemainingObjects.Count == 0)
             {
-                randomSegment.SetAllRemaining();
+                randomBucket.SetAllRemaining();
             }
             
-            remainingSegments.Remove(randomSegment);
-            alreadyUsedSegments.Add(randomSegment);
+            remainingSegments.Remove(randomBucket);
+            alreadyUsedSegments.Add(randomBucket);
             if (remainingSegments.Count == 0)
             {
                 remainingSegments.AddRange(alreadyUsedSegments);
@@ -74,38 +75,39 @@ public class GridSortedObjects : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         List<Vector3> lines = new();
-        foreach (GridSegment<Transform> segment in _grid)
+        foreach (GridBucket<Transform> segment in _grid)
         {
-            lines.Add(new Vector3(segment.Min.x, 0f, segment.Min.y));
-            lines.Add(new Vector3(segment.Min.x, 0f, segment.Max.y));
-            lines.Add(new Vector3(segment.Max.x, 0f, segment.Min.y));
-            lines.Add(new Vector3(segment.Max.x, 0f, segment.Max.y));
+            lines.Add(new Vector3(segment.CoordinateMin.x, 0f, segment.CoordinateMin.y));
+            lines.Add(new Vector3(segment.CoordinateMin.x, 0f, segment.CoordinateMax.y));
+            lines.Add(new Vector3(segment.CoordinateMax.x, 0f, segment.CoordinateMin.y));
+            lines.Add(new Vector3(segment.CoordinateMax.x, 0f, segment.CoordinateMax.y));
             
-            lines.Add(new Vector3(segment.Min.x, 0f, segment.Min.y));
-            lines.Add(new Vector3(segment.Max.x, 0f, segment.Min.y));
-            lines.Add(new Vector3(segment.Min.x, 0f, segment.Max.y));
-            lines.Add(new Vector3(segment.Max.x, 0f, segment.Max.y));
+            lines.Add(new Vector3(segment.CoordinateMin.x, 0f, segment.CoordinateMin.y));
+            lines.Add(new Vector3(segment.CoordinateMax.x, 0f, segment.CoordinateMin.y));
+            lines.Add(new Vector3(segment.CoordinateMin.x, 0f, segment.CoordinateMax.y));
+            lines.Add(new Vector3(segment.CoordinateMax.x, 0f, segment.CoordinateMax.y));
         }
 
         Gizmos.DrawLineList(new ReadOnlySpan<Vector3>(lines.ToArray()));
     }
 
-    private class GridSegment<T>
+    private class GridBucket<T>
     {
-        public readonly Vector2 Min;
-        public readonly Vector2 Max;
+        public readonly Vector2 CoordinateMin;
+        public readonly Vector2 CoordinateMax;
         public readonly List<T> RemainingObjects = new();
         public readonly List<T> AlreadyUsedObjects = new();
 
-        public GridSegment(Vector2 min, Vector2 max)
+        public GridBucket(Vector2 coordinateMin, Vector2 coordinateMax)
         {
-            Min = min;
-            Max = max;
+            CoordinateMin = coordinateMin;
+            CoordinateMax = coordinateMax;
         }
 
         public bool ContainsPoint(Vector3 point)
         {
-            return point.x <= Max.x && point.x >= Min.x && point.z <= Max.y && point.z >= Min.y;
+            return point.x <= CoordinateMax.x && point.x >= CoordinateMin.x 
+                                              && point.z <= CoordinateMax.y && point.z >= CoordinateMin.y;
         }
 
         public T GetRandomObject(bool markAsUsed)

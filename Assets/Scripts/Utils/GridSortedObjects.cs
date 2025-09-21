@@ -90,6 +90,30 @@ public class GridSortedObjects
 
         Gizmos.DrawLineList(new ReadOnlySpan<Vector3>(lines.ToArray()));
     }
+    
+    public Vector2 GridMin
+    {
+        get => _gridMin;
+        set => _gridMin = value;
+    }
+
+    public Vector2 GridMax
+    {
+        get => _gridMax;
+        set => _gridMax = value;
+    }
+
+    public int SegmentsX
+    {
+        get => _segmentsX;
+        set => _segmentsX = value;
+    }
+
+    public int SegmentsZ
+    {
+        get => _segmentsZ;
+        set => _segmentsZ = value;
+    }
 
     private class GridBucket<T>
     {

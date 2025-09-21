@@ -15,10 +15,10 @@ public class GameTreasureManager : MonoBehaviour
     public IEnumerator Setup(int numberOfTreasures)
     {
         _gridSortedTreasures.CalculateGrid();
-        _gridSortedTreasures.SortIntoGrid(_treasureSpawns);
-        foreach (Transform spawn in _gridSortedTreasures.DrawAmountWithoutReturning(numberOfTreasures))
+        _gridSortedTreasures.SortIntoGrid(_treasureSpawns.Select(spawn => Point.FromTransform(spawn.transform)));
+        foreach (Point point in _gridSortedTreasures.DrawAmountWithoutReturning(numberOfTreasures))
         {
-            BuriedTreasure treasure = Game.Instance.Spawner.SpawnBuriedTreasure(spawn.position, spawn.rotation, _treasuresParent);
+            BuriedTreasure treasure = Game.Instance.Spawner.SpawnBuriedTreasure(point.ToVector3(), point.Rotation, _treasuresParent);
             _buriedTreasures.Add(treasure);
         }
         yield break;

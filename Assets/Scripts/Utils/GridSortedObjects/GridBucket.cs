@@ -14,10 +14,10 @@ public class GridBucket<T>
         CoordinateMax = coordinateMax;
     }
 
-    public bool ContainsPoint(Vector3 point)
+    public bool ContainsPoint(Point point)
     {
-        return point.x <= CoordinateMax.x && point.x >= CoordinateMin.x 
-                                          && point.z <= CoordinateMax.y && point.z >= CoordinateMin.y;
+        return point.X <= CoordinateMax.x && point.X >= CoordinateMin.x 
+                                          && point.Z <= CoordinateMax.y && point.Z >= CoordinateMin.y;
     }
 
     public T GetRandomObject(bool markAsUsed)

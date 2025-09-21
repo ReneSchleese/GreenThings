@@ -10,7 +10,7 @@ public class GridSortedObjects
     [SerializeField] private Vector2 _gridMin;
     [SerializeField] private Vector2 _gridMax;
     [SerializeField] private int _segmentsX, _segmentsZ;
-    private readonly List<GridBucket<Transform>> _grid = new();
+    private readonly List<GridBucket<Point>> _grid = new();
 
     public void CalculateGrid()
     {
@@ -22,32 +22,32 @@ public class GridSortedObjects
             {
                 Vector2 currentMin = _gridMin + new Vector2(x * segmentSizeX, z * segmentSizeZ);;
                 Vector2 currentMax = _gridMin + new Vector2((x + 1) * segmentSizeX, (z + 1) * segmentSizeZ);
-                _grid.Add(new GridBucket<Transform>(currentMin, currentMax));
+                _grid.Add(new GridBucket<Point>(currentMin, currentMax));
             }
         }
     }
 
-    public void SortIntoGrid(IEnumerable<Transform> spawns)
+    public void SortIntoGrid(IEnumerable<Point> points)
     {
-        foreach (Transform spawn in spawns)
+        foreach (Point point in points)
         {
-            GridBucket<Transform> bucket = _grid.First(bucket => bucket.ContainsPoint(spawn.position));
-            bucket.RemainingObjects.Add(spawn);
+            GridBucket<Point> bucket = _grid.First(bucket => bucket.ContainsPoint(point));
+            bucket.RemainingObjects.Add(point);
         }
     }
 
-    public IEnumerable<Transform> DrawAmountWithoutReturning(int amount)
+    public IEnumerable<Point> DrawAmountWithoutReturning(int amount)
     {
-        List<Transform> result = new();
-        List<GridBucket<Transform>> remainingSegments = _grid.Where(bucket => bucket.RemainingObjects.Count > 0).ToList();
-        List<GridBucket<Transform>> alreadyUsedSegments = new();
-        Debug.Assert(remainingSegments.Count > 0);
+        List<Point> result = new();
+        List<GridBucket<Point>> remainingBuckets = _grid.Where(bucket => bucket.RemainingObjects.Count > 0).ToList();
+        List<GridBucket<Point>> alreadyUsedBuckets = new();
+        Debug.Assert(remainingBuckets.Count > 0);
 
         for (int i = 0; i < amount; i++)
         {
-            int randomIndex = Random.Range(0, remainingSegments.Count);
-            GridBucket<Transform> randomBucket = remainingSegments[randomIndex];
-            Transform randomObject = randomBucket.GetRandomObject(markAsUsed: true);
+            int randomIndex = Random.Range(0, remainingBuckets.Count);
+            GridBucket<Point> randomBucket = remainingBuckets[randomIndex];
+            Point randomObject = randomBucket.GetRandomObject(markAsUsed: true);
             result.Add(randomObject);
 
             if (randomBucket.RemainingObjects.Count == 0)
@@ -55,12 +55,12 @@ public class GridSortedObjects
                 randomBucket.SetAllRemaining();
             }
             
-            remainingSegments.Remove(randomBucket);
-            alreadyUsedSegments.Add(randomBucket);
-            if (remainingSegments.Count == 0)
+            remainingBuckets.Remove(randomBucket);
+            alreadyUsedBuckets.Add(randomBucket);
+            if (remainingBuckets.Count == 0)
             {
-                remainingSegments.AddRange(alreadyUsedSegments);
-                alreadyUsedSegments.Clear();
+                remainingBuckets.AddRange(alreadyUsedBuckets);
+                alreadyUsedBuckets.Clear();
             }
         }
 
@@ -75,17 +75,17 @@ public class GridSortedObjects
     void OnDrawGizmosSelected()
     {
         List<Vector3> lines = new();
-        foreach (GridBucket<Transform> segment in _grid)
+        foreach (GridBucket<Point> bucket in _grid)
         {
-            lines.Add(new Vector3(segment.CoordinateMin.x, 0f, segment.CoordinateMin.y));
-            lines.Add(new Vector3(segment.CoordinateMin.x, 0f, segment.CoordinateMax.y));
-            lines.Add(new Vector3(segment.CoordinateMax.x, 0f, segment.CoordinateMin.y));
-            lines.Add(new Vector3(segment.CoordinateMax.x, 0f, segment.CoordinateMax.y));
+            lines.Add(new Vector3(bucket.CoordinateMin.x, 0f, bucket.CoordinateMin.y));
+            lines.Add(new Vector3(bucket.CoordinateMin.x, 0f, bucket.CoordinateMax.y));
+            lines.Add(new Vector3(bucket.CoordinateMax.x, 0f, bucket.CoordinateMin.y));
+            lines.Add(new Vector3(bucket.CoordinateMax.x, 0f, bucket.CoordinateMax.y));
             
-            lines.Add(new Vector3(segment.CoordinateMin.x, 0f, segment.CoordinateMin.y));
-            lines.Add(new Vector3(segment.CoordinateMax.x, 0f, segment.CoordinateMin.y));
-            lines.Add(new Vector3(segment.CoordinateMin.x, 0f, segment.CoordinateMax.y));
-            lines.Add(new Vector3(segment.CoordinateMax.x, 0f, segment.CoordinateMax.y));
+            lines.Add(new Vector3(bucket.CoordinateMin.x, 0f, bucket.CoordinateMin.y));
+            lines.Add(new Vector3(bucket.CoordinateMax.x, 0f, bucket.CoordinateMin.y));
+            lines.Add(new Vector3(bucket.CoordinateMin.x, 0f, bucket.CoordinateMax.y));
+            lines.Add(new Vector3(bucket.CoordinateMax.x, 0f, bucket.CoordinateMax.y));
         }
 
         Gizmos.DrawLineList(new ReadOnlySpan<Vector3>(lines.ToArray()));

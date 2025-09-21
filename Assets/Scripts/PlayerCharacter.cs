@@ -1,4 +1,5 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using Audio;
 using DG.Tweening;
 using ForestSpirits;
@@ -106,18 +107,58 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private readonly Collider[] _digColliders = new Collider[128];
     private bool _drawDebugSphere;
+    private readonly List<BuriedTreasure> _hitTreasures = new();
+    private readonly List<DiggingHole> _hitDiggingHoles = new();
     private void OnHornetDigInput()
     {
-        int amount = Physics.OverlapSphereNonAlloc(transform.position, 1f, _digColliders, LayerMask.GetMask("BuriedTreasure"));
-        for (int i = 0; i < amount; i++)
+        _hitDiggingHoles.Clear();
+        _hitTreasures.Clear();
+        
+        Vector3 digPosition = transform.position + _actor.transform.forward;
+        int amount = Physics.OverlapSphereNonAlloc(digPosition, 1f, _digColliders, LayerMask.GetMask("BuriedTreasure"));
+        if (amount == 0)
         {
-            if (_digColliders[i].TryGetComponent(out BuriedTreasure buriedTreasure))
+            DiggingHole diggingHole = Game.Instance.Spawner.SpawnDiggingHole(digPosition);
+            diggingHole.OnBeingDug();
+        }
+        else
+        {
+            for (int i = 0; i < amount; i++)
             {
-                buriedTreasure.OnBeingDug();
-                break;
+                if (_digColliders[i].TryGetComponent(out BuriedTreasure buriedTreasure))
+                {
+                    _hitTreasures.Add(buriedTreasure);
+                }
+                if (_digColliders[i].TryGetComponent(out DiggingHole hole))
+                {
+                    _hitDiggingHoles.Add(hole);
+                }
+            }
+
+            _hitTreasures.Sort((treasure1, treasure2) =>
+                (_actor.transform.position - treasure1.transform.position).sqrMagnitude.CompareTo(
+                    (_actor.transform.position - treasure2.transform.position).sqrMagnitude));
+            BuriedTreasure closestTreasure = _hitTreasures.FirstOrDefault();
+            if (closestTreasure != null)
+            {
+                if (closestTreasure.IsFullHealth)
+                {
+                    closestTreasure.transform.position = digPosition;
+                    DiggingHole diggingHole = Game.Instance.Spawner.SpawnDiggingHole(digPosition);
+                    diggingHole.OnBeingDug();
+                }
+                closestTreasure.OnBeingDug();
+            }
+            _hitDiggingHoles.Sort((diggingHole1, diggingHole2) =>
+                (_actor.transform.position - diggingHole1.transform.position).sqrMagnitude.CompareTo(
+                    (_actor.transform.position - diggingHole2.transform.position).sqrMagnitude));
+            DiggingHole closestDiggingHole = _hitDiggingHoles.FirstOrDefault();
+            if (closestDiggingHole != null)
+            {
+                closestDiggingHole.OnBeingDug();
             }
         }
-
+        
         _drawDebugSphere = true;
         DOVirtual.DelayedCall(1f, () => { _drawDebugSphere = false; });
     }
@@ -127,7 +168,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         if (_drawDebugSphere)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, 1f);
+            Gizmos.DrawWireSphere(transform.position + _actor.transform.forward, 1f);
         }
     }
 

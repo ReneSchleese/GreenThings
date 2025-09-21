@@ -6,14 +6,14 @@ public static class EditModeTests
     [Test]
     public static void Test()
     {
-        GridSortedObjects objects  = new GridSortedObjects
+        GridSortedPoints points  = new GridSortedPoints
         {
             GridMax = new Vector2(10, 10),
             GridMin = new Vector2(-10, -10),
             SegmentsX = 2,
             SegmentsZ = 2
         };
-        objects.CalculateGrid();
+        points.CalculateGrid();
         //objects.SortIntoGrid();
     }
 }

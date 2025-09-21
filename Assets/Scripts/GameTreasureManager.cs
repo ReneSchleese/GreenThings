@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameTreasureManager : MonoBehaviour
 {
-    [SerializeField] private GridSortedObjects _gridSortedTreasures;
+    [SerializeField] private GridSortedPoints _gridSortedTreasures;
     [SerializeField] private Transform _treasureSpawnsParent;
     [SerializeField] private Transform _treasuresParent;
     [SerializeField] private Transform[] _treasureSpawns;

@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class Game : Singleton<Game>
 {
     [SerializeField] private Spawner _spawner;
-    [SerializeField] private GridSortedObjects _forestSpiritSpawner;
+    [SerializeField] private GridSortedPoints _forestSpiritSpawner;
     [SerializeField] private AudioClip _ambientClip;
     [SerializeField] private int _forestSpiritAmount;
     [SerializeField] private Chain _chain;

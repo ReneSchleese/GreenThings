@@ -5,7 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [Serializable]
-public class GridSortedObjects
+public class GridSortedPoints
 {
     [SerializeField] private Vector2 _gridMin;
     [SerializeField] private Vector2 _gridMax;

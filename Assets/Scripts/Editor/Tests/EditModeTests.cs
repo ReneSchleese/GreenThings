@@ -8,17 +8,20 @@ public static class EditModeTests
     [Test]
     public static void AllInOneBucket_AssertNoDuplicates()
     {
-        var pointsGrid = GenerateTestGrid();
-        var spawnPoints = new List<Point>
+        for (int i = 0; i < 1000; i++)
         {
-            new() { X = -5, Y = 0, Z = -5},
-            new() { X = -6, Y = 0, Z = -5},
-            new() { X = -7, Y = 0, Z = -5},
-        };
-        pointsGrid.SortIntoGrid(spawnPoints);
-        const int amountToDraw = 3;
-        HashSet<Point> drawnPoints = pointsGrid.DrawAmountWithoutReturning(amountToDraw).ToHashSet();
-        Assert.That(drawnPoints.Count, Is.EqualTo(3));
+            var pointsGrid = GenerateTestGrid();
+            var spawnPoints = new List<Point>
+            {
+                new() { X = -5, Y = 0, Z = -5},
+                new() { X = -6, Y = 0, Z = -5},
+                new() { X = -7, Y = 0, Z = -5},
+            };
+            pointsGrid.SortIntoGrid(spawnPoints);
+            const int amountToDraw = 3;
+            HashSet<Point> drawnPoints = pointsGrid.DrawAmountWithoutReturning(amountToDraw).ToHashSet();
+            Assert.That(drawnPoints.Count, Is.EqualTo(3));   
+        }
     }
 
     private static GridSortedPoints GenerateTestGrid()

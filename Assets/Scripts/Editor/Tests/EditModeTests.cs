@@ -7,5 +7,6 @@ public static class EditModeTests
     public static void Test()
     {
         Debug.Log("Test");
+        GridSortedObjects objects = new();
     }
 }

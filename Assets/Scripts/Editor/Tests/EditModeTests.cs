@@ -43,6 +43,32 @@ public static class EditModeTests
             Assert.That(drawnPoints.Count, Is.EqualTo(3));   
         }
     }
+    
+    [Test]
+    public static void ReplicateActualProblem()
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            var pointsGrid = new GridSortedPoints
+            {
+                GridMax = new Vector2(43.75f, 67.5f),
+                GridMin = new Vector2(-38.5f, -47.5f),
+                SegmentsX = 3,
+                SegmentsZ = 4
+            };
+            pointsGrid.CalculateGrid();
+            var spawnPoints = new List<Point>
+            {
+                new() { X = -13.29f, Y = 0, Z = -34.12f},
+                new() { X = -0.72f, Y = 0, Z = -33.1f},
+                new() { X = 14.42f, Y = 0, Z = -33.41f},
+            };
+            pointsGrid.SortIntoGrid(spawnPoints);
+            const int amountToDraw = 3;
+            HashSet<Point> drawnPoints = pointsGrid.DrawAmountWithoutReturning(amountToDraw).ToHashSet();
+            Assert.That(drawnPoints.Count, Is.EqualTo(3));   
+        }
+    }
 
     private static GridSortedPoints GenerateTestGrid()
     {

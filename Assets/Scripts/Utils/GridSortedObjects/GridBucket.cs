@@ -31,10 +31,4 @@ public class GridBucket<T>
         }
         return result;
     }
-
-    public void SetAllRemaining()
-    {
-        RemainingObjects.AddRange(AlreadyUsedObjects);
-        AlreadyUsedObjects.Clear();
-    }
 }

@@ -41,7 +41,9 @@ public class GridSortedPoints
         List<Point> result = new();
         List<GridBucket<Point>> remainingBuckets = _grid.Where(bucket => bucket.RemainingObjects.Count > 0).ToList();
         List<GridBucket<Point>> alreadyUsedBuckets = new();
-        Debug.Assert(remainingBuckets.Count > 0);
+        Debug.Assert(remainingBuckets.Count > 0, "There are no buckets to draw from.");
+        int remainingPointsTotal = remainingBuckets.Sum(bucket => bucket.RemainingObjects.Count);
+        Debug.Assert(amount <= remainingPointsTotal, $"Trying to draw {amount} from {remainingPointsTotal} points total.");
 
         for (int i = 0; i < amount; i++)
         {
@@ -49,18 +51,12 @@ public class GridSortedPoints
             GridBucket<Point> randomBucket = remainingBuckets[randomIndex];
             Point randomObject = randomBucket.GetRandomObject(markAsUsed: true);
             result.Add(randomObject);
-
-            if (randomBucket.RemainingObjects.Count == 0)
-            {
-                randomBucket.SetAllRemaining();
-            }
             
             remainingBuckets.Remove(randomBucket);
             alreadyUsedBuckets.Add(randomBucket);
             if (remainingBuckets.Count == 0)
             {
-                remainingBuckets.AddRange(alreadyUsedBuckets);
-                alreadyUsedBuckets.Clear();
+                remainingBuckets.AddRange(alreadyUsedBuckets.Where(bucket => bucket.RemainingObjects.Count > 0));
             }
         }
 

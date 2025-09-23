@@ -3,7 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 
-public static class EditModeTests
+public static class GridSortedPointsTests
 {
     [Test]
     public static void Buckets4_Items3_AllInOneBucket_AssertNoDuplicates()

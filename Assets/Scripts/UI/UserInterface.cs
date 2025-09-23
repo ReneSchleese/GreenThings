@@ -13,6 +13,7 @@ public class UserInterface : Singleton<UserInterface>
     [SerializeField] private Button _digButton;
     [SerializeField] private Button _modeButton;
     [SerializeField] private Button _scanButton;
+    [SerializeField] private Button _filesButton;
     [SerializeField] private VirtualJoystickRegion _joystickRegion;
     [SerializeField] private CanvasGroup _canvasGroup;
     private static UserInterface _instance;
@@ -23,26 +24,32 @@ public class UserInterface : Singleton<UserInterface>
         _digButton.onClick.AddListener(OnHornetDigPress);
         _modeButton.onClick.AddListener(OnSpiritModeTogglePress);
         _scanButton.onClick.AddListener(OnScanPress);
+        _filesButton.onClick.AddListener(OnFilesButtonPress);
     }
 
     private void OnHornetScreamPress()
     {
         HornetScreamInput?.Invoke();
     }
-    
+
     private void OnHornetDigPress()
     {
         HornetDigInput?.Invoke();
     }
-    
+
     private void OnSpiritModeTogglePress()
     {
         SpiritModeToggleInput?.Invoke();
     }
-    
+
     private void OnScanPress()
     {
         ScanInput?.Invoke();
+    }
+
+    private void OnFilesButtonPress()
+    {
+        Debug.Log("Files button pressed");
     }
 
     public Button ScreamButton => _hornetScreamButton;

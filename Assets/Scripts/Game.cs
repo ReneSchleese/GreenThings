@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class Game : Singleton<Game>
 {
     [SerializeField] private Spawner _spawner;
-    [SerializeField] private GridSortedObjects _forestSpiritSpawner;
+    [SerializeField] private GridSortedPoints _forestSpiritSpawner;
     [SerializeField] private AudioClip _ambientClip;
     [SerializeField] private int _forestSpiritAmount;
     [SerializeField] private Chain _chain;
@@ -61,10 +61,10 @@ public class Game : Singleton<Game>
         else
         {
             _forestSpiritSpawner.CalculateGrid();
-            _forestSpiritSpawner.SortIntoGrid(_forestSpiritSpawns.Select(spawn => spawn.transform));
-            foreach (Transform spawn in _forestSpiritSpawner.DrawAmountWithoutReturning(_forestSpiritAmount))
+            _forestSpiritSpawner.SortIntoGrid(_forestSpiritSpawns.Select(spawn => Point.FromTransform(spawn.transform)));
+            foreach (Point point in _forestSpiritSpawner.DrawAmountWithoutReturning(_forestSpiritAmount))
             {
-                _spawner.SpawnForestSpirit(spawn.position, spawn.rotation);
+                _spawner.SpawnForestSpirit(point.ToVector3(), point.Rotation);
             }
             foreach (Transform spawn in _forestSpiritSpawns)
             {

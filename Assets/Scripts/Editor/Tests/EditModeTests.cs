@@ -6,7 +6,7 @@ using UnityEngine;
 public static class EditModeTests
 {
     [Test]
-    public static void AllInOneBucket_AssertNoDuplicates()
+    public static void Buckets4_Items3_AllInOneBucket_AssertNoDuplicates()
     {
         for (int i = 0; i < 1000; i++)
         {
@@ -25,7 +25,7 @@ public static class EditModeTests
     }
     
     [Test]
-    public static void AllBucketsWithOnePointMax_AssertNoDuplicates()
+    public static void Buckets4_Items3_EachBucket1ItemMax_AssertNoDuplicates()
     {
         for (int i = 0; i < 1000; i++)
         {

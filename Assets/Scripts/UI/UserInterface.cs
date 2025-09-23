@@ -49,7 +49,7 @@ public class UserInterface : Singleton<UserInterface>
 
     private void OnFilesButtonPress()
     {
-        Debug.Log("Files button pressed");
+        FilesManager.HandleFile();
     }
 
     public Button ScreamButton => _hornetScreamButton;

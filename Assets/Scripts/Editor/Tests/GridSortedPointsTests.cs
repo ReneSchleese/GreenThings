@@ -45,7 +45,7 @@ public static class GridSortedPointsTests
     }
     
     [Test]
-    public static void ReplicateActualProblem()
+    public static void Draw3ItemsFrom2Buckets_AssertNoDuplicates()
     {
         for (int i = 0; i < 1000; i++)
         {

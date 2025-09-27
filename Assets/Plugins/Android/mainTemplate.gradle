@@ -40,6 +40,18 @@ android {
         noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
     }**PACKAGING**
+    
+    // --- Custom task to copy file_paths.xml into merged resources ---
+    gradle.projectsEvaluated {
+        tasks.matching { it.name.startsWith("merge") && it.name.endsWith("Resources") }.all { task ->
+            task.doLast {
+                copy {
+                    from("$projectDir/../../Assets/Plugins/Android/CustomResources/file_paths.xml")
+                    into("$buildDir/intermediates/merged_res/${variant.dirName}/xml")
+                }
+            }
+        }
+    }
 }
 **IL_CPP_BUILD_SETUP**
 **SOURCE_BUILD_SETUP**

@@ -71,7 +71,7 @@ public static class FilesManager
 
             // Add extras
             intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_STREAM"), uriObject);
-            intentObject.Call<AndroidJavaObject>("setType", "video");
+            intentObject.Call<AndroidJavaObject>("setType", "video/*");
 
             // Grant read permission
             int flagGrantReadUriPermission = intentClass.GetStatic<int>("FLAG_GRANT_READ_URI_PERMISSION");

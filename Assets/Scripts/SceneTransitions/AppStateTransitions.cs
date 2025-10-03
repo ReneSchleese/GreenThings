@@ -7,8 +7,8 @@ public class AppStateTransitions
 {
     private enum TransitionType
     {
-        CurrentOffThenNextTo,
-        NextToThenCurrentOff
+        CurrentOutNextIn,
+        NextInCurrentOut
     }
     private IAppState _currentState;
 
@@ -19,27 +19,27 @@ public class AppStateTransitions
             .Select(obj => obj.GetComponent<T>()).First(t => t != null);
     }
 
-    private IEnumerator TransitionTo(AppState appState, TransitionType transitionType = TransitionType.CurrentOffThenNextTo)
+    private IEnumerator TransitionTo(AppState newState, TransitionType transitionType = TransitionType.CurrentOutNextIn)
     {
-        string appStateName = appState.ToString();
-        AsyncOperation newAppStateOp = SceneManager.LoadSceneAsync(appStateName, LoadSceneMode.Additive);
+        string newStateName = newState.ToString();
+        AsyncOperation newAppStateOp = SceneManager.LoadSceneAsync(newStateName, LoadSceneMode.Additive);
         Debug.Assert(newAppStateOp != null);
         
-        if(transitionType == TransitionType.CurrentOffThenNextTo)
+        if(transitionType == TransitionType.CurrentOutNextIn)
         {
-            yield return _currentState.TransitionOff();
+            yield return _currentState.TransitionOut();
         }
         
         yield return new WaitUntil(() => newAppStateOp.isDone);
-        IAppState newAppState = GetAppStateFromLoadedScene<IAppState>(appStateName);
+        IAppState newAppState = GetAppStateFromLoadedScene<IAppState>(newStateName);
         newAppState.OnLoad();
         IAppState stateBefore = _currentState;
         _currentState = newAppState;
         
-        yield return _currentState.TransitionTo();
-        if (transitionType == TransitionType.NextToThenCurrentOff)
+        yield return _currentState.TransitionIn();
+        if (transitionType == TransitionType.NextInCurrentOut)
         {
-            yield return _currentState.TransitionOff();
+            yield return _currentState.TransitionOut();
         }
         
         stateBefore.OnUnload();
@@ -49,7 +49,7 @@ public class AppStateTransitions
     public IEnumerator StartGame()
     {
         yield return TransitionTo(AppState.LoadingScreen);
-        yield return TransitionTo(AppState.Game, TransitionType.NextToThenCurrentOff);
+        yield return TransitionTo(AppState.Game, TransitionType.NextInCurrentOut);
     }
 
     public IAppState CurrentState

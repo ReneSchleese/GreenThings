@@ -85,13 +85,13 @@ public class Game : Singleton<Game>, IAppState
     public Chain Chain => _chain;
     public Spawner Spawner => _spawner;
     public Camera MainCamera => _mainCamera;
-    public IEnumerator TransitionOff()
+    public IEnumerator TransitionOut()
     {
         Debug.Log("Game.TransitionOff");
         yield break;
     }
 
-    public IEnumerator TransitionTo()
+    public IEnumerator TransitionIn()
     {
         Debug.Log("Game.TransitionTo");
         yield break;

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneTransitions
+public class AppStateTransitions
 {
     private IAppState _currentState;
 

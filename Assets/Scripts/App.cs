@@ -6,25 +6,25 @@ public class App : MonoBehaviour
 
     private void Init()
     {
-        SceneTransitions = new SceneTransitions();
+        AppStateTransitions = new AppStateTransitions();
         Application.targetFrameRate = 60;
     }
 
     public void TryUpdateAppStateFromSceneEntry(IAppState state)
     {
-        if (SceneTransitions.CurrentState == null)
+        if (AppStateTransitions.CurrentState == null)
         {
-            SceneTransitions.CurrentState = state;
+            AppStateTransitions.CurrentState = state;
         }
         else
         {
-            Debug.LogWarning($"Trying to set state={state} although app is already in state={SceneTransitions.CurrentState}");
+            Debug.LogWarning($"Trying to set state={state} although app is already in state={AppStateTransitions.CurrentState}");
         }
     }
 
     public void StartGame()
     {
-        StartCoroutine(SceneTransitions.StartGame());
+        StartCoroutine(AppStateTransitions.StartGame());
     }
 
     public static App Instance
@@ -44,5 +44,5 @@ public class App : MonoBehaviour
         }
     }
 
-    private SceneTransitions SceneTransitions { get; set; }
+    private AppStateTransitions AppStateTransitions { get; set; }
 }

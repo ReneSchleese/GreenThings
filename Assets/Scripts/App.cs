@@ -10,11 +10,23 @@ public class App : MonoBehaviour
         Application.targetFrameRate = 60;
     }
 
+    public void TryUpdateAppStateFromSceneEntry(IAppState state)
+    {
+        if (SceneTransitions.CurrentState == null)
+        {
+            SceneTransitions.CurrentState = state;
+        }
+        else
+        {
+            Debug.LogWarning($"Trying to set state={state} although app is already in state={SceneTransitions.CurrentState}");
+        }
+    }
+
     public void StartGame()
     {
         StartCoroutine(SceneTransitions.StartGame());
     }
-    
+
     public static App Instance
     {
         get

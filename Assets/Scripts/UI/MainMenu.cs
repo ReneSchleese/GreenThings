@@ -1,11 +1,18 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : MonoBehaviour, IAppState
 {
     [SerializeField] private Button _startGameButton;
     [SerializeField] private Button _shopButton;
-    
+
+    private void Awake()
+    {
+        App.Instance.TryUpdateAppStateFromSceneEntry(this);
+    }
+
     void Start()
     {
         _startGameButton.onClick.AddListener(OnStartGamePressed);
@@ -21,4 +28,22 @@ public class MainMenu : MonoBehaviour
             Debug.Log("Shop");
         }
     }
+
+    public IEnumerator PrepareBeingTransitionedFrom()
+    {
+        Debug.Log("MainMenu.OnPrepareBeingTransitionedFrom");
+        yield break;
+    }
+
+    public void OnUnload()
+    {
+        Debug.Log("MainMenu.OnUnload");
+    }
+
+    public void OnLoadComplete()
+    {
+        Debug.Log("MainMenu.OnLoadComplete");
+    }
+
+    public AppState Id => AppState.MainMenu;
 }

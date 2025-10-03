@@ -58,4 +58,10 @@ public class SceneTransitions
         SceneManager.UnloadSceneAsync("SplashScreen");
         SceneManager.UnloadSceneAsync("LoadingScreen");*/
     }
+
+    public IAppState CurrentState
+    {
+        get => _currentState;
+        set => _currentState = value;
+    }
 }

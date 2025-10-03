@@ -91,12 +91,18 @@ public class Game : Singleton<Game>, IAppState
         yield break;
     }
 
+    public IEnumerator PrepareBeingTransitionedTo()
+    {
+        Debug.Log("Game.PrepareBeingTransitionedTo");
+        yield break;
+    }
+
     public void OnUnload()
     {
         Debug.Log("Game.OnUnload");
     }
 
-    public void OnLoadComplete()
+    public void OnLoad()
     {
         Debug.Log("Game.OnLoadComplete");
     }

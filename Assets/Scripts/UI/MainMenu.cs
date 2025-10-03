@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,12 +34,18 @@ public class MainMenu : MonoBehaviour, IAppState
         yield break;
     }
 
+    public IEnumerator PrepareBeingTransitionedTo()
+    {
+        Debug.Log("MainMenu.OnPrepareBeingTransitionedTo");
+        yield break;
+    }
+
     public void OnUnload()
     {
         Debug.Log("MainMenu.OnUnload");
     }
 
-    public void OnLoadComplete()
+    public void OnLoad()
     {
         Debug.Log("MainMenu.OnLoadComplete");
     }

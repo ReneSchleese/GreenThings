@@ -26,8 +26,14 @@ public class LoadingScreen : MonoBehaviour, IAppState
     public bool EnoughTimeHasPassed => Time.time - _startTime > MIN_TIME;
     public IEnumerator PrepareBeingTransitionedFrom()
     {
-        Debug.Log("LoadingScreen.OnBeforeUnload");
-        yield break;
+        Debug.Log("LoadingScreen.PrepareBeingTransitionedFrom");
+        yield return FadeOut();
+    }
+    
+    public IEnumerator PrepareBeingTransitionedTo()
+    {
+        Debug.Log("LoadingScreen.PrepareBeingTransitionedTo");
+        yield return FadeIn();
     }
 
     public void OnUnload()
@@ -35,9 +41,10 @@ public class LoadingScreen : MonoBehaviour, IAppState
         Debug.Log("LoadingScreen.OnUnload");
     }
 
-    public void OnLoadComplete()
+    public void OnLoad()
     {
         Debug.Log("LoadingScreen.OnLoad");
+        _canvasGroup.alpha = 0;
     }
 
     public AppState Id => AppState.LoadingScreen;

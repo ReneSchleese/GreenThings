@@ -25,23 +25,24 @@ public class AppStateTransitions
         Debug.Assert(loadLoadingOp != null);
         yield return new WaitUntil(() => loadLoadingOp.isDone);
         LoadingScreen loadingScreen = GetTransitionableFromLoadedScene<LoadingScreen>(loadingScreenId);
-        loadingScreen.OnLoadComplete();
+        loadingScreen.OnLoad();
+        yield return loadingScreen.PrepareBeingTransitionedTo();
         
         _currentState.OnUnload();
         SceneManager.UnloadSceneAsync(_currentState.AppStateName);
-        
         _currentState = loadingScreen;
-        yield return _currentState.PrepareBeingTransitionedFrom();
 
         const string gameId = nameof(AppState.Game);
         AsyncOperation loadGameOp = SceneManager.LoadSceneAsync(gameId, LoadSceneMode.Additive);
         Debug.Assert(loadGameOp != null);
         yield return new WaitUntil(() => loadGameOp.isDone);
         Game game = GetTransitionableFromLoadedScene<Game>(gameId);
-        game.OnLoadComplete();
+        game.OnLoad();
         
+        yield return _currentState.PrepareBeingTransitionedFrom();
         _currentState.OnUnload();
         SceneManager.UnloadSceneAsync(_currentState.AppStateName);
+        _currentState = game;
 
 
         /*AsyncOperation loadGame = SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);

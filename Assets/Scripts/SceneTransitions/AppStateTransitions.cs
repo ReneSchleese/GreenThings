@@ -11,11 +11,10 @@ public class AppStateTransitions
         NextInCurrentOut
     }
 
-    private static T GetAppStateFromLoadedScene<T>(string sceneId) where T : IAppState
+    public IEnumerator StartGame()
     {
-        return SceneManager.GetSceneByName(sceneId)
-            .GetRootGameObjects()
-            .Select(obj => obj.GetComponent<T>()).First(t => t != null);
+        yield return TransitionTo(AppState.LoadingScreen);
+        yield return TransitionTo(AppState.Game, TransitionType.NextInCurrentOut);
     }
 
     private IEnumerator TransitionTo(AppState newState, TransitionType transitionType = TransitionType.CurrentOutNextIn)
@@ -44,11 +43,12 @@ public class AppStateTransitions
         stateBefore.OnUnload();
         SceneManager.UnloadSceneAsync(stateBefore.AppStateName);
     }
-    
-    public IEnumerator StartGame()
+
+    private static T GetAppStateFromLoadedScene<T>(string sceneId) where T : IAppState
     {
-        yield return TransitionTo(AppState.LoadingScreen);
-        yield return TransitionTo(AppState.Game, TransitionType.NextInCurrentOut);
+        return SceneManager.GetSceneByName(sceneId)
+            .GetRootGameObjects()
+            .Select(obj => obj.GetComponent<T>()).First(t => t != null);
     }
 
     public IAppState CurrentState { get; set; }

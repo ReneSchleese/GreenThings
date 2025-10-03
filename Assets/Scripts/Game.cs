@@ -32,6 +32,28 @@ public class Game : Singleton<Game>, IAppState
     {
         _chain.OnUpdate();
     }
+    
+    public IEnumerator TransitionOut()
+    {
+        Debug.Log("Game.TransitionOff");
+        yield break;
+    }
+
+    public IEnumerator TransitionIn()
+    {
+        Debug.Log("Game.TransitionTo");
+        yield break;
+    }
+
+    public void OnUnload()
+    {
+        Debug.Log("Game.OnUnload");
+    }
+
+    public void OnLoad()
+    {
+        Debug.Log("Game.OnLoadComplete");
+    }
 
     private IEnumerator Setup()
     {
@@ -85,27 +107,5 @@ public class Game : Singleton<Game>, IAppState
     public Chain Chain => _chain;
     public Spawner Spawner => _spawner;
     public Camera MainCamera => _mainCamera;
-    public IEnumerator TransitionOut()
-    {
-        Debug.Log("Game.TransitionOff");
-        yield break;
-    }
-
-    public IEnumerator TransitionIn()
-    {
-        Debug.Log("Game.TransitionTo");
-        yield break;
-    }
-
-    public void OnUnload()
-    {
-        Debug.Log("Game.OnUnload");
-    }
-
-    public void OnLoad()
-    {
-        Debug.Log("Game.OnLoadComplete");
-    }
-
     public AppState Id => AppState.Game;
 }

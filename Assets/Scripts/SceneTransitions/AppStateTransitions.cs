@@ -10,9 +10,8 @@ public class AppStateTransitions
         CurrentOutNextIn,
         NextInCurrentOut
     }
-    private IAppState _currentState;
 
-    private T GetAppStateFromLoadedScene<T>(string sceneId) where T : ISceneTransitionable
+    private static T GetAppStateFromLoadedScene<T>(string sceneId) where T : IAppState
     {
         return SceneManager.GetSceneByName(sceneId)
             .GetRootGameObjects()
@@ -27,19 +26,19 @@ public class AppStateTransitions
         
         if(transitionType == TransitionType.CurrentOutNextIn)
         {
-            yield return _currentState.TransitionOut();
+            yield return CurrentState.TransitionOut();
         }
         
         yield return new WaitUntil(() => newAppStateOp.isDone);
         IAppState newAppState = GetAppStateFromLoadedScene<IAppState>(newStateName);
         newAppState.OnLoad();
-        IAppState stateBefore = _currentState;
-        _currentState = newAppState;
+        IAppState stateBefore = CurrentState;
+        CurrentState = newAppState;
         
-        yield return _currentState.TransitionIn();
+        yield return CurrentState.TransitionIn();
         if (transitionType == TransitionType.NextInCurrentOut)
         {
-            yield return _currentState.TransitionOut();
+            yield return CurrentState.TransitionOut();
         }
         
         stateBefore.OnUnload();
@@ -52,9 +51,5 @@ public class AppStateTransitions
         yield return TransitionTo(AppState.Game, TransitionType.NextInCurrentOut);
     }
 
-    public IAppState CurrentState
-    {
-        get => _currentState;
-        set => _currentState = value;
-    }
+    public IAppState CurrentState { get; set; }
 }

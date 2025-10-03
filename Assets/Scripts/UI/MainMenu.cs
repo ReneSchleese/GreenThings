@@ -28,15 +28,15 @@ public class MainMenu : MonoBehaviour, IAppState
         }
     }
 
-    public IEnumerator PrepareBeingTransitionedFrom()
+    public IEnumerator TransitionOff()
     {
-        Debug.Log("MainMenu.OnPrepareBeingTransitionedFrom");
+        Debug.Log("MainMenu.TransitionOff");
         yield break;
     }
 
-    public IEnumerator PrepareBeingTransitionedTo()
+    public IEnumerator TransitionTo()
     {
-        Debug.Log("MainMenu.OnPrepareBeingTransitionedTo");
+        Debug.Log("MainMenu.TransitionTo");
         yield break;
     }
 

@@ -85,15 +85,15 @@ public class Game : Singleton<Game>, IAppState
     public Chain Chain => _chain;
     public Spawner Spawner => _spawner;
     public Camera MainCamera => _mainCamera;
-    public IEnumerator PrepareBeingTransitionedFrom()
+    public IEnumerator TransitionOff()
     {
-        Debug.Log("Game.PrepareBeingTransitionedFrom");
+        Debug.Log("Game.TransitionOff");
         yield break;
     }
 
-    public IEnumerator PrepareBeingTransitionedTo()
+    public IEnumerator TransitionTo()
     {
-        Debug.Log("Game.PrepareBeingTransitionedTo");
+        Debug.Log("Game.TransitionTo");
         yield break;
     }
 

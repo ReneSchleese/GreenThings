@@ -24,15 +24,15 @@ public class LoadingScreen : MonoBehaviour, IAppState
     }
 
     public bool EnoughTimeHasPassed => Time.time - _startTime > MIN_TIME;
-    public IEnumerator PrepareBeingTransitionedFrom()
+    public IEnumerator TransitionOff()
     {
-        Debug.Log("LoadingScreen.PrepareBeingTransitionedFrom");
+        Debug.Log("LoadingScreen.TransitionOff");
         yield return FadeOut();
     }
     
-    public IEnumerator PrepareBeingTransitionedTo()
+    public IEnumerator TransitionTo()
     {
-        Debug.Log("LoadingScreen.PrepareBeingTransitionedTo");
+        Debug.Log("LoadingScreen.TransitionTo");
         yield return FadeIn();
     }
 

@@ -2,8 +2,8 @@
 
 public interface ISceneTransitionable
 {
-    public IEnumerator PrepareBeingTransitionedFrom();
-    public IEnumerator PrepareBeingTransitionedTo();
+    public IEnumerator TransitionOff();
+    public IEnumerator TransitionTo();
     public void OnUnload();
     public void OnLoad();
 }

@@ -16,8 +16,6 @@ public class AppStateTransitions
     
     public IEnumerator StartGame()
     {
-        Debug.Log("Start Game");
-        
         yield return _currentState.PrepareBeingTransitionedFrom();
 
         const string loadingScreenId = nameof(AppState.LoadingScreen);
@@ -43,20 +41,6 @@ public class AppStateTransitions
         _currentState.OnUnload();
         SceneManager.UnloadSceneAsync(_currentState.AppStateName);
         _currentState = game;
-
-
-        /*AsyncOperation loadGame = SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);
-        LoadingScreen loadingScreen = FindFirstObjectByType<LoadingScreen>();
-        yield return loadingScreen.FadeIn();
-        _canvas.gameObject.SetActive(false);
-        yield return new WaitUntil(() => loadGame.isDone);
-        UserInterface.Instance.CanvasGroupAlpha = 0f;
-        yield return new WaitUntil(() => loadingScreen.EnoughTimeHasPassed);
-
-        UserInterface.Instance.CanvasGroupAlpha = 1f;
-        yield return loadingScreen.FadeOut();
-        SceneManager.UnloadSceneAsync("SplashScreen");
-        SceneManager.UnloadSceneAsync("LoadingScreen");*/
     }
 
     public IAppState CurrentState

@@ -19,14 +19,15 @@ public class App : MonoBehaviour
         {
             StartCoroutine(AppStateTransitions.FromEntryPoint(state.Id));
         }
-        else
+        else if(!AppStateTransitions.IsCurrentlyTransitioning)
         {
-            Debug.LogWarning($"Trying to set state={state} although app is already in state={AppStateTransitions.CurrentState}");
+            Debug.LogWarning($"New state={state} during already active state={AppStateTransitions.CurrentState} and no transition in progress.");
         }
     }
 
     public void StartGame()
     {
+        Debug.Assert(!AppStateTransitions.IsCurrentlyTransitioning, "transition already in progress");
         StartCoroutine(AppStateTransitions.StartGame());
     }
 

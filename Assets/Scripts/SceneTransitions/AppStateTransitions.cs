@@ -13,18 +13,22 @@ public class AppStateTransitions
 
     public IEnumerator StartGame()
     {
+        IsCurrentlyTransitioning = true;
         yield return TransitionTo(AppState.LoadingScreen);
         yield return TransitionTo(AppState.Game, TransitionType.NextInCurrentOut);
+        IsCurrentlyTransitioning  = false;
     }
 
     public IEnumerator FromEntryPoint(AppState state)
     {
+        IsCurrentlyTransitioning = true;
         Debug.Log($"{nameof(FromEntryPoint)} {state}");
         string stateName = state.ToString();
         IAppState appState = GetAppStateFromLoadedScene<IAppState>(stateName);
         yield return appState.OnLoad();
         CurrentState = appState;
         yield return CurrentState.TransitionIn();
+        IsCurrentlyTransitioning = false;
     }
 
     private IEnumerator TransitionTo(AppState newState, TransitionType transitionType = TransitionType.CurrentOutNextIn)
@@ -61,5 +65,6 @@ public class AppStateTransitions
             .Select(obj => obj.GetComponent<T>()).First(t => t != null);
     }
 
-    public IAppState CurrentState { get; set; }
+    public IAppState CurrentState { get; private set; }
+    public bool IsCurrentlyTransitioning { get; private set; }
 }

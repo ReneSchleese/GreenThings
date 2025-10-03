@@ -2,7 +2,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public class LoadingScreen : MonoBehaviour
+public class LoadingScreen : MonoBehaviour, IAppState
 {
     [SerializeField] private CanvasGroup _canvasGroup;
     private const float MIN_TIME = 2f;
@@ -24,4 +24,21 @@ public class LoadingScreen : MonoBehaviour
     }
 
     public bool EnoughTimeHasPassed => Time.time - _startTime > MIN_TIME;
+    public IEnumerator PrepareBeingTransitionedFrom()
+    {
+        Debug.Log("LoadingScreen.OnBeforeUnload");
+        yield break;
+    }
+
+    public void OnUnload()
+    {
+        Debug.Log("LoadingScreen.OnUnload");
+    }
+
+    public void OnLoadComplete()
+    {
+        Debug.Log("LoadingScreen.OnLoad");
+    }
+
+    public AppState Id => AppState.LoadingScreen;
 }

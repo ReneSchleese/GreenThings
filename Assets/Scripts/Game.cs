@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Game : Singleton<Game>
+public class Game : Singleton<Game>, IAppState
 {
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private Spawner _spawner;
@@ -85,4 +85,21 @@ public class Game : Singleton<Game>
     public Chain Chain => _chain;
     public Spawner Spawner => _spawner;
     public Camera MainCamera => _mainCamera;
+    public IEnumerator PrepareBeingTransitionedFrom()
+    {
+        Debug.Log("Game.PrepareBeingTransitionedFrom");
+        yield break;
+    }
+
+    public void OnUnload()
+    {
+        Debug.Log("Game.OnUnload");
+    }
+
+    public void OnLoadComplete()
+    {
+        Debug.Log("Game.OnLoadComplete");
+    }
+
+    public AppState Id => AppState.Game;
 }

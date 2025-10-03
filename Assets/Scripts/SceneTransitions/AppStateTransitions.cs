@@ -28,7 +28,6 @@ public class AppStateTransitions
         loadingScreen.OnLoadComplete();
         
         _currentState.OnUnload();
-        Debug.Log($"Unloading Scene id={_currentState.AppStateName}");
         SceneManager.UnloadSceneAsync(_currentState.AppStateName);
         
         _currentState = loadingScreen;
@@ -41,9 +40,8 @@ public class AppStateTransitions
         Game game = GetTransitionableFromLoadedScene<Game>(gameId);
         game.OnLoadComplete();
         
-        // setup game
-
-        // unload current scene
+        _currentState.OnUnload();
+        SceneManager.UnloadSceneAsync(_currentState.AppStateName);
 
 
         /*AsyncOperation loadGame = SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);

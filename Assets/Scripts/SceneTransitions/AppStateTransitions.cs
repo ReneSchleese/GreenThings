@@ -28,7 +28,8 @@ public class AppStateTransitions
         loadingScreen.OnLoadComplete();
         
         _currentState.OnUnload();
-        SceneManager.UnloadSceneAsync(nameof(_currentState.Id));
+        Debug.Log($"Unloading Scene id={_currentState.AppStateName}");
+        SceneManager.UnloadSceneAsync(_currentState.AppStateName);
         
         _currentState = loadingScreen;
         yield return _currentState.PrepareBeingTransitionedFrom();

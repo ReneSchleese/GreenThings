@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class Game : Singleton<Game>
 {
+    [SerializeField] private Camera _mainCamera;
     [SerializeField] private Spawner _spawner;
     [SerializeField] private GridSortedPoints _forestSpiritSpawner;
     [SerializeField] private AudioClip _ambientClip;
@@ -83,4 +84,5 @@ public class Game : Singleton<Game>
     public PlayerCharacter Player => _player;
     public Chain Chain => _chain;
     public Spawner Spawner => _spawner;
+    public Camera MainCamera => _mainCamera;
 }

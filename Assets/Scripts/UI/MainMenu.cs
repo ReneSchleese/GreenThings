@@ -13,8 +13,7 @@ public class MainMenu : MonoBehaviour
 
         void OnStartGamePressed()
         {
-            Debug.Log("Start Game");
-            SceneTransitions.Instance.StartGame();
+            App.Instance.SceneTransitions.StartGame();
         }
 
         void OnShopPressed()

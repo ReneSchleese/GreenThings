@@ -17,6 +17,16 @@ public class AppStateTransitions
         yield return TransitionTo(AppState.Game, TransitionType.NextInCurrentOut);
     }
 
+    public IEnumerator FromEntryPoint(AppState state)
+    {
+        Debug.Log($"{nameof(FromEntryPoint)} {state}");
+        string stateName = state.ToString();
+        IAppState appState = GetAppStateFromLoadedScene<IAppState>(stateName);
+        yield return appState.OnLoad();
+        CurrentState = appState;
+        yield return CurrentState.TransitionIn();
+    }
+
     private IEnumerator TransitionTo(AppState newState, TransitionType transitionType = TransitionType.CurrentOutNextIn)
     {
         string newStateName = newState.ToString();
@@ -30,7 +40,7 @@ public class AppStateTransitions
         
         yield return new WaitUntil(() => newAppStateOp.isDone);
         IAppState newAppState = GetAppStateFromLoadedScene<IAppState>(newStateName);
-        newAppState.OnLoad();
+        yield return newAppState.OnLoad();
         IAppState stateBefore = CurrentState;
         CurrentState = newAppState;
         

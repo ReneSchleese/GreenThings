@@ -5,5 +5,5 @@ public interface ISceneTransitionable
     public IEnumerator TransitionOut();
     public IEnumerator TransitionIn();
     public void OnUnload();
-    public void OnLoad();
+    public IEnumerator OnLoad();
 }

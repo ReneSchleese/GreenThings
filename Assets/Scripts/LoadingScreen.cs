@@ -41,10 +41,11 @@ public class LoadingScreen : MonoBehaviour, IAppState
         Debug.Log("LoadingScreen.OnUnload");
     }
 
-    public void OnLoad()
+    public IEnumerator OnLoad()
     {
         Debug.Log("LoadingScreen.OnLoad");
         _canvasGroup.alpha = 0;
+        yield break;
     }
 
     public AppState Id => AppState.LoadingScreen;

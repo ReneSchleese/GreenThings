@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour, IAppState
 
     private void Awake()
     {
-        App.Instance.TryUpdateAppStateFromSceneEntry(this);
+        App.Instance.NotifyAwakeAppState(this);
     }
 
     void Start()
@@ -45,9 +45,10 @@ public class MainMenu : MonoBehaviour, IAppState
         Debug.Log("MainMenu.OnUnload");
     }
 
-    public void OnLoad()
+    public IEnumerator OnLoad()
     {
         Debug.Log("MainMenu.OnLoadComplete");
+        yield break;
     }
 
     public AppState Id => AppState.MainMenu;

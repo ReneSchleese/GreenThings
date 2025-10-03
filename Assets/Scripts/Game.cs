@@ -25,7 +25,7 @@ public class Game : Singleton<Game>, IAppState
 
     public void Awake()
     {
-        StartCoroutine(Setup());
+        App.Instance.NotifyAwakeAppState(this);
     }
 
     private void Update()
@@ -50,9 +50,10 @@ public class Game : Singleton<Game>, IAppState
         Debug.Log("Game.OnUnload");
     }
 
-    public void OnLoad()
+    public IEnumerator OnLoad()
     {
         Debug.Log("Game.OnLoadComplete");
+        yield return Setup();
     }
 
     private IEnumerator Setup()

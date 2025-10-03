@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class AppStateTransitions
 {
+    private enum TransitionType
+    {
+        CurrentOffThenNextTo,
+        NextToThenCurrentOff
+    }
     private IAppState _currentState;
 
     private T GetAppStateFromLoadedScene<T>(string sceneId) where T : ISceneTransitionable
@@ -14,13 +19,16 @@ public class AppStateTransitions
             .Select(obj => obj.GetComponent<T>()).First(t => t != null);
     }
 
-    private IEnumerator TransitionTo(AppState appState)
+    private IEnumerator TransitionTo(AppState appState, TransitionType transitionType = TransitionType.CurrentOffThenNextTo)
     {
         string appStateName = appState.ToString();
         AsyncOperation newAppStateOp = SceneManager.LoadSceneAsync(appStateName, LoadSceneMode.Additive);
         Debug.Assert(newAppStateOp != null);
         
-        yield return _currentState.TransitionOff();
+        if(transitionType == TransitionType.CurrentOffThenNextTo)
+        {
+            yield return _currentState.TransitionOff();
+        }
         
         yield return new WaitUntil(() => newAppStateOp.isDone);
         IAppState newAppState = GetAppStateFromLoadedScene<IAppState>(appStateName);
@@ -29,6 +37,10 @@ public class AppStateTransitions
         _currentState = newAppState;
         
         yield return _currentState.TransitionTo();
+        if (transitionType == TransitionType.NextToThenCurrentOff)
+        {
+            yield return _currentState.TransitionOff();
+        }
         
         stateBefore.OnUnload();
         SceneManager.UnloadSceneAsync(stateBefore.AppStateName);
@@ -37,7 +49,7 @@ public class AppStateTransitions
     public IEnumerator StartGame()
     {
         yield return TransitionTo(AppState.LoadingScreen);
-        yield return TransitionTo(AppState.Game);
+        yield return TransitionTo(AppState.Game, TransitionType.NextToThenCurrentOff);
     }
 
     public IAppState CurrentState

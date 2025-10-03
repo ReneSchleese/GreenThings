@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
 
         void OnStartGamePressed()
         {
-            App.Instance.SceneTransitions.StartGame();
+            App.Instance.StartGame();
         }
 
         void OnShopPressed()

@@ -9,6 +9,11 @@ public class App : MonoBehaviour
         SceneTransitions = new SceneTransitions();
         Application.targetFrameRate = 60;
     }
+
+    public void StartGame()
+    {
+        StartCoroutine(SceneTransitions.StartGame());
+    }
     
     public static App Instance
     {
@@ -27,5 +32,5 @@ public class App : MonoBehaviour
         }
     }
 
-    public SceneTransitions SceneTransitions { get; private set; }
+    private SceneTransitions SceneTransitions { get; set; }
 }

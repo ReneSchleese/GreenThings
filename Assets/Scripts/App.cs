@@ -28,13 +28,13 @@ public class App : MonoBehaviour
     public void TransitionToGame()
     {
         Debug.Assert(!AppStateTransitions.IsCurrentlyTransitioning, "!AppStateTransitions.IsCurrentlyTransitioning");
-        StartCoroutine(AppStateTransitions.StartGame());
+        StartCoroutine(AppStateTransitions.ToGame());
     }
 
     public void TransitionToMainMenu()
     {
         Debug.Assert(!AppStateTransitions.IsCurrentlyTransitioning, "!AppStateTransitions.IsCurrentlyTransitioning");
-        StartCoroutine(AppStateTransitions.StartGame());
+        StartCoroutine(AppStateTransitions.ToMainMenu());
     }
 
     public static App Instance

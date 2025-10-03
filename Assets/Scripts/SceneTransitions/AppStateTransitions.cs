@@ -11,14 +11,6 @@ public class AppStateTransitions
         NextInCurrentOut
     }
 
-    public IEnumerator StartGame()
-    {
-        IsCurrentlyTransitioning = true;
-        yield return TransitionTo(AppState.LoadingScreen);
-        yield return TransitionTo(AppState.Game, TransitionType.NextInCurrentOut);
-        IsCurrentlyTransitioning  = false;
-    }
-
     public IEnumerator FromEntryPoint(AppState state)
     {
         IsCurrentlyTransitioning = true;
@@ -29,6 +21,22 @@ public class AppStateTransitions
         CurrentState = appState;
         yield return CurrentState.TransitionIn();
         IsCurrentlyTransitioning = false;
+    }
+    
+    public IEnumerator ToMainMenu()
+    {
+        IsCurrentlyTransitioning = true;
+        yield return TransitionTo(AppState.LoadingScreen);
+        yield return TransitionTo(AppState.MainMenu, TransitionType.NextInCurrentOut);
+        IsCurrentlyTransitioning  = false;
+    }
+
+    public IEnumerator ToGame()
+    {
+        IsCurrentlyTransitioning = true;
+        yield return TransitionTo(AppState.LoadingScreen);
+        yield return TransitionTo(AppState.Game, TransitionType.NextInCurrentOut);
+        IsCurrentlyTransitioning  = false;
     }
 
     private IEnumerator TransitionTo(AppState newState, TransitionType transitionType = TransitionType.CurrentOutNextIn)

@@ -25,9 +25,15 @@ public class App : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public void TransitionToGame()
     {
-        Debug.Assert(!AppStateTransitions.IsCurrentlyTransitioning, "transition already in progress");
+        Debug.Assert(!AppStateTransitions.IsCurrentlyTransitioning, "!AppStateTransitions.IsCurrentlyTransitioning");
+        StartCoroutine(AppStateTransitions.StartGame());
+    }
+
+    public void TransitionToMainMenu()
+    {
+        Debug.Assert(!AppStateTransitions.IsCurrentlyTransitioning, "!AppStateTransitions.IsCurrentlyTransitioning");
         StartCoroutine(AppStateTransitions.StartGame());
     }
 

@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour, IAppState
 
         void OnStartGamePressed()
         {
-            App.Instance.StartGame();
+            App.Instance.TransitionToGame();
         }
 
         void OnShopPressed()

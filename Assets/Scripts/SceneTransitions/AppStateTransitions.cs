@@ -51,7 +51,7 @@ public class AppStateTransitions
         yield return CurrentState.TransitionIn();
         if (transitionType == TransitionType.NextInCurrentOut)
         {
-            yield return CurrentState.TransitionOut();
+            yield return stateBefore.TransitionOut();
         }
         
         stateBefore.OnUnload();

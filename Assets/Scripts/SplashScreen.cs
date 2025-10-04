@@ -1,27 +1,32 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class SplashScreen : MonoBehaviour
+public class SplashScreen : MonoBehaviour, IAppState
 {
     [SerializeField] private Canvas _canvas;
-    
-    private IEnumerator Start()
-    {
-        AsyncOperation loadLoadingScreen = SceneManager.LoadSceneAsync("LoadingScreen", LoadSceneMode.Additive);
-        yield return new WaitUntil(() => loadLoadingScreen.isDone);
-        
-        AsyncOperation loadGame = SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);
-        LoadingScreen loadingScreen = FindFirstObjectByType<LoadingScreen>();
-        yield return loadingScreen.FadeIn();
-        _canvas.gameObject.SetActive(false);
-        yield return new WaitUntil(() => loadGame.isDone);
-        UserInterface.Instance.CanvasGroupAlpha = 0f;
-        yield return new WaitUntil(() => loadingScreen.EnoughTimeHasPassed);
 
-        UserInterface.Instance.CanvasGroupAlpha = 1f;
-        yield return loadingScreen.FadeOut();
-        SceneManager.UnloadSceneAsync("SplashScreen");
-        SceneManager.UnloadSceneAsync("LoadingScreen");
+    private void Awake()
+    {
+        App.Instance.NotifyAwakeAppState(this);
     }
+
+    public IEnumerator TransitionOut() { yield break; }
+
+    public IEnumerator TransitionIn()
+    {
+        StartCoroutine(WaitThenTransitionToMainMenu());
+        yield break;
+        
+        IEnumerator WaitThenTransitionToMainMenu()
+        {
+            yield return new WaitForSeconds(1f);
+            App.Instance.TransitionToMainMenu();
+        }
+    }
+
+    public void OnUnload() { }
+    
+    public IEnumerator OnLoad() { yield break; }
+
+    public AppState Id => AppState.SplashScreen;
 }

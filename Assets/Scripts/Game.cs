@@ -7,8 +7,9 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Game : Singleton<Game>
+public class Game : Singleton<Game>, IAppState
 {
+    [SerializeField] private Camera _mainCamera;
     [SerializeField] private Spawner _spawner;
     [SerializeField] private GridSortedPoints _forestSpiritSpawner;
     [SerializeField] private AudioClip _ambientClip;
@@ -24,12 +25,35 @@ public class Game : Singleton<Game>
 
     public void Awake()
     {
-        StartCoroutine(Setup());
+        App.Instance.NotifyAwakeAppState(this);
     }
 
     private void Update()
     {
         _chain.OnUpdate();
+    }
+    
+    public IEnumerator TransitionOut()
+    {
+        Debug.Log("Game.TransitionOff");
+        yield break;
+    }
+
+    public IEnumerator TransitionIn()
+    {
+        Debug.Log("Game.TransitionTo");
+        yield break;
+    }
+
+    public void OnUnload()
+    {
+        Debug.Log("Game.OnUnload");
+    }
+
+    public IEnumerator OnLoad()
+    {
+        Debug.Log("Game.OnLoadComplete");
+        yield return Setup();
     }
 
     private IEnumerator Setup()
@@ -83,4 +107,6 @@ public class Game : Singleton<Game>
     public PlayerCharacter Player => _player;
     public Chain Chain => _chain;
     public Spawner Spawner => _spawner;
+    public Camera MainCamera => _mainCamera;
+    public AppState Id => AppState.Game;
 }

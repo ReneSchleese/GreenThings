@@ -53,7 +53,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
         Vector3 directionZeroY = Utils.CloneAndSetY(transform.forward, 0f);
         Quaternion lookRotation = Quaternion.LookRotation(directionZeroY, Vector3.up);
-        Vector3 toCamera = App.Instance.MainCamera.transform.position - _actor.transform.position;
+        Vector3 toCamera = Game.Instance.MainCamera.transform.position - _actor.transform.position;
         Quaternion lookRotationTiledTowardsCamera = Utils.AlignNormalWhileLookingAlongDir(toCamera, directionZeroY);
         Quaternion tiltedAwayFromCamera = Quaternion.LerpUnclamped(lookRotation, lookRotationTiledTowardsCamera, -0.125f);
         _actor.rotation = Utils.SmoothDamp(_actor.rotation, tiltedAwayFromCamera, ref _actorRotDampVelocity, 0.05f);

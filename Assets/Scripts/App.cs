@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class App : MonoBehaviour
 {
-    [SerializeField] private ShopConnection _shopConnection;
+    [SerializeField] private ShopRequest _shopRequest;
     private static App _instance;
 
     private void Init()
@@ -40,7 +40,7 @@ public class App : MonoBehaviour
 
     public void FetchShop()
     {
-        _shopConnection.Fetch();
+        _shopRequest.Fetch();
     }
 
     public static App Instance
@@ -62,4 +62,5 @@ public class App : MonoBehaviour
     }
 
     private AppStateTransitions AppStateTransitions { get; set; }
+    public ShopRequest ShopRequest => _shopRequest;
 }

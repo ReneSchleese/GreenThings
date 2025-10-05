@@ -11,10 +11,7 @@ public class App : MonoBehaviour
         AppStateTransitions = new AppStateTransitions();
         Application.targetFrameRate = 60;
     }
-
-    /// <summary>
-    /// Only relevant in editor. Call this there was a "warm start", meaning starting playmode from non-app-entry-point scene.
-    /// </summary>
+    
     public void NotifyAwakeAppState(IAppState state)
     {
         if (AppStateTransitions.CurrentState == null)

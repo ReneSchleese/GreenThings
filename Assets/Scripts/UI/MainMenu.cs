@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _startGameButton.onClick.AddListener(OnStartGamePressed);
         _shopButton.onClick.AddListener(OnShopPressed);
         App.Instance.ShopRequest.OnStateChange += UpdateRequestState;
-        _requestState.text = "";
+        _requestState.text = App.Instance.ShopRequest.State.ToString();
         yield break;
 
         void OnStartGamePressed()

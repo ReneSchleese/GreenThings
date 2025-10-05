@@ -7,6 +7,7 @@ public class ShopRequest : MonoBehaviour
 {
     public enum RequestState
     {
+        Unknown,
         Fetching,
         Success,
         Failure
@@ -63,5 +64,5 @@ public class ShopRequest : MonoBehaviour
         _requestRoutine = null;
     }
 
-    private RequestState State { get; set; }
+    public RequestState State { get; private set; }
 }

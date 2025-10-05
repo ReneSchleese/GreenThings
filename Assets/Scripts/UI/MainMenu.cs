@@ -13,10 +13,28 @@ public class MainMenu : MonoBehaviour, IAppState
         App.Instance.NotifyAwakeAppState(this);
     }
 
-    void Start()
+    public IEnumerator TransitionOut()
+    {
+        Debug.Log("MainMenu.TransitionOff");
+        yield break;
+    }
+
+    public IEnumerator TransitionIn()
+    {
+        Debug.Log("MainMenu.TransitionTo");
+        yield break;
+    }
+
+    public void OnUnload()
+    {
+        Debug.Log("MainMenu.OnUnload");
+    }
+
+    public IEnumerator OnLoad()
     {
         _startGameButton.onClick.AddListener(OnStartGamePressed);
         _shopButton.onClick.AddListener(OnShopPressed);
+        yield break;
 
         void OnStartGamePressed()
         {
@@ -54,29 +72,6 @@ public class MainMenu : MonoBehaviour, IAppState
                 }
             }
         }
-    }
-
-    public IEnumerator TransitionOut()
-    {
-        Debug.Log("MainMenu.TransitionOff");
-        yield break;
-    }
-
-    public IEnumerator TransitionIn()
-    {
-        Debug.Log("MainMenu.TransitionTo");
-        yield break;
-    }
-
-    public void OnUnload()
-    {
-        Debug.Log("MainMenu.OnUnload");
-    }
-
-    public IEnumerator OnLoad()
-    {
-        Debug.Log("MainMenu.OnLoadComplete");
-        yield break;
     }
 
     public AppState Id => AppState.MainMenu;

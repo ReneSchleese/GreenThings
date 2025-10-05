@@ -19,6 +19,7 @@ public class App : MonoBehaviour
         if (AppStateTransitions.CurrentState == null)
         {
             StartCoroutine(AppStateTransitions.FromEntryPoint(state.Id));
+            _shopRequest.Fetch();
         }
         else if(!AppStateTransitions.IsCurrentlyTransitioning)
         {
@@ -36,11 +37,6 @@ public class App : MonoBehaviour
     {
         Debug.Assert(!AppStateTransitions.IsCurrentlyTransitioning, "!AppStateTransitions.IsCurrentlyTransitioning");
         StartCoroutine(AppStateTransitions.ToMainMenu());
-    }
-
-    public void FetchShop()
-    {
-        _shopRequest.Fetch();
     }
 
     public static App Instance

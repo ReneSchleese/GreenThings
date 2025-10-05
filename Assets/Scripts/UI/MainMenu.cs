@@ -41,7 +41,7 @@ public class MainMenu : MonoBehaviour, IAppState
 
         void OnShopPressed()
         {
-            App.Instance.FetchShop();
+            Debug.Log("Shop pressed");
         }
     }
 

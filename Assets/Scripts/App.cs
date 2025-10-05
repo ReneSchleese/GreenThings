@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class App : MonoBehaviour
 {
+    [SerializeField] private ShopConnection _shopConnection;
     private static App _instance;
 
     private void Init()
@@ -37,16 +38,22 @@ public class App : MonoBehaviour
         StartCoroutine(AppStateTransitions.ToMainMenu());
     }
 
+    public void FetchShop()
+    {
+        _shopConnection.Fetch();
+    }
+
     public static App Instance
     {
         get
         {
             if (_instance == null)
             {
-                GameObject instanceObject = new GameObject("App");
-                DontDestroyOnLoad(instanceObject);
-                App instance = instanceObject.AddComponent<App>();
-                _instance = instance;
+                GameObject appPrefab = Resources.Load<GameObject>("App");
+                GameObject appInstance = Instantiate(appPrefab);
+                appInstance.name = "App";
+                DontDestroyOnLoad(appInstance);
+                _instance = appInstance.GetComponent<App>();
                 _instance.Init();
             }
 

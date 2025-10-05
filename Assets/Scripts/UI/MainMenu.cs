@@ -28,6 +28,7 @@ public class MainMenu : MonoBehaviour, IAppState
             StartCoroutine(Download());
             IEnumerator Download()
             {
+                // TODO: must be included in build
                 string apiKey = System.Environment.GetEnvironmentVariable("GREEN_THINGS_API_KEY");
                 string host = System.Environment.GetEnvironmentVariable("GREEN_THINGS_API_HOST");
                 Debug.Log($"apiKey={apiKey}, host={host}");

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class App : MonoBehaviour
@@ -18,8 +19,15 @@ public class App : MonoBehaviour
     {
         if (AppStateTransitions.CurrentState == null)
         {
-            StartCoroutine(AppStateTransitions.FromEntryPoint(state.Id));
-            _shopRequest.Fetch();
+            StartCoroutine(EntryPointRoutine());
+            return;
+
+            IEnumerator EntryPointRoutine()
+            {
+                yield return AppStateTransitions.FromEntryPoint(state.Id);
+                yield return BuildConfigLoader.LoadConfig();
+                _shopRequest.Fetch(BuildConfigLoader.Config);
+            }
         }
         else if(!AppStateTransitions.IsCurrentlyTransitioning)
         {

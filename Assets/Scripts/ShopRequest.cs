@@ -16,7 +16,7 @@ public class ShopRequest : MonoBehaviour
     public event Action<RequestState> OnStateChange;
     private Coroutine _requestRoutine;
 
-    public void Fetch()
+    public void Fetch(BuildConfig config)
     {
         if (_requestRoutine != null)
         {
@@ -24,20 +24,17 @@ public class ShopRequest : MonoBehaviour
             return;
         }
 
-        _requestRoutine = StartCoroutine(Download());
+        _requestRoutine = StartCoroutine(Download(config));
     }
 
-    private IEnumerator Download()
+    private IEnumerator Download(BuildConfig config)
     {
         State = RequestState.Fetching;
         OnStateChange?.Invoke(State);
         
-        // TODO: must be included in build
-        string apiKey = System.Environment.GetEnvironmentVariable("GREEN_THINGS_API_KEY");
-        string host = System.Environment.GetEnvironmentVariable("GREEN_THINGS_API_HOST");
-        Debug.Log($"apiKey={apiKey}, host={host}");
-        UnityWebRequest request = UnityWebRequest.Get($"https://{host}/api/bottled-messages");
-        request.SetRequestHeader("x-api-key", apiKey);
+        Debug.Log($"apiKey={config.ApiKey}, host={config.ApiHost}");
+        UnityWebRequest request = UnityWebRequest.Get($"https://{config.ApiHost}/api/bottled-messages");
+        request.SetRequestHeader("x-api-key", config.ApiKey);
 
         yield return request.SendWebRequest();
                 

@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+﻿using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,23 +10,14 @@ public class MainMenuView : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private TextMeshProUGUI _requestState;
     [SerializeField] private CanvasGroup _canvasGroup;
 
+    public event Action ShopButtonPress;
+
     public void OnLoad()
     {
-        _startGameButton.onClick.AddListener(OnStartGamePressed);
-        _shopButton.onClick.AddListener(OnShopPressed);
+        _startGameButton.onClick.AddListener(() => App.Instance.TransitionToGame());
+        _shopButton.onClick.AddListener(() => ShopButtonPress?.Invoke());
         App.Instance.ShopRequest.OnStateChange += UpdateRequestState;
         _requestState.text = App.Instance.ShopRequest.State.ToString();
-        return;
-        
-        void OnStartGamePressed()
-        {
-            App.Instance.TransitionToGame();
-        }
-
-        void OnShopPressed()
-        {
-            Debug.Log("Shop pressed");
-        }
     }
 
     public void OnUnload()

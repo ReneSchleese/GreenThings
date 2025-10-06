@@ -14,12 +14,28 @@ public class MainMenu : MonoBehaviour, IAppState
     public IEnumerator OnLoad()
     {
         _mainMenuView.OnLoad();
+        _mainMenuView.ShopButtonPress += SwitchToShopView;
+        _shopView.BackButtonPress += SwitchToMainMenuView;
         yield break;
     }
 
     public void OnUnload()
     {
         _mainMenuView.OnUnload();
+        _mainMenuView.ShopButtonPress -= SwitchToShopView;
+        _shopView.BackButtonPress -= SwitchToMainMenuView;
+    }
+
+    private void SwitchToShopView()
+    {
+        ((IFadeableCanvasGroup)_mainMenuView).Fade(fadeIn: false);
+        ((IFadeableCanvasGroup)_shopView).Fade(fadeIn: true);
+    }
+
+    private void SwitchToMainMenuView()
+    {
+        ((IFadeableCanvasGroup)_mainMenuView).Fade(fadeIn: true);
+        ((IFadeableCanvasGroup)_shopView).Fade(fadeIn: false);
     }
 
     public IEnumerator TransitionIn()

@@ -232,6 +232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 664856282}
   - component: {fileID: 664856283}
+  - component: {fileID: 664856284}
   m_Layer: 5
   m_Name: MainMenuView
   m_TagString: Untagged
@@ -275,6 +276,19 @@ MonoBehaviour:
   _startGameButton: {fileID: 830590781}
   _shopButton: {fileID: 2116250255}
   _requestState: {fileID: 1279939079}
+  _canvasGroup: {fileID: 664856284}
+--- !u!225 &664856284
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664856281}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &830590779 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3387669061074446014, guid: 0b5d355bad949ef49b4c5d94ade29722,

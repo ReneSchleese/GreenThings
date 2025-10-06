@@ -10,18 +10,6 @@ public class MainMenu : MonoBehaviour, IAppState
         App.Instance.NotifyAwakeAppState(this);
     }
 
-    public IEnumerator TransitionOut()
-    {
-        Debug.Log($"{nameof(MainMenu)}.{nameof(TransitionOut)}");
-        yield break;
-    }
-
-    public IEnumerator TransitionIn()
-    {
-        Debug.Log($"{nameof(MainMenu)}.{nameof(TransitionIn)}");
-        yield break;
-    }
-
     public IEnumerator OnLoad()
     {
         _mainMenuView.OnLoad();
@@ -31,6 +19,19 @@ public class MainMenu : MonoBehaviour, IAppState
     public void OnUnload()
     {
         _mainMenuView.OnUnload();
+    }
+
+    public IEnumerator TransitionIn()
+    {
+        Debug.Log($"{nameof(MainMenu)}.{nameof(TransitionIn)}");
+        _mainMenuView.Fade(fadeIn: true);
+        yield break;
+    }
+
+    public IEnumerator TransitionOut()
+    {
+        Debug.Log($"{nameof(MainMenu)}.{nameof(TransitionOut)}");
+        yield break;
     }
 
     public AppState Id => AppState.MainMenu;

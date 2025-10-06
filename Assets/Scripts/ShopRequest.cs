@@ -32,8 +32,13 @@ public class ShopRequest : MonoBehaviour
         State = RequestState.Fetching;
         OnStateChange?.Invoke(State);
         
-        Debug.Log($"apiKey={config.ApiKey}, host={config.ApiHost}");
-        UnityWebRequest request = UnityWebRequest.Get($"https://{config.ApiHost}/api/bottled-messages");
+        UriBuilder uriBuilder = new UriBuilder
+        {
+            Scheme = "https",
+            Host = config.ApiHost,
+            Path = "api/bottled-messages",
+        };
+        UnityWebRequest request = UnityWebRequest.Get(uriBuilder.Uri);
         request.SetRequestHeader("x-api-key", config.ApiKey);
 
         yield return request.SendWebRequest();

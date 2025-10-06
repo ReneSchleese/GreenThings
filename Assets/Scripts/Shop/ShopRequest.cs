@@ -51,16 +51,22 @@ public class ShopRequest : MonoBehaviour
         }
         else
         {
-            // Get the JSON response as a string
-            string json = request.downloadHandler.text;
+            try
+            {
+                // Get the JSON response as a string
+                string json = request.downloadHandler.text;
+                Debug.Log("Received JSON:\n" + json);
 
-            State = RequestState.Success;
+                //var messages = JsonUtility.FromJson<MessageList>(json);
+                State = RequestState.Success;
+            }
+            catch (Exception e)
+            {
+                State = RequestState.Failure;
+                Debug.LogError(e);
+            }
+            
             OnStateChange?.Invoke(State);
-            Debug.Log("Received JSON:\n" + json);
-
-            // Optionally parse it into a class/array
-            // Example: Deserialize into your data model
-            // var messages = JsonUtility.FromJson<MessageList>(json);
         }
 
         _requestRoutine = null;

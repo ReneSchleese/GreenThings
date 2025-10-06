@@ -65,6 +65,6 @@ public class App : MonoBehaviour
     }
 
     private AppStateTransitions AppStateTransitions { get; set; }
-    private Shop Shop { get; set; }
+    public Shop Shop { get; private set; }
     public ShopRequest ShopRequest => _shopRequest;
 }

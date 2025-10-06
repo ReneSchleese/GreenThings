@@ -23,6 +23,7 @@ public class MainMenu : MonoBehaviour, IAppState
     public void OnUnload()
     {
         _mainMenuView.OnUnload();
+        _shopView.OnUnload();
         _mainMenuView.ShopButtonPress -= SwitchToShopView;
         _shopView.BackButtonPress -= SwitchToMainMenuView;
     }

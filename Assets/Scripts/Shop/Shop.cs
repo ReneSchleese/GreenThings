@@ -14,6 +14,7 @@ public class Shop
     private void OnMessagesFetchComplete(BottledMessagesJson messagesJson)
     {
         Messages = messagesJson.messages.ToList();
+        Update?.Invoke();
     }
 
     public List<BottledMessageJson> Messages { get; private set; } = new();

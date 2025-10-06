@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour, IAppState
     public IEnumerator OnLoad()
     {
         _mainMenuView.OnLoad();
+        _shopView.OnLoad();
         _mainMenuView.ShopButtonPress += SwitchToShopView;
         _shopView.BackButtonPress += SwitchToMainMenuView;
         yield break;

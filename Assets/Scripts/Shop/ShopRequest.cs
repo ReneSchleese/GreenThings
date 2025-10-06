@@ -53,11 +53,11 @@ public class ShopRequest : MonoBehaviour
         {
             try
             {
-                // Get the JSON response as a string
                 string json = request.downloadHandler.text;
                 Debug.Log("Received JSON:\n" + json);
-
-                //var messages = JsonUtility.FromJson<MessageList>(json);
+                json = $"{{ \"messages\" : {json} }}";
+                BottledMessagesJson messagesJson = JsonUtility.FromJson<BottledMessagesJson>(json);
+                Debug.Log($"message count={messagesJson.messages.Length}");
                 State = RequestState.Success;
             }
             catch (Exception e)

@@ -9,6 +9,8 @@ public class App : MonoBehaviour
     private void Init()
     {
         AppStateTransitions = new AppStateTransitions();
+        Shop = new Shop();
+        Shop.Init();
         Application.targetFrameRate = 60;
     }
     
@@ -63,5 +65,6 @@ public class App : MonoBehaviour
     }
 
     private AppStateTransitions AppStateTransitions { get; set; }
+    private Shop Shop { get; set; }
     public ShopRequest ShopRequest => _shopRequest;
 }

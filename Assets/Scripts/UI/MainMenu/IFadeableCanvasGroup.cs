@@ -7,7 +7,8 @@ public interface IFadeableCanvasGroup
 
     public Tween Fade(bool fadeIn)
     {
-        return CanvasGroup.DOFade(fadeIn ? 1f : 0f, 1f)
+        return CanvasGroup.DOFade(fadeIn ? 1f : 0f, 0.5f)
+            .SetEase(Ease.OutCubic)
             .OnStart(() =>
             {
                 CanvasGroup.interactable = false;

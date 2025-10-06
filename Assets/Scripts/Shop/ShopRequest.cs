@@ -14,6 +14,7 @@ public class ShopRequest : MonoBehaviour
     }
     
     public event Action<RequestState> OnStateChange;
+    public event Action<BottledMessagesJson> OnMessagesFetchComplete;
     private Coroutine _requestRoutine;
 
     public void Fetch(BuildConfig config)
@@ -24,10 +25,10 @@ public class ShopRequest : MonoBehaviour
             return;
         }
 
-        _requestRoutine = StartCoroutine(Download(config));
+        _requestRoutine = StartCoroutine(GetMessages(config));
     }
 
-    private IEnumerator Download(BuildConfig config)
+    private IEnumerator GetMessages(BuildConfig config)
     {
         State = RequestState.Fetching;
         OnStateChange?.Invoke(State);
@@ -54,11 +55,11 @@ public class ShopRequest : MonoBehaviour
             try
             {
                 string json = request.downloadHandler.text;
-                Debug.Log("Received JSON:\n" + json);
+                Debug.Log($"[{nameof(ShopRequest)}.{nameof(GetMessages)}] Received JSON:\n" + json);
                 json = $"{{ \"messages\" : {json} }}";
                 BottledMessagesJson messagesJson = JsonUtility.FromJson<BottledMessagesJson>(json);
-                Debug.Log($"message count={messagesJson.messages.Length}");
                 State = RequestState.Success;
+                OnMessagesFetchComplete?.Invoke(messagesJson);
             }
             catch (Exception e)
             {

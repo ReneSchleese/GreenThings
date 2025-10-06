@@ -4,6 +4,7 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour, IAppState
 {
     [SerializeField] private MainMenuView _mainMenuView;
+    [SerializeField] private ShopView _shopView;
     
     private void Awake()
     {
@@ -24,7 +25,8 @@ public class MainMenu : MonoBehaviour, IAppState
     public IEnumerator TransitionIn()
     {
         Debug.Log($"{nameof(MainMenu)}.{nameof(TransitionIn)}");
-        _mainMenuView.Fade(fadeIn: true);
+        ((IFadeableCanvasGroup)_mainMenuView).FadeInstantly(fadeIn: true);
+        ((IFadeableCanvasGroup)_shopView).FadeInstantly(fadeIn: false);
         yield break;
     }
 

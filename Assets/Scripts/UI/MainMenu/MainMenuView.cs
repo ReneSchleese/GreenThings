@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuView : MonoBehaviour
+public class MainMenuView : MonoBehaviour, IFadeableCanvasGroup
 {
     [SerializeField] private Button _startGameButton;
     [SerializeField] private Button _shopButton;
@@ -39,10 +39,5 @@ public class MainMenuView : MonoBehaviour
         _requestState.text = state.ToString();
     }
 
-    public void Fade(bool fadeIn)
-    {
-        _canvasGroup.DOFade(fadeIn ? 1f : 0f, 1f)
-            .OnStart(() => _canvasGroup.interactable = false)
-            .OnComplete(() => _canvasGroup.interactable = fadeIn);
-    }
+    public CanvasGroup CanvasGroup => _canvasGroup;
 }

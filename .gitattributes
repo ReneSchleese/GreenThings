@@ -2,3 +2,20 @@
 *.blend1 filter=lfs diff=lfs merge=lfs -text
 *.fbx filter=lfs diff=lfs merge=lfs -text
 *.psd filter=lfs diff=lfs merge=lfs -text
+
+# Text files → LF endings
+* text eol=lf
+
+# Unity YAML files → LF
+*.meta text eol=lf
+*.unity text eol=lf
+*.prefab text eol=lf
+*.asset text eol=lf
+*.asmdef text eol=lf
+
+# Binary files → leave as-is
+*.png binary
+*.jpg binary
+*.fbx binary
+*.mp3 binary
+*.wav binary

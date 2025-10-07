@@ -1,23 +1,32 @@
+using System.Collections;
 using UnityEngine;
 
 public class App : MonoBehaviour
 {
+    [SerializeField] private ShopRequest _shopRequest;
     private static App _instance;
 
     private void Init()
     {
         AppStateTransitions = new AppStateTransitions();
+        Shop = new Shop();
+        Shop.Init();
         Application.targetFrameRate = 60;
     }
-
-    /// <summary>
-    /// Only relevant in editor. Call this there was a "warm start", meaning starting playmode from non-app-entry-point scene.
-    /// </summary>
+    
     public void NotifyAwakeAppState(IAppState state)
     {
         if (AppStateTransitions.CurrentState == null)
         {
-            StartCoroutine(AppStateTransitions.FromEntryPoint(state.Id));
+            StartCoroutine(EntryPointRoutine());
+            return;
+
+            IEnumerator EntryPointRoutine()
+            {
+                yield return AppStateTransitions.FromEntryPoint(state.Id);
+                yield return BuildConfigLoader.LoadConfig();
+                _shopRequest.Fetch(BuildConfigLoader.Config);
+            }
         }
         else if(!AppStateTransitions.IsCurrentlyTransitioning)
         {
@@ -43,10 +52,11 @@ public class App : MonoBehaviour
         {
             if (_instance == null)
             {
-                GameObject instanceObject = new GameObject("App");
-                DontDestroyOnLoad(instanceObject);
-                App instance = instanceObject.AddComponent<App>();
-                _instance = instance;
+                GameObject appPrefab = Resources.Load<GameObject>("App");
+                GameObject appInstance = Instantiate(appPrefab);
+                appInstance.name = "App";
+                DontDestroyOnLoad(appInstance);
+                _instance = appInstance.GetComponent<App>();
                 _instance.Init();
             }
 
@@ -55,4 +65,6 @@ public class App : MonoBehaviour
     }
 
     private AppStateTransitions AppStateTransitions { get; set; }
+    public Shop Shop { get; private set; }
+    public ShopRequest ShopRequest => _shopRequest;
 }

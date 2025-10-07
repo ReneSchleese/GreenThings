@@ -74,3 +74,5 @@ crashlytics-build.properties
 
 /[Pp]rojectSettings/[Pp]ackages/com.unity.probuilder/Settings.json
 .utmp
+/Assets/StreamingAssets/BuildConfig.json
+/Assets/StreamingAssets/BuildConfig.json.meta

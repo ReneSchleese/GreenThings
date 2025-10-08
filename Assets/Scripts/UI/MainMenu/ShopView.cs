@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +10,9 @@ public class ShopView : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private Button _backButton;
     [SerializeField] private Transform _shopItemsContainer;
     [SerializeField] private ShopItemView _shopItemPrefab;
+    [SerializeField] private TextMeshProUGUI _moneyTmPro;
     
-    private List<ShopItemView> _shopItems = new();
+    private readonly List<ShopItemView> _shopItems = new();
 
     public event Action BackButtonPress;
 
@@ -18,12 +20,15 @@ public class ShopView : MonoBehaviour, IFadeableCanvasGroup
     {
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
         App.Instance.Shop.Update += OnShopUpdated;
+        App.Instance.UserData.Update += OnUserDataUpdated;
         OnShopUpdated();
+        OnUserDataUpdated();
     }
 
     public void OnUnload()
     {
         App.Instance.Shop.Update -= OnShopUpdated;
+        App.Instance.UserData.Update -= OnUserDataUpdated;
     }
 
     private void OnShopUpdated()
@@ -44,17 +49,19 @@ public class ShopView : MonoBehaviour, IFadeableCanvasGroup
         }
     }
 
-    private void OnItemBuyButtonPressed(ShopItemView item)
+    private void OnUserDataUpdated()
     {
         UserData userData = App.Instance.UserData;
-        bool success = userData.Money >= item.Data.price;
-        if(success)
+        _moneyTmPro.text = $"Money: {userData.Money}";
+        foreach (ShopItemView shopItem in _shopItems)
         {
-            userData.OwnedMessageIds.Add(item.Data.id);
-            userData.Money = Mathf.Max(0,  userData.Money - item.Data.price);
-            userData.Save();
-            item.Set(item.Data, alreadyBought: true);
+            shopItem.Set(shopItem.Data, userData.OwnedMessageIds.Contains(shopItem.Data.id));
         }
+    }
+
+    private void OnItemBuyButtonPressed(ShopItemView item)
+    {
+        App.Instance.UserData.Buy(item.Data);
     }
 
     public CanvasGroup CanvasGroup => _canvasGroup;

@@ -1,5 +1,7 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopItemView : MonoBehaviour
 {
@@ -7,6 +9,10 @@ public class ShopItemView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _typeTmPro;
     [SerializeField] private TextMeshProUGUI _descriptionTmPro;
     [SerializeField] private TextMeshProUGUI _urlTmPro;
+    [SerializeField] private Button _buyButton;
+    [SerializeField] private TextMeshProUGUI _buyTmPro;
+
+    public event Action<string> WasBought;
 
     public void Set(BottledMessageJson bottledMessageJson)
     {
@@ -14,5 +20,10 @@ public class ShopItemView : MonoBehaviour
         _typeTmPro.text = bottledMessageJson.type;
         _descriptionTmPro.text = bottledMessageJson.description;
         _urlTmPro.text = bottledMessageJson.url;
+        _buyTmPro.text = $"Buy ({bottledMessageJson.price})";
+        _buyButton.onClick.AddListener(() =>
+        {
+            WasBought?.Invoke(bottledMessageJson.id);
+        });
     }
 }

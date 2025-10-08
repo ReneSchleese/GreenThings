@@ -6,7 +6,6 @@ using UnityEngine;
 public class UserData
 {
     private static string _filePath;
-    private List<string> _ownedMessageIds = new();
 
     public UserData()
     {
@@ -22,7 +21,7 @@ public class UserData
         string userDataText = File.ReadAllText(_filePath);
         UserDataJson userDataJson = JsonUtility.FromJson<UserDataJson>(userDataText);
         Money = userDataJson.money;
-        _ownedMessageIds = userDataJson.ownedMessageIds.ToList();
+        OwnedMessageIds = userDataJson.ownedMessageIds.ToList();
     }
 
     public void Save()
@@ -30,10 +29,11 @@ public class UserData
         string json = JsonUtility.ToJson(new UserDataJson()
         {
             money = Money,
-            ownedMessageIds = _ownedMessageIds.ToArray(),
+            ownedMessageIds = OwnedMessageIds.ToArray(),
         });
         File.WriteAllText(_filePath, json);
     }
 
     public int Money { get; set; }
+    public List<string> OwnedMessageIds { get; private set; } = new();
 }

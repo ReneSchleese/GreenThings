@@ -68,13 +68,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         }
     }
 
-    private void Collect(Coin coin)
-    {
-        Debug.Log("Collecting coin");
-        AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
-        Destroy(coin.gameObject);
-    }
-
     private void OnMove(Vector2 delta)
     {
         JoystickMagnitude = delta.magnitude;
@@ -103,6 +96,13 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         AudioManager.Instance.PlayVoice(_hornetScreams[index]);
         _animator.PlayBattlecry(index);
         Game.Instance.Chain.PlayEchoed(index, _hornetScreams[index].length);
+    }
+    
+    private void Collect(Coin coin)
+    {
+        AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
+        Destroy(coin.gameObject);
+        App.Instance.UserData.Money += 1;
     }
 
     private readonly Collider[] _digColliders = new Collider[128];

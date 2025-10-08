@@ -15,7 +15,12 @@ public class App : MonoBehaviour
         UserData = new UserData();
         UserData.Load();
     }
-    
+
+    private void OnApplicationQuit()
+    {
+        UserData.Save();
+    }
+
     public void NotifyAwakeAppState(IAppState state)
     {
         if (AppStateTransitions.CurrentState == null)

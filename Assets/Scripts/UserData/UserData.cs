@@ -21,7 +21,7 @@ public class UserData
         string userDataText = File.ReadAllText(_filePath);
         UserDataJson userDataJson = JsonUtility.FromJson<UserDataJson>(userDataText);
         Money = userDataJson.money;
-        OwnedMessageIds = userDataJson.ownedMessageIds.ToList();
+        OwnedMessageIds = userDataJson.ownedMessageIds.ToHashSet();
     }
 
     public void Save()
@@ -35,5 +35,5 @@ public class UserData
     }
 
     public int Money { get; set; }
-    public List<string> OwnedMessageIds { get; private set; } = new();
+    public HashSet<string> OwnedMessageIds { get; private set; } = new();
 }

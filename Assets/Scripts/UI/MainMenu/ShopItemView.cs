@@ -12,18 +12,28 @@ public class ShopItemView : MonoBehaviour
     [SerializeField] private Button _buyButton;
     [SerializeField] private TextMeshProUGUI _buyTmPro;
 
-    public event Action<string> WasBought;
+    public event Action<ShopItemView> WasBought;
 
-    public void Set(BottledMessageJson bottledMessageJson)
+    public void Set(BottledMessageJson bottledMessageJson, bool alreadyBought)
     {
+        Data = bottledMessageJson;
+        
         _titleTmPro.text = bottledMessageJson.title;
         _typeTmPro.text = bottledMessageJson.type;
         _descriptionTmPro.text = bottledMessageJson.description;
         _urlTmPro.text = bottledMessageJson.url;
-        _buyTmPro.text = $"Buy ({bottledMessageJson.price})";
-        _buyButton.onClick.AddListener(() =>
+        
+        bool showBuyButton = !alreadyBought;
+        _buyButton.gameObject.SetActive(showBuyButton);
+        if (showBuyButton)
         {
-            WasBought?.Invoke(bottledMessageJson.id);
-        });
+            _buyTmPro.text = $"Buy ({bottledMessageJson.price})";
+            _buyButton.onClick.AddListener(() =>
+            {
+                WasBought?.Invoke(this);
+            });
+        }
     }
+    
+    public BottledMessageJson Data { get; private set; }
 }

@@ -8,10 +8,12 @@ public class App : MonoBehaviour
 
     private void Init()
     {
+        Application.targetFrameRate = 60;
         AppStateTransitions = new AppStateTransitions();
         Shop = new Shop();
         Shop.Init();
-        Application.targetFrameRate = 60;
+        UserData = new UserData();
+        UserData.Load();
     }
     
     public void NotifyAwakeAppState(IAppState state)
@@ -67,4 +69,5 @@ public class App : MonoBehaviour
     private AppStateTransitions AppStateTransitions { get; set; }
     public Shop Shop { get; private set; }
     public ShopRequest ShopRequest => _shopRequest;
+    public UserData UserData { get; private set; }
 }

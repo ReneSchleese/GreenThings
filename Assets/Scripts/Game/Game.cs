@@ -48,6 +48,8 @@ public class Game : Singleton<Game>, IAppState
     public void OnUnload()
     {
         Debug.Log("Game.OnUnload");
+        SceneManager.UnloadSceneAsync("Game_Treasure");
+        _gameTreasureManager = null;
     }
 
     public IEnumerator OnLoad()

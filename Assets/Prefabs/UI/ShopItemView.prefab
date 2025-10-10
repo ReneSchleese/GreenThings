@@ -58,6 +58,7 @@ MonoBehaviour:
   _urlTmPro: {fileID: 8476268407793277169}
   _buyButton: {fileID: 875606164052533180}
   _buyTmPro: {fileID: 707517304064802323}
+  _background: {fileID: 6449071599917397471}
 --- !u!114 &9090836385266473112
 MonoBehaviour:
   m_ObjectHideFlags: 0

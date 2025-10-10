@@ -13,7 +13,7 @@ public class UserInterface : Singleton<UserInterface>
     [SerializeField] private Button _digButton;
     [SerializeField] private Button _modeButton;
     [SerializeField] private Button _scanButton;
-    [SerializeField] private Button _filesButton;
+    [SerializeField] private Button _backButton;
     [SerializeField] private VirtualJoystickRegion _joystickRegion;
     [SerializeField] private CanvasGroup _canvasGroup;
     private static UserInterface _instance;
@@ -24,7 +24,7 @@ public class UserInterface : Singleton<UserInterface>
         _digButton.onClick.AddListener(OnHornetDigPress);
         _modeButton.onClick.AddListener(OnSpiritModeTogglePress);
         _scanButton.onClick.AddListener(OnScanPress);
-        _filesButton.onClick.AddListener(OnFilesButtonPress);
+        _backButton.onClick.AddListener(OnBackButtonPress);
     }
 
     private void OnHornetScreamPress()
@@ -47,9 +47,9 @@ public class UserInterface : Singleton<UserInterface>
         ScanInput?.Invoke();
     }
 
-    private void OnFilesButtonPress()
+    private void OnBackButtonPress()
     {
-        FilesManager.HandleFile();
+        App.Instance.TransitionToMainMenu();
     }
 
     public Button ScreamButton => _hornetScreamButton;

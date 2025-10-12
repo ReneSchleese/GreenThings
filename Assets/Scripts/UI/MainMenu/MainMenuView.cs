@@ -7,15 +7,18 @@ public class MainMenuView : MonoBehaviour, IFadeableCanvasGroup
 {
     [SerializeField] private Button _startGameButton;
     [SerializeField] private Button _shopButton;
+    [SerializeField] private Button _inventoryButton;
     [SerializeField] private TextMeshProUGUI _requestState;
     [SerializeField] private CanvasGroup _canvasGroup;
 
     public event Action ShopButtonPress;
+    public event Action InventoryButtonPress;
 
     public void OnLoad()
     {
         _startGameButton.onClick.AddListener(() => App.Instance.TransitionToGame());
         _shopButton.onClick.AddListener(() => ShopButtonPress?.Invoke());
+        _inventoryButton.onClick.AddListener(() => InventoryButtonPress?.Invoke());
         App.Instance.ShopRequest.OnStateChange += UpdateRequestState;
         _requestState.text = App.Instance.ShopRequest.State.ToString();
     }

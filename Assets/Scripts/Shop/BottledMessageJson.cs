@@ -6,9 +6,9 @@
 public class BottledMessageJson
 {
     public string title;
-    public string type;
     public string id;
-    public string url;
+    public string content_url;
+    public string thumbnail_url;
     public int price;
-    public string description;
+    public string time_created;
 }

@@ -20,9 +20,7 @@ public class ShopItemView : MonoBehaviour
         Data = bottledMessageJson;
         
         _titleTmPro.text = bottledMessageJson.title;
-        _typeTmPro.text = bottledMessageJson.type;
-        _descriptionTmPro.text = bottledMessageJson.description;
-        _urlTmPro.text = bottledMessageJson.url;
+        _urlTmPro.text = bottledMessageJson.content_url;
         _background.color = new Color(1, 1, 1, alreadyBought ? 0.4f : 0.8f);
         
         bool showBuyButton = !alreadyBought;

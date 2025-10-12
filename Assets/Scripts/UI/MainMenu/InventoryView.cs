@@ -33,16 +33,27 @@ public class InventoryView : MonoBehaviour, IFadeableCanvasGroup
     {
         foreach (InventoryBottleItemView bottleItemView in _bottleItemViews)
         {
+            bottleItemView.OnClick -= OnBottleItemClicked;
             Destroy(bottleItemView.gameObject);
         }
         _bottleItemViews.Clear();
         foreach (string messageId in App.Instance.UserData.OwnedMessageIds)
         {
-            BottledMessageJson messageJson = App.Instance.Shop.Messages.First(message => message.id == messageId);
+            BottledMessageJson messageJson = App.Instance.Shop.Messages.FirstOrDefault(message => message.id == messageId);
+            if (messageJson == null)
+            {
+                continue;
+            }
             InventoryBottleItemView bottleItemView = Instantiate(_bottleItemViewPrefab,  _bottleItemsContainer);
             bottleItemView.Set(messageJson);
             _bottleItemViews.Add(bottleItemView);
+            bottleItemView.OnClick += OnBottleItemClicked;
         }
+    }
+
+    private void OnBottleItemClicked(InventoryBottleItemView bottleItemView)
+    {
+        Debug.Log($"Clicked {bottleItemView.Data.id}");
     }
 
     public CanvasGroup CanvasGroup => _canvasGroup;

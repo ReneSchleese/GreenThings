@@ -12,6 +12,7 @@ public class App : MonoBehaviour
         AppStateTransitions = new AppStateTransitions();
         Shop = new Shop();
         Shop.Init();
+        Shop.LoadFromCache();
         UserData = new UserData();
         UserData.Load();
     }

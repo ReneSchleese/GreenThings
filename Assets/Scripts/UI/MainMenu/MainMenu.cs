@@ -1,5 +1,7 @@
 using System.Collections;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class MainMenu : MonoBehaviour, IAppState
 {
@@ -23,6 +25,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _mainMenuView.InventoryButtonPress += SwitchToInventoryView;
         _shopView.BackButtonPress += SwitchToMainMenuView;
         _inventoryView.BackButtonPress += SwitchToMainMenuView;
+        _inventoryView.ItemClick += ShowItemInMediaPlayer;
         _mediaPlayer.BackButtonPress += CloseMediaPlayer;
         yield return new WaitUntil(() => BuildConfigLoader.IsLoaded);
     }
@@ -36,6 +39,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _mainMenuView.InventoryButtonPress -= SwitchToInventoryView;
         _shopView.BackButtonPress -= SwitchToMainMenuView;
         _inventoryView.BackButtonPress -= SwitchToMainMenuView;
+        _inventoryView.ItemClick -= ShowItemInMediaPlayer;
         _mediaPlayer.BackButtonPress -= CloseMediaPlayer;
     }
 
@@ -75,6 +79,33 @@ public class MainMenu : MonoBehaviour, IAppState
     {
         Debug.Log($"{nameof(MainMenu)}.{nameof(TransitionOut)}");
         yield break;
+    }
+
+    private void ShowItemInMediaPlayer(InventoryBottleItemView obj)
+    {
+        ((IFadeableCanvasGroup)_mediaPlayer).Fade(fadeIn: true);
+        StartCoroutine(DownloadThenPlay());
+
+        IEnumerator DownloadThenPlay()
+        {
+            string filePath = Path.Combine(Application.temporaryCachePath, "video.mp4");
+            if (!File.Exists(filePath))
+            {
+                using var request = UnityWebRequest.Get(obj.Data.content_url);
+                request.SetRequestHeader("x-api-key", BuildConfigLoader.Config.ApiKey);
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError($"Failed to download content: {request.error}");
+                }
+                else
+                {
+                    File.WriteAllBytes(filePath, request.downloadHandler.data);
+                }
+            }
+            yield return _mediaPlayer.Play(filePath);
+        }
     }
 
     private void CloseMediaPlayer()

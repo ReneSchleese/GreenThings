@@ -14,6 +14,7 @@ public class InventoryView : MonoBehaviour, IFadeableCanvasGroup
     private readonly List<InventoryBottleItemView> _bottleItemViews = new();
     
     public event Action BackButtonPress;
+    public event Action<InventoryBottleItemView> ItemClick;
 
     public void OnLoad()
     {
@@ -57,7 +58,7 @@ public class InventoryView : MonoBehaviour, IFadeableCanvasGroup
 
     private void OnBottleItemClicked(InventoryBottleItemView bottleItemView)
     {
-        Debug.Log($"Clicked {bottleItemView.Data.id}");
+        ItemClick?.Invoke(bottleItemView);
     }
 
     public CanvasGroup CanvasGroup => _canvasGroup;

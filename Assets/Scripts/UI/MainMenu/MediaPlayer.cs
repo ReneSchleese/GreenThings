@@ -12,10 +12,42 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private VideoPlayer _videoPlayer;
 
     public event Action BackButtonPress;
+    
+    private RenderTexture _videoRenderTexture;
 
     public void OnLoad()
     {
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
+        _videoPlayer.prepareCompleted += videoPlayer =>
+        {
+            var width = (int)videoPlayer.width;
+            var height = (int)videoPlayer.height;
+
+            _videoRenderTexture = RenderTexture.GetTemporary(width, height, 0);
+            videoPlayer.targetTexture = _videoRenderTexture;
+            _videoDisplay.texture = _videoRenderTexture;
+            Debug.Log("width: " + width + " height: " + height);
+        };
+    }
+    
+    void OnDestroy()
+    {
+        Cleanup();
+    }
+
+    void Cleanup()
+    {
+        if (_videoPlayer != null)
+        {
+            _videoPlayer.Stop();
+            _videoPlayer.targetTexture = null;
+        }
+
+        if (_videoRenderTexture != null)
+        {
+            RenderTexture.ReleaseTemporary(_videoRenderTexture);
+            _videoRenderTexture = null;
+        }
     }
 
     public IEnumerator Play(string filePath)
@@ -23,11 +55,6 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
         // Prepare VideoPlayer
         _videoPlayer.source = VideoSource.Url;
         _videoPlayer.url = filePath;
-
-        // Optional: Render to RawImage on Canvas
-        _videoPlayer.renderMode = VideoRenderMode.APIOnly;
-        _videoPlayer.targetTexture = new RenderTexture(1920, 1080, 0);
-        _videoDisplay.texture = _videoPlayer.targetTexture;
 
         // Prepare before play (async)
         _videoPlayer.Prepare();

@@ -20,13 +20,17 @@ public class InventoryView : MonoBehaviour, IFadeableCanvasGroup
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
         App.Instance.UserData.Update += UpdateItems;
         App.Instance.Shop.Update += UpdateItems;
-        UpdateItems();
     }
 
     public void OnUnload()
     {
         App.Instance.UserData.Update -= UpdateItems;
         App.Instance.Shop.Update -= UpdateItems;
+    }
+
+    public void OnTransitionIn()
+    {
+        UpdateItems();
     }
 
     private void UpdateItems()

@@ -21,7 +21,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _mainMenuView.InventoryButtonPress += SwitchToInventoryView;
         _shopView.BackButtonPress += SwitchToMainMenuView;
         _inventoryView.BackButtonPress += SwitchToMainMenuView;
-        yield break;
+        yield return new WaitUntil(() => BuildConfigLoader.IsLoaded);
     }
 
     public void OnUnload()
@@ -62,6 +62,7 @@ public class MainMenu : MonoBehaviour, IAppState
         ((IFadeableCanvasGroup)_mainMenuView).FadeInstantly(fadeIn: true);
         ((IFadeableCanvasGroup)_shopView).FadeInstantly(fadeIn: false);
         ((IFadeableCanvasGroup)_inventoryView).FadeInstantly(fadeIn: false);
+        _inventoryView.OnTransitionIn();
         yield break;
     }
 

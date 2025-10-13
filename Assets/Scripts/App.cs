@@ -26,12 +26,17 @@ public class App : MonoBehaviour
     {
         if (AppStateTransitions.CurrentState == null)
         {
-            StartCoroutine(EntryPointRoutine());
+            StartCoroutine(AppStateRoutine());
+            StartCoroutine(LoadingRoutine());
             return;
 
-            IEnumerator EntryPointRoutine()
+            IEnumerator AppStateRoutine()
             {
                 yield return AppStateTransitions.FromEntryPoint(state.Id);
+            }
+
+            IEnumerator LoadingRoutine()
+            {
                 yield return BuildConfigLoader.LoadConfig();
                 _shopRequest.Fetch(BuildConfigLoader.Config);
             }

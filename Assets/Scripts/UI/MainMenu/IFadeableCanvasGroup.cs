@@ -18,6 +18,7 @@ public interface IFadeableCanvasGroup
             {
                 CanvasGroup.interactable = fadeIn;
                 CanvasGroup.blocksRaycasts = fadeIn;
+                OnFadeComplete(fadeIn);
             });
     }
 
@@ -26,5 +27,8 @@ public interface IFadeableCanvasGroup
         CanvasGroup.alpha = fadeIn ? 1f : 0f;
         CanvasGroup.interactable = fadeIn;
         CanvasGroup.blocksRaycasts = fadeIn;
+        OnFadeComplete(fadeIn);
     }
+
+    void OnFadeComplete(bool fadeIn) {}
 }

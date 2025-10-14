@@ -21,16 +21,45 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
     {
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
         _playButton.onClick.AddListener(OnPlayButtonPress);
-        _videoPlayer.prepareCompleted += videoPlayer =>
-        {
-            var width = (int)videoPlayer.width;
-            var height = (int)videoPlayer.height;
+    }
 
-            _videoRenderTexture = RenderTexture.GetTemporary(width, height, 0);
-            videoPlayer.targetTexture = _videoRenderTexture;
-            _videoDisplay.texture = _videoRenderTexture;
-            _aspectRatioFitter.aspectRatio = (float)width / height;
-        };
+    private void OnDestroy()
+    {
+        Clear();
+    }
+
+    private void Clear()
+    {
+        _videoPlayer.Stop();
+        _videoPlayer.targetTexture = null;
+        _videoPlayer.url = string.Empty;
+        if (_videoRenderTexture != null)
+        {
+            RenderTexture.ReleaseTemporary(_videoRenderTexture);
+            _videoRenderTexture = null;
+            _videoDisplay.texture = null;
+        }
+    }
+
+    public IEnumerator Play(string filePath)
+    {
+        _videoPlayer.source = VideoSource.Url;
+        _videoPlayer.url = filePath;
+        _videoPlayer.Prepare();
+        
+        while (!_videoPlayer.isPrepared)
+        {
+            yield return null;
+        }
+        
+        var width = (int)_videoPlayer.width;
+        var height = (int)_videoPlayer.height;
+        _videoRenderTexture = RenderTexture.GetTemporary(width, height, 0);
+        _videoPlayer.targetTexture = _videoRenderTexture;
+        _videoDisplay.texture = _videoRenderTexture;
+        _aspectRatioFitter.aspectRatio = (float)width / height;
+
+        _videoPlayer.Play();
     }
 
     private void OnPlayButtonPress()
@@ -45,41 +74,13 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
         }
     }
 
-    void OnDestroy()
+    public void OnFadeComplete(bool fadeIn)
     {
-        Cleanup();
-    }
-
-    void Cleanup()
-    {
-        if (_videoPlayer != null)
+        if(!fadeIn)
         {
-            _videoPlayer.Stop();
-            _videoPlayer.targetTexture = null;
-        }
-
-        if (_videoRenderTexture != null)
-        {
-            RenderTexture.ReleaseTemporary(_videoRenderTexture);
-            _videoRenderTexture = null;
+            Clear();
         }
     }
 
-    public IEnumerator Play(string filePath)
-    {
-        // Prepare VideoPlayer
-        _videoPlayer.source = VideoSource.Url;
-        _videoPlayer.url = filePath;
-
-        // Prepare before play (async)
-        _videoPlayer.Prepare();
-
-        while (!_videoPlayer.isPrepared)
-            yield return null;
-
-        Debug.Log("Video prepared, playing...");
-        _videoPlayer.Play();
-    }
-    
     public CanvasGroup CanvasGroup => _canvasGroup;
 }

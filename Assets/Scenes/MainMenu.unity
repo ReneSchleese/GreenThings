@@ -3176,6 +3176,7 @@ MonoBehaviour:
   _canvasGroup: {fileID: 1606984853}
   _videoDisplay: {fileID: 882333613}
   _videoPlayer: {fileID: 1606984856}
+  _aspectRatioFitter: {fileID: 882333612}
 --- !u!1 &1632897401
 GameObject:
   m_ObjectHideFlags: 0

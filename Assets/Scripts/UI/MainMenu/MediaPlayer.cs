@@ -10,6 +10,7 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private RawImage _videoDisplay;
     [SerializeField] private VideoPlayer _videoPlayer;
+    [SerializeField] private AspectRatioFitter _aspectRatioFitter;
 
     public event Action BackButtonPress;
     
@@ -26,7 +27,7 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
             _videoRenderTexture = RenderTexture.GetTemporary(width, height, 0);
             videoPlayer.targetTexture = _videoRenderTexture;
             _videoDisplay.texture = _videoRenderTexture;
-            Debug.Log("width: " + width + " height: " + height);
+            _aspectRatioFitter.aspectRatio = (float)width / height;
         };
     }
     

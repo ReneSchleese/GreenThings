@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4315472483491088053}
   - component: {fileID: 3069327942538739988}
   - component: {fileID: 6083366172265283931}
+  - component: {fileID: 6150016961556439354}
   m_Layer: 0
   m_Name: App
   m_TagString: Untagged
@@ -46,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shopRequest: {fileID: 6083366172265283931}
+  _downloadableContent: {fileID: 6150016961556439354}
 --- !u!114 &6083366172265283931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56,5 +58,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9bcf9c9395a4401099fc5596cf1d8116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6150016961556439354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263092618607677057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4381329151dd4509b78924995e1dea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

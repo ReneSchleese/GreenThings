@@ -4,6 +4,7 @@ using UnityEngine;
 public class App : MonoBehaviour
 {
     [SerializeField] private ShopRequest _shopRequest;
+    [SerializeField] private DownloadableContent _downloadableContent;
     private static App _instance;
 
     private void Init()
@@ -81,4 +82,5 @@ public class App : MonoBehaviour
     public Shop Shop { get; private set; }
     public ShopRequest ShopRequest => _shopRequest;
     public UserData UserData { get; private set; }
+    public DownloadableContent DownloadableContent => _downloadableContent;
 }

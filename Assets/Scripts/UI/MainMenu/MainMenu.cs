@@ -85,6 +85,9 @@ public class MainMenu : MonoBehaviour, IAppState
     {
         ((IFadeableCanvasGroup)_mediaPlayer).Fade(fadeIn: true);
         StartCoroutine(DownloadThenPlay());
+        
+        
+        // here we basically want: "give me the video. if you don't have it yet, download it, save it and notify me when you're done
 
         IEnumerator DownloadThenPlay()
         {

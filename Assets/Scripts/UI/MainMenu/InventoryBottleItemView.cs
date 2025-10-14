@@ -19,6 +19,11 @@ public class InventoryBottleItemView : MonoBehaviour
         _button.onClick.AddListener(() => OnClick?.Invoke(this));
         StartCoroutine(DownloadAndSetRawImage(messageJson.thumbnail_url));
         
+        
+        // here we basically want: "give me the image. if it isn't on disk, download it, save it and notify me when you're done"
+        
+        
+        
         IEnumerator DownloadAndSetRawImage(string imageUrl)
         {
             using var request = UnityWebRequestTexture.GetTexture(imageUrl);

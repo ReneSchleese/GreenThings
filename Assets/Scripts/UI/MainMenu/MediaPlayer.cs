@@ -11,6 +11,7 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private RawImage _videoDisplay;
     [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private AspectRatioFitter _aspectRatioFitter;
+    [SerializeField] private Button _playButton;
 
     public event Action BackButtonPress;
     
@@ -19,6 +20,7 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
     public void OnLoad()
     {
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
+        _playButton.onClick.AddListener(OnPlayButtonPress);
         _videoPlayer.prepareCompleted += videoPlayer =>
         {
             var width = (int)videoPlayer.width;
@@ -30,7 +32,19 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
             _aspectRatioFitter.aspectRatio = (float)width / height;
         };
     }
-    
+
+    private void OnPlayButtonPress()
+    {
+        if (_videoPlayer.isPlaying)
+        {
+            _videoPlayer.Pause();
+        }
+        else
+        {
+            _videoPlayer.Play();
+        }
+    }
+
     void OnDestroy()
     {
         Cleanup();

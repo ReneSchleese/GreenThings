@@ -21,9 +21,9 @@ public class InventoryBottleItemView : MonoBehaviour
         _button.onClick.RemoveAllListeners();
         _button.onClick.AddListener(() => OnClick?.Invoke(this));
         DownloadableContent downloadableContent = App.Instance.DownloadableContent;
-        downloadableContent.RequestTexture(messageJson.thumbnail_url);
         downloadableContent.TextureIsReady -= OnTextureLoaded;
         downloadableContent.TextureIsReady += OnTextureLoaded;
+        downloadableContent.RequestTexture(messageJson.thumbnail_url);
     }
 
     private void OnTextureLoaded(string url, Texture2D texture)

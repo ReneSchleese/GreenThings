@@ -82,5 +82,6 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
         }
     }
 
+    public bool IsPlaying => _videoPlayer.isPlaying;
     public CanvasGroup CanvasGroup => _canvasGroup;
 }

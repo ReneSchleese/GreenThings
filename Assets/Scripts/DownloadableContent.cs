@@ -10,6 +10,7 @@ public class DownloadableContent : MonoBehaviour
     private readonly Dictionary<string, Texture2D> _textures = new();
 
     public event Action<string, Texture2D> TextureIsReady;
+    public event Action<string> VideoIsReady;
     public event Action<string> FailedToLoad;
 
     public void RequestTexture(string url)
@@ -29,12 +30,44 @@ public class DownloadableContent : MonoBehaviour
         {
             string localFilePath = ToLocalFilePath(url);
             yield return DownloadAndSaveTo(url, localFilePath);
+            if (!File.Exists(localFilePath))
+            {
+                FailedToLoad?.Invoke(url);
+                yield break;
+            }
             if(!_textures.TryGetValue(url, out texture))
             {
                 texture = LoadFromFile(url, localFilePath);
                 _textures[url] = texture;
             }
             TextureIsReady?.Invoke(url, texture);
+        }
+    }
+
+    public void RequestVideo(string url)
+    {
+        Debug.Log($"{nameof(RequestVideo)}: " + url);
+        string localFilePath = ToLocalFilePath(url);
+        if (File.Exists(localFilePath))
+        {
+            VideoIsReady?.Invoke(url);
+            return;
+        }
+
+        StartCoroutine(Download());
+        return;
+
+        IEnumerator Download()
+        {
+            yield return DownloadAndSaveTo(url, localFilePath);
+            if (File.Exists(localFilePath))
+            {
+                VideoIsReady?.Invoke(url);
+            }
+            else
+            {
+                FailedToLoad?.Invoke(url);
+            }
         }
     }
 
@@ -54,14 +87,13 @@ public class DownloadableContent : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogWarning($"Failed to download {url}: {webRequest.error}");
-                FailedToLoad?.Invoke(url);
                 yield break;
             }
             File.WriteAllBytes(localFilePath, webRequest.downloadHandler.data);
         }
     }
 
-    private static string ToLocalFilePath(string url)
+    public static string ToLocalFilePath(string url)
     {
         Debug.Assert(BuildConfigLoader.IsLoaded, "BuildConfigLoader.IsLoaded");
         string schemeWithHost = $"https://{BuildConfigLoader.Config.ApiHost}/";

@@ -1,7 +1,5 @@
 using System.Collections;
-using System.IO;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class MainMenu : MonoBehaviour, IAppState
 {
@@ -9,6 +7,8 @@ public class MainMenu : MonoBehaviour, IAppState
     [SerializeField] private ShopView _shopView;
     [SerializeField] private InventoryView _inventoryView;
     [SerializeField] private MediaPlayer _mediaPlayer;
+
+    private string _requestedVideoUrl;
     
     private void Awake()
     {
@@ -81,38 +81,27 @@ public class MainMenu : MonoBehaviour, IAppState
         yield break;
     }
 
-    private void ShowItemInMediaPlayer(InventoryBottleItemView obj)
+    private void ShowItemInMediaPlayer(InventoryBottleItemView item)
     {
         ((IFadeableCanvasGroup)_mediaPlayer).Fade(fadeIn: true);
-        StartCoroutine(DownloadThenPlay());
-        
-        
-        // here we basically want: "give me the video. if you don't have it yet, download it, save it and notify me when you're done
+        App.Instance.DownloadableContent.VideoIsReady -= OnVideoIsReady;
+        App.Instance.DownloadableContent.VideoIsReady += OnVideoIsReady;
+        _requestedVideoUrl = item.Data.content_url;
+        App.Instance.DownloadableContent.RequestVideo(_requestedVideoUrl);
+    }
 
-        IEnumerator DownloadThenPlay()
-        {
-            string filePath = Path.Combine(Application.temporaryCachePath, "video.mp4");
-            if (!File.Exists(filePath))
-            {
-                using var request = UnityWebRequest.Get(obj.Data.content_url);
-                request.SetRequestHeader("x-api-key", BuildConfigLoader.Config.ApiKey);
-                yield return request.SendWebRequest();
-
-                if (request.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.LogError($"Failed to download content: {request.error}");
-                }
-                else
-                {
-                    File.WriteAllBytes(filePath, request.downloadHandler.data);
-                }
-            }
-            yield return _mediaPlayer.Play(filePath);
-        }
+    private void OnVideoIsReady(string url)
+    {
+        if (url != _requestedVideoUrl) return;
+        if (_mediaPlayer.IsPlaying) return;
+        string localFilePath = DownloadableContent.ToLocalFilePath(url);
+        StartCoroutine(_mediaPlayer.Play(localFilePath));
     }
 
     private void CloseMediaPlayer()
     {
+        App.Instance.DownloadableContent.VideoIsReady -= OnVideoIsReady;
+        _requestedVideoUrl = null;
         ((IFadeableCanvasGroup)_mediaPlayer).Fade(fadeIn: false);
     }
 

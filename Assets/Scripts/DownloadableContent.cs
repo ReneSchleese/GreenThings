@@ -8,59 +8,57 @@ using UnityEngine.Networking;
 public class DownloadableContent : MonoBehaviour
 {
     private readonly Dictionary<string, Texture2D> _textures = new();
-    private readonly Dictionary<string, List<Action<Texture2D>>> _textureRequests = new();
 
-    public void GetTexture(string url, Action<Texture2D> callback)
+    public event Action<string, Texture2D> TextureIsReady;
+    public event Action<string> FailedToLoad;
+
+    public void RequestTexture(string url)
     {
-        Debug.Log("GetTexture: " + url);
-        bool alreadyInMemory = _textures.TryGetValue(url, out var cached);
+        Debug.Log($"{nameof(RequestTexture)}: " + url);
+        bool alreadyInMemory = _textures.TryGetValue(url, out var texture);
         if (alreadyInMemory)
         {
-            Debug.Log("alreadyInMemory: " + url);
-            callback?.Invoke(cached);
+            TextureIsReady?.Invoke(url, texture);
             return;
         }
 
-        bool alreadyDownloading = _textureRequests.TryGetValue(url, out var list);
-        if (alreadyDownloading)
+        StartCoroutine(DownloadThenLoadIntoMemory());
+        return;
+
+        IEnumerator DownloadThenLoadIntoMemory()
         {
-            Debug.Log("alreadyDownloading: " + url);
-            list.Add(callback);
-            return;
+            string localFilePath = ToLocalFilePath(url);
+            yield return DownloadAndSaveTo(url, localFilePath);
+            if(!_textures.TryGetValue(url, out texture))
+            {
+                texture = LoadFromFile(url, localFilePath);
+                _textures[url] = texture;
+            }
+            TextureIsReady?.Invoke(url, texture);
         }
-
-        _textureRequests[url] = new List<Action<Texture2D>> { callback };
-        StartCoroutine(LoadFromDiskDownloadOtherwise(url));
     }
 
-    private IEnumerator LoadFromDiskDownloadOtherwise(string url)
+    private IEnumerator DownloadAndSaveTo(string url, string localFilePath)
     {
-        string tempFilePath = ToLocalFilePath(url);
-        CreateDirectoryIfItDoesntExist(tempFilePath);
-        Debug.Log("tempFilePath: " + tempFilePath);
+        CreateDirectoryIfItDoesntExist(localFilePath);
 
-        if (!File.Exists(tempFilePath))
+        if (File.Exists(localFilePath))
         {
-            using (var webRequest = UnityWebRequest.Get(url))
-            {
-                webRequest.SetRequestHeader("x-api-key", BuildConfigLoader.Config.ApiKey);
-                Debug.Log("downloading: " + url);
-                yield return webRequest.SendWebRequest();
-                if (webRequest.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.LogWarning($"Failed to download {url}: {webRequest.error}");
-                    CallbackRequests(url, null);
-                    yield break;
-                }
-                File.WriteAllBytes(tempFilePath, webRequest.downloadHandler.data);
-            }
+            yield break;
         }
-
-        // Load into memory (example for Texture2D)
-        Texture2D texture = LoadFromFile(tempFilePath);
-
-        _textures[url] = texture;
-        CallbackRequests(url, texture);
+        using (var webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("x-api-key", BuildConfigLoader.Config.ApiKey);
+            Debug.Log("downloading: " + url);
+            yield return webRequest.SendWebRequest();
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogWarning($"Failed to download {url}: {webRequest.error}");
+                FailedToLoad?.Invoke(url);
+                yield break;
+            }
+            File.WriteAllBytes(localFilePath, webRequest.downloadHandler.data);
+        }
     }
 
     private static string ToLocalFilePath(string url)
@@ -74,11 +72,10 @@ public class DownloadableContent : MonoBehaviour
     {
         string directory = Path.GetDirectoryName(filePath)?.Replace("\\", "/");
         Debug.Assert(directory != null, "directory != null");
-        Debug.Log($"CheckDirectory={directory}");
         Directory.CreateDirectory(directory);
     }
 
-    private Texture2D LoadFromFile(string filePath)
+    private Texture2D LoadFromFile(string url, string filePath)
     {
         Debug.Log("loadFromFile: " + filePath);
         Texture2D tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
@@ -86,23 +83,9 @@ public class DownloadableContent : MonoBehaviour
 
         if (!success)
         {
-            Debug.LogError("Failed to load texture from file!");
+            FailedToLoad?.Invoke(url);
         }
 
         return tex;
-    }
-    
-    private void CallbackRequests(string url, Texture2D texture)
-    {
-        if (!_textureRequests.TryGetValue(url, out List<Action<Texture2D>> requests))
-        {
-            return;
-        }
-        foreach (Action<Texture2D> request in requests)
-        {
-            // TODO: requester might be destroyed, need to check
-            request?.Invoke(texture);
-        }
-        _textureRequests.Remove(url);
     }
 }

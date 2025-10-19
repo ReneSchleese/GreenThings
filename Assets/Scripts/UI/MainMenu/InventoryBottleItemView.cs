@@ -10,16 +10,25 @@ public class InventoryBottleItemView : MonoBehaviour
     public event Action<InventoryBottleItemView> OnClick;
     private BottledMessageJson _messageJson;
 
+    private void OnDestroy()
+    {
+        App.Instance.DownloadableContent.TextureIsReady -= OnTextureLoaded;
+    }
+
     public void Set(BottledMessageJson messageJson)
     {
         _messageJson = messageJson;
         _button.onClick.RemoveAllListeners();
         _button.onClick.AddListener(() => OnClick?.Invoke(this));
-        App.Instance.DownloadableContent.GetTexture(messageJson.thumbnail_url, OnTextureLoaded);
+        DownloadableContent downloadableContent = App.Instance.DownloadableContent;
+        downloadableContent.RequestTexture(messageJson.thumbnail_url);
+        downloadableContent.TextureIsReady -= OnTextureLoaded;
+        downloadableContent.TextureIsReady += OnTextureLoaded;
     }
 
-    private void OnTextureLoaded(Texture2D texture)
+    private void OnTextureLoaded(string url, Texture2D texture)
     {
+        if (Data.thumbnail_url != url) return;
         _thumbnailRawImage.texture = texture;
     }
 

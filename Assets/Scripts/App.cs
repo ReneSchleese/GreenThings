@@ -20,6 +20,7 @@ public class App : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        IsQuitting = true;
         UserData.Save();
     }
 
@@ -60,11 +61,12 @@ public class App : MonoBehaviour
         StartCoroutine(AppStateTransitions.ToMainMenu());
     }
 
+    public static bool IsQuitting;
     public static App Instance
     {
         get
         {
-            if (_instance == null)
+            if (_instance == null && !IsQuitting)
             {
                 GameObject appPrefab = Resources.Load<GameObject>("App");
                 GameObject appInstance = Instantiate(appPrefab);

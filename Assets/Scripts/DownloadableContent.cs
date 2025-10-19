@@ -36,7 +36,7 @@ public class DownloadableContent : MonoBehaviour
     private IEnumerator LoadFromDiskDownloadOtherwise(string url)
     {
         string tempFilePath = ToLocalFilePath(url);
-        CheckDirectory(tempFilePath);
+        CreateDirectoryIfItDoesntExist(tempFilePath);
         Debug.Log("tempFilePath: " + tempFilePath);
 
         if (!File.Exists(tempFilePath))
@@ -70,7 +70,7 @@ public class DownloadableContent : MonoBehaviour
         return Path.Combine(Application.temporaryCachePath, url.Replace(schemeWithHost, ""));
     }
 
-    private void CheckDirectory(string filePath)
+    private void CreateDirectoryIfItDoesntExist(string filePath)
     {
         string directory = Path.GetDirectoryName(filePath)?.Replace("\\", "/");
         Debug.Assert(directory != null, "directory != null");

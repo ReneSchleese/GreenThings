@@ -51,6 +51,11 @@ public static class FilesManager
             yield break;
         }
 
+        ShareFile(filePath);
+    }
+
+    public static void ShareFile(string filePath)
+    {
         try
         {
             using AndroidJavaClass intentClass = new("android.content.Intent");

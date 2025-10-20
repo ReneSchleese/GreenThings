@@ -11,7 +11,7 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private RawImage _videoDisplay;
     [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private AspectRatioFitter _aspectRatioFitter;
-    [SerializeField] private Button _playButton;
+    [SerializeField] private Button _playButton, _shareButton;
 
     public event Action BackButtonPress;
     
@@ -21,6 +21,7 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
     {
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
         _playButton.onClick.AddListener(OnPlayButtonPress);
+        _shareButton.onClick.AddListener(OnShareButtonPress);
     }
 
     private void OnDestroy()
@@ -72,6 +73,15 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
         {
             _videoPlayer.Play();
         }
+    }
+
+    private void OnShareButtonPress()
+    {
+        if (_videoPlayer.isPlaying)
+        {
+            _videoPlayer.Pause();
+        }
+        FilesManager.ShareFile(_videoPlayer.url);
     }
 
     public void OnFadeComplete(bool fadeIn)

@@ -70,6 +70,49 @@ public class DownloadableContent : MonoBehaviour
             }
         }
     }
+    
+    public static void ShareFile(string filePath)
+    {
+        #if UNITY_ANDROID && !UNITY_EDITOR
+        try
+        {
+            using AndroidJavaClass intentClass = new("android.content.Intent");
+            using AndroidJavaObject intentObject = new("android.content.Intent");
+            // Set action to send
+            intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_SEND"));
+
+            // Get context
+            AndroidJavaClass unity = new("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
+
+            // File + URI
+            AndroidJavaObject fileObject = new("java.io.File", filePath);
+            AndroidJavaClass fileProviderClass = new("androidx.core.content.FileProvider");
+            string authority = currentActivity.Call<string>("getPackageName") + ".fileprovider";
+            AndroidJavaObject uriObject = fileProviderClass.CallStatic<AndroidJavaObject>(
+                "getUriForFile", currentActivity, authority, fileObject);
+
+            // Add extras
+            intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_STREAM"), uriObject);
+            intentObject.Call<AndroidJavaObject>("setType", "video/*");
+
+            // Grant read permission
+            int flagGrantReadUriPermission = intentClass.GetStatic<int>("FLAG_GRANT_READ_URI_PERMISSION");
+            intentObject.Call<AndroidJavaObject>("addFlags", flagGrantReadUriPermission);
+
+            // Show chooser
+            AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>(
+                "createChooser", intentObject, "Share Video");
+            currentActivity.Call("startActivity", chooser);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Share failed: " + e);
+        }
+        #elif UNITY_EDITOR
+        Debug.Log($"{nameof(ShareFile)}: " + filePath);
+        #endif
+    }
 
     private IEnumerator DownloadAndSaveTo(string url, string localFilePath)
     {

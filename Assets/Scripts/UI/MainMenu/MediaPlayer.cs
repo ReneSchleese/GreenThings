@@ -81,7 +81,7 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
         {
             _videoPlayer.Pause();
         }
-        FilesManager.ShareFile(_videoPlayer.url);
+        DownloadableContent.ShareFile(_videoPlayer.url);
     }
 
     public void OnFadeComplete(bool fadeIn)

@@ -11,9 +11,14 @@ public class App : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         AppStateTransitions = new AppStateTransitions();
+        
+        InputManager = new InputManager();
+        InputManager.Init();
+        
         Shop = new Shop();
         Shop.Init();
         Shop.LoadFromCache();
+        
         UserData = new UserData();
         UserData.Load();
     }
@@ -81,6 +86,7 @@ public class App : MonoBehaviour
     }
 
     private AppStateTransitions AppStateTransitions { get; set; }
+    public InputManager InputManager { get; private set; }
     public Shop Shop { get; private set; }
     public ShopRequest ShopRequest => _shopRequest;
     public UserData UserData { get; private set; }

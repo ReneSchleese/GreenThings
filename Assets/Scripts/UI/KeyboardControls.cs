@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class KeyboardControls : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class KeyboardControls : MonoBehaviour
 
     private void HandleScreamButton()
     {
-        if (Input.GetButtonUp("Jump") && _screamButton.isActiveAndEnabled)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && _screamButton.isActiveAndEnabled)
         {
             _screamButton.onClick.Invoke();
         }

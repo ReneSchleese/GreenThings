@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    public event Action<Vector2> Move;
+    public event Action<Vector2> Moved;
+    public event Action Screamed;
     private GameInput _gameInput;
 
     public void Init()
@@ -22,8 +23,7 @@ public class InputManager : MonoBehaviour
     {
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            //_screamButton.onClick.Invoke();
-            // TODO: Scream event
+            Screamed?.Invoke();
         }
     }
 
@@ -39,6 +39,6 @@ public class InputManager : MonoBehaviour
             if (Keyboard.current.wKey.isPressed) y += 1f;
         }
         Vector2 input = new(x, y);
-        Move?.Invoke(input.normalized);
+        Moved?.Invoke(input.normalized);
     }
 }

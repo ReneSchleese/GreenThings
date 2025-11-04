@@ -30,8 +30,9 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void Awake()
     {
-        App.Instance.InputManager.Move += OnMove;
-        UserInterface.Instance.HornetScreamInput += OnHornetScream;
+        InputManager inputManager = App.Instance.InputManager;
+        inputManager.Moved += OnMoveInput;
+        inputManager.Screamed += OnScreamInput;
         UserInterface.Instance.HornetDigInput += OnHornetDigInput;
         _pushHitbox.Init(this);
         _screamIndex = new PseudoRandomIndex(_hornetScreams.Length);
@@ -68,7 +69,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         }
     }
 
-    private void OnMove(Vector2 delta)
+    private void OnMoveInput(Vector2 delta)
     {
         JoystickMagnitude = delta.magnitude;
         Vector3 offset = new Vector3(delta.x, 0f, delta.y).normalized * (JoystickMagnitude * MOVEMENT_SPEED);
@@ -89,7 +90,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         }
     }
     
-    private void OnHornetScream()
+    private void OnScreamInput()
     {
         if (_animator.IsInActiveBattlecry) return;
         int index = _screamIndex.Get();

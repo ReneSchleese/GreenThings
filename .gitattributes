@@ -49,3 +49,9 @@
 *.so        binary
 *.a         binary
 *.pdb       binary
+
+# Ensure no text conversion or eol normalization ever applies to binaries
+*.ttf       binary -text -eol
+*.otf       binary -text -eol
+*.psd       binary -text -eol
+*.exr       binary -text -eol

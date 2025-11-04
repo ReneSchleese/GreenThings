@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class VirtualJoystick : MonoBehaviour
@@ -7,7 +6,6 @@ public class VirtualJoystick : MonoBehaviour
     [SerializeField] private CanvasGroup _joystickGroup;
     private const float MAX_RADIUS_IN_PX = 80f;
     private const float DEADZONE_RADIUS_IN_PX = 25f;
-    public event Action<Vector2> Move;
     private bool _isDragging;
 
     public void Clear()
@@ -19,7 +17,7 @@ public class VirtualJoystick : MonoBehaviour
 
     private void Update()
     {
-        if (_isDragging == false)
+        if (!_isDragging)
         {
             return;
         }
@@ -33,7 +31,8 @@ public class VirtualJoystick : MonoBehaviour
         float relativeDistance = distance / MAX_RADIUS_IN_PX;
         Vector2 moveAmount = relativeDistance * Direction.normalized;
         moveAmount = new Vector2(ClampMinusOneToOne(moveAmount.x), ClampMinusOneToOne(moveAmount.y));
-        Move?.Invoke(moveAmount);
+        App.Instance.InputManager.SimulateMovement(moveAmount);
+        return;
 
         float ClampMinusOneToOne(float value)
         {
@@ -46,14 +45,14 @@ public class VirtualJoystick : MonoBehaviour
         }
     }
 
-    public void SimulateBeginDrag()
+    public void OnBeginDrag()
     {
         Clear();
         _isDragging = true;
         UpdateAppearance();
     }
 
-    public void SimulateDrag(Vector2 delta)
+    public void OnDrag(Vector2 delta)
     {
         _stick.anchoredPosition += delta;
         float distance = Direction.magnitude;
@@ -67,9 +66,9 @@ public class VirtualJoystick : MonoBehaviour
         }
     }
 
-    public void SimulateEndDrag()
+    public void OnEndDrag()
     {
-        Move?.Invoke(Vector2.zero);
+        App.Instance.InputManager.SimulateMovement(Vector2.zero);
         Clear();
     }
 

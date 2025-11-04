@@ -41,4 +41,13 @@ public class InputManager : MonoBehaviour
         Vector2 input = new(x, y);
         Moved?.Invoke(input.normalized);
     }
+
+    public void SimulateMovement(Vector2 input)
+    {
+        if (input.magnitude > 1)
+        {
+            input = input.normalized;
+        }
+        Moved?.Invoke(input);
+    }
 }

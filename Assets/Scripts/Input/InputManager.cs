@@ -11,12 +11,19 @@ public class InputManager : MonoBehaviour
     public void Init()
     {
         _gameInput = new GameInput();
+        _gameInput.Enable();
     }
     
     private void Update()
     {
-        HandleKeyboardLeftStick();
         HandleScreamButton();
+
+        if (_gameInput == null)
+        {
+            return;
+        }
+        Vector2 input = _gameInput.Game.Move.ReadValue<Vector2>();
+        HandleMovementInput(input);
     }
 
     private void HandleScreamButton()
@@ -27,22 +34,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void HandleKeyboardLeftStick()
-    {
-        float x = 0f;
-        float y = 0f;
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.aKey.isPressed) x -= 1f;
-            if (Keyboard.current.dKey.isPressed) x += 1f;
-            if (Keyboard.current.sKey.isPressed) y -= 1f;
-            if (Keyboard.current.wKey.isPressed) y += 1f;
-        }
-        Vector2 input = new(x, y);
-        Moved?.Invoke(input.normalized);
-    }
-
-    public void SimulateMovement(Vector2 input)
+    public void HandleMovementInput(Vector2 input)
     {
         if (input.magnitude > 1)
         {

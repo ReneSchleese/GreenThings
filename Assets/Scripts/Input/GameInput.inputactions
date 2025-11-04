@@ -3,6 +3,98 @@
     "name": "GameInput",
     "maps": [
         {
+            "name": "Game",
+            "id": "99bc5773-616c-4dae-b4fd-cebdbe3d787f",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "32ee8d88-466c-488a-9f61-5f558350aa37",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Scream",
+                    "type": "Button",
+                    "id": "d7b2149a-e1a9-4463-8063-fdcc5317640a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "Keyboard WASD",
+                    "id": "a6f8ee00-9135-46fd-866b-66a0b3faf44b",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "cc0c30db-19d6-42ac-89c2-ed6722480980",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "79fd7692-5841-4a15-a290-1bf538436fd5",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "4fd426ae-826b-454f-a6ee-69ed5b68ee16",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "539b2fbb-6690-406a-b607-21db7e645992",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "42d04370-d4dc-4706-bef2-3db7e1f41e42",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scream",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "UI",
             "id": "08b9098a-bc8a-4198-8892-7283c6586355",
             "actions": [
@@ -20,34 +112,6 @@
                 {
                     "name": "",
                     "id": "47913034-e279-4866-8d17-c4395a2a17db",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Game",
-            "id": "99bc5773-616c-4dae-b4fd-cebdbe3d787f",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "32ee8d88-466c-488a-9f61-5f558350aa37",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "3bf8a780-b1b2-4496-a8f3-c955a0d09633",
                     "path": "",
                     "interactions": "",
                     "processors": "",

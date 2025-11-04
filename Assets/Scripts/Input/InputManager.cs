@@ -39,6 +39,6 @@ public class InputManager : MonoBehaviour
             if (Keyboard.current.wKey.isPressed) y += 1f;
         }
         Vector2 input = new(x, y);
-        Move?.Invoke(input);
+        Move?.Invoke(input.normalized);
     }
 }

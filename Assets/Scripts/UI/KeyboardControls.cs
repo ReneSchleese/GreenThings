@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class KeyboardControls : MonoBehaviour
 {
-    private VirtualJoystick _virtualJoystick;
+    /*private VirtualJoystick _virtualJoystick;
     private Button _screamButton;
     private bool _hadJoystickInput;
 
@@ -57,5 +57,5 @@ public class KeyboardControls : MonoBehaviour
         }
 
         _hadJoystickInput = hasInput;
-    }
+    }*/
 }

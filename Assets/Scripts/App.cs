@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class App : MonoBehaviour
 {
     [SerializeField] private ShopRequest _shopRequest;
     [SerializeField] private DownloadableContent _downloadableContent;
+    [SerializeField] private InputManager _inputManager;
     private static App _instance;
 
     private void Init()
@@ -12,7 +14,6 @@ public class App : MonoBehaviour
         Application.targetFrameRate = 60;
         AppStateTransitions = new AppStateTransitions();
         
-        InputManager = new InputManager();
         InputManager.Init();
         
         Shop = new Shop();
@@ -86,7 +87,7 @@ public class App : MonoBehaviour
     }
 
     private AppStateTransitions AppStateTransitions { get; set; }
-    public InputManager InputManager { get; private set; }
+    public InputManager InputManager => _inputManager;
     public Shop Shop { get; private set; }
     public ShopRequest ShopRequest => _shopRequest;
     public UserData UserData { get; private set; }

@@ -14,7 +14,7 @@ public class UserInterface : Singleton<UserInterface>
     [SerializeField] private Button _backButton;
     [SerializeField] private VirtualJoystickRegion _leftStickRegion;
     [SerializeField] private VirtualJoystickRegion _rightStickRegion;
-    [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private RadialMenu _radialMenu;
     private static UserInterface _instance;
 
     private void Awake()
@@ -25,6 +25,7 @@ public class UserInterface : Singleton<UserInterface>
         _backButton.onClick.AddListener(OnBackButtonPress);
         _leftStickRegion.VirtualJoystick.StickInput += input => App.Instance.InputManager.HandleMovementInput(input);
         _rightStickRegion.VirtualJoystick.StickInput += input => App.Instance.InputManager.HandleRadialMenuInput(input);
+        _radialMenu.Init();
     }
 
     private void OnHornetDigPress()

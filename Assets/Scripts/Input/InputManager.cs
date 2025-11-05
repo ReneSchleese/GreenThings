@@ -52,6 +52,10 @@ public class InputManager : MonoBehaviour
         {
             input = input.normalized;
         }
-        Debug.Log($"Radial menu input={input}");
+
+        if (input != Vector2.zero)
+        {
+            Debug.Log($"Radial menu input={input}");
+        }
     }
 }

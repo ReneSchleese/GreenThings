@@ -7,6 +7,8 @@ public class VirtualJoystick : MonoBehaviour
     [SerializeField] private CanvasGroup _joystickGroup;
     [SerializeField] private bool _showGraphics;
     
+    public event Action StickInputBegin;
+    public event Action StickInputEnd;
     public event Action<Vector2> StickInput;
     
     private const float MAX_RADIUS_IN_PX = 80f;
@@ -55,6 +57,7 @@ public class VirtualJoystick : MonoBehaviour
         Clear();
         _isDragging = true;
         UpdateAppearance();
+        StickInputBegin?.Invoke();
     }
 
     public void OnDrag(Vector2 delta)
@@ -74,6 +77,7 @@ public class VirtualJoystick : MonoBehaviour
     public void OnEndDrag()
     {
         StickInput?.Invoke(Vector2.zero);
+        StickInputEnd?.Invoke();
         Clear();
     }
 

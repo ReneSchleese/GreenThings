@@ -26,6 +26,7 @@ public class UserInterface : Singleton<UserInterface>
         _leftStickRegion.VirtualJoystick.StickInput += input => App.Instance.InputManager.HandleMovementInput(input);
         _rightStickRegion.VirtualJoystick.StickInput += input => App.Instance.InputManager.HandleRadialMenuInput(input);
         _radialMenu.Init();
+        ((IFadeableCanvasGroup)_radialMenu).FadeInstantly(fadeIn: false);
     }
 
     private void OnHornetDigPress()

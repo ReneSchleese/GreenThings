@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class RadialMenu : MonoBehaviour
+public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
 {
     [SerializeField] private RadialMenuItem _itemPrefab;
     [SerializeField] private Transform _itemContainer;
     [SerializeField] private RectTransform _radiusHandle;
+    [SerializeField] private CanvasGroup _canvasGroup;
     
     private readonly List<RadialMenuItem> _items = new();
 
@@ -51,4 +52,6 @@ public class RadialMenu : MonoBehaviour
             _items[i].RectTransform.localRotation = Quaternion.identity;
         }
     }
+
+    public CanvasGroup CanvasGroup => _canvasGroup;
 }

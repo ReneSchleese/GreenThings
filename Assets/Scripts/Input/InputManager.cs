@@ -22,8 +22,11 @@ public class InputManager : MonoBehaviour
         {
             return;
         }
-        Vector2 input = _gameInput.Game.Move.ReadValue<Vector2>();
-        HandleMovementInput(input);
+        Vector2 moveInput = _gameInput.Game.Move.ReadValue<Vector2>();
+        HandleMovementInput(moveInput);
+        
+        Vector2 radialInput = _gameInput.Game.RadialMenu.ReadValue<Vector2>();
+        HandleRadialMenuInput(radialInput);
     }
 
     private void HandleScreamButton()

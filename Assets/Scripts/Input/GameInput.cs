@@ -102,6 +102,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""RadialMenu"",
+                    ""type"": ""Value"",
+                    ""id"": ""72f52c64-c486-4d7e-b9ea-c7b45a7bb02d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Scream"",
                     ""type"": ""Button"",
                     ""id"": ""d7b2149a-e1a9-4463-8063-fdcc5317640a"",
@@ -168,6 +177,61 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Keyboard Arrows"",
+                    ""id"": ""fb6697e0-52c7-4be7-a62f-7dfb2839e559"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RadialMenu"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""c9969a78-3493-450b-87a8-490dabbc84dc"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RadialMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""bd9bf8e7-3781-48e6-9e44-8813f718db67"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RadialMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""7b390dad-3cbe-4a46-ad83-3240bba2946c"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RadialMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""271b0027-0f57-4df6-9a29-9c586c8d3226"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RadialMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""42d04370-d4dc-4706-bef2-3db7e1f41e42"",
                     ""path"": ""<Keyboard>/space"",
@@ -225,6 +289,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
+        m_Game_RadialMenu = m_Game.FindAction("RadialMenu", throwIfNotFound: true);
         m_Game_Scream = m_Game.FindAction("Scream", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -311,6 +376,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Game;
     private List<IGameActions> m_GameActionsCallbackInterfaces = new List<IGameActions>();
     private readonly InputAction m_Game_Move;
+    private readonly InputAction m_Game_RadialMenu;
     private readonly InputAction m_Game_Scream;
     /// <summary>
     /// Provides access to input actions defined in input action map "Game".
@@ -327,6 +393,10 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Game/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_Game_Move;
+        /// <summary>
+        /// Provides access to the underlying input action "Game/RadialMenu".
+        /// </summary>
+        public InputAction @RadialMenu => m_Wrapper.m_Game_RadialMenu;
         /// <summary>
         /// Provides access to the underlying input action "Game/Scream".
         /// </summary>
@@ -360,6 +430,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @RadialMenu.started += instance.OnRadialMenu;
+            @RadialMenu.performed += instance.OnRadialMenu;
+            @RadialMenu.canceled += instance.OnRadialMenu;
             @Scream.started += instance.OnScream;
             @Scream.performed += instance.OnScream;
             @Scream.canceled += instance.OnScream;
@@ -377,6 +450,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @RadialMenu.started -= instance.OnRadialMenu;
+            @RadialMenu.performed -= instance.OnRadialMenu;
+            @RadialMenu.canceled -= instance.OnRadialMenu;
             @Scream.started -= instance.OnScream;
             @Scream.performed -= instance.OnScream;
             @Scream.canceled -= instance.OnScream;
@@ -523,6 +599,13 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RadialMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRadialMenu(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Scream" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

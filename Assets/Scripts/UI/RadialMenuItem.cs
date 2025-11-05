@@ -17,7 +17,7 @@ public class RadialMenuItem : MonoBehaviour
     {
         DOTween.Kill(this);
         Vector3 targetScale = highlighted ? new Vector3(1.4f, 1.4f, 1f) : Vector3.one; 
-        _animatedScale.DOScale(targetScale, 0.5f).SetId(this);
+        _animatedScale.DOScale(targetScale, 0.33f).SetId(this).SetEase(Ease.OutCubic);
     }
 
     public RectTransform RectTransform => _rectTransform;

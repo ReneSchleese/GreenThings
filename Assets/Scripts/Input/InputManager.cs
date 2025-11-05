@@ -28,7 +28,7 @@ public class InputManager : MonoBehaviour
 
     private void HandleScreamButton()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (_gameInput.Game.Scream.WasPerformedThisFrame())
         {
             Screamed?.Invoke();
         }

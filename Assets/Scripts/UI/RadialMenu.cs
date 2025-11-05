@@ -6,6 +6,7 @@ public class RadialMenu : MonoBehaviour
 
     public void Init()
     {
-        
+        RadialMenuItem radialMenuItem = Instantiate(_itemPrefab);
+        radialMenuItem.Init("Test");
     }
 }

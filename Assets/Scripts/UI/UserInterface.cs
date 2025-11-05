@@ -26,14 +26,18 @@ public class UserInterface : Singleton<UserInterface>
         _leftStickRegion.VirtualJoystick.StickInput += input => App.Instance.InputManager.HandleMovementInput(input);
         _rightStickRegion.VirtualJoystick.StickInput += OnRightStickInput;
         _rightStickRegion.VirtualJoystick.StickInputBegin += () => ((IFadeableCanvasGroup)_radialMenu).Fade(fadeIn: true);
-        _rightStickRegion.VirtualJoystick.StickInputEnd += () => ((IFadeableCanvasGroup)_radialMenu).Fade(fadeIn: false);
+        _rightStickRegion.VirtualJoystick.StickInputEnd += () =>
+        {
+            ((IFadeableCanvasGroup)_radialMenu).Fade(fadeIn: false);
+            _radialMenu.OnInputEnd();
+        };
         _radialMenu.Init();
         ((IFadeableCanvasGroup)_radialMenu).FadeInstantly(fadeIn: false);
     }
 
     private void OnRightStickInput(Vector2 input)
     {
-        _radialMenu.OnRightStickInput(input);
+        _radialMenu.OnInput(input);
     }
 
     private void OnHornetDigPress()

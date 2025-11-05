@@ -7,8 +7,9 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private Transform _itemContainer;
     [SerializeField] private RectTransform _radiusHandle;
     [SerializeField] private CanvasGroup _canvasGroup;
-    
+
     private readonly List<RadialMenuItem> _items = new();
+    private int _selectedIndex = -1;
 
     public void Init()
     {
@@ -33,7 +34,7 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
     {
         if (_items == null || _items.Count == 0)
             return;
-        
+
         float stepAngle = 360f / _items.Count;
         const bool clockwise = true;
         const float startAngle = 90f;
@@ -53,35 +54,59 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         }
     }
 
-    public void OnRightStickInput(Vector2 input)
+    public void OnInput(Vector2 input)
     {
         int itemIndex = GetItemIndexFromDirection(input, _items.Count);
         if (itemIndex < 0 || itemIndex >= _items.Count)
         {
-            Debug.Log($"Invalid index={itemIndex} from direction={input} and itemCount={_items.Count}");
             return;
         }
-        Debug.Log(itemIndex);
-        /*foreach (RadialMenuItem item in _items)
+        
+        bool didChange = _selectedIndex != itemIndex;
+        if (!didChange)
+        {
+            return;
+        }
+        if (_selectedIndex != -1)
+        {
+            _items[_selectedIndex].SetHighlighted(false);
+        }
+        _selectedIndex = itemIndex;
+        _items[_selectedIndex].SetHighlighted(true);
+    }
+
+    public void OnInputEnd()
+    {
+        _selectedIndex = -1;
+        foreach (RadialMenuItem item in _items)
         {
             item.SetHighlighted(false);
         }
-        _items[itemIndex].SetHighlighted(true);*/
     }
-    
+
     private static int GetItemIndexFromDirection(Vector2 direction, int itemCount)
     {
         if (direction == Vector2.zero)
         {
             return -1;
         }
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // use -direction.y to get clockwise direction
+        float angle = Mathf.Atan2(-direction.y, direction.x) * Mathf.Rad2Deg;
+        
+        // add offset so we start at the top
+        angle += 90;
+        
+        // add another offset so that items are centered ((-0.5, 0.5) instead of (0, 1))
+        float degreesPerItem = 360f / itemCount;
+        angle += degreesPerItem * 0.5f;
+        
+        // finally, make angle overflow
         if (angle < 0)
         {
             angle += 360f;
         }
-
-        float degreesPerItem = 360f / itemCount;
+        
         int index = Mathf.FloorToInt(angle / degreesPerItem);
         index = Mathf.Clamp(index, 0, itemCount - 1);
         return index;

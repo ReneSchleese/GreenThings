@@ -16,7 +16,7 @@ public class RadialMenuItem : MonoBehaviour
     public void SetHighlighted(bool highlighted)
     {
         DOTween.Kill(this);
-        Vector3 targetScale = highlighted ? new Vector3(1.2f, 1.2f, 1f) : Vector3.one; 
+        Vector3 targetScale = highlighted ? new Vector3(1.4f, 1.4f, 1f) : Vector3.one; 
         _animatedScale.DOScale(targetScale, 0.5f).SetId(this);
     }
 

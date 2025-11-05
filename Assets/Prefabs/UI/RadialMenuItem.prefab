@@ -187,7 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _label: {fileID: 4715915726175595286}
   _rectTransform: {fileID: 155508454991413850}
-  _animatedScale: {fileID: 0}
+  _animatedScale: {fileID: 1036338007009906719}
 --- !u!1 &8485038850391237507
 GameObject:
   m_ObjectHideFlags: 0

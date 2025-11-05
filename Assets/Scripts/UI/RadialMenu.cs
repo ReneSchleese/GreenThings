@@ -5,8 +5,9 @@ public class RadialMenu : MonoBehaviour
 {
     [SerializeField] private RadialMenuItem _itemPrefab;
     [SerializeField] private Transform _itemContainer;
+    [SerializeField] private RectTransform _radiusHandle;
     
-    private List<RadialMenuItem> _items = new();
+    private readonly List<RadialMenuItem> _items = new();
 
     public void Init()
     {
@@ -35,7 +36,9 @@ public class RadialMenu : MonoBehaviour
         float stepAngle = 360f / _items.Count;
         const bool clockwise = true;
         const float startAngle = 90f;
-        const float radius = 150f;
+        Vector2 screenPosA = RectTransformUtility.WorldToScreenPoint(null, _radiusHandle.position);
+        Vector2 screenPosB = RectTransformUtility.WorldToScreenPoint(null, GetComponent<RectTransform>().position);
+        float pixelDistance = Vector2.Distance(screenPosA, screenPosB);
         const float dir = clockwise ? -1f : 1f;
 
         for (int i = 0; i < _items.Count; i++)
@@ -43,7 +46,7 @@ public class RadialMenu : MonoBehaviour
             float angle = startAngle + dir * stepAngle * i;
             float rad = angle * Mathf.Deg2Rad;
 
-            Vector2 pos = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * radius;
+            Vector2 pos = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * pixelDistance;
             _items[i].RectTransform.anchoredPosition = pos;
             _items[i].RectTransform.localRotation = Quaternion.identity;
         }

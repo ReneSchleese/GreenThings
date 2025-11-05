@@ -1,9 +1,13 @@
+using System;
 using UnityEngine;
 
 public class VirtualJoystick : MonoBehaviour
 {
     [SerializeField] private RectTransform _stick, _root;
     [SerializeField] private CanvasGroup _joystickGroup;
+    
+    public event Action<Vector2> StickInput;
+    
     private const float MAX_RADIUS_IN_PX = 80f;
     private const float DEADZONE_RADIUS_IN_PX = 25f;
     private bool _isDragging;
@@ -31,7 +35,7 @@ public class VirtualJoystick : MonoBehaviour
         float relativeDistance = distance / MAX_RADIUS_IN_PX;
         Vector2 moveAmount = relativeDistance * Direction.normalized;
         moveAmount = new Vector2(ClampMinusOneToOne(moveAmount.x), ClampMinusOneToOne(moveAmount.y));
-        App.Instance.InputManager.HandleMovementInput(moveAmount);
+        StickInput?.Invoke(moveAmount);
         return;
 
         float ClampMinusOneToOne(float value)
@@ -68,7 +72,7 @@ public class VirtualJoystick : MonoBehaviour
 
     public void OnEndDrag()
     {
-        App.Instance.InputManager.HandleMovementInput(Vector2.zero);
+        StickInput?.Invoke(Vector2.zero);
         Clear();
     }
 

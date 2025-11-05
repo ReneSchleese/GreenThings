@@ -37,6 +37,6 @@ public class VirtualJoystickRegion : MonoBehaviour, IPointerDownHandler, IPointe
     {
         _virtualJoystick.transform.position = _initialSickPos;
     }
-
+    
     public VirtualJoystick VirtualJoystick => _virtualJoystick;
 }

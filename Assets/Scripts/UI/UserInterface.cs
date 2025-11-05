@@ -12,7 +12,7 @@ public class UserInterface : Singleton<UserInterface>
     [SerializeField] private Button _modeButton;
     [SerializeField] private Button _scanButton;
     [SerializeField] private Button _backButton;
-    [SerializeField] private VirtualJoystickRegion _joystickRegion;
+    [SerializeField] private VirtualJoystickRegion _movementStickRegion;
     [SerializeField] private CanvasGroup _canvasGroup;
     private static UserInterface _instance;
 
@@ -22,6 +22,7 @@ public class UserInterface : Singleton<UserInterface>
         _modeButton.onClick.AddListener(OnSpiritModeTogglePress);
         _scanButton.onClick.AddListener(OnScanPress);
         _backButton.onClick.AddListener(OnBackButtonPress);
+        _movementStickRegion.VirtualJoystick.StickInput += input => App.Instance.InputManager.HandleMovementInput(input);
     }
 
     private void OnHornetDigPress()

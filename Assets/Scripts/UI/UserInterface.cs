@@ -33,7 +33,7 @@ public class UserInterface : Singleton<UserInterface>
 
     private void OnRightStickInput(Vector2 input)
     {
-        App.Instance.InputManager.HandleRadialMenuInput(input);
+        _radialMenu.OnRightStickInput(input);
     }
 
     private void OnHornetDigPress()

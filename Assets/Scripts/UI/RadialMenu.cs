@@ -53,5 +53,39 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         }
     }
 
+    public void OnRightStickInput(Vector2 input)
+    {
+        int itemIndex = GetItemIndexFromDirection(input, _items.Count);
+        if (itemIndex < 0 || itemIndex >= _items.Count)
+        {
+            Debug.Log($"Invalid index={itemIndex} from direction={input} and itemCount={_items.Count}");
+            return;
+        }
+        Debug.Log(itemIndex);
+        /*foreach (RadialMenuItem item in _items)
+        {
+            item.SetHighlighted(false);
+        }
+        _items[itemIndex].SetHighlighted(true);*/
+    }
+    
+    private static int GetItemIndexFromDirection(Vector2 direction, int itemCount)
+    {
+        if (direction == Vector2.zero)
+        {
+            return -1;
+        }
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        if (angle < 0)
+        {
+            angle += 360f;
+        }
+
+        float degreesPerItem = 360f / itemCount;
+        int index = Mathf.FloorToInt(angle / degreesPerItem);
+        index = Mathf.Clamp(index, 0, itemCount - 1);
+        return index;
+    }
+
     public CanvasGroup CanvasGroup => _canvasGroup;
 }

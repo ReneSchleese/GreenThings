@@ -5,6 +5,7 @@ public class VirtualJoystick : MonoBehaviour
 {
     [SerializeField] private RectTransform _stick, _root;
     [SerializeField] private CanvasGroup _joystickGroup;
+    [SerializeField] private bool _showGraphics;
     
     public event Action<Vector2> StickInput;
     
@@ -78,7 +79,14 @@ public class VirtualJoystick : MonoBehaviour
 
     private void UpdateAppearance()
     {
-        _joystickGroup.alpha = _isDragging ? 1f : 0.4f;
+        if (_showGraphics)
+        {
+            _joystickGroup.alpha = _isDragging ? 1f : 0.4f;   
+        }
+        else
+        {
+            _joystickGroup.alpha = 0f;
+        }
     }
 
     private Vector2 Direction => _stick.anchoredPosition - _root.anchoredPosition;

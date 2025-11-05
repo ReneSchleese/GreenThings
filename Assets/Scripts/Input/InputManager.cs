@@ -42,4 +42,13 @@ public class InputManager : MonoBehaviour
         }
         Moved?.Invoke(input);
     }
+    
+    public void HandleRadialMenuInput(Vector2 input)
+    {
+        if (input.magnitude > 1)
+        {
+            input = input.normalized;
+        }
+        Debug.Log($"Radial menu input={input}");
+    }
 }

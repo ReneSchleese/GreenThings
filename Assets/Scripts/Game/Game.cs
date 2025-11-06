@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class Game : Singleton<Game>, IAppState
 {
+    [SerializeField] private GameUI _gameUI;
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private Spawner _spawner;
     [SerializeField] private GridSortedPoints _forestSpiritSpawner;
@@ -60,6 +61,7 @@ public class Game : Singleton<Game>, IAppState
 
     private IEnumerator Setup()
     {
+        _gameUI.Init();
         yield return null;
         SpawnForestSpirits();
         AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);

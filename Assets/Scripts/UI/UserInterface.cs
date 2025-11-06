@@ -23,7 +23,7 @@ public class UserInterface : Singleton<UserInterface>
         _modeButton.onClick.AddListener(OnSpiritModeTogglePress);
         _scanButton.onClick.AddListener(OnScanPress);
         _backButton.onClick.AddListener(OnBackButtonPress);
-        _leftStickRegion.VirtualJoystick.StickInput += input => App.Instance.InputManager.HandleMovementInput(input);
+        _leftStickRegion.VirtualJoystick.StickInput += input => App.Instance.InputManager.ProcessMovementInput(input);
         _rightStickRegion.VirtualJoystick.StickInput += OnRightStickInput;
         _rightStickRegion.VirtualJoystick.StickInputBegin += () => ((IFadeableCanvasGroup)_radialMenu).Fade(fadeIn: true);
         _rightStickRegion.VirtualJoystick.StickInputEnd += () =>

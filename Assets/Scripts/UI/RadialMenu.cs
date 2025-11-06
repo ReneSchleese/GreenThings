@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
@@ -13,19 +14,20 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
 
     public void Init()
     {
-        CreateItem("Interact");
-        CreateItem("Scan");
-        CreateItem("Dig");
-        CreateItem("Toggle Mode");
-        CreateItem("Scream");
+        InputManager inputManager = App.Instance.InputManager;
+        CreateItem("Interact", () => inputManager.InvokeInteract());
+        CreateItem("Scan", () => inputManager.InvokeScan());
+        CreateItem("Dig", () => inputManager.InvokeDig());
+        CreateItem("Toggle Mode", () => inputManager.InvokeToggleFormation());
+        CreateItem("Battlecry", () => inputManager.InvokeBattleCry());
 
         LayoutItems();
         return;
 
-        void CreateItem(string label)
+        void CreateItem(string label, Action inputAction)
         {
             RadialMenuItem item = Instantiate(_itemPrefab, _itemContainer);
-            item.Init(label);
+            item.Init(label,  inputAction);
             _items.Add(item);
         }
     }

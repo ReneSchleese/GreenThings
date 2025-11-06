@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -8,9 +9,10 @@ public class RadialMenuItem : MonoBehaviour
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private RectTransform _animatedScale;
 
-    public void Init(string label)
+    public void Init(string label, Action inputAction)
     {
         _label.text = label;
+        InputAction = inputAction;
     }
 
     public void SetHighlighted(bool highlighted)
@@ -21,4 +23,5 @@ public class RadialMenuItem : MonoBehaviour
     }
 
     public RectTransform RectTransform => _rectTransform;
+    public Action InputAction { get; private set; }
 }

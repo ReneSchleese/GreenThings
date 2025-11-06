@@ -23,10 +23,10 @@ public class InputManager : MonoBehaviour
             return;
         }
         Vector2 moveInput = _gameInput.Game.Move.ReadValue<Vector2>();
-        HandleMovementInput(moveInput);
+        ProcessMovementInput(moveInput);
         
         Vector2 radialInput = _gameInput.Game.RadialMenu.ReadValue<Vector2>();
-        HandleRadialMenuInput(radialInput);
+        ProcessRadialMenuInput(radialInput);
     }
 
     private void HandleScreamButton()
@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public void HandleMovementInput(Vector2 input)
+    public void ProcessMovementInput(Vector2 input)
     {
         if (input.magnitude > 1)
         {
@@ -46,7 +46,7 @@ public class InputManager : MonoBehaviour
         Moved?.Invoke(input);
     }
     
-    public void HandleRadialMenuInput(Vector2 input)
+    public void ProcessRadialMenuInput(Vector2 input)
     {
         if (input.magnitude > 1)
         {
@@ -57,5 +57,30 @@ public class InputManager : MonoBehaviour
         {
             Debug.Log($"Radial menu input={input}");
         }
+    }
+    
+    public void InvokeInteract()
+    {
+        
+    }
+    
+    public void InvokeScan()
+    {
+        
+    }
+    
+    public void InvokeDig()
+    {
+        
+    }
+    
+    public void InvokeToggleFormation()
+    {
+        
+    }
+    
+    public void InvokeBattleCry()
+    {
+        
     }
 }

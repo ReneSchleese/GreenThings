@@ -43,6 +43,14 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         _animationEvents.PlayFootStep += PlayFootStep;
     }
 
+    private void OnDestroy()
+    {
+        InputManager inputManager = App.Instance.InputManager;
+        inputManager.Moved -= OnMoveInput;
+        inputManager.BattleCried -= OnBattleCryInput;
+        inputManager.Dug -= OnDigInput;
+    }
+
     private void Update()
     {
         if (_applyGravity)

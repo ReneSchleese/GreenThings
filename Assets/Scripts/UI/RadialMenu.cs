@@ -79,6 +79,10 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
 
     public void OnInputEnd()
     {
+        if (_selectedIndex != -1)
+        {
+            _items[_selectedIndex].InputAction.Invoke();
+        }
         _selectedIndex = -1;
         foreach (RadialMenuItem item in _items)
         {

@@ -1,11 +1,15 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
     public event Action<Vector2> Moved;
-    public event Action Screamed;
+    public event Action BattleCried;
+    public event Action Interacted;
+    public event Action Scanned;
+    public event Action Dug;
+    public event Action ToggledFormation;
+    
     private GameInput _gameInput;
 
     public void Init()
@@ -16,8 +20,6 @@ public class InputManager : MonoBehaviour
     
     private void Update()
     {
-        HandleScreamButton();
-
         if (_gameInput == null)
         {
             return;
@@ -28,15 +30,7 @@ public class InputManager : MonoBehaviour
         Vector2 radialInput = _gameInput.Game.RadialMenu.ReadValue<Vector2>();
         ProcessRadialMenuInput(radialInput);
     }
-
-    private void HandleScreamButton()
-    {
-        if (_gameInput.Game.Scream.WasPerformedThisFrame())
-        {
-            Screamed?.Invoke();
-        }
-    }
-
+    
     public void ProcessMovementInput(Vector2 input)
     {
         if (input.magnitude > 1)
@@ -59,28 +53,13 @@ public class InputManager : MonoBehaviour
         }
     }
     
-    public void InvokeInteract()
-    {
-        
-    }
-    
-    public void InvokeScan()
-    {
-        
-    }
-    
-    public void InvokeDig()
-    {
-        
-    }
-    
-    public void InvokeToggleFormation()
-    {
-        
-    }
-    
-    public void InvokeBattleCry()
-    {
-        
-    }
+    public void InvokeInteract() => Interacted?.Invoke();
+
+    public void InvokeScan() => Scanned?.Invoke();
+
+    public void InvokeDig() => Dug?.Invoke();
+
+    public void InvokeToggleFormation() => ToggledFormation?.Invoke();
+
+    public void InvokeBattleCry() => BattleCried?.Invoke();
 }

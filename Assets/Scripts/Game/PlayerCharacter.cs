@@ -32,8 +32,9 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         InputManager inputManager = App.Instance.InputManager;
         inputManager.Moved += OnMoveInput;
-        inputManager.Screamed += OnScreamInput;
-        UserInterface.Instance.HornetDigInput += OnHornetDigInput;
+        inputManager.BattleCried += OnBattleCryInput;
+        inputManager.Dug += OnDigInput;
+        
         _pushHitbox.Init(this);
         _screamIndex = new PseudoRandomIndex(_hornetScreams.Length);
         _footstepIndex = new PseudoRandomIndex(_footstepsGrass.Length);
@@ -90,7 +91,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         }
     }
     
-    private void OnScreamInput()
+    private void OnBattleCryInput()
     {
         if (_animator.IsInActiveBattlecry) return;
         int index = _screamIndex.Get();
@@ -110,7 +111,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private bool _drawDebugSphere;
     private readonly List<BuriedTreasure> _hitTreasures = new();
     private readonly List<DiggingHole> _hitDiggingHoles = new();
-    private void OnHornetDigInput()
+    private void OnDigInput()
     {
         _hitDiggingHoles.Clear();
         _hitTreasures.Clear();

@@ -32,8 +32,8 @@ namespace ForestSpirits
                 link.RealTimeSecondsWhenPooled = Time.realtimeSinceStartup;
             }, onBeforeReturn: link => { link.Spirit = null; });
             _playerRoutePointBuffer.Add(Player.Position);
-            UserInterface.Instance.SpiritModeToggleInput += ToggleMode;
-            UserInterface.Instance.ScanInput += Scan;
+            App.Instance.InputManager.ToggledFormation += ToggleMode;
+            App.Instance.InputManager.Scanned += Scan;
         }
 
         public void Enqueue(Spirit spirit)

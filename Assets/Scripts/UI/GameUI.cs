@@ -21,7 +21,7 @@ public class GameUI : MonoBehaviour
             App.Instance.InputManager.ProcessMovementInput(input);
         };
         
-        ((IFadeableCanvasGroup)_radialMenu).FadeInstantly(fadeIn: false);
+        _radialMenu.FadeInstantly(fadeIn: false);
     }
 
     private void OnBackButtonPress()

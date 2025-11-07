@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryView : MonoBehaviour, IFadeableCanvasGroup
+public class InventoryView : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Button _backButton;
@@ -12,12 +12,13 @@ public class InventoryView : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private Transform _bottleItemsContainer;
     
     private readonly List<InventoryBottleItemView> _bottleItemViews = new();
-    
+
     public event Action BackButtonPress;
     public event Action<InventoryBottleItemView> ItemClick;
 
     public void OnLoad()
     {
+        RootGroup = new FadeableCanvasGroup(_canvasGroup, 0.5f);
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
         App.Instance.UserData.Update += UpdateItems;
         App.Instance.Shop.Update += UpdateItems;
@@ -61,5 +62,5 @@ public class InventoryView : MonoBehaviour, IFadeableCanvasGroup
         ItemClick?.Invoke(bottleItemView);
     }
 
-    public CanvasGroup CanvasGroup => _canvasGroup;
+    public FadeableCanvasGroup RootGroup { get; private set; }
 }

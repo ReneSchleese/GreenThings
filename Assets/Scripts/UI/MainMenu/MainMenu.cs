@@ -45,32 +45,32 @@ public class MainMenu : MonoBehaviour, IAppState
 
     private void SwitchToMainMenuView()
     {
-        ((IFadeableCanvasGroup)_mainMenuView).Fade(fadeIn: true);
-        ((IFadeableCanvasGroup)_shopView).Fade(fadeIn: false);
-        ((IFadeableCanvasGroup)_inventoryView).Fade(fadeIn: false);
+        _mainMenuView.RootGroup.Fade(fadeIn: true);
+        _shopView.RootGroup.Fade(fadeIn: false);
+        _inventoryView.RootGroup.Fade(fadeIn: false);
     }
 
     private void SwitchToShopView()
     {
-        ((IFadeableCanvasGroup)_mainMenuView).Fade(fadeIn: false);
-        ((IFadeableCanvasGroup)_shopView).Fade(fadeIn: true);
-        ((IFadeableCanvasGroup)_inventoryView).Fade(fadeIn: false);
+        _mainMenuView.RootGroup.Fade(fadeIn: false);
+        _shopView.RootGroup.Fade(fadeIn: true);
+        _inventoryView.RootGroup.Fade(fadeIn: false);
     }
 
     private void SwitchToInventoryView()
     {
-        ((IFadeableCanvasGroup)_mainMenuView).Fade(fadeIn: false);
-        ((IFadeableCanvasGroup)_shopView).Fade(fadeIn: false);
-        ((IFadeableCanvasGroup)_inventoryView).Fade(fadeIn: true);
+        _mainMenuView.RootGroup.Fade(fadeIn: false);
+        _shopView.RootGroup.Fade(fadeIn: false);
+        _inventoryView.RootGroup.Fade(fadeIn: true);
     }
 
     public IEnumerator TransitionIn()
     {
         Debug.Log($"{nameof(MainMenu)}.{nameof(TransitionIn)}");
-        ((IFadeableCanvasGroup)_mainMenuView).FadeInstantly(fadeIn: true);
-        ((IFadeableCanvasGroup)_shopView).FadeInstantly(fadeIn: false);
-        ((IFadeableCanvasGroup)_inventoryView).FadeInstantly(fadeIn: false);
-        ((IFadeableCanvasGroup)_mediaPlayer).FadeInstantly(fadeIn: false);
+        _mainMenuView.RootGroup.FadeInstantly(fadeIn: true);
+        _shopView.RootGroup.FadeInstantly(fadeIn: false);
+        _inventoryView.RootGroup.FadeInstantly(fadeIn: false);
+        _mediaPlayer.RootGroup.FadeInstantly(fadeIn: false);
         _inventoryView.OnTransitionIn();
         yield break;
     }
@@ -83,7 +83,7 @@ public class MainMenu : MonoBehaviour, IAppState
 
     private void ShowItemInMediaPlayer(InventoryBottleItemView item)
     {
-        ((IFadeableCanvasGroup)_mediaPlayer).Fade(fadeIn: true);
+        _mediaPlayer.RootGroup.Fade(fadeIn: true);
         App.Instance.DownloadableContent.VideoIsReady -= OnVideoIsReady;
         App.Instance.DownloadableContent.VideoIsReady += OnVideoIsReady;
         _requestedVideoUrl = item.Data.content_url;
@@ -102,7 +102,7 @@ public class MainMenu : MonoBehaviour, IAppState
     {
         App.Instance.DownloadableContent.VideoIsReady -= OnVideoIsReady;
         _requestedVideoUrl = null;
-        ((IFadeableCanvasGroup)_mediaPlayer).Fade(fadeIn: false);
+        _mediaPlayer.RootGroup.Fade(fadeIn: false);
     }
 
     public AppState Id => AppState.MainMenu;

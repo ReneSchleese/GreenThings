@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
+public class RadialMenu : MonoBehaviour
 {
     [SerializeField] private RadialMenuItem _itemPrefab;
     [SerializeField] private Transform _itemContainer;
@@ -16,9 +16,12 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
     private readonly List<RadialMenuItem> _items = new();
     private VirtualJoystick _virtualJoystick;
     private int _selectedIndex = -1;
+    private FadeableCanvasGroup _menuItemsGroup;
 
     public void Init(VirtualJoystickRegion virtualJoystickRegion)
     {
+        _menuItemsGroup = new FadeableCanvasGroup(_canvasGroup, 0.3f);
+        
         _virtualJoystick = virtualJoystickRegion.VirtualJoystick;
         virtualJoystickRegion.TeleportStickToPointerDownPos = false;
         virtualJoystickRegion.OverwriteInitialStickPosition(transform.position);
@@ -32,12 +35,12 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
             DOTween.Kill(fadeId);
             Sequence sequence = DOTween.Sequence().SetId(fadeId);
             sequence.AppendInterval(0.25f);
-            sequence.Append(((IFadeableCanvasGroup)this).Fade(fadeIn: true));
+            sequence.Append(_menuItemsGroup.Fade(fadeIn: true));
         };
         _virtualJoystick.StickInputEnd += () => 
         {
             DOTween.Kill(fadeId);
-            ((IFadeableCanvasGroup)this).Fade(fadeIn: false).SetId(fadeId);
+            _menuItemsGroup.Fade(fadeIn: false).SetId(fadeId);
             OnInputEnd();
         };
         
@@ -83,6 +86,11 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
             item.RectTransform.localRotation = Quaternion.identity;
             item.SetHighlighted(highlighted: false, animate: false);
         }
+    }
+
+    public void FadeInstantly(bool fadeIn)
+    {
+        _menuItemsGroup.FadeInstantly(fadeIn);
     }
 
     private void OnInput(Vector2 input)
@@ -166,6 +174,4 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         index = Mathf.Clamp(index, 0, itemCount - 1);
         return index;
     }
-
-    public CanvasGroup CanvasGroup => _canvasGroup;
 }

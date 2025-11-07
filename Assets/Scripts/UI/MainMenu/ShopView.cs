@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopView : MonoBehaviour, IFadeableCanvasGroup
+public class ShopView : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Button _backButton;
@@ -18,6 +18,7 @@ public class ShopView : MonoBehaviour, IFadeableCanvasGroup
 
     public void OnLoad()
     {
+        RootGroup = new  FadeableCanvasGroup(_canvasGroup, 0.5f);
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
         App.Instance.Shop.Update += OnShopUpdated;
         App.Instance.UserData.Update += OnUserDataUpdated;
@@ -64,5 +65,5 @@ public class ShopView : MonoBehaviour, IFadeableCanvasGroup
         App.Instance.UserData.Buy(item.Data);
     }
 
-    public CanvasGroup CanvasGroup => _canvasGroup;
+    public FadeableCanvasGroup RootGroup { get; private set; }
 }

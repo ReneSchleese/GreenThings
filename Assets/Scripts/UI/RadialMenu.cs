@@ -9,7 +9,7 @@ public class RadialMenu : MonoBehaviour
     [SerializeField] private RadialMenuItem _itemPrefab;
     [SerializeField] private Transform _itemContainer;
     [SerializeField] private RectTransform _radiusHandle;
-    [SerializeField] private CanvasGroup _itemsGroup, _cursorGroup;
+    [SerializeField] private CanvasGroup _itemsGroup, _cursorGroup, _selectedItemGroup;
     [SerializeField] private RectTransform _cursorRectTransform;
     [SerializeField] private Image _cursorImage;
 
@@ -18,11 +18,13 @@ public class RadialMenu : MonoBehaviour
     private int _selectedIndex = -1;
     private FadeableCanvasGroup _fadeableItemsGroup;
     private FadeableCanvasGroup _fadeableCursorGroup;
+    private FadeableCanvasGroup _fadeableSelectedItemGroup;
 
     public void Init(VirtualJoystickRegion virtualJoystickRegion)
     {
-        _fadeableItemsGroup = new FadeableCanvasGroup(_itemsGroup, 0.3f);
+        _fadeableItemsGroup = new FadeableCanvasGroup(_itemsGroup, 0.5f);
         _fadeableCursorGroup = new FadeableCanvasGroup(_cursorGroup, 0.3f);
+        _fadeableSelectedItemGroup = new FadeableCanvasGroup(_selectedItemGroup, 0.3f);
         
         _virtualJoystick = virtualJoystickRegion.VirtualJoystick;
         virtualJoystickRegion.TeleportStickToPointerDownPos = false;
@@ -30,6 +32,7 @@ public class RadialMenu : MonoBehaviour
 
         string fadeItemsId = $"{GetInstanceID()}.FadeItems";
         string fadeCursorId = $"{GetInstanceID()}.FadeCursor";
+        string fadeSelectedItemId = $"{GetInstanceID()}.FadeSelectedItem";
         _virtualJoystick.DeadZoneRadiusInPx = 0f;
         _virtualJoystick.RadiusInPx = 160f;
         _virtualJoystick.StickInput += OnInput;
@@ -37,18 +40,34 @@ public class RadialMenu : MonoBehaviour
         {
             DOTween.Kill(fadeItemsId);
             DOTween.Kill(fadeCursorId);
+            DOTween.Kill(fadeSelectedItemId);
+            
+            foreach (RadialMenuItem item in _items)
+            {
+                ChangeItemHighlight(item, highlighted: false);
+            }
+            
             Sequence sequence = DOTween.Sequence().SetId(fadeItemsId);
             sequence.AppendInterval(0.25f);
             sequence.Append(_fadeableItemsGroup.Fade(fadeIn: true));
             _fadeableCursorGroup.Fade(fadeIn: true).SetId(fadeCursorId);
+            _fadeableSelectedItemGroup.Fade(fadeIn: true).SetId(fadeSelectedItemId);
         };
         _virtualJoystick.StickInputEnd += () => 
         {
             DOTween.Kill(fadeItemsId);
             DOTween.Kill(fadeCursorId);
+            DOTween.Kill(fadeSelectedItemId);
             _fadeableItemsGroup.Fade(fadeIn: false).SetId(fadeItemsId);
             _fadeableCursorGroup.Fade(fadeIn: false).SetId(fadeCursorId);
-            OnInputEnd();
+            Sequence sequence = DOTween.Sequence().SetId(fadeSelectedItemId);
+            sequence.AppendInterval(0.25f);
+            sequence.Append(_fadeableSelectedItemGroup.Fade(fadeIn: false));
+            if (_selectedIndex != -1)
+            {
+                _items[_selectedIndex].InputAction.Invoke();
+            }
+            _selectedIndex = -1;
         };
         
         InputManager inputManager = App.Instance.InputManager;
@@ -99,6 +118,7 @@ public class RadialMenu : MonoBehaviour
     {
         _fadeableItemsGroup.FadeInstantly(fadeIn);
         _fadeableCursorGroup.FadeInstantly(fadeIn);
+        _fadeableSelectedItemGroup.FadeInstantly(fadeIn);
     }
 
     private void OnInput(Vector2 input)
@@ -108,7 +128,7 @@ public class RadialMenu : MonoBehaviour
         {
             if(_selectedIndex != -1)
             {
-                _items[_selectedIndex].SetHighlighted(highlighted: false, animate: true);
+                ChangeItemHighlight(_items[_selectedIndex], highlighted: false);
                 _selectedIndex = -1;
             }
 
@@ -130,24 +150,19 @@ public class RadialMenu : MonoBehaviour
         
         if (_selectedIndex != -1)
         {
-            _items[_selectedIndex].SetHighlighted(highlighted: false, animate: true);
+            ChangeItemHighlight(_items[_selectedIndex], highlighted: false);
         }
+        
         _selectedIndex = itemIndex;
+        ChangeItemHighlight(_items[_selectedIndex], highlighted: true);
         UpdateCursorAppearance();
-        _items[_selectedIndex].SetHighlighted(highlighted: true, animate: true);
     }
 
-    private void OnInputEnd()
+    private void ChangeItemHighlight(RadialMenuItem item, bool highlighted)
     {
-        if (_selectedIndex != -1)
-        {
-            _items[_selectedIndex].InputAction.Invoke();
-        }
-        _selectedIndex = -1;
-        foreach (RadialMenuItem item in _items)
-        {
-            item.SetHighlighted(highlighted: false, animate: true);
-        }
+        Transform parent = highlighted ? _selectedItemGroup.transform : _itemsGroup.transform;
+        item.SetHighlighted(highlighted, animate: true);
+        item.transform.SetParent(parent);
     }
 
     private void UpdateCursorAppearance()

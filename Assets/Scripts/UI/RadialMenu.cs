@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
 {
@@ -9,6 +10,7 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private RectTransform _radiusHandle;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private RectTransform _cursorRectTransform;
+    [SerializeField] private Image _cursorImage;
 
     private readonly List<RadialMenuItem> _items = new();
     private VirtualJoystick _virtualJoystick;
@@ -84,11 +86,14 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
                 _items[_selectedIndex].SetHighlighted(highlighted: false, animate: true);
                 _selectedIndex = -1;
             }
+
+            UpdateCursorAppearance();
             return;
         }
         int itemIndex = GetItemIndexFromDirection(input, _items.Count);
         if (itemIndex < 0 || itemIndex >= _items.Count)
         {
+            UpdateCursorAppearance();
             return;
         }
         
@@ -97,15 +102,17 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         {
             return;
         }
+        
         if (_selectedIndex != -1)
         {
             _items[_selectedIndex].SetHighlighted(highlighted: false, animate: true);
         }
         _selectedIndex = itemIndex;
+        UpdateCursorAppearance();
         _items[_selectedIndex].SetHighlighted(highlighted: true, animate: true);
     }
 
-    public void OnInputEnd()
+    private void OnInputEnd()
     {
         if (_selectedIndex != -1)
         {
@@ -116,6 +123,11 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         {
             item.SetHighlighted(highlighted: false, animate: true);
         }
+    }
+
+    private void UpdateCursorAppearance()
+    {
+        _cursorImage.color = new Color(1, 1, 1, _selectedIndex != -1 ? 1f : 0.4f);
     }
 
     private static int GetItemIndexFromDirection(Vector2 direction, int itemCount)

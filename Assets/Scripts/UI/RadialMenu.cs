@@ -30,37 +30,29 @@ public class RadialMenu : MonoBehaviour
         virtualJoystickRegion.TeleportStickToPointerDownPos = false;
         virtualJoystickRegion.OverwriteInitialStickPosition(transform.position);
 
-        string fadeItemsId = $"{GetInstanceID()}.FadeItems";
-        string fadeCursorId = $"{GetInstanceID()}.FadeCursor";
-        string fadeSelectedItemId = $"{GetInstanceID()}.FadeSelectedItem";
         _virtualJoystick.DeadZoneRadiusInPx = 0f;
         _virtualJoystick.RadiusInPx = 160f;
         _virtualJoystick.StickInput += OnInput;
         _virtualJoystick.StickInputBegin += () =>
         {
-            DOTween.Kill(fadeItemsId);
-            DOTween.Kill(fadeCursorId);
-            DOTween.Kill(fadeSelectedItemId);
-            
+            DOTween.Kill(this);
             foreach (RadialMenuItem item in _items)
             {
                 ChangeItemHighlight(item, highlighted: false);
             }
             
-            Sequence sequence = DOTween.Sequence().SetId(fadeItemsId);
+            Sequence sequence = DOTween.Sequence().SetId(this);
+            sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: true));
+            sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: true));
             sequence.AppendInterval(0.25f);
             sequence.Append(_fadeableItemsGroup.Fade(fadeIn: true));
-            _fadeableCursorGroup.Fade(fadeIn: true).SetId(fadeCursorId);
-            _fadeableSelectedItemGroup.Fade(fadeIn: true).SetId(fadeSelectedItemId);
         };
         _virtualJoystick.StickInputEnd += () => 
         {
-            DOTween.Kill(fadeItemsId);
-            DOTween.Kill(fadeCursorId);
-            DOTween.Kill(fadeSelectedItemId);
-            _fadeableItemsGroup.Fade(fadeIn: false).SetId(fadeItemsId);
-            _fadeableCursorGroup.Fade(fadeIn: false).SetId(fadeCursorId);
-            Sequence sequence = DOTween.Sequence().SetId(fadeSelectedItemId);
+            DOTween.Kill(this);
+            Sequence sequence = DOTween.Sequence().SetId(this);
+            sequence.Insert(0f, _fadeableItemsGroup.Fade(fadeIn: false));
+            sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: false));
             sequence.AppendInterval(0.25f);
             sequence.Append(_fadeableSelectedItemGroup.Fade(fadeIn: false));
             if (_selectedIndex != -1)
@@ -116,6 +108,7 @@ public class RadialMenu : MonoBehaviour
 
     public void FadeInstantly(bool fadeIn)
     {
+        DOTween.Kill(this);
         _fadeableItemsGroup.FadeInstantly(fadeIn);
         _fadeableCursorGroup.FadeInstantly(fadeIn);
         _fadeableSelectedItemGroup.FadeInstantly(fadeIn);

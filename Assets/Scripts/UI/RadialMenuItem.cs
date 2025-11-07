@@ -16,14 +16,31 @@ public class RadialMenuItem : MonoBehaviour
         InputAction = inputAction;
     }
 
-    public void SetHighlighted(bool highlighted)
+    public void SetHighlighted(bool highlighted, bool animate)
     {
         DOTween.Kill(this);
-        Sequence sequence = DOTween.Sequence().SetId(this);
         Vector3 targetScale = highlighted ? new Vector3(1.5f, 1.5f, 1f) : Vector3.one;
-        const float duration = 0.25f;
-        sequence.Insert(0f, _animatedScale.DOScale(targetScale, duration).SetEase(Ease.OutCubic));
-        sequence.Insert(0f, _canvasGroup.DOFade(highlighted ? 1 : 0.4f, duration).SetEase(Ease.OutCubic));
+        float targetOpacity = highlighted ? 1 : 0.4f;
+        if (animate)
+        {
+            Sequence sequence = DOTween.Sequence().SetId(this);
+            const float duration = 0.25f;
+            sequence.Insert(0f, _animatedScale.DOScale(targetScale, duration).SetEase(Ease.OutCubic));
+            sequence.Insert(0f, _canvasGroup.DOFade(targetOpacity, duration).SetEase(Ease.OutCubic));
+            sequence.OnComplete(OnComplete);
+        }
+        else
+        {
+            OnComplete();
+        }
+
+        return;
+
+        void OnComplete()
+        {
+            _animatedScale.localScale = targetScale;
+            _canvasGroup.alpha = targetOpacity;
+        }
     }
 
     public RectTransform RectTransform => _rectTransform;

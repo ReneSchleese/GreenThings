@@ -50,9 +50,11 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
             float angle = startAngle + dir * stepAngle * i;
             float rad = angle * Mathf.Deg2Rad;
 
+            RadialMenuItem item = _items[i];
             Vector2 pos = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * pixelDistance;
-            _items[i].RectTransform.anchoredPosition = pos;
-            _items[i].RectTransform.localRotation = Quaternion.identity;
+            item.RectTransform.anchoredPosition = pos;
+            item.RectTransform.localRotation = Quaternion.identity;
+            item.SetHighlighted(highlighted: false, animate: false);
         }
     }
 
@@ -71,10 +73,10 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         }
         if (_selectedIndex != -1)
         {
-            _items[_selectedIndex].SetHighlighted(false);
+            _items[_selectedIndex].SetHighlighted(highlighted: false, animate: true);
         }
         _selectedIndex = itemIndex;
-        _items[_selectedIndex].SetHighlighted(true);
+        _items[_selectedIndex].SetHighlighted(highlighted: true, animate: true);
     }
 
     public void OnInputEnd()
@@ -86,7 +88,7 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         _selectedIndex = -1;
         foreach (RadialMenuItem item in _items)
         {
-            item.SetHighlighted(false);
+            item.SetHighlighted(highlighted: false, animate: true);
         }
     }
 

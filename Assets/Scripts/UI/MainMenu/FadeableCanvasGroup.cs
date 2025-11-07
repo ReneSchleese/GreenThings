@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class FadeableCanvasGroup
 {
-    private CanvasGroup _canvasGroup;
-    private float _duration;
+    private readonly CanvasGroup _canvasGroup;
+    private readonly float _duration;
     
     public FadeableCanvasGroup(CanvasGroup canvasGroup, float fadeDuration)
     {
@@ -12,10 +12,10 @@ public class FadeableCanvasGroup
         _duration = fadeDuration;
     }
 
-    public Tween Fade(bool fadeIn)
+    public Tween Fade(bool fadeIn, float? overrideDuration = null, Ease ease = Ease.OutCubic)
     {
-        return _canvasGroup.DOFade(fadeIn ? 1f : 0f, _duration)
-            .SetEase(Ease.OutCubic)
+        return _canvasGroup.DOFade(fadeIn ? 1f : 0f, overrideDuration ?? _duration)
+            .SetEase(ease)
             .OnStart(() =>
             {
                 _canvasGroup.interactable = false;

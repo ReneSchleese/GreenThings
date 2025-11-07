@@ -8,6 +8,7 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private Transform _itemContainer;
     [SerializeField] private RectTransform _radiusHandle;
     [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private RectTransform _cursorRectTransform;
 
     private readonly List<RadialMenuItem> _items = new();
     private VirtualJoystick _virtualJoystick;
@@ -18,7 +19,9 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         _virtualJoystick = virtualJoystickRegion.VirtualJoystick;
         virtualJoystickRegion.TeleportStickToPointerDownPos = false;
         virtualJoystickRegion.OverwriteInitialStickPosition(transform.position);
-        
+
+        _virtualJoystick.DeadZoneRadiusInPx = 0f;
+        _virtualJoystick.RadiusInPx = 160f;
         _virtualJoystick.StickInput += OnInput;
         _virtualJoystick.StickInputBegin += () => { ((IFadeableCanvasGroup)this).Fade(fadeIn: true); };
         _virtualJoystick.StickInputEnd += () => 
@@ -71,8 +74,9 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         }
     }
 
-    public void OnInput(Vector2 input)
+    private void OnInput(Vector2 input)
     {
+        _cursorRectTransform.position = _virtualJoystick.JoystickPosition;
         if (_virtualJoystick.RelativeDistanceToRoot < 0.5f)
         {
             if(_selectedIndex != -1)

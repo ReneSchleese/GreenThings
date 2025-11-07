@@ -10,9 +10,6 @@ public class VirtualJoystick : MonoBehaviour
     public event Action StickInputBegin;
     public event Action StickInputEnd;
     public event Action<Vector2> StickInput;
-    
-    private const float MAX_RADIUS_IN_PX = 80f;
-    private const float DEADZONE_RADIUS_IN_PX = 25f;
     private bool _isDragging;
 
     public void Clear()
@@ -30,12 +27,12 @@ public class VirtualJoystick : MonoBehaviour
         }
 
         float distance = Direction.magnitude;
-        if (distance <= DEADZONE_RADIUS_IN_PX)
+        if (distance <= DeadZoneRadiusInPx)
         {
             return;
         }
 
-        RelativeDistanceToRoot = distance / MAX_RADIUS_IN_PX;
+        RelativeDistanceToRoot = distance / RadiusInPx;
         Vector2 moveAmount = RelativeDistanceToRoot * Direction.normalized;
         moveAmount = new Vector2(ClampMinusOneToOne(moveAmount.x), ClampMinusOneToOne(moveAmount.y));
         StickInput?.Invoke(moveAmount);
@@ -64,13 +61,13 @@ public class VirtualJoystick : MonoBehaviour
     {
         _stick.anchoredPosition += delta;
         float distance = Direction.magnitude;
-        switch (distance)
+        if (distance <= DeadZoneRadiusInPx)
         {
-            case <= DEADZONE_RADIUS_IN_PX:
-                return;
-            case > MAX_RADIUS_IN_PX:
-                _stick.anchoredPosition = Direction.normalized * MAX_RADIUS_IN_PX;
-                break;
+            return;
+        }
+        if (distance > RadiusInPx)
+        {
+            _stick.anchoredPosition = Direction.normalized * RadiusInPx;
         }
     }
 
@@ -95,4 +92,6 @@ public class VirtualJoystick : MonoBehaviour
     private Vector2 Direction => _stick.anchoredPosition - _root.anchoredPosition;
     public Vector3 JoystickPosition => _stick.transform.position;
     public float RelativeDistanceToRoot { get; private set; }
+    public float RadiusInPx { get; set; } = 80f;
+    public float DeadZoneRadiusInPx { get; set; } = 25f;
 }

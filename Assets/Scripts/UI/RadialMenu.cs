@@ -13,9 +13,20 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
     private VirtualJoystick _virtualJoystick;
     private int _selectedIndex = -1;
 
-    public void Init(VirtualJoystick virtualJoystick)
+    public void Init(VirtualJoystickRegion virtualJoystickRegion)
     {
-        _virtualJoystick = virtualJoystick;
+        _virtualJoystick = virtualJoystickRegion.VirtualJoystick;
+        virtualJoystickRegion.TeleportStickToPointerDownPos = false;
+        virtualJoystickRegion.OverwriteInitialStickPosition(transform.position);
+        
+        _virtualJoystick.StickInput += OnInput;
+        _virtualJoystick.StickInputBegin += () => { ((IFadeableCanvasGroup)this).Fade(fadeIn: true); };
+        _virtualJoystick.StickInputEnd += () => 
+        {
+            ((IFadeableCanvasGroup)this).Fade(fadeIn: false);
+            OnInputEnd();
+        };
+        
         InputManager inputManager = App.Instance.InputManager;
         CreateItem("Interact", () => inputManager.InvokeInteract());
         CreateItem("Scan", () => inputManager.InvokeScan());

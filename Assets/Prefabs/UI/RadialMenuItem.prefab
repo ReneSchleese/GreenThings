@@ -67,8 +67,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: <font-weight=500>Radial Item
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fd86db593d5c879449531ed3772ea56a, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 55679aeada51be542a6dab0424dc3504, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ecb2e959ae7a63749be9937dcd82bf42, type: 2}
+  m_sharedMaterial: {fileID: -6333429739163993347, guid: ecb2e959ae7a63749be9937dcd82bf42,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

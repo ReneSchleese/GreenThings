@@ -9,7 +9,7 @@ public class VirtualJoystick : MonoBehaviour
     
     public event Action StickInputBegin;
     public event Action StickInputEnd;
-    public event Action<Vector2, float> StickInput;
+    public event Action<Vector2> StickInput;
     
     private const float MAX_RADIUS_IN_PX = 80f;
     private const float DEADZONE_RADIUS_IN_PX = 25f;
@@ -35,10 +35,10 @@ public class VirtualJoystick : MonoBehaviour
             return;
         }
 
-        float relativeDistance = distance / MAX_RADIUS_IN_PX;
-        Vector2 moveAmount = relativeDistance * Direction.normalized;
+        RelativeDistanceToRoot = distance / MAX_RADIUS_IN_PX;
+        Vector2 moveAmount = RelativeDistanceToRoot * Direction.normalized;
         moveAmount = new Vector2(ClampMinusOneToOne(moveAmount.x), ClampMinusOneToOne(moveAmount.y));
-        StickInput?.Invoke(moveAmount, relativeDistance);
+        StickInput?.Invoke(moveAmount);
         return;
 
         float ClampMinusOneToOne(float value)
@@ -93,4 +93,6 @@ public class VirtualJoystick : MonoBehaviour
     }
 
     private Vector2 Direction => _stick.anchoredPosition - _root.anchoredPosition;
+    public Vector3 JoystickPosition => _stick.transform.position;
+    public float RelativeDistanceToRoot { get; private set; }
 }

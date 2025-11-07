@@ -25,13 +25,13 @@ public class InputManager : MonoBehaviour
             return;
         }
         Vector2 moveInput = _gameInput.Game.Move.ReadValue<Vector2>();
-        ProcessMovementInput(moveInput, _: 1f);
+        ProcessMovementInput(moveInput);
         
         Vector2 radialInput = _gameInput.Game.RadialMenu.ReadValue<Vector2>();
         ProcessRadialMenuInput(radialInput);
     }
     
-    public void ProcessMovementInput(Vector2 input, float _)
+    public void ProcessMovementInput(Vector2 input)
     {
         if (input.magnitude > 1)
         {

@@ -10,10 +10,12 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
     [SerializeField] private CanvasGroup _canvasGroup;
 
     private readonly List<RadialMenuItem> _items = new();
+    private VirtualJoystick _virtualJoystick;
     private int _selectedIndex = -1;
 
-    public void Init()
+    public void Init(VirtualJoystick virtualJoystick)
     {
+        _virtualJoystick = virtualJoystick;
         InputManager inputManager = App.Instance.InputManager;
         CreateItem("Interact", () => inputManager.InvokeInteract());
         CreateItem("Scan", () => inputManager.InvokeScan());
@@ -58,9 +60,9 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         }
     }
 
-    public void OnInput(Vector2 input, float relativeDistance)
+    public void OnInput(Vector2 input)
     {
-        if (relativeDistance < 0.5f)
+        if (_virtualJoystick.RelativeDistanceToRoot < 0.5f)
         {
             if(_selectedIndex != -1)
             {

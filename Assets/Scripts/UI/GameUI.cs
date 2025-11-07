@@ -11,11 +11,11 @@ public class GameUI : MonoBehaviour
     public void Init()
     {
         _backButton.onClick.AddListener(OnBackButtonPress);
-        _leftStickRegion.VirtualJoystick.StickInput += input =>
+        _leftStickRegion.VirtualJoystick.StickInput += (input, relativeDistance) =>
         {
-            App.Instance.InputManager.ProcessMovementInput(input);
+            App.Instance.InputManager.ProcessMovementInput(input, relativeDistance);
         };
-        _rightStickRegion.VirtualJoystick.StickInput += input => { _radialMenu.OnInput(input); };
+        _rightStickRegion.VirtualJoystick.StickInput += (input, relativeDistance) => { _radialMenu.OnInput(input, relativeDistance); };
         _rightStickRegion.VirtualJoystick.StickInputBegin += () => { ((IFadeableCanvasGroup)_radialMenu).Fade(fadeIn: true); };
         _rightStickRegion.VirtualJoystick.StickInputEnd += () => 
         {

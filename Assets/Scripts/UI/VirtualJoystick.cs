@@ -9,7 +9,7 @@ public class VirtualJoystick : MonoBehaviour
     
     public event Action StickInputBegin;
     public event Action StickInputEnd;
-    public event Action<Vector2> StickInput;
+    public event Action<Vector2, float> StickInput;
     
     private const float MAX_RADIUS_IN_PX = 80f;
     private const float DEADZONE_RADIUS_IN_PX = 25f;
@@ -38,7 +38,7 @@ public class VirtualJoystick : MonoBehaviour
         float relativeDistance = distance / MAX_RADIUS_IN_PX;
         Vector2 moveAmount = relativeDistance * Direction.normalized;
         moveAmount = new Vector2(ClampMinusOneToOne(moveAmount.x), ClampMinusOneToOne(moveAmount.y));
-        StickInput?.Invoke(moveAmount);
+        StickInput?.Invoke(moveAmount, relativeDistance);
         return;
 
         float ClampMinusOneToOne(float value)
@@ -76,7 +76,7 @@ public class VirtualJoystick : MonoBehaviour
 
     public void OnEndDrag()
     {
-        StickInput?.Invoke(Vector2.zero);
+        StickInput?.Invoke(Vector2.zero, 0f);
         StickInputEnd?.Invoke();
         Clear();
     }

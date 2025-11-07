@@ -58,8 +58,17 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         }
     }
 
-    public void OnInput(Vector2 input)
+    public void OnInput(Vector2 input, float relativeDistance)
     {
+        if (relativeDistance < 0.5f)
+        {
+            if(_selectedIndex != -1)
+            {
+                _items[_selectedIndex].SetHighlighted(highlighted: false, animate: true);
+                _selectedIndex = -1;
+            }
+            return;
+        }
         int itemIndex = GetItemIndexFromDirection(input, _items.Count);
         if (itemIndex < 0 || itemIndex >= _items.Count)
         {

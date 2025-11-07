@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,13 +23,21 @@ public class RadialMenu : MonoBehaviour, IFadeableCanvasGroup
         virtualJoystickRegion.TeleportStickToPointerDownPos = false;
         virtualJoystickRegion.OverwriteInitialStickPosition(transform.position);
 
+        string fadeId = $"{GetInstanceID()}.FadeRadialMenu";
         _virtualJoystick.DeadZoneRadiusInPx = 0f;
         _virtualJoystick.RadiusInPx = 160f;
         _virtualJoystick.StickInput += OnInput;
-        _virtualJoystick.StickInputBegin += () => { ((IFadeableCanvasGroup)this).Fade(fadeIn: true); };
+        _virtualJoystick.StickInputBegin += () =>
+        {
+            DOTween.Kill(fadeId);
+            Sequence sequence = DOTween.Sequence().SetId(fadeId);
+            sequence.AppendInterval(0.25f);
+            sequence.Append(((IFadeableCanvasGroup)this).Fade(fadeIn: true));
+        };
         _virtualJoystick.StickInputEnd += () => 
         {
-            ((IFadeableCanvasGroup)this).Fade(fadeIn: false);
+            DOTween.Kill(fadeId);
+            ((IFadeableCanvasGroup)this).Fade(fadeIn: false).SetId(fadeId);
             OnInputEnd();
         };
         

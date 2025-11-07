@@ -44,8 +44,7 @@ public class RadialMenu : MonoBehaviour
             Sequence sequence = DOTween.Sequence().SetId(this);
             sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: true));
             sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: true));
-            sequence.AppendInterval(0.25f);
-            sequence.Append(_fadeableItemsGroup.Fade(fadeIn: true));
+            sequence.Insert(0.25f, _fadeableItemsGroup.Fade(fadeIn: true, 1f));
         };
         _virtualJoystick.StickInputEnd += () => 
         {
@@ -53,8 +52,7 @@ public class RadialMenu : MonoBehaviour
             Sequence sequence = DOTween.Sequence().SetId(this);
             sequence.Insert(0f, _fadeableItemsGroup.Fade(fadeIn: false));
             sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: false));
-            sequence.AppendInterval(0.25f);
-            sequence.Append(_fadeableSelectedItemGroup.Fade(fadeIn: false));
+            sequence.Insert(0.25f, _fadeableSelectedItemGroup.Fade(fadeIn: false, 0.66f));
             if (_selectedIndex != -1)
             {
                 _items[_selectedIndex].InputAction.Invoke();

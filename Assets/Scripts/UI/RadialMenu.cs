@@ -9,38 +9,45 @@ public class RadialMenu : MonoBehaviour
     [SerializeField] private RadialMenuItem _itemPrefab;
     [SerializeField] private Transform _itemContainer;
     [SerializeField] private RectTransform _radiusHandle;
-    [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private CanvasGroup _itemsGroup, _cursorGroup;
     [SerializeField] private RectTransform _cursorRectTransform;
     [SerializeField] private Image _cursorImage;
 
     private readonly List<RadialMenuItem> _items = new();
     private VirtualJoystick _virtualJoystick;
     private int _selectedIndex = -1;
-    private FadeableCanvasGroup _menuItemsGroup;
+    private FadeableCanvasGroup _fadeableItemsGroup;
+    private FadeableCanvasGroup _fadeableCursorGroup;
 
     public void Init(VirtualJoystickRegion virtualJoystickRegion)
     {
-        _menuItemsGroup = new FadeableCanvasGroup(_canvasGroup, 0.3f);
+        _fadeableItemsGroup = new FadeableCanvasGroup(_itemsGroup, 0.3f);
+        _fadeableCursorGroup = new FadeableCanvasGroup(_cursorGroup, 0.3f);
         
         _virtualJoystick = virtualJoystickRegion.VirtualJoystick;
         virtualJoystickRegion.TeleportStickToPointerDownPos = false;
         virtualJoystickRegion.OverwriteInitialStickPosition(transform.position);
 
-        string fadeId = $"{GetInstanceID()}.FadeRadialMenu";
+        string fadeItemsId = $"{GetInstanceID()}.FadeItems";
+        string fadeCursorId = $"{GetInstanceID()}.FadeCursor";
         _virtualJoystick.DeadZoneRadiusInPx = 0f;
         _virtualJoystick.RadiusInPx = 160f;
         _virtualJoystick.StickInput += OnInput;
         _virtualJoystick.StickInputBegin += () =>
         {
-            DOTween.Kill(fadeId);
-            Sequence sequence = DOTween.Sequence().SetId(fadeId);
+            DOTween.Kill(fadeItemsId);
+            DOTween.Kill(fadeCursorId);
+            Sequence sequence = DOTween.Sequence().SetId(fadeItemsId);
             sequence.AppendInterval(0.25f);
-            sequence.Append(_menuItemsGroup.Fade(fadeIn: true));
+            sequence.Append(_fadeableItemsGroup.Fade(fadeIn: true));
+            _fadeableCursorGroup.Fade(fadeIn: true).SetId(fadeCursorId);
         };
         _virtualJoystick.StickInputEnd += () => 
         {
-            DOTween.Kill(fadeId);
-            _menuItemsGroup.Fade(fadeIn: false).SetId(fadeId);
+            DOTween.Kill(fadeItemsId);
+            DOTween.Kill(fadeCursorId);
+            _fadeableItemsGroup.Fade(fadeIn: false).SetId(fadeItemsId);
+            _fadeableCursorGroup.Fade(fadeIn: false).SetId(fadeCursorId);
             OnInputEnd();
         };
         
@@ -90,7 +97,8 @@ public class RadialMenu : MonoBehaviour
 
     public void FadeInstantly(bool fadeIn)
     {
-        _menuItemsGroup.FadeInstantly(fadeIn);
+        _fadeableItemsGroup.FadeInstantly(fadeIn);
+        _fadeableCursorGroup.FadeInstantly(fadeIn);
     }
 
     private void OnInput(Vector2 input)

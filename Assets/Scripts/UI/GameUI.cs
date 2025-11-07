@@ -13,6 +13,10 @@ public class GameUI : MonoBehaviour
         _leftStickRegion.Init();
         _rightStickRegion.Init();
         _radialMenu.Init();
+
+        _rightStickRegion.TeleportStickToPointerDownPos = false;
+        _rightStickRegion.OverwriteInitialStickPosition(_radialMenu.transform.position);
+        
         _backButton.onClick.AddListener(OnBackButtonPress);
         
         _leftStickRegion.VirtualJoystick.StickInput += (input, relativeDistance) =>

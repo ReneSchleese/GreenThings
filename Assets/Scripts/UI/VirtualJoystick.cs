@@ -76,7 +76,6 @@ public class VirtualJoystick : MonoBehaviour
 
     public void OnEndDrag()
     {
-        StickInput?.Invoke(Vector2.zero, 0f);
         StickInputEnd?.Invoke();
         Clear();
     }

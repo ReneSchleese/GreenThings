@@ -10,11 +10,16 @@ public class GameUI : MonoBehaviour
 
     public void Init()
     {
+        _leftStickRegion.Init();
+        _rightStickRegion.Init();
+        _radialMenu.Init();
         _backButton.onClick.AddListener(OnBackButtonPress);
+        
         _leftStickRegion.VirtualJoystick.StickInput += (input, relativeDistance) =>
         {
             App.Instance.InputManager.ProcessMovementInput(input, relativeDistance);
         };
+        
         _rightStickRegion.VirtualJoystick.StickInput += (input, relativeDistance) => { _radialMenu.OnInput(input, relativeDistance); };
         _rightStickRegion.VirtualJoystick.StickInputBegin += () => { ((IFadeableCanvasGroup)_radialMenu).Fade(fadeIn: true); };
         _rightStickRegion.VirtualJoystick.StickInputEnd += () => 
@@ -23,7 +28,6 @@ public class GameUI : MonoBehaviour
             _radialMenu.OnInputEnd();
         };
         
-        _radialMenu.Init();
         ((IFadeableCanvasGroup)_radialMenu).FadeInstantly(fadeIn: false);
     }
 

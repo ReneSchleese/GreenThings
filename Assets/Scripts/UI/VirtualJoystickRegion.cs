@@ -7,7 +7,7 @@ public class VirtualJoystickRegion : MonoBehaviour, IPointerDownHandler, IPointe
 
     private Vector3 _initialSickPos; 
 
-    public void Awake()
+    public void Init()
     {
         _initialSickPos = _virtualJoystick.transform.position;
         _virtualJoystick.Clear();

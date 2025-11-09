@@ -12,7 +12,7 @@ public class RadialMenuItem : MonoBehaviour
 
     public void Init(string label, Action inputAction)
     {
-        _label.text = $"<font-weight=400>{label}";
+        _label.text = $"<font-weight=600>{label}";
         InputAction = inputAction;
     }
 

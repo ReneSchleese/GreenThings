@@ -43,6 +43,14 @@ public class RadialMenuItem : MonoBehaviour
         }
     }
 
-    public RectTransform RectTransform => _rectTransform;
+    public void Layout(Vector2 anchoredPos)
+    {
+        bool isCentered = Mathf.Abs(anchoredPos.x) < 1f;
+        bool isLeftAligned = !isCentered && anchoredPos.x < 0;
+        Debug.Log($"anchoredPos={anchoredPos}, isCentered={isCentered}, isLeftAligned={isLeftAligned}");
+        _rectTransform.anchoredPosition = anchoredPos;
+        _rectTransform.rotation = Quaternion.identity;
+    }
+
     public Action InputAction { get; private set; }
 }

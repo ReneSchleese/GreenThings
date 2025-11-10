@@ -98,8 +98,7 @@ public class RadialMenu : MonoBehaviour
 
             RadialMenuItem item = _items[i];
             Vector2 pos = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * pixelDistance;
-            item.RectTransform.anchoredPosition = pos;
-            item.RectTransform.localRotation = Quaternion.identity;
+            item.Layout(pos);
             item.SetHighlighted(highlighted: false, animate: false);
         }
     }

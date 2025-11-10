@@ -52,7 +52,7 @@ public class RadialMenu : MonoBehaviour
             Sequence sequence = DOTween.Sequence().SetId(this);
             sequence.Insert(0f, _fadeableItemsGroup.Fade(fadeIn: false));
             sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: false));
-            sequence.Insert(0.25f, _fadeableSelectedItemGroup.Fade(fadeIn: false, 0.66f));
+            sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: false, 0.66f));
             if (_selectedIndex != -1)
             {
                 _items[_selectedIndex].InputAction.Invoke();

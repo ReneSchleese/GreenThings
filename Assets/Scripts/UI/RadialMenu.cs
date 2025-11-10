@@ -66,6 +66,7 @@ public class RadialMenu : MonoBehaviour
         CreateItem("Dig", () => inputManager.InvokeDig());
         CreateItem("Toggle Mode", () => inputManager.InvokeToggleFormation());
         CreateItem("Battlecry", () => inputManager.InvokeBattleCry());
+        CreateItem("6th Option", () => inputManager.InvokeBattleCry());
 
         LayoutItems();
         return;

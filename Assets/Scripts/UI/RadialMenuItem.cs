@@ -51,7 +51,8 @@ public class RadialMenuItem : MonoBehaviour
         _rectTransform.rotation = Quaternion.identity;
         if (isCentered)
         {
-            
+            const float offsetInPx = 90;
+            _rectTransform.anchoredPosition += Vector2.up * (offsetInPx * (anchoredPos.y > 0 ? 1 : -0.5f));
         }
         else
         {

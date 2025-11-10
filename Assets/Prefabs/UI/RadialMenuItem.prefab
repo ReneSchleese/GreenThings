@@ -188,6 +188,7 @@ MonoBehaviour:
   _label: {fileID: 4715915726175595286}
   _rectTransform: {fileID: 155508454991413850}
   _animatedScale: {fileID: 1036338007009906719}
+  _textContainer: {fileID: 3171722161057579703}
   _canvasGroup: {fileID: 4522030888742636677}
 --- !u!1 &2668396798794814597
 GameObject:

@@ -6,8 +6,7 @@ using UnityEngine;
 public class RadialMenuItem : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _label;
-    [SerializeField] private RectTransform _rectTransform;
-    [SerializeField] private RectTransform _animatedScale;
+    [SerializeField] private RectTransform _rectTransform, _animatedScale, _textContainer;
     [SerializeField] private CanvasGroup _canvasGroup;
 
     public void Init(string label, Action inputAction)
@@ -50,6 +49,15 @@ public class RadialMenuItem : MonoBehaviour
         Debug.Log($"anchoredPos={anchoredPos}, isCentered={isCentered}, isLeftAligned={isLeftAligned}");
         _rectTransform.anchoredPosition = anchoredPos;
         _rectTransform.rotation = Quaternion.identity;
+        if (isCentered)
+        {
+            
+        }
+        else
+        {
+            _textContainer.pivot = new Vector2(isLeftAligned ? 1f : 0f, 0.5f);
+            _textContainer.anchoredPosition = Vector2.zero;
+        }
     }
 
     public Action InputAction { get; private set; }

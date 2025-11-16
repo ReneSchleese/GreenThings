@@ -40,6 +40,7 @@ public class RadialMenu : MonoBehaviour
             {
                 ChangeItemHighlight(item, highlighted: false);
             }
+            _cursor.SetStyle(setShellCursorActive: true, animate: false);
             
             Sequence sequence = DOTween.Sequence().SetId(this);
             sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: true));

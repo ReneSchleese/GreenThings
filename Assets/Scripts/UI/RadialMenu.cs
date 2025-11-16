@@ -116,8 +116,11 @@ public class RadialMenu : MonoBehaviour
 
     private void OnInput(Vector2 input)
     {
+        bool didNotMoveFarEnough = _virtualJoystick.RelativeDistanceToRoot < 0.6f;
         _cursor.RectTransform.position = _virtualJoystick.JoystickPosition;
-        if (_virtualJoystick.RelativeDistanceToRoot < 0.5f)
+        _cursor.RectTransform.rotation = Quaternion.Euler(0f, 0f, didNotMoveFarEnough ? 0f : InputDirectionToAngle(input));
+        
+        if (didNotMoveFarEnough)
         {
             if(_selectedIndex != -1)
             {
@@ -161,6 +164,21 @@ public class RadialMenu : MonoBehaviour
     {
         _cursor.SetStyle(setShellCursorActive: _selectedIndex == -1, animate: true);
         //_cursorImage.color = new Color(1, 1, 1, _selectedIndex != -1 ? 1f : 0.4f);
+    }
+
+    private static float InputDirectionToAngle(Vector2 direction)
+    {
+        if (direction == Vector2.zero)
+        {
+            return 0f;
+        }
+
+        // use -direction.y to get clockwise direction
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        
+        // add offset so we start at the top
+        angle -= 90;
+        return angle;
     }
 
     private static int GetItemIndexFromDirection(Vector2 direction, int itemCount)

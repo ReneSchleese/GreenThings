@@ -23,7 +23,7 @@ public class RadialMenu : MonoBehaviour
     public void Init(VirtualJoystickRegion virtualJoystickRegion)
     {
         _fadeableItemsGroup = new FadeableCanvasGroup(_itemsGroup, 0.5f);
-        _fadeableCursorGroup = new FadeableCanvasGroup(_cursor.CanvasGroup, 0.3f);
+        _fadeableCursorGroup = new FadeableCanvasGroup(_cursor.RootGroup, 0.3f);
         _fadeableSelectedItemGroup = new FadeableCanvasGroup(_selectedItemGroup, 0.3f);
         
         _virtualJoystick = virtualJoystickRegion.VirtualJoystick;
@@ -118,7 +118,7 @@ public class RadialMenu : MonoBehaviour
     {
         bool didNotMoveFarEnough = _virtualJoystick.RelativeDistanceToRoot < 0.6f;
         _cursor.RectTransform.position = _virtualJoystick.JoystickPosition;
-        _cursor.RectTransform.rotation = Quaternion.Euler(0f, 0f, didNotMoveFarEnough ? 0f : InputDirectionToAngle(input));
+        _cursor.LeafCursorTransform.rotation = Quaternion.Euler(0f, 0f, InputDirectionToAngle(input));
         
         if (didNotMoveFarEnough)
         {

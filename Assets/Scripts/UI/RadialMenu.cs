@@ -66,7 +66,7 @@ public class RadialMenu : MonoBehaviour
         InputManager inputManager = App.Instance.InputManager;
         CreateItem("Interact", () => inputManager.InvokeInteract());
         CreateItem("Stay", () => inputManager.InvokeScan());
-        CreateItem("Toggle Follow", () => inputManager.InvokeToggleFormation());
+        CreateItem("Toggle\nFollow", () => inputManager.InvokeToggleFormation());
         CreateItem("Dig", () => inputManager.InvokeDig());
         CreateItem("Battlecry", () => inputManager.InvokeBattleCry());
         CreateItem("Scan", () => inputManager.InvokeScan());

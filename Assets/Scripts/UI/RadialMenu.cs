@@ -9,9 +9,9 @@ public class RadialMenu : MonoBehaviour
     [SerializeField] private RadialMenuItem _itemPrefab;
     [SerializeField] private Transform _itemContainer;
     [SerializeField] private RectTransform _radiusHandle;
-    [SerializeField] private CanvasGroup _itemsGroup, _cursorGroup, _selectedItemGroup;
-    [SerializeField] private RectTransform _cursorRectTransform;
+    [SerializeField] private CanvasGroup _itemsGroup, _selectedItemGroup;
     [SerializeField] private Image _cursorImage;
+    [SerializeField] private RadialMenuCursor _cursor;
 
     private readonly List<RadialMenuItem> _items = new();
     private VirtualJoystick _virtualJoystick;
@@ -23,7 +23,7 @@ public class RadialMenu : MonoBehaviour
     public void Init(VirtualJoystickRegion virtualJoystickRegion)
     {
         _fadeableItemsGroup = new FadeableCanvasGroup(_itemsGroup, 0.5f);
-        _fadeableCursorGroup = new FadeableCanvasGroup(_cursorGroup, 0.3f);
+        _fadeableCursorGroup = new FadeableCanvasGroup(_cursor.CanvasGroup, 0.3f);
         _fadeableSelectedItemGroup = new FadeableCanvasGroup(_selectedItemGroup, 0.3f);
         
         _virtualJoystick = virtualJoystickRegion.VirtualJoystick;
@@ -59,6 +59,8 @@ public class RadialMenu : MonoBehaviour
             }
             _selectedIndex = -1;
         };
+        
+        _cursor.SetStyle(setShellCursorActive: true, animate: false);
         
         InputManager inputManager = App.Instance.InputManager;
         CreateItem("Interact", () => inputManager.InvokeInteract());
@@ -114,16 +116,15 @@ public class RadialMenu : MonoBehaviour
 
     private void OnInput(Vector2 input)
     {
-        _cursorRectTransform.position = _virtualJoystick.JoystickPosition;
+        _cursor.RectTransform.position = _virtualJoystick.JoystickPosition;
         if (_virtualJoystick.RelativeDistanceToRoot < 0.5f)
         {
             if(_selectedIndex != -1)
             {
                 ChangeItemHighlight(_items[_selectedIndex], highlighted: false);
                 _selectedIndex = -1;
+                UpdateCursorAppearance();
             }
-
-            UpdateCursorAppearance();
             return;
         }
         int itemIndex = GetItemIndexFromDirection(input, _items.Count);
@@ -158,7 +159,8 @@ public class RadialMenu : MonoBehaviour
 
     private void UpdateCursorAppearance()
     {
-        _cursorImage.color = new Color(1, 1, 1, _selectedIndex != -1 ? 1f : 0.4f);
+        _cursor.SetStyle(setShellCursorActive: _selectedIndex == -1, animate: true);
+        //_cursorImage.color = new Color(1, 1, 1, _selectedIndex != -1 ? 1f : 0.4f);
     }
 
     private static int GetItemIndexFromDirection(Vector2 direction, int itemCount)

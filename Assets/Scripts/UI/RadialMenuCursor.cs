@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RadialMenuCursor : MonoBehaviour
 {
-    [SerializeField] private RectTransform _root, _leafCursorTransform, _leafCursorPointer;
+    [SerializeField] private RectTransform _root, _leafCursorTransform, _leafCursorPointer, _leafCursorScaler;
     [SerializeField] private CanvasGroup _rootGroup, _shellGroup, _leafGroup;
 
     private bool _shellCursorIsActive;
@@ -23,10 +23,13 @@ public class RadialMenuCursor : MonoBehaviour
         if (animate)
         {
             Sequence sequence = DOTween.Sequence().SetId(this);
-
             const float duration = 0.2f;
             sequence.Insert(0.0f, groupToFadeOut.DOFade(0f, duration).SetEase(Ease.OutCubic));
             sequence.Insert(0.0f, groupToFadeIn.DOFade(1f, duration).SetEase(Ease.OutCubic));
+            if (!setShellCursorActive)
+            {
+                sequence.Insert(0.1f, _leafCursorScaler.DOPunchScale(Vector3.one * 0.3f, 0.1f).SetEase(Ease.OutBack));
+            }
             sequence.OnComplete(OnComplete);
         }
         else

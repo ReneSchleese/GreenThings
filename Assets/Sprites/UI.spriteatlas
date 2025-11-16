@@ -37,19 +37,28 @@ SpriteAtlas:
     isAtlasV2: 0
     cachedData: {fileID: 0}
     packedSpriteRenderDataKeys:
+    - 295103a09ad99e843ad9938f2966a484: 21300000
+    - 00714a045cd86864a8cddccc48081566: 21300000
     - 9a9b1a24e55e3ad45a0cd4980ca9d3aa: 21300000
     - 6d285a8b6fc73414b8cf8e6e28d5d0f7: 21300000
+    - 4823e72d28fb011488c84f948a10e310: 21300000
     - fdc046dd9c008e448aab5b56980f653c: 21300000
     - 878c853eb0539fa47aa6e124272cdb44: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 295103a09ad99e843ad9938f2966a484, type: 3}
+  - {fileID: 21300000, guid: 00714a045cd86864a8cddccc48081566, type: 3}
   - {fileID: 21300000, guid: 9a9b1a24e55e3ad45a0cd4980ca9d3aa, type: 3}
   - {fileID: 21300000, guid: 6d285a8b6fc73414b8cf8e6e28d5d0f7, type: 3}
+  - {fileID: 21300000, guid: 4823e72d28fb011488c84f948a10e310, type: 3}
   - {fileID: 21300000, guid: fdc046dd9c008e448aab5b56980f653c, type: 3}
   - {fileID: 21300000, guid: 878c853eb0539fa47aa6e124272cdb44, type: 3}
   m_PackedSpriteNamesToIndex:
+  - LeafCursorTop
+  - LeafCursorBottom
   - RadialMenuEmblem
   - Shell
+  - LeafCursorShadow
   - Circle
   - ShellThick
   m_RenderDataMap: {}

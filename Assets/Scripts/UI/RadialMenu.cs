@@ -32,6 +32,7 @@ public class RadialMenu : MonoBehaviour
 
         _virtualJoystick.DeadZoneRadiusInPx = 0f;
         _virtualJoystick.RadiusInPx = 160f;
+        _virtualJoystick.DragAcceleration = 2f;
         _virtualJoystick.StickInput += OnInput;
         _virtualJoystick.StickInputBegin += () =>
         {

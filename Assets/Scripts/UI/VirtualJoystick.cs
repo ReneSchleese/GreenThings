@@ -59,7 +59,7 @@ public class VirtualJoystick : MonoBehaviour
 
     public void OnDrag(Vector2 delta)
     {
-        _stick.anchoredPosition += delta;
+        _stick.anchoredPosition += delta * DragAcceleration;
         float distance = Direction.magnitude;
         if (distance <= DeadZoneRadiusInPx)
         {
@@ -94,4 +94,5 @@ public class VirtualJoystick : MonoBehaviour
     public float RelativeDistanceToRoot { get; private set; }
     public float RadiusInPx { get; set; } = 80f;
     public float DeadZoneRadiusInPx { get; set; } = 25f;
+    public float DragAcceleration { get; set; } = 1f;
 }

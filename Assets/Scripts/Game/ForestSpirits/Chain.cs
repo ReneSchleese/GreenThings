@@ -156,7 +156,7 @@ namespace ForestSpirits
             for (var index = 0; index < _chainLinks.Select(chainLink => chainLink.Spirit).ToList().Count; index++)
             {
                 Spirit spirit = _chainLinks.Select(chainLink => chainLink.Spirit).ToList()[index];
-                BuriedTreasure nearestTreasure = treasureManager.GetNearestTreasure(spirit.Position);
+                BuriedTreasure nearestTreasure = treasureManager.GetNearestUnopenedTreasure(spirit.Position);
                 sequence.AppendInterval(0.07f);
                 var index1 = index;
                 sequence.AppendCallback(() =>

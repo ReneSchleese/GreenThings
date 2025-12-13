@@ -30,15 +30,25 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void Awake()
     {
-        UserInterface.Instance.VirtualJoystick.Move += OnMove;
-        UserInterface.Instance.HornetScreamInput += OnHornetScream;
-        UserInterface.Instance.HornetDigInput += OnHornetDigInput;
+        InputManager inputManager = App.Instance.InputManager;
+        inputManager.Moved += OnMoveInput;
+        inputManager.BattleCried += OnBattleCryInput;
+        inputManager.Dug += OnDigInput;
+        
         _pushHitbox.Init(this);
         _screamIndex = new PseudoRandomIndex(_hornetScreams.Length);
         _footstepIndex = new PseudoRandomIndex(_footstepsGrass.Length);
         _positionBuffer = new CircularBuffer<Vector3>(20);
         _positionBuffer.SetAll(transform.position);
         _animationEvents.PlayFootStep += PlayFootStep;
+    }
+
+    private void OnDestroy()
+    {
+        InputManager inputManager = App.Instance.InputManager;
+        inputManager.Moved -= OnMoveInput;
+        inputManager.BattleCried -= OnBattleCryInput;
+        inputManager.Dug -= OnDigInput;
     }
 
     private void Update()
@@ -68,7 +78,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         }
     }
 
-    private void OnMove(Vector2 delta)
+    private void OnMoveInput(Vector2 delta)
     {
         JoystickMagnitude = delta.magnitude;
         Vector3 offset = new Vector3(delta.x, 0f, delta.y).normalized * (JoystickMagnitude * MOVEMENT_SPEED);
@@ -89,7 +99,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         }
     }
     
-    private void OnHornetScream()
+    private void OnBattleCryInput()
     {
         if (_animator.IsInActiveBattlecry) return;
         int index = _screamIndex.Get();
@@ -109,7 +119,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private bool _drawDebugSphere;
     private readonly List<BuriedTreasure> _hitTreasures = new();
     private readonly List<DiggingHole> _hitDiggingHoles = new();
-    private void OnHornetDigInput()
+    private void OnDigInput()
     {
         _hitDiggingHoles.Clear();
         _hitTreasures.Clear();

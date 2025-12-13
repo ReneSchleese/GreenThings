@@ -5,9 +5,11 @@ public class VirtualJoystick : MonoBehaviour
 {
     [SerializeField] private RectTransform _stick, _root;
     [SerializeField] private CanvasGroup _joystickGroup;
-    private const float MAX_RADIUS_IN_PX = 80f;
-    private const float DEADZONE_RADIUS_IN_PX = 25f;
-    public event Action<Vector2> Move;
+    [SerializeField] private bool _showGraphics;
+    
+    public event Action StickInputBegin;
+    public event Action StickInputEnd;
+    public event Action<Vector2> StickInput;
     private bool _isDragging;
 
     public void Clear()
@@ -19,21 +21,22 @@ public class VirtualJoystick : MonoBehaviour
 
     private void Update()
     {
-        if (_isDragging == false)
+        if (!_isDragging)
         {
             return;
         }
 
         float distance = Direction.magnitude;
-        if (distance <= DEADZONE_RADIUS_IN_PX)
+        if (distance <= DeadZoneRadiusInPx)
         {
             return;
         }
 
-        float relativeDistance = distance / MAX_RADIUS_IN_PX;
-        Vector2 moveAmount = relativeDistance * Direction.normalized;
+        RelativeDistanceToRoot = distance / RadiusInPx;
+        Vector2 moveAmount = RelativeDistanceToRoot * Direction.normalized;
         moveAmount = new Vector2(ClampMinusOneToOne(moveAmount.x), ClampMinusOneToOne(moveAmount.y));
-        Move?.Invoke(moveAmount);
+        StickInput?.Invoke(moveAmount);
+        return;
 
         float ClampMinusOneToOne(float value)
         {
@@ -46,37 +49,50 @@ public class VirtualJoystick : MonoBehaviour
         }
     }
 
-    public void SimulateBeginDrag()
+    public void OnBeginDrag()
     {
         Clear();
         _isDragging = true;
         UpdateAppearance();
+        StickInputBegin?.Invoke();
     }
 
-    public void SimulateDrag(Vector2 delta)
+    public void OnDrag(Vector2 delta)
     {
-        _stick.anchoredPosition += delta;
+        _stick.anchoredPosition += delta * DragAcceleration;
         float distance = Direction.magnitude;
-        switch (distance)
+        if (distance <= DeadZoneRadiusInPx)
         {
-            case <= DEADZONE_RADIUS_IN_PX:
-                return;
-            case > MAX_RADIUS_IN_PX:
-                _stick.anchoredPosition = Direction.normalized * MAX_RADIUS_IN_PX;
-                break;
+            return;
+        }
+        if (distance > RadiusInPx)
+        {
+            _stick.anchoredPosition = Direction.normalized * RadiusInPx;
         }
     }
 
-    public void SimulateEndDrag()
+    public void OnEndDrag()
     {
-        Move?.Invoke(Vector2.zero);
+        StickInputEnd?.Invoke();
         Clear();
     }
 
     private void UpdateAppearance()
     {
-        _joystickGroup.alpha = _isDragging ? 1f : 0.4f;
+        if (_showGraphics)
+        {
+            _joystickGroup.alpha = _isDragging ? 1f : 0.4f;   
+        }
+        else
+        {
+            _joystickGroup.alpha = 0f;
+        }
     }
 
     private Vector2 Direction => _stick.anchoredPosition - _root.anchoredPosition;
+    public Vector3 JoystickPosition => _stick.transform.position;
+    public float RelativeDistanceToRoot { get; private set; }
+    public float RadiusInPx { get; set; } = 80f;
+    public float DeadZoneRadiusInPx { get; set; } = 25f;
+    public float DragAcceleration { get; set; } = 1f;
 }

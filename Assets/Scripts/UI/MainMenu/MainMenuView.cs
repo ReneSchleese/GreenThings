@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuView : MonoBehaviour, IFadeableCanvasGroup
+public class MainMenuView : MonoBehaviour
 {
     [SerializeField] private Button _startGameButton;
     [SerializeField] private Button _shopButton;
@@ -16,6 +16,7 @@ public class MainMenuView : MonoBehaviour, IFadeableCanvasGroup
 
     public void OnLoad()
     {
+        RootGroup = new FadeableCanvasGroup(_canvasGroup, 0.5f);
         _startGameButton.onClick.AddListener(() => App.Instance.TransitionToGame());
         _shopButton.onClick.AddListener(() => ShopButtonPress?.Invoke());
         _inventoryButton.onClick.AddListener(() => InventoryButtonPress?.Invoke());
@@ -33,5 +34,5 @@ public class MainMenuView : MonoBehaviour, IFadeableCanvasGroup
         _requestState.text = state.ToString();
     }
 
-    public CanvasGroup CanvasGroup => _canvasGroup;
+    public FadeableCanvasGroup RootGroup { get; private set; }
 }

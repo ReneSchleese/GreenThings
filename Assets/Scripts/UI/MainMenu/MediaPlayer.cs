@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
+public class MediaPlayer : MonoBehaviour
 {
     [SerializeField] private Button _backButton;
     [SerializeField] private CanvasGroup _canvasGroup;
@@ -19,6 +19,7 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
 
     public void OnLoad()
     {
+        RootGroup = new FadeableCanvasGroup(_canvasGroup, 0.5f);
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
         _playButton.onClick.AddListener(OnPlayButtonPress);
         _shareButton.onClick.AddListener(OnShareButtonPress);
@@ -93,5 +94,5 @@ public class MediaPlayer : MonoBehaviour, IFadeableCanvasGroup
     }
 
     public bool IsPlaying => _videoPlayer.isPlaying;
-    public CanvasGroup CanvasGroup => _canvasGroup;
+    public FadeableCanvasGroup RootGroup { get; private set; }
 }

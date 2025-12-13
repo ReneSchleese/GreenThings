@@ -72,10 +72,10 @@ namespace ForestSpirits
             for (int chainLinkIndex = 0; chainLinkIndex < _chainLinks.Count; chainLinkIndex++)
             {
                 ChainLink chainLink = _chainLinks[chainLinkIndex];
-                IChainTarget followTarget = chainLinkIndex == 0 ? Player : _chainLinks[chainLinkIndex - 1];
+                Vector3 followPosition = chainLinkIndex == 0 ? Player.Position: _chainLinks[chainLinkIndex - 1].Spirit.Position;
                 if (chainLink.IsAllowedToBreak)
                 {
-                    Vector3 spiritToTarget = followTarget.Position - chainLink.Spirit.Position;
+                    Vector3 spiritToTarget = followPosition - chainLink.Spirit.Position;
                     bool isTooFarAway = Utils.CloneAndSetY(spiritToTarget, 0f).magnitude > BREAK_DISTANCE;
                     if(isTooFarAway)
                     {

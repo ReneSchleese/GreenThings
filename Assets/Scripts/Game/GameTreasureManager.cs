@@ -24,11 +24,12 @@ public class GameTreasureManager : MonoBehaviour
         yield break;
     }
 
-    public BuriedTreasure GetNearestTreasure(Vector3 position)
+    public BuriedTreasure GetNearestUnopenedTreasure(Vector3 position)
     {
-        _buriedTreasures.Sort((treasure1, treasure2) => Vector3.Distance(treasure1.transform.position, position)
+        var unopenedTreasures = _buriedTreasures.Where(treasure => !treasure.IsOpen).ToList();
+        unopenedTreasures.Sort((treasure1, treasure2) => Vector3.Distance(treasure1.transform.position, position)
             .CompareTo(Vector3.Distance(treasure2.transform.position, position)));
-        return _buriedTreasures[0];
+        return unopenedTreasures[0];
     }
 
     public void SetTreasureSpawns(IEnumerable<Transform> spawns) => _treasureSpawns = spawns.ToArray();

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2674510358233328095}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Stairs_stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 3367260252382755959}
   - component: {fileID: 3536887123123845881}
   - component: {fileID: 1295618999138632593}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,14 +301,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Shape:
     rid: 7459977031401078787
-  m_Size: {x: 0.5, y: 3.25, z: 7.25}
-  m_Rotation: {x: 0, y: 0, z: -0.70710677, w: 0.70710677}
-  m_PivotLocation: 1
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 24391
-  m_ShapeBox:
-    m_Center: {x: 0.25, y: 1.625, z: -3.625}
-    m_Extent: {x: 1.6249999, y: 0.25000012, z: 3.625}
+  m_Size: {x: 0.5, y: 3.25, z: 7.25}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -332,6 +328,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -401,7 +400,7 @@ GameObject:
   - component: {fileID: 5547438160896424230}
   - component: {fileID: 7671546255439844600}
   - component: {fileID: 6199089264889278840}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -654,14 +653,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Shape:
     rid: 7459977031401078787
-  m_Size: {x: 0.5, y: 3.25, z: 7.25}
-  m_Rotation: {x: 0, y: 0, z: -0.70710677, w: 0.70710677}
-  m_PivotLocation: 1
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 24534
-  m_ShapeBox:
-    m_Center: {x: 0.25, y: 1.625, z: -3.625}
-    m_Extent: {x: 1.6249999, y: 0.25000012, z: 3.625}
+  m_Size: {x: 0.5, y: 3.25, z: 7.25}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -685,6 +680,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -749,7 +747,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 770129794618384241}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -784,7 +782,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5317342439411664964}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -880,13 +878,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 714ab5b0870626f4da94a2c7c5714b6d, type: 2}
     - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
       propertyPath: m_Name
       value: StonePlankLong (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
@@ -969,13 +972,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 714ab5b0870626f4da94a2c7c5714b6d, type: 2}
     - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
       propertyPath: m_Name
       value: StonePlankLong (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
@@ -1073,13 +1081,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 5468da19f212d644281812f0dc327293,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 714ab5b0870626f4da94a2c7c5714b6d, type: 2}
     - target: {fileID: 919132149155446097, guid: 5468da19f212d644281812f0dc327293,
         type: 3}
       propertyPath: m_Name
       value: StonePlankSquare (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5468da19f212d644281812f0dc327293,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5468da19f212d644281812f0dc327293,
         type: 3}
@@ -1177,13 +1190,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 5468da19f212d644281812f0dc327293,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 714ab5b0870626f4da94a2c7c5714b6d, type: 2}
     - target: {fileID: 919132149155446097, guid: 5468da19f212d644281812f0dc327293,
         type: 3}
       propertyPath: m_Name
       value: StonePlankSquare (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5468da19f212d644281812f0dc327293,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5468da19f212d644281812f0dc327293,
         type: 3}
@@ -1209,10 +1227,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2674510358233328095}
     m_Modifications:
+    - target: {fileID: 1149643004416436424, guid: c1502f10034c6be4ea8c514206218ba2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 1325747843828048007, guid: c1502f10034c6be4ea8c514206218ba2,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 8235
+      value: 8241
       objectReference: {fileID: 0}
     - target: {fileID: 6051914040063984581, guid: c1502f10034c6be4ea8c514206218ba2,
         type: 3}
@@ -1278,6 +1301,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stairs
+      objectReference: {fileID: 0}
+    - target: {fileID: 6051914040063984591, guid: c1502f10034c6be4ea8c514206218ba2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1355,13 +1383,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 714ab5b0870626f4da94a2c7c5714b6d, type: 2}
     - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
       propertyPath: m_Name
       value: StonePlankLong (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
@@ -1449,13 +1482,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 714ab5b0870626f4da94a2c7c5714b6d, type: 2}
     - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}
       propertyPath: m_Name
       value: StonePlankLong (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 57a9f07de73414a4face3e9951199d51,
         type: 3}

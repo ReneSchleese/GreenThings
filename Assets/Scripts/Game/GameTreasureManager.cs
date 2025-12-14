@@ -32,6 +32,11 @@ public class GameTreasureManager : MonoBehaviour
         return unopenedTreasures[0];
     }
 
-    public void SetTreasureSpawns(IEnumerable<Transform> spawns) => _treasureSpawns = spawns.ToArray();
+    public Transform[] TreasureSpawns
+    {
+        get => _treasureSpawns;
+        set => _treasureSpawns = value;
+    }
+
     public Transform TreasureSpawnsParent => _treasureSpawnsParent;
 }

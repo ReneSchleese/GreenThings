@@ -39,4 +39,5 @@ public class GameTreasureManager : MonoBehaviour
     }
 
     public Transform TreasureSpawnsParent => _treasureSpawnsParent;
+    public GridSortedPoints GridSortedTreasures => _gridSortedTreasures;
 }

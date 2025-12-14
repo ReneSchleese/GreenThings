@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 213226733775713336}
   - component: {fileID: 7485923987937618}
+  - component: {fileID: 2006618362986258626}
   m_Layer: 13
   m_Name: BushBed
   m_TagString: Untagged
@@ -89,6 +90,20 @@ CapsuleCollider:
   m_Height: 10
   m_Direction: 1
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &2006618362986258626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7199286729188065023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786e35af9e0bb4340848847471ef01e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _surfaceType: 0
+  _allowsTreasureSpawn: 0
 --- !u!1001 &2695285098232111126
 PrefabInstance:
   m_ObjectHideFlags: 0

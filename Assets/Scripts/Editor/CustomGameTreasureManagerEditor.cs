@@ -50,7 +50,7 @@ public class CustomGameTreasureManagerEditor : Editor
             {
                 Vector3 origin = new(x, height, z);
                 Physics.Raycast(origin, Vector3.down, out RaycastHit hit, height - minY, LayerMask.GetMask("Environment"));
-                if (hit.collider != null)
+                if (hit.collider != null && hit.collider.TryGetComponent(out EnvironmentObject envObj) && envObj.AllowsTreasureSpawn)
                 {
                     Debug.DrawRay(hit.point, Vector3.up * 2, Color.green, 3f);   
                 }

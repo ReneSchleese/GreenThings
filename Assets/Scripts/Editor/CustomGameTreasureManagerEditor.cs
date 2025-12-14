@@ -49,7 +49,7 @@ public class CustomGameTreasureManagerEditor : Editor
             for (float z = gridMin.y; z < gridMax.y; z += stepSize)
             {
                 Vector3 origin = new(x, height, z);
-                Physics.Raycast(origin, Vector3.down, out RaycastHit hit, height - minY);
+                Physics.Raycast(origin, Vector3.down, out RaycastHit hit, height - minY, LayerMask.GetMask("Environment"));
                 if (hit.collider != null)
                 {
                     Debug.DrawRay(hit.point, Vector3.up * 2, Color.green, 3f);   

@@ -74,7 +74,7 @@ public class Game : Singleton<Game>, IAppState
         }
         _gameTreasureManager = FindFirstObjectByType<GameTreasureManager>();
         Debug.Assert(_gameTreasureManager != null);
-        yield return _gameTreasureManager.Setup(numberOfTreasures: 3);
+        yield return _gameTreasureManager.Setup(numberOfTreasures: 8);
     }
 
     private void SpawnForestSpirits()

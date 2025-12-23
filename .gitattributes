@@ -2,14 +2,10 @@
 # Unity / Git configuration
 # -----------------------
 
-# Text files → normalize to LF
-* text eol=lf
-
 # Unity YAML (text) assets
 *.meta      text eol=lf
 *.unity     text eol=lf
 *.prefab    text eol=lf
-*.asset     text eol=lf
 *.asmdef    text eol=lf
 *.json      text eol=lf
 *.shader    text eol=lf

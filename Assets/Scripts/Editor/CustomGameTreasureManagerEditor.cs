@@ -52,7 +52,7 @@ public class CustomGameTreasureManagerEditor : Editor
             for (float z = gridMin.y; z < gridMax.y; z += stepSize)
             {
                 Vector3 origin = new(x, height, z);
-                Physics.Raycast(origin, Vector3.down, out RaycastHit hit, height - minY, LayerMask.GetMask("Environment"));
+                Physics.Raycast(origin, Vector3.down, out RaycastHit hit, height - minY, LayerMask.GetMask("Environment") | LayerMask.GetMask("CollectableWall"));
                 if (hit.collider == null || !hit.collider.TryGetComponent(out EnvironmentObject envObj) || !envObj.AllowsTreasureSpawn)
                 {
                     continue;

@@ -15,11 +15,11 @@ TagManager:
   - PostProcessingVolumes
   - IgnoreProjector
   - BuriedTreasure
-  - Coin
+  - Collectable
   - Player
   - ForestSpirit
   - Environment
-  - 
+  - CollectableWall
   - 
   - 
   - 

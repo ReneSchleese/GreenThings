@@ -1,8 +1,11 @@
-﻿using Audio;
+﻿using System;
+using Audio;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class ChainSounds : MonoBehaviour
+[Serializable]
+public class ChainSounds
 {
     [SerializeField] private AudioClip[] _primaryClips;
     [SerializeField] private AudioClip[] _secondaryClips;

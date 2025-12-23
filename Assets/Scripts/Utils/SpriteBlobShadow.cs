@@ -22,7 +22,7 @@ public class SpriteBlobShadow : MonoBehaviour
         Box worldBox = _box.ToWorld(transform);
         Vector3 rayOrigin = worldBox.TopCenter;
         float rayDistance = worldBox.Height;
-        Physics.Raycast(new Ray(rayOrigin, Vector3.down), out RaycastHit hit, rayDistance, LayerMask.GetMask("Default"));
+        Physics.Raycast(new Ray(rayOrigin, Vector3.down), out RaycastHit hit, rayDistance, LayerMask.GetMask("Environment"));
 
         float distanceToGround = rayDistance;
         bool floorIsWithinBox = hit.collider != null;

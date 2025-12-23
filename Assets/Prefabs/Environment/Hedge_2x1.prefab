@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7208250994076304465}
   - component: {fileID: 282592928118534070}
-  m_Layer: 0
+  - component: {fileID: 4260835375504086395}
+  m_Layer: 13
   m_Name: Hedge_2x1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,6 +55,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4, y: 1.8, z: 2}
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &4260835375504086395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3091484820908642288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786e35af9e0bb4340848847471ef01e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _surfaceType: 0
+  _allowsTreasureSpawn: 0
 --- !u!1 &3484516458959107215
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,7 +80,7 @@ GameObject:
   - component: {fileID: 7779139051274031549}
   - component: {fileID: 794764205201854215}
   - component: {fileID: 3134923404786107754}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Hedge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,6 +119,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

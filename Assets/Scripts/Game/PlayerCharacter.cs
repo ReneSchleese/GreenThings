@@ -68,7 +68,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         Quaternion tiltedAwayFromCamera = Quaternion.LerpUnclamped(lookRotation, lookRotationTiledTowardsCamera, -0.125f);
         _actor.rotation = Utils.SmoothDamp(_actor.rotation, tiltedAwayFromCamera, ref _actorRotDampVelocity, 0.05f);
 
-        int colliderAmount = Physics.OverlapSphereNonAlloc(transform.position + Vector3.up, 1.0f, _colliders, LayerMask.GetMask("Coin"), QueryTriggerInteraction.Collide);
+        int colliderAmount = Physics.OverlapSphereNonAlloc(transform.position + Vector3.up, 1.0f, _colliders, AppLayers.CollectableLayerMask, QueryTriggerInteraction.Collide);
         for (int i = 0; i < colliderAmount; i++)
         {
             if (_colliders[i].TryGetComponent(out Coin coin) && coin.IsCollectable)

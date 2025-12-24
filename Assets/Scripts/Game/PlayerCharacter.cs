@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Audio;
@@ -76,6 +77,16 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
                 Collect(coin);
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"OnTriggerEnter {other}");
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log($"OnTriggerExit {other}");
     }
 
     private void OnMoveInput(Vector2 delta)

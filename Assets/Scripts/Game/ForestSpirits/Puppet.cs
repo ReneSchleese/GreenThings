@@ -25,6 +25,7 @@ namespace ForestSpirits
         [SerializeField] private ParticleSystem _particles;
         [SerializeField] private ParticleSystem _sparkles;
         [SerializeField] private AnimationCurve _particlesCurve;
+        [SerializeField] private AnimationCurve _scanTintCurve;
 
         private Vector3 _lastPosition;
         private Vector3 _posDampVelocity;
@@ -75,7 +76,7 @@ namespace ForestSpirits
             
             float distance = Vector3.Distance(transform.position, treasure.transform.position);
             const float distanceMin = 2f;
-            const float distanceMax = 14f;
+            const float distanceMax = 16f;
             Sequence sequence = DOTween.Sequence().SetId(id);
             const float duration = 1f;
             sequence.InsertCallback(0, () => _animator.SetTrigger(AnimationIds.Unfold));
@@ -84,7 +85,7 @@ namespace ForestSpirits
                 () =>
                 {
                     float closeness = Mathf.InverseLerp(distanceMax, distanceMin, distance);
-                    bool isClose = closeness > 0.9f;
+                    bool isClose = distance <= 1.5f;
                     bool playSound = closeness > 0.05f && (index % 2 == 0 || isClose);
                     if(playSound)
                     {
@@ -96,7 +97,7 @@ namespace ForestSpirits
 
                     float curvedCloseness = _particlesCurve.Evaluate(closeness);
                     _particles.Emit(Mathf.RoundToInt(Mathf.Lerp(0, 5, curvedCloseness)));
-                    _sparkles.Emit(Mathf.RoundToInt(Mathf.Lerp(0, 3, curvedCloseness * curvedCloseness)));
+                    _sparkles.Emit(isClose ? 6 : 0);
                 });
             sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));
             sequence.InsertCallback(0.35f, () =>
@@ -112,7 +113,7 @@ namespace ForestSpirits
             sequence.OnUpdate(() =>
             {
                 float closeness = Mathf.InverseLerp(distanceMax, distanceMin, distance);
-                _meshRenderer.material.SetFloat(ScanNormalized, NormalizedScanProgress * closeness);
+                _meshRenderer.material.SetFloat(ScanNormalized, _scanTintCurve.Evaluate(NormalizedScanProgress) * closeness);
             });
         }
         

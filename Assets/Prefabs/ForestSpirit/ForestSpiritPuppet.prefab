@@ -4988,7 +4988,7 @@ MonoBehaviour:
   _scanSoundClose: {fileID: 8300000, guid: 31429235556ac234daa15953da7901da, type: 3}
   _minPitch: 0.7
   _maxPitch: 1.5
-  _minVolume: 0.25
+  _minVolume: 0.1
   _maxVolume: 0.4
   _particles: {fileID: 3343309535375207045}
   _sparkles: {fileID: 2195752178498255613}
@@ -5030,6 +5030,30 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.18241401
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _scanTintCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

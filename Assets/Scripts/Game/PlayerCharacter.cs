@@ -81,12 +81,18 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"OnTriggerEnter {other}");
+        if (other.TryGetComponent(out InteractionObject interaction))
+        {
+            Debug.Log($"OnTriggerEnter {interaction.InteractionId}");       
+        }
     }
     
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log($"OnTriggerExit {other}");
+        if (other.TryGetComponent(out InteractionObject interaction))
+        {
+            Debug.Log($"OnTriggerEnter {interaction.InteractionId}");       
+        }
     }
 
     private void OnMoveInput(Vector2 delta)

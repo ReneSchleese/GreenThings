@@ -75,7 +75,7 @@ namespace ForestSpirits
             
             float distance = Vector3.Distance(transform.position, treasure.transform.position);
             const float distanceMin = 2f;
-            const float distanceMax = 14f;
+            const float distanceMax = 16f;
             Sequence sequence = DOTween.Sequence().SetId(id);
             const float duration = 1f;
             sequence.InsertCallback(0, () => _animator.SetTrigger(AnimationIds.Unfold));

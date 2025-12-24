@@ -3,6 +3,7 @@
 public class InteractionObject : MonoBehaviour
 {
     public InteractionId InteractionId;
+    public Transform TextAnchor;
 }
 
 public enum InteractionId

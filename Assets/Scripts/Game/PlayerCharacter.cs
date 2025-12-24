@@ -20,8 +20,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private HornetAnimationEvents _animationEvents;
     [SerializeField] private bool _applyGravity;
 
-    public event Action<InteractionId> InteractionVolumeEntered;
-    public event Action<InteractionId> InteractionVolumeExited;
+    public event Action<InteractionObject> InteractionVolumeEntered;
+    public event Action<InteractionObject> InteractionVolumeExited;
 
     public const float MOVEMENT_SPEED = 8f;
     private Vector3 _lastVelocity;
@@ -86,7 +86,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         if (other.TryGetComponent(out InteractionObject interaction))
         {
-            InteractionVolumeEntered.Invoke(interaction.InteractionId);
+            InteractionVolumeEntered?.Invoke(interaction);
         }
     }
     
@@ -94,7 +94,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         if (other.TryGetComponent(out InteractionObject interaction))
         {
-            InteractionVolumeExited.Invoke(interaction.InteractionId);
+            InteractionVolumeExited?.Invoke(interaction);
         }
     }
 

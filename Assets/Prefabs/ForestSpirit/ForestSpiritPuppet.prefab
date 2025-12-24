@@ -4988,7 +4988,7 @@ MonoBehaviour:
   _scanSoundClose: {fileID: 8300000, guid: 31429235556ac234daa15953da7901da, type: 3}
   _minPitch: 0.7
   _maxPitch: 1.5
-  _minVolume: 0.25
+  _minVolume: 0.1
   _maxVolume: 0.4
   _particles: {fileID: 3343309535375207045}
   _sparkles: {fileID: 2195752178498255613}

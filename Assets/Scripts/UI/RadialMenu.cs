@@ -65,13 +65,12 @@ public class RadialMenu : MonoBehaviour
         _cursor.SetStyle(setShellCursorActive: true, animate: false);
         
         InputManager inputManager = App.Instance.InputManager;
-        CreateItem("Interact", () => inputManager.InvokeInteract());
+        CreateItem("Scan", () => inputManager.InvokeScan());
         CreateItem("Stay", () => inputManager.InvokeScan());
         CreateItem("Toggle\nFollow", () => inputManager.InvokeToggleFormation());
         CreateItem("Dig", () => inputManager.InvokeDig());
         CreateItem("Battlecry", () => inputManager.InvokeBattleCry());
-        CreateItem("Scan", () => inputManager.InvokeScan());
-
+        CreateItem("Interact", () => inputManager.InvokeInteract());
         LayoutItems();
         return;
 

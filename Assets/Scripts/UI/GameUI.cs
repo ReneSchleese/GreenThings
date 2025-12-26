@@ -78,7 +78,7 @@ public class GameUI : MonoBehaviour
         DOTween.Kill(this);
         _fadeableInteractionRegion.Fade(fadeIn: true).SetId(this);
         _currentInteractionObject = interaction;
-        _interactionTmPro.text = interaction.InteractionId.ToString();
+        _interactionTmPro.text = interaction.GetInteractionDisplayText();
     }
     
     private void OnInteractionVolumeExited(InteractionObject interaction)

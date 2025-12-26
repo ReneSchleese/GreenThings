@@ -56,5 +56,8 @@ public class GameUI : MonoBehaviour
     private void UpdateInteractionUI()
     {
         Debug.Log("Update interaction");
+        PlayerInteraction interaction = Game.Instance.Player.CurrentInteraction;
+        bool hasInteraction = interaction != null;
+        _radialMenu.UpdateWithInteraction(interaction);
     }
 }

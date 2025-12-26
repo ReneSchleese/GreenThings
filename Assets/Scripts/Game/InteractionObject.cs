@@ -8,7 +8,9 @@ public class InteractionObject : MonoBehaviour
 
     public string GetInteractionDisplayText()
     {
-        return $"<font-weight=600>{_interactionText}</font-weight>";
+        // TODO:
+        //return $"<font-weight=600>{_interactionText}</font-weight>";
+        return _interactionText;
     }
 }
 

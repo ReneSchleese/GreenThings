@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class RadialMenu : MonoBehaviour
 {
+    private const string INTERACT_TEXT = "Interact";
     [SerializeField] private RadialMenuItem _itemPrefab;
     [SerializeField] private Transform _itemContainer;
     [SerializeField] private RectTransform _radiusHandle;
@@ -75,7 +76,7 @@ public class RadialMenu : MonoBehaviour
         CreateItem("Toggle\nFollow", () => inputManager.InvokeToggleFormation());
         CreateItem("Dig", () => inputManager.InvokeDig());
         CreateItem("Battlecry", () => inputManager.InvokeBattleCry());
-        CreateItem("Interact", () => inputManager.InvokeInteract());
+        CreateItem(INTERACT_TEXT, () => inputManager.InvokeInteract());
         LayoutItems();
         return;
 
@@ -213,5 +214,18 @@ public class RadialMenu : MonoBehaviour
         int index = Mathf.FloorToInt(angle / degreesPerItem);
         index = Mathf.Clamp(index, 0, itemCount - 1);
         return index;
+    }
+
+    public void UpdateWithInteraction(PlayerInteraction interaction)
+    {
+        RadialMenuItem interactionItem = _items[^1];
+        if (interaction.InteractionObject is null)
+        {
+            interactionItem.SetText($"<font-weight=600>{INTERACT_TEXT}");
+        }
+        else
+        {
+            interactionItem.SetText($"<font-weight=600>{interaction.InteractionObject.GetInteractionDisplayText()}\n<size=60%>{INTERACT_TEXT}");
+        }
     }
 }

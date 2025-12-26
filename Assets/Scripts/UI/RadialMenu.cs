@@ -13,6 +13,9 @@ public class RadialMenu : MonoBehaviour
     [SerializeField] private Image _cursorImage;
     [SerializeField] private RadialMenuCursor _cursor;
 
+    public event Action FadeInBegan;
+    public event Action FadeOutBegan;
+
     private readonly List<RadialMenuItem> _items = new();
     private VirtualJoystick _virtualJoystick;
     private int _selectedIndex = -1;
@@ -47,6 +50,7 @@ public class RadialMenu : MonoBehaviour
             sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: true));
             sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: true));
             sequence.Insert(0.25f, _fadeableItemsGroup.Fade(fadeIn: true, 1f));
+            FadeInBegan?.Invoke();
         };
         _virtualJoystick.StickInputEnd += () => 
         {
@@ -60,6 +64,7 @@ public class RadialMenu : MonoBehaviour
                 _items[_selectedIndex].InputAction.Invoke();
             }
             _selectedIndex = -1;
+            FadeOutBegan?.Invoke();
         };
         
         _cursor.SetStyle(setShellCursorActive: true, animate: false);

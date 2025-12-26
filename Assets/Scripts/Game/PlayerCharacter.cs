@@ -20,9 +20,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private HornetAnimationEvents _animationEvents;
     [SerializeField] private bool _applyGravity;
 
-    public event Action<InteractionObject> InteractionVolumeEntered;
-    public event Action<InteractionObject> InteractionVolumeExited;
-
     public const float MOVEMENT_SPEED = 8f;
     private Vector3 _lastVelocity;
     private Quaternion _rotDampVelocity;
@@ -86,7 +83,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         if (other.TryGetComponent(out InteractionObject interaction))
         {
-            InteractionVolumeEntered?.Invoke(interaction);
+            CurrentInteraction.OnEnteredVolume(interaction);
+            //InteractionVolumeEntered?.Invoke(interaction);
         }
     }
     
@@ -94,7 +92,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         if (other.TryGetComponent(out InteractionObject interaction))
         {
-            InteractionVolumeExited?.Invoke(interaction);
+            CurrentInteraction.OnExitedVolume(interaction);
+            //InteractionVolumeExited?.Invoke(interaction);
         }
     }
 
@@ -242,4 +241,5 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     public Vector3? TargetDir => transform.position + _targetLookRotator.forward;
     public float JoystickMagnitude { get; private set; }
     public bool IsMoving { get; private set; }
+    public PlayerInteraction CurrentInteraction { get; private set; } = new();
 }

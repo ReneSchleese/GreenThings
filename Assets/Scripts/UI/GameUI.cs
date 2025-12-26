@@ -1,30 +1,22 @@
-﻿using Cinemachine;
-using DG.Tweening;
-using TMPro;
+﻿using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
+    [SerializeField] private Canvas _canvas;
     [SerializeField] private Button _backButton;
     [SerializeField] private VirtualJoystickRegion _leftStickRegion;
     [SerializeField] private VirtualJoystickRegion _rightStickRegion;
     [SerializeField] private RadialMenu _radialMenu;
-    [SerializeField] private CanvasGroup _interactionCanvasGroup;
-    [SerializeField] private RectTransform _interactionWidget;
-    [SerializeField] private TextMeshProUGUI _interactionTmPro;
-    [SerializeField] private Canvas _canvas;
-
-    private FadeableCanvasGroup _fadeableInteractionRegion;
-    private InteractionObject _currentInteractionObject;
-    private RectTransform _canvasTransform;
+    [SerializeField] private InteractionWidget _interactionWidget;
 
     public void Init()
     {
-        _canvasTransform = _canvas.GetComponent<RectTransform>();
         _leftStickRegion.Init();
         _rightStickRegion.Init();
         _radialMenu.Init(_rightStickRegion);
+        _interactionWidget.Init(_canvas.GetComponent<RectTransform>());
         
         _backButton.onClick.AddListener(OnBackButtonPress);
         
@@ -34,38 +26,9 @@ public class GameUI : MonoBehaviour
         };
         
         _radialMenu.FadeInstantly(fadeIn: false);
-        Game.Instance.Player.InteractionVolumeEntered += OnInteractionVolumeEntered;
-        Game.Instance.Player.InteractionVolumeExited += OnInteractionVolumeExited;
-        _fadeableInteractionRegion = new FadeableCanvasGroup(_interactionCanvasGroup, 0.5f);
-        _fadeableInteractionRegion.FadeInstantly(fadeIn: false);
-    }
-    
-    void OnEnable()
-    {
-        CinemachineCore.CameraUpdatedEvent.AddListener(OnCameraUpdated);
-    }
-
-    void OnDisable()
-    {
-        CinemachineCore.CameraUpdatedEvent.RemoveListener(OnCameraUpdated);
-    }
-
-    private void OnCameraUpdated(CinemachineBrain brain)
-    {
-        if (_currentInteractionObject is null)
-        {
-            return;
-        }
-        _interactionWidget.transform.position = _currentInteractionObject.transform.position;
-        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Game.Instance.MainCamera, _currentInteractionObject.TextAnchor.position);
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            _canvasTransform,
-            screenPoint,
-            null,
-            out Vector2 localPoint
-        );
-        _interactionWidget.anchoredPosition = localPoint;
+        _radialMenu.FadeInBegan += UpdateInteractionUI;
+        _radialMenu.FadeOutBegan += UpdateInteractionUI;
+        Game.Instance.Player.CurrentInteraction.Changed += UpdateInteractionUI;
     }
 
     private void OnBackButtonPress()
@@ -75,18 +38,23 @@ public class GameUI : MonoBehaviour
 
     private void OnInteractionVolumeEntered(InteractionObject interaction)
     {
-        DOTween.Kill(this);
-        _fadeableInteractionRegion.Fade(fadeIn: true).SetId(this);
-        _currentInteractionObject = interaction;
-        _interactionTmPro.text = interaction.GetInteractionDisplayText();
+        // DOTween.Kill(this);
+        // _fadeableInteractionRegion.Fade(fadeIn: true).SetId(this);
+        // _currentInteractionObject = interaction;
+        // _interactionTmPro.text = interaction.GetInteractionDisplayText();
     }
     
     private void OnInteractionVolumeExited(InteractionObject interaction)
     {
-        DOTween.Kill(this);
-        _fadeableInteractionRegion.Fade(fadeIn: false).SetId(this).OnComplete(() =>
-        {
-            _currentInteractionObject = null;
-        });
+        // DOTween.Kill(this);
+        // _fadeableInteractionRegion.Fade(fadeIn: false).SetId(this).OnComplete(() =>
+        // {
+        //     _currentInteractionObject = null;
+        // });
+    }
+
+    private void UpdateInteractionUI()
+    {
+        Debug.Log("Update interaction");
     }
 }

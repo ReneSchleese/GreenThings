@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,8 +34,8 @@ public class GameUI : MonoBehaviour
         };
         
         _radialMenu.FadeInstantly(fadeIn: false);
-        Game.Instance.Player.InteractionVolumeEntered += OnInteractionEntered;
-        Game.Instance.Player.InteractionVolumeExited += OnInteractionExited;
+        Game.Instance.Player.InteractionVolumeEntered += OnInteractionVolumeEntered;
+        Game.Instance.Player.InteractionVolumeExited += OnInteractionVolumeExited;
         _fadeableInteractionRegion = new FadeableCanvasGroup(_interactionCanvasGroup, 0.5f);
         _fadeableInteractionRegion.FadeInstantly(fadeIn: false);
     }
@@ -72,16 +73,20 @@ public class GameUI : MonoBehaviour
         App.Instance.TransitionToMainMenu();
     }
 
-    private void OnInteractionEntered(InteractionObject interaction)
+    private void OnInteractionVolumeEntered(InteractionObject interaction)
     {
-        _fadeableInteractionRegion.Fade(fadeIn: true);
+        DOTween.Kill(this);
+        _fadeableInteractionRegion.Fade(fadeIn: true).SetId(this);
         _currentInteractionObject = interaction;
         _interactionTmPro.text = interaction.InteractionId.ToString();
     }
     
-    private void OnInteractionExited(InteractionObject interaction)
+    private void OnInteractionVolumeExited(InteractionObject interaction)
     {
-        _fadeableInteractionRegion.Fade(fadeIn: false);
-        _currentInteractionObject = null;
+        DOTween.Kill(this);
+        _fadeableInteractionRegion.Fade(fadeIn: false).SetId(this).OnComplete(() =>
+        {
+            _currentInteractionObject = null;
+        });
     }
 }

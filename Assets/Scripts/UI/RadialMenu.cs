@@ -225,13 +225,11 @@ public class RadialMenu : MonoBehaviour
         }
         else
         {
-            interactionItem.SetText($"<font-weight=600><size=60%>{INTERACT_TEXT}\n<size=100%>{interactionState.InteractionVolume.GetInteractionDisplayText()}");
+            interactionItem.SetText($"<font-weight=600><size=60%>{INTERACT_TEXT}\n<size=100%>{interactionState.InteractionVolume.DisplayText}");
         }
     }
     
     private Sequence Sequence {  get; set; }
 
     public bool IsBeingUsed => _cursor.RootGroup.alpha > 0f;
-    public bool IsFadingOut => Sequence is { active: true } && Sequence.stringId.Equals($"{this}.FadeOut");
-    public bool IsFadingIn => Sequence is { active: true } && Sequence.stringId.Equals($"{this}.FadeIn");
 }

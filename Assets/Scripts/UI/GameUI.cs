@@ -34,31 +34,13 @@ public class GameUI : MonoBehaviour
         App.Instance.TransitionToMainMenu();
     }
 
-    private void OnInteractionVolumeEntered(InteractionVolume interaction)
-    {
-        // DOTween.Kill(this);
-        // _fadeableInteractionRegion.Fade(fadeIn: true).SetId(this);
-        // _currentInteractionObject = interaction;
-        // _interactionTmPro.text = interaction.GetInteractionDisplayText();
-    }
-    
-    private void OnInteractionVolumeExited(InteractionVolume interaction)
-    {
-        // DOTween.Kill(this);
-        // _fadeableInteractionRegion.Fade(fadeIn: false).SetId(this).OnComplete(() =>
-        // {
-        //     _currentInteractionObject = null;
-        // });
-    }
-
     private void UpdateInteractionUI()
     {
         PlayerInteractionState interactionState = Game.Instance.Player.InteractionState;
-        bool hasInteraction = interactionState.InteractionVolume is not null;
         _radialMenu.UpdateWithInteraction(interactionState);
+        _interactionWidget.SetInteractionVolume(interactionState.InteractionVolume);
+        bool hasInteraction = interactionState.InteractionVolume is not null;
         bool interactionWidgetShouldBeVisible = hasInteraction && !_radialMenu.IsBeingUsed;
-        Debug.Log($"Update interaction, interactionWidgetShouldBeVisible={interactionWidgetShouldBeVisible}");
-        _interactionWidget.InteractionVolume = interactionState.InteractionVolume;
         _interactionWidget.Fade(interactionWidgetShouldBeVisible);
     }
 }

@@ -11,6 +11,7 @@ public class InteractionWidget : MonoBehaviour
 
     private FadeableCanvasGroup _fadeableInteractionRegion;
     private RectTransform _canvasTransform;
+    private InteractionVolume _interactionVolume;
     
     public void Init(RectTransform canvasTransform)
     {
@@ -30,12 +31,12 @@ public class InteractionWidget : MonoBehaviour
 
     private void OnCameraUpdated(CinemachineBrain brain)
     {
-        if (InteractionVolume is null)
+        if (_interactionVolume is null)
         {
             return;
         }
-        _interactionItemTransform.transform.position = InteractionVolume.transform.position;
-        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Game.Instance.MainCamera, InteractionVolume.TextAnchor.position);
+        _interactionItemTransform.transform.position = _interactionVolume.transform.position;
+        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Game.Instance.MainCamera, _interactionVolume.TextAnchor.position);
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             _canvasTransform,
@@ -45,6 +46,13 @@ public class InteractionWidget : MonoBehaviour
         );
         _interactionItemTransform.anchoredPosition = localPoint;
     }
-    
-    public InteractionVolume InteractionVolume { get; set; }
+
+    public void SetInteractionVolume(InteractionVolume interactionVolume)
+    {
+        _interactionVolume = interactionVolume;
+        if (interactionVolume is not null)
+        {
+            _interactionTmPro.text = $"<font-weight=600>{interactionVolume.DisplayText}</font-weight>";
+        }
+    }
 }

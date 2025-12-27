@@ -31,7 +31,7 @@ public class InteractionWidget : MonoBehaviour
 
     private void OnCameraUpdated(CinemachineBrain brain)
     {
-        if (_interactionVolume is null)
+        if (_interactionVolume is null || _interactionCanvasGroup.alpha == 0)
         {
             return;
         }

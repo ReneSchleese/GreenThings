@@ -38,9 +38,12 @@ public class GameUI : MonoBehaviour
     {
         PlayerInteractionState interactionState = Game.Instance.Player.InteractionState;
         _radialMenu.UpdateWithInteraction(interactionState);
-        _interactionWidget.SetInteractionVolume(interactionState.InteractionVolume);
-        bool hasInteraction = interactionState.InteractionVolume is not null;
-        bool interactionWidgetShouldBeVisible = hasInteraction && !_radialMenu.IsBeingUsed;
+        bool hasVolume = interactionState.InteractionVolume is not null;
+        if (hasVolume)
+        {
+            _interactionWidget.SetInteractionVolume(interactionState.InteractionVolume);
+        }
+        bool interactionWidgetShouldBeVisible = hasVolume && !_radialMenu.IsBeingUsed;
         _interactionWidget.Fade(interactionWidgetShouldBeVisible);
     }
 }

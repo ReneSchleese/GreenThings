@@ -51,6 +51,7 @@ public class Game : Singleton<Game>, IAppState
         Debug.Log("Game.OnUnload");
         SceneManager.UnloadSceneAsync("Game_Treasure");
         _gameTreasureManager = null;
+        App.Instance.InputManager.Interacted -= OnPlayerInteracted;
     }
 
     public IEnumerator OnLoad()
@@ -75,6 +76,7 @@ public class Game : Singleton<Game>, IAppState
         _gameTreasureManager = FindFirstObjectByType<GameTreasureManager>();
         Debug.Assert(_gameTreasureManager != null);
         yield return _gameTreasureManager.Setup(numberOfTreasures: 8);
+        App.Instance.InputManager.Interacted += OnPlayerInteracted;
     }
 
     private void SpawnForestSpirits()
@@ -106,6 +108,11 @@ public class Game : Singleton<Game>, IAppState
     {
         treasureManager = _gameTreasureManager;
         return treasureManager != null;
+    }
+
+    private void OnPlayerInteracted()
+    {
+        Debug.Log($"Game.OnPlayerInteracted {_player.InteractionState.InteractionVolume?.DisplayText}");
     }
 
     public PlayerCharacter Player => _player;

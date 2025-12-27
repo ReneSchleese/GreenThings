@@ -27,7 +27,7 @@ public class GameUI : MonoBehaviour
         
         _radialMenu.FadeInstantly(fadeIn: false);
         _radialMenu.BeingUsedChanged += UpdateInteractionUI;
-        Game.Instance.Player.CurrentInteraction.Changed += UpdateInteractionUI;
+        Game.Instance.Player.InteractionState.Changed += UpdateInteractionUI;
     }
 
     private void OnBackButtonPress()
@@ -54,9 +54,9 @@ public class GameUI : MonoBehaviour
 
     private void UpdateInteractionUI()
     {
-        PlayerInteraction interaction = Game.Instance.Player.CurrentInteraction;
-        bool hasInteraction = interaction.InteractionObject is not null;
-        _radialMenu.UpdateWithInteraction(interaction);
+        PlayerInteractionState interactionState = Game.Instance.Player.InteractionState;
+        bool hasInteraction = interactionState.InteractionObject is not null;
+        _radialMenu.UpdateWithInteraction(interactionState);
         bool interactionWidgetShouldBeVisible = hasInteraction && !_radialMenu.IsBeingUsed;
         Debug.Log($"Update interaction, interactionWidgetShouldBeVisible={interactionWidgetShouldBeVisible}");
     }

@@ -83,7 +83,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         if (other.TryGetComponent(out InteractionObject interaction))
         {
-            CurrentInteraction.OnEnteredVolume(interaction);
+            InteractionState.OnEnteredVolume(interaction);
             //InteractionVolumeEntered?.Invoke(interaction);
         }
     }
@@ -92,7 +92,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         if (other.TryGetComponent(out InteractionObject interaction))
         {
-            CurrentInteraction.OnExitedVolume(interaction);
+            InteractionState.OnExitedVolume(interaction);
             //InteractionVolumeExited?.Invoke(interaction);
         }
     }
@@ -241,5 +241,5 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     public Vector3? TargetDir => transform.position + _targetLookRotator.forward;
     public float JoystickMagnitude { get; private set; }
     public bool IsMoving { get; private set; }
-    public PlayerInteraction CurrentInteraction { get; private set; } = new();
+    public PlayerInteractionState InteractionState { get; private set; } = new();
 }

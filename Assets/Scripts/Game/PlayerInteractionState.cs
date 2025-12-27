@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class PlayerInteraction
+public class PlayerInteractionState
 {
     public event Action Changed;
     

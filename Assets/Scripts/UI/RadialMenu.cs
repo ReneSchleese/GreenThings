@@ -215,16 +215,16 @@ public class RadialMenu : MonoBehaviour
         return index;
     }
 
-    public void UpdateWithInteraction(PlayerInteraction interaction)
+    public void UpdateWithInteraction(PlayerInteractionState interactionState)
     {
         RadialMenuItem interactionItem = _items[^1];
-        if (interaction.InteractionObject is null)
+        if (interactionState.InteractionObject is null)
         {
             interactionItem.SetText($"<font-weight=600>{INTERACT_TEXT}");
         }
         else
         {
-            interactionItem.SetText($"<font-weight=600><size=60%>{INTERACT_TEXT}\n<size=100%>{interaction.InteractionObject.GetInteractionDisplayText()}");
+            interactionItem.SetText($"<font-weight=600><size=60%>{INTERACT_TEXT}\n<size=100%>{interactionState.InteractionObject.GetInteractionDisplayText()}");
         }
     }
     

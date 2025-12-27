@@ -6,19 +6,30 @@ using UnityEngine;
 public class InteractionWidget : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _interactionCanvasGroup;
-    [SerializeField] private RectTransform _interactionItemTransform;
+    [SerializeField] private RectTransform _interactionItemTransform, _leafCursor;
     [SerializeField] private TextMeshProUGUI _interactionTmPro;
 
     private FadeableCanvasGroup _fadeableInteractionRegion;
     private RectTransform _canvasTransform;
     private InteractionVolume _interactionVolume;
-    
+    private string _wiggleAnimationId;
+
     public void Init(RectTransform canvasTransform)
     {
         _fadeableInteractionRegion = new FadeableCanvasGroup(_interactionCanvasGroup, 0.5f);
         _fadeableInteractionRegion.FadeInstantly(fadeIn: false);
         _canvasTransform = canvasTransform;
         CinemachineCore.CameraUpdatedEvent.AddListener(OnCameraUpdated);
+        Sequence wiggleSequence = DOTween.Sequence().SetId(WiggleAnimationId);
+        wiggleSequence.AppendInterval(0.5f);
+        wiggleSequence.Append(_leafCursor.DOPunchAnchorPos(Vector2.down * 5, 0.2f).SetEase(Ease.OutBack));
+        wiggleSequence.SetLoops(-1);
+    }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(WiggleAnimationId);
+        DOTween.Kill(this);
     }
 
     public Tween Fade(bool fadeIn)
@@ -53,6 +64,15 @@ public class InteractionWidget : MonoBehaviour
         if (interactionVolume is not null)
         {
             _interactionTmPro.text = $"<font-weight=600>{interactionVolume.DisplayText}</font-weight>";
+        }
+    }
+    
+    private string WiggleAnimationId
+    {
+        get
+        {
+            _wiggleAnimationId ??= $"{GetInstanceID()}.Wiggle";
+            return _wiggleAnimationId;
         }
     }
 }

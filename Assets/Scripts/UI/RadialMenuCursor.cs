@@ -8,6 +8,12 @@ public class RadialMenuCursor : MonoBehaviour
 
     private bool _shellCursorIsActive;
     private string _wiggleAnimationId;
+    
+    private void OnDestroy()
+    {
+        DOTween.Kill(WiggleAnimationId);
+        DOTween.Kill(this);
+    }
 
     public void SetStyle(bool setShellCursorActive,  bool animate)
     {

@@ -1,5 +1,4 @@
-﻿using DG.Tweening;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
@@ -35,7 +34,7 @@ public class GameUI : MonoBehaviour
         App.Instance.TransitionToMainMenu();
     }
 
-    private void OnInteractionVolumeEntered(InteractionObject interaction)
+    private void OnInteractionVolumeEntered(InteractionVolume interaction)
     {
         // DOTween.Kill(this);
         // _fadeableInteractionRegion.Fade(fadeIn: true).SetId(this);
@@ -43,7 +42,7 @@ public class GameUI : MonoBehaviour
         // _interactionTmPro.text = interaction.GetInteractionDisplayText();
     }
     
-    private void OnInteractionVolumeExited(InteractionObject interaction)
+    private void OnInteractionVolumeExited(InteractionVolume interaction)
     {
         // DOTween.Kill(this);
         // _fadeableInteractionRegion.Fade(fadeIn: false).SetId(this).OnComplete(() =>
@@ -55,9 +54,11 @@ public class GameUI : MonoBehaviour
     private void UpdateInteractionUI()
     {
         PlayerInteractionState interactionState = Game.Instance.Player.InteractionState;
-        bool hasInteraction = interactionState.InteractionObject is not null;
+        bool hasInteraction = interactionState.InteractionVolume is not null;
         _radialMenu.UpdateWithInteraction(interactionState);
         bool interactionWidgetShouldBeVisible = hasInteraction && !_radialMenu.IsBeingUsed;
         Debug.Log($"Update interaction, interactionWidgetShouldBeVisible={interactionWidgetShouldBeVisible}");
+        _interactionWidget.InteractionVolume = interactionState.InteractionVolume;
+        _interactionWidget.Fade(interactionWidgetShouldBeVisible);
     }
 }

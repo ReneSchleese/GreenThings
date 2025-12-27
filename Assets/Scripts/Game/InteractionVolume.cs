@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class InteractionObject : MonoBehaviour
+public class InteractionVolume : MonoBehaviour
 {
     public InteractionId InteractionId;
     public Transform TextAnchor;

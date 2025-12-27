@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -7,8 +8,7 @@ public class InteractionWidget : MonoBehaviour
     [SerializeField] private CanvasGroup _interactionCanvasGroup;
     [SerializeField] private RectTransform _interactionItemTransform;
     [SerializeField] private TextMeshProUGUI _interactionTmPro;
-    
-    private InteractionObject _currentInteractionObject;    
+
     private FadeableCanvasGroup _fadeableInteractionRegion;
     private RectTransform _canvasTransform;
     
@@ -17,26 +17,25 @@ public class InteractionWidget : MonoBehaviour
         _fadeableInteractionRegion = new FadeableCanvasGroup(_interactionCanvasGroup, 0.5f);
         _fadeableInteractionRegion.FadeInstantly(fadeIn: false);
         _canvasTransform = canvasTransform;
-    }
-    
-    void OnEnable()
-    {
         CinemachineCore.CameraUpdatedEvent.AddListener(OnCameraUpdated);
     }
 
-    void OnDisable()
+    public Tween Fade(bool fadeIn)
     {
-        CinemachineCore.CameraUpdatedEvent.RemoveListener(OnCameraUpdated);
+        DOTween.Kill(this);
+        Tween fade = _fadeableInteractionRegion.Fade(fadeIn);
+        fade.SetId(this);
+        return fade;
     }
 
     private void OnCameraUpdated(CinemachineBrain brain)
     {
-        if (_currentInteractionObject is null)
+        if (InteractionVolume is null)
         {
             return;
         }
-        _interactionItemTransform.transform.position = _currentInteractionObject.transform.position;
-        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Game.Instance.MainCamera, _currentInteractionObject.TextAnchor.position);
+        _interactionItemTransform.transform.position = InteractionVolume.transform.position;
+        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Game.Instance.MainCamera, InteractionVolume.TextAnchor.position);
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             _canvasTransform,
@@ -46,4 +45,6 @@ public class InteractionWidget : MonoBehaviour
         );
         _interactionItemTransform.anchoredPosition = localPoint;
     }
+    
+    public InteractionVolume InteractionVolume { get; set; }
 }

@@ -60,6 +60,7 @@ public class RadialMenu : MonoBehaviour
             Sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: false));
             Sequence.InsertCallback(0f, () => { BeingUsedChanged?.Invoke(); });
             Sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: false, 0.66f));
+            Sequence.OnComplete(() => { BeingUsedChanged?.Invoke(); });
             if (_selectedIndex != -1)
             {
                 _items[_selectedIndex].InputAction.Invoke();
@@ -218,13 +219,13 @@ public class RadialMenu : MonoBehaviour
     public void UpdateWithInteraction(PlayerInteractionState interactionState)
     {
         RadialMenuItem interactionItem = _items[^1];
-        if (interactionState.InteractionObject is null)
+        if (interactionState.InteractionVolume is null)
         {
             interactionItem.SetText($"<font-weight=600>{INTERACT_TEXT}");
         }
         else
         {
-            interactionItem.SetText($"<font-weight=600><size=60%>{INTERACT_TEXT}\n<size=100%>{interactionState.InteractionObject.GetInteractionDisplayText()}");
+            interactionItem.SetText($"<font-weight=600><size=60%>{INTERACT_TEXT}\n<size=100%>{interactionState.InteractionVolume.GetInteractionDisplayText()}");
         }
     }
     

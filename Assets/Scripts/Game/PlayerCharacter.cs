@@ -81,7 +81,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out InteractionObject interaction))
+        if (other.TryGetComponent(out InteractionVolume interaction))
         {
             InteractionState.OnEnteredVolume(interaction);
             //InteractionVolumeEntered?.Invoke(interaction);
@@ -90,7 +90,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out InteractionObject interaction))
+        if (other.TryGetComponent(out InteractionVolume interaction))
         {
             InteractionState.OnExitedVolume(interaction);
             //InteractionVolumeExited?.Invoke(interaction);

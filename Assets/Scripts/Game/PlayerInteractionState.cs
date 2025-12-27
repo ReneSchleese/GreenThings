@@ -4,17 +4,17 @@ public class PlayerInteractionState
 {
     public event Action Changed;
     
-    public void OnEnteredVolume(InteractionObject interaction)
+    public void OnEnteredVolume(InteractionVolume interaction)
     {
-        InteractionObject = interaction;
+        InteractionVolume = interaction;
         Changed?.Invoke();
     }
     
-    public void OnExitedVolume(InteractionObject interaction)
+    public void OnExitedVolume(InteractionVolume interaction)
     {
-        InteractionObject = null;
+        InteractionVolume = null;
         Changed?.Invoke();
     }
     
-    public InteractionObject InteractionObject { get; private set; }
+    public InteractionVolume InteractionVolume { get; private set; }
 }

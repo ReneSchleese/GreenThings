@@ -55,7 +55,7 @@ public class GameUI : MonoBehaviour
 
     private void UpdateInteractionUI()
     {
-        Debug.Log("Update interaction");
+        Debug.Log($"Update interaction, _radialMenu.IsBeingUsed={_radialMenu.IsBeingUsed}, fadeIn={_radialMenu.IsFadingIn}, fadeOut={_radialMenu.IsFadingOut}");
         PlayerInteraction interaction = Game.Instance.Player.CurrentInteraction;
         bool hasInteraction = interaction != null;
         _radialMenu.UpdateWithInteraction(interaction);

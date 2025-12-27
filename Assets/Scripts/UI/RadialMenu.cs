@@ -40,32 +40,38 @@ public class RadialMenu : MonoBehaviour
         _virtualJoystick.StickInput += OnInput;
         _virtualJoystick.StickInputBegin += () =>
         {
-            DOTween.Kill(this);
+            Sequence?.Kill();
             foreach (RadialMenuItem item in _items)
             {
                 ChangeItemHighlight(item, highlighted: false);
             }
             _cursor.SetStyle(setShellCursorActive: true, animate: false);
             
-            Sequence sequence = DOTween.Sequence().SetId(this);
-            sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: true));
-            sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: true));
-            sequence.Insert(0.25f, _fadeableItemsGroup.Fade(fadeIn: true, 1f));
-            FadeInBegan?.Invoke();
+            Sequence = DOTween.Sequence().SetId($"{this}.FadeIn");
+            Sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: true));
+            Sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: true));
+            Sequence.Insert(0.25f, _fadeableItemsGroup.Fade(fadeIn: true, 1f));
+            Sequence.OnStart(() =>
+            {
+                FadeInBegan?.Invoke();
+            });
         };
         _virtualJoystick.StickInputEnd += () => 
         {
-            DOTween.Kill(this);
-            Sequence sequence = DOTween.Sequence().SetId(this);
-            sequence.Insert(0f, _fadeableItemsGroup.Fade(fadeIn: false));
-            sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: false));
-            sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: false, 0.66f));
+            Sequence?.Kill();
+            Sequence = DOTween.Sequence().SetId($"{this}.FadeOut");
+            Sequence.Insert(0f, _fadeableItemsGroup.Fade(fadeIn: false));
+            Sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: false));
+            Sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: false, 0.66f));
+            Sequence.OnStart(() =>
+            {
+                FadeOutBegan?.Invoke();
+            });
             if (_selectedIndex != -1)
             {
                 _items[_selectedIndex].InputAction.Invoke();
             }
             _selectedIndex = -1;
-            FadeOutBegan?.Invoke();
         };
         
         _cursor.SetStyle(setShellCursorActive: true, animate: false);
@@ -225,7 +231,13 @@ public class RadialMenu : MonoBehaviour
         }
         else
         {
-            interactionItem.SetText($"<font-weight=600>{interaction.InteractionObject.GetInteractionDisplayText()}\n<size=60%>{INTERACT_TEXT}");
+            interactionItem.SetText($"<font-weight=600><size=60%>{INTERACT_TEXT}\n<size=100%>{interaction.InteractionObject.GetInteractionDisplayText()}");
         }
     }
+    
+    private Sequence Sequence {  get; set; }
+
+    public bool IsBeingUsed => _cursor.RootGroup.alpha > 0f;
+    public bool IsFadingOut => Sequence is { active: true } && Sequence.stringId.Equals($"{this}.FadeOut");
+    public bool IsFadingIn => Sequence is { active: true } && Sequence.stringId.Equals($"{this}.FadeIn");
 }

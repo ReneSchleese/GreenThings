@@ -14,8 +14,7 @@ public class RadialMenu : MonoBehaviour
     [SerializeField] private Image _cursorImage;
     [SerializeField] private RadialMenuCursor _cursor;
 
-    public event Action FadeInBegan;
-    public event Action FadeOutBegan;
+    public event Action BeingUsedChanged;
 
     private readonly List<RadialMenuItem> _items = new();
     private VirtualJoystick _virtualJoystick;
@@ -49,12 +48,9 @@ public class RadialMenu : MonoBehaviour
             
             Sequence = DOTween.Sequence().SetId($"{this}.FadeIn");
             Sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: true));
+            Sequence.InsertCallback(0f, () => { BeingUsedChanged?.Invoke(); });
             Sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: true));
             Sequence.Insert(0.25f, _fadeableItemsGroup.Fade(fadeIn: true, 1f));
-            Sequence.OnStart(() =>
-            {
-                FadeInBegan?.Invoke();
-            });
         };
         _virtualJoystick.StickInputEnd += () => 
         {
@@ -62,11 +58,8 @@ public class RadialMenu : MonoBehaviour
             Sequence = DOTween.Sequence().SetId($"{this}.FadeOut");
             Sequence.Insert(0f, _fadeableItemsGroup.Fade(fadeIn: false));
             Sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: false));
+            Sequence.InsertCallback(0f, () => { BeingUsedChanged?.Invoke(); });
             Sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: false, 0.66f));
-            Sequence.OnStart(() =>
-            {
-                FadeOutBegan?.Invoke();
-            });
             if (_selectedIndex != -1)
             {
                 _items[_selectedIndex].InputAction.Invoke();

@@ -11,6 +11,7 @@ public class TreasureHint : MonoBehaviour
     private BuriedTreasure _target;
     private Transform _particleSystemTransform;
     private Tweener _tweener;
+    private float _peakYAddend;
 
     public event Action Triggered;
 
@@ -18,16 +19,19 @@ public class TreasureHint : MonoBehaviour
     {
         _target = treasure;
         _particleSystemTransform = _particleSystem.GetComponent<Transform>();
+        _peakYAddend = 0.2f * Vector3.Distance(_target.transform.position, transform.position);
     }
 
     public void Trigger()
     {
         if (!MayBeTriggered) return;
 
+        Vector3 startPos = transform.position;
+        Vector3 endPos = _target.transform.position;
         _particleSystem.gameObject.SetActive(false);
-        _particleSystemTransform.position = transform.position;
+        _particleSystemTransform.position = startPos;
         _particleSystem.gameObject.SetActive(true);
-        _tweener = DOVirtual.Vector3(_particleSystemTransform.position, _target.transform.position, 3f, OnMoveUpdate);
+        _tweener = DOVirtual.Vector3(startPos, endPos, 3f, OnMoveUpdate).SetEase(Ease.Linear);
 
         Triggered?.Invoke();
         _timeLastUsed = Time.time;
@@ -35,11 +39,12 @@ public class TreasureHint : MonoBehaviour
 
         void OnMoveUpdate(Vector3 lerp)
         {
-            Vector3 newPos = new(lerp.x, lerp.y + _animationCurveY.Evaluate(_tweener.ElapsedPercentage()) * 5f, lerp.z);
+            float addendY = _animationCurveY.Evaluate(_tweener.ElapsedPercentage()) * _peakYAddend;
+            Vector3 newPos = new(lerp.x, lerp.y + addendY, lerp.z);
             _particleSystemTransform.position = newPos;
         }
     }
     
     private bool IsOnCooldown => _timeLastUsed +  COOLDOWN_TIME > Time.time;
-    public bool MayBeTriggered => _target != null && !IsOnCooldown;
+    private bool MayBeTriggered => _target is not null && !IsOnCooldown;
 }

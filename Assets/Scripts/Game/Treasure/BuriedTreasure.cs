@@ -1,9 +1,11 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 
 public class BuriedTreasure : MonoBehaviour
 {
     [SerializeField] private Transform _animationContainer;
+    public event Action Opened;
     private const int INITIAL_HEALTH = 3;
     private const float DEPTH_PER_HEALTH = 0.5f;
     private int _currentHealth;
@@ -59,6 +61,7 @@ public class BuriedTreasure : MonoBehaviour
                 coin.IsCollectable = true;
             });
         }
+        Opened?.Invoke();
     }
     
     public bool IsFullHealth =>  _currentHealth == INITIAL_HEALTH;

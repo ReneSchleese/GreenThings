@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Audio;
@@ -116,7 +117,23 @@ public class Game : Singleton<Game>, IAppState
 
     private void OnPlayerInteracted()
     {
-        Debug.Log($"Game.OnPlayerInteracted {_player.InteractionState.InteractionVolume?.DisplayText}");
+        if (_player.InteractionState.InteractionVolume == null)
+        {
+            return;
+        }
+        switch (_player.InteractionState.InteractionVolume.InteractionId)
+        {
+            case InteractionId.Exit:
+                break;
+            case InteractionId.TreasureHint:
+                if (_treasureHint.MayBeTriggered)
+                {
+                    _treasureHint.Trigger();
+                }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public PlayerCharacter Player => _player;

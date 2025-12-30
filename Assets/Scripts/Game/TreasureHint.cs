@@ -24,7 +24,9 @@ public class TreasureHint : MonoBehaviour
     {
         if (!MayBeTriggered) return;
 
+        _particleSystem.gameObject.SetActive(false);
         _particleSystemTransform.position = transform.position;
+        _particleSystem.gameObject.SetActive(true);
         _tweener = DOVirtual.Vector3(_particleSystemTransform.position, _target.transform.position, 3f, OnMoveUpdate);
 
         Triggered?.Invoke();

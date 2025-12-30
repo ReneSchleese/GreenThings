@@ -18,6 +18,7 @@ public class Game : Singleton<Game>, IAppState
     [SerializeField] private Chain _chain;
     [SerializeField] private PlayerCharacter _player;
     [SerializeField] private List<Transform> _forestSpiritSpawns;
+    [SerializeField] private TreasureHint _treasureHint;
     [Space]
     [SerializeField] private bool _useDebugSpawn;
     [SerializeField] private Transform _debugSpawnPoint;
@@ -76,7 +77,10 @@ public class Game : Singleton<Game>, IAppState
         _gameTreasureManager = FindFirstObjectByType<GameTreasureManager>();
         Debug.Assert(_gameTreasureManager != null);
         yield return _gameTreasureManager.Setup(numberOfTreasures: 8);
+        
         App.Instance.InputManager.Interacted += OnPlayerInteracted;
+        _treasureHint.SetTarget(_gameTreasureManager.GetRandomUnopenedTreasure());
+        _treasureHint.Triggered += () => _treasureHint.SetTarget(_gameTreasureManager.GetRandomUnopenedTreasure());
     }
 
     private void SpawnForestSpirits()

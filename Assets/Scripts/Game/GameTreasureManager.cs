@@ -33,6 +33,13 @@ public class GameTreasureManager : MonoBehaviour
         return unopenedTreasures[0];
     }
 
+    public BuriedTreasure GetRandomUnopenedTreasure()
+    {
+        var unopenedTreasures = _buriedTreasures.Where(treasure => !treasure.IsOpen).ToList();
+        if (unopenedTreasures.Count == 0) return null;
+        return unopenedTreasures[Random.Range(0, unopenedTreasures.Count)];
+    }
+
     public Transform[] TreasureSpawns
     {
         get => _treasureSpawns;

@@ -31,7 +31,7 @@ public class GameUI : MonoBehaviour
 
     private void OnBackButtonPress()
     {
-        App.Instance.TransitionToMainMenu();
+        
     }
 
     private void UpdateInteractionUI()

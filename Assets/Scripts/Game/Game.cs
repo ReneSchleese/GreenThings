@@ -138,6 +138,7 @@ public class Game : Singleton<Game>, IAppState
         switch (_player.InteractionState.InteractionVolume.InteractionId)
         {
             case InteractionId.Exit:
+                App.Instance.TransitionToMainMenu();
                 break;
             case InteractionId.TreasureHint:
                 if (true)

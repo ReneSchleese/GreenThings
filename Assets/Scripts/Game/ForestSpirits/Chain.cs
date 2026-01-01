@@ -35,6 +35,12 @@ namespace ForestSpirits
             App.Instance.InputManager.ToggledFormation += ToggleMode;
             App.Instance.InputManager.Scanned += Scan;
         }
+        
+        private void OnDestroy()
+        {
+            App.Instance.InputManager.ToggledFormation -= ToggleMode;
+            App.Instance.InputManager.Scanned -= Scan;
+        }
 
         public void Enqueue(Spirit spirit)
         {

@@ -59,6 +59,8 @@ public class RadialMenuItem : MonoBehaviour
             _textContainer.anchoredPosition = Vector2.zero;
         }
     }
+    
+    public void SetText(string text) => _label.text = text;
 
     public Action InputAction { get; private set; }
 }

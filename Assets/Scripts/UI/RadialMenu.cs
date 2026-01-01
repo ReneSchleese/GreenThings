@@ -6,12 +6,15 @@ using UnityEngine.UI;
 
 public class RadialMenu : MonoBehaviour
 {
+    private const string INTERACT_TEXT = "Interact";
     [SerializeField] private RadialMenuItem _itemPrefab;
     [SerializeField] private Transform _itemContainer;
     [SerializeField] private RectTransform _radiusHandle;
     [SerializeField] private CanvasGroup _itemsGroup, _selectedItemGroup;
     [SerializeField] private Image _cursorImage;
     [SerializeField] private RadialMenuCursor _cursor;
+
+    public event Action BeingUsedChanged;
 
     private readonly List<RadialMenuItem> _items = new();
     private VirtualJoystick _virtualJoystick;
@@ -36,25 +39,28 @@ public class RadialMenu : MonoBehaviour
         _virtualJoystick.StickInput += OnInput;
         _virtualJoystick.StickInputBegin += () =>
         {
-            DOTween.Kill(this);
+            Sequence?.Kill();
             foreach (RadialMenuItem item in _items)
             {
                 ChangeItemHighlight(item, highlighted: false);
             }
             _cursor.SetStyle(setShellCursorActive: true, animate: false);
             
-            Sequence sequence = DOTween.Sequence().SetId(this);
-            sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: true));
-            sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: true));
-            sequence.Insert(0.25f, _fadeableItemsGroup.Fade(fadeIn: true, 1f));
+            Sequence = DOTween.Sequence().SetId($"{this}.FadeIn");
+            Sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: true));
+            Sequence.InsertCallback(0f, () => { BeingUsedChanged?.Invoke(); });
+            Sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: true));
+            Sequence.Insert(0.25f, _fadeableItemsGroup.Fade(fadeIn: true, 1f));
         };
         _virtualJoystick.StickInputEnd += () => 
         {
-            DOTween.Kill(this);
-            Sequence sequence = DOTween.Sequence().SetId(this);
-            sequence.Insert(0f, _fadeableItemsGroup.Fade(fadeIn: false));
-            sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: false));
-            sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: false, 0.66f));
+            Sequence?.Kill();
+            Sequence = DOTween.Sequence().SetId($"{this}.FadeOut");
+            Sequence.Insert(0f, _fadeableItemsGroup.Fade(fadeIn: false));
+            Sequence.Insert(0f, _fadeableCursorGroup.Fade(fadeIn: false));
+            Sequence.InsertCallback(0f, () => { BeingUsedChanged?.Invoke(); });
+            Sequence.Insert(0f, _fadeableSelectedItemGroup.Fade(fadeIn: false, 0.66f));
+            Sequence.OnComplete(() => { BeingUsedChanged?.Invoke(); });
             if (_selectedIndex != -1)
             {
                 _items[_selectedIndex].InputAction.Invoke();
@@ -65,13 +71,12 @@ public class RadialMenu : MonoBehaviour
         _cursor.SetStyle(setShellCursorActive: true, animate: false);
         
         InputManager inputManager = App.Instance.InputManager;
-        CreateItem("Interact", () => inputManager.InvokeInteract());
+        CreateItem("Scan", () => inputManager.InvokeScan());
         CreateItem("Stay", () => inputManager.InvokeScan());
         CreateItem("Toggle\nFollow", () => inputManager.InvokeToggleFormation());
         CreateItem("Dig", () => inputManager.InvokeDig());
         CreateItem("Battlecry", () => inputManager.InvokeBattleCry());
-        CreateItem("Scan", () => inputManager.InvokeScan());
-
+        CreateItem(INTERACT_TEXT, () => inputManager.InvokeInteract());
         LayoutItems();
         return;
 
@@ -210,4 +215,21 @@ public class RadialMenu : MonoBehaviour
         index = Mathf.Clamp(index, 0, itemCount - 1);
         return index;
     }
+
+    public void UpdateWithInteraction(PlayerInteractionState interactionState)
+    {
+        RadialMenuItem interactionItem = _items[^1];
+        if (interactionState.InteractionVolume is null)
+        {
+            interactionItem.SetText($"<font-weight=600>{INTERACT_TEXT}");
+        }
+        else
+        {
+            interactionItem.SetText($"<font-weight=600><size=60%>{INTERACT_TEXT}\n<size=100%>{interactionState.InteractionVolume.DisplayText}");
+        }
+    }
+    
+    private Sequence Sequence {  get; set; }
+
+    public bool IsBeingUsed => _cursor.RootGroup.alpha > 0f;
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Audio;
@@ -75,6 +76,24 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
             {
                 Collect(coin);
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out InteractionVolume interaction))
+        {
+            InteractionState.OnEnteredVolume(interaction);
+            //InteractionVolumeEntered?.Invoke(interaction);
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent(out InteractionVolume interaction))
+        {
+            InteractionState.OnExitedVolume(interaction);
+            //InteractionVolumeExited?.Invoke(interaction);
         }
     }
 
@@ -222,4 +241,5 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     public Vector3? TargetDir => transform.position + _targetLookRotator.forward;
     public float JoystickMagnitude { get; private set; }
     public bool IsMoving { get; private set; }
+    public PlayerInteractionState InteractionState { get; private set; } = new();
 }

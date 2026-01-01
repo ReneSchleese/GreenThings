@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Audio;
@@ -18,6 +19,7 @@ public class Game : Singleton<Game>, IAppState
     [SerializeField] private Chain _chain;
     [SerializeField] private PlayerCharacter _player;
     [SerializeField] private List<Transform> _forestSpiritSpawns;
+    [SerializeField] private TreasureHint _treasureHint;
     [Space]
     [SerializeField] private bool _useDebugSpawn;
     [SerializeField] private Transform _debugSpawnPoint;
@@ -49,8 +51,14 @@ public class Game : Singleton<Game>, IAppState
     public void OnUnload()
     {
         Debug.Log("Game.OnUnload");
+        Debug.Assert(_gameTreasureManager is not null);
+        foreach (BuriedTreasure buriedTreasure in _gameTreasureManager.BuriedTreasures)
+        {
+            buriedTreasure.Opened -= OnTreasureOpened;
+        }
         SceneManager.UnloadSceneAsync("Game_Treasure");
         _gameTreasureManager = null;
+        App.Instance.InputManager.Interacted -= OnPlayerInteracted;
     }
 
     public IEnumerator OnLoad()
@@ -73,8 +81,21 @@ public class Game : Singleton<Game>, IAppState
             yield return new WaitUntil(() => gameTreasureOperation.isDone);
         }
         _gameTreasureManager = FindFirstObjectByType<GameTreasureManager>();
-        Debug.Assert(_gameTreasureManager != null);
+        Debug.Assert(_gameTreasureManager is not null);
         yield return _gameTreasureManager.Setup(numberOfTreasures: 8);
+        
+        App.Instance.InputManager.Interacted += OnPlayerInteracted;
+        _treasureHint.SetTarget(_gameTreasureManager.GetRandomUnopenedTreasure());
+        foreach (BuriedTreasure buriedTreasure in _gameTreasureManager.BuriedTreasures)
+        {
+            buriedTreasure.Opened += OnTreasureOpened;
+        }
+    }
+
+    private void OnTreasureOpened()
+    {
+        Debug.Assert(_gameTreasureManager is not null);
+        _treasureHint.SetTarget(_gameTreasureManager.GetRandomUnopenedTreasure());
     }
 
     private void SpawnForestSpirits()
@@ -106,6 +127,27 @@ public class Game : Singleton<Game>, IAppState
     {
         treasureManager = _gameTreasureManager;
         return treasureManager != null;
+    }
+
+    private void OnPlayerInteracted()
+    {
+        if (_player.InteractionState.InteractionVolume == null)
+        {
+            return;
+        }
+        switch (_player.InteractionState.InteractionVolume.InteractionId)
+        {
+            case InteractionId.Exit:
+                break;
+            case InteractionId.TreasureHint:
+                if (true)
+                {
+                    _treasureHint.Trigger();
+                }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public PlayerCharacter Player => _player;

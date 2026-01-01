@@ -88,6 +88,13 @@ public class RadialMenu : MonoBehaviour
         }
     }
 
+    public void OnDestroy()
+    {
+        DOTween.Kill(this);
+        DOTween.Kill($"{this}.FadeIn");
+        DOTween.Kill($"{this}.FadeOut");
+    }
+
     private void LayoutItems()
     {
         if (_items == null || _items.Count == 0)

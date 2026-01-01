@@ -31,7 +31,8 @@ public class TreasureHint : MonoBehaviour
         _particleSystem.gameObject.SetActive(false);
         _particleSystemTransform.position = startPos;
         _particleSystem.gameObject.SetActive(true);
-        _tweener = DOVirtual.Vector3(startPos, endPos, 3f, OnMoveUpdate).SetEase(Ease.Linear);
+        float duration = 0.05f * Vector3.Distance(startPos, endPos);
+        _tweener = DOVirtual.Vector3(startPos, endPos, duration, OnMoveUpdate).SetEase(Ease.Linear);
 
         Triggered?.Invoke();
         _timeLastUsed = Time.time;

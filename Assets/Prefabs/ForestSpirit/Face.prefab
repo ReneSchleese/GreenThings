@@ -24,6 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8204304035091161149}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,7 +33,6 @@ Transform:
   - {fileID: 5009271013172023671}
   - {fileID: 2298149921508117637}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8032453886261650633
 MonoBehaviour:
@@ -55,6 +55,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 5871016508174634163}
     m_Modifications:
     - target: {fileID: 800759974084473177, guid: 414d3173d6dd23944976b990982b5779,
@@ -63,6 +64,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c9cf47d0e74c153408e9f247dd3856d6,
         type: 3}
+    - target: {fileID: 800759974084473177, guid: 414d3173d6dd23944976b990982b5779,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     - target: {fileID: 3818267266880503979, guid: 414d3173d6dd23944976b990982b5779,
         type: 3}
       propertyPath: m_RootOrder
@@ -129,6 +135,9 @@ PrefabInstance:
       value: EyeLeft
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 414d3173d6dd23944976b990982b5779, type: 3}
 --- !u!4 &2298149921508117637 stripped
 Transform:
@@ -147,6 +156,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 5871016508174634163}
     m_Modifications:
     - target: {fileID: 800759974084473177, guid: 414d3173d6dd23944976b990982b5779,
@@ -155,6 +165,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c9cf47d0e74c153408e9f247dd3856d6,
         type: 3}
+    - target: {fileID: 800759974084473177, guid: 414d3173d6dd23944976b990982b5779,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     - target: {fileID: 3818267266880503979, guid: 414d3173d6dd23944976b990982b5779,
         type: 3}
       propertyPath: m_RootOrder
@@ -216,6 +231,9 @@ PrefabInstance:
       value: EyeRight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 414d3173d6dd23944976b990982b5779, type: 3}
 --- !u!4 &5009271013172023671 stripped
 Transform:

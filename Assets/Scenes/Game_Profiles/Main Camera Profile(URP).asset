@@ -55,12 +55,12 @@ MonoBehaviour:
   active: 1
   lift:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.4154647, z: 0.5912485, w: -0.107317075}
+    m_Value: {x: 1, y: 0.5239815, z: 0.84057987, w: -0.107317075}
   gamma:
     m_OverrideState: 0
-    m_Value: {x: 1, y: 0.9727625, z: 0.8112779, w: 0}
+    m_Value: {x: 1, y: 0.99448913, z: 0.9879723, w: 0}
   gain:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {x: 1, y: 1, z: 1, w: 0.24390244}
 --- !u!114 &-6473503503012273262
 MonoBehaviour:
@@ -76,11 +76,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   postExposure:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 0.8
   contrast:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: -15
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 1, g: 0.9396423, b: 0.8160377, a: 1}
@@ -89,7 +89,7 @@ MonoBehaviour:
     m_Value: 0
   saturation:
     m_OverrideState: 1
-    m_Value: -15
+    m_Value: -20
 --- !u!114 &-2888408774972230800
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 0
   redOutRedIn:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 100
   redOutGreenIn:
     m_OverrideState: 0
@@ -161,10 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
   m_Name: WhiteBalance
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   temperature:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: -10
   tint:
     m_OverrideState: 0
     m_Value: 0
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb4b772797da9440885e8bd939e9560, type: 3}
   m_Name: ColorCurves
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   master:
     m_OverrideState: 0
     m_Value:
@@ -225,7 +225,7 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 1
+          inSlope: 0
           outSlope: 1
           tangentMode: 0
           weightedMode: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
           time: 1
           value: 1
           inSlope: 1
-          outSlope: 1
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0

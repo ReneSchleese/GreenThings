@@ -1306,6 +1306,9 @@
     },
     "m_Slots": [
         {
+            "m_Id": "9e4e35f399fc4a688ce94b26b292e1e9"
+        },
+        {
             "m_Id": "46a7d984fc474f1baf2986855884e6c5"
         },
         {
@@ -1333,12 +1336,14 @@
     "m_PropertyGuids": [
         "6a49a1ea-67a1-4100-87e5-8b138837d58d",
         "a18ad4dd-9601-42e2-a244-edcc44e30c5f",
-        "b5899ca6-c979-4d46-9f71-cfd2d29478be"
+        "b5899ca6-c979-4d46-9f71-cfd2d29478be",
+        "a43c5da5-9a96-40f6-a67f-ff4695833b4e"
     ],
     "m_PropertyIds": [
         -1256778684,
         1888085306,
-        -1804029806
+        -1804029806,
+        -334611712
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
@@ -1647,6 +1652,27 @@
     "m_StageCapability": 3,
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
+    "m_ObjectId": "9e4e35f399fc4a688ce94b26b292e1e9",
+    "m_Id": -334611712,
+    "m_DisplayName": "UV",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_UV",
+    "m_StageCapability": 2,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0
+    },
     "m_Labels": []
 }
 

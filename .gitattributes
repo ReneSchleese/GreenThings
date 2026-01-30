@@ -38,9 +38,9 @@
 *.fbx       binary
 *.blend     binary
 *.blend1    binary
-*.mat       binary
-*.controller binary
-*.anim      binary
+*.mat        text eol=lf
+*.controller text eol=lf
+*.anim       text eol=lf
 *.unitypackage binary
 *.so        binary
 *.a         binary

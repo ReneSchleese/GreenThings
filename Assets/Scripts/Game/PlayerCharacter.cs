@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Audio;
@@ -18,6 +17,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private AudioClip[] _footstepsGrass;
     [SerializeField] private AudioClip _collectCoin;
     [SerializeField] private HornetAnimationEvents _animationEvents;
+    [SerializeField] private SpriteBlobShadow _blobShadow;
     [SerializeField] private bool _applyGravity;
 
     public const float MOVEMENT_SPEED = 8f;
@@ -77,6 +77,8 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
                 Collect(coin);
             }
         }
+        
+        _blobShadow.UpdateShadow();
     }
 
     private void OnTriggerEnter(Collider other)

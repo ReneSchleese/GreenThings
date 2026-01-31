@@ -19,7 +19,7 @@ public class TreasureHint : MonoBehaviour
     {
         _target = treasure;
         _particleSystemTransform = _particleSystem.GetComponent<Transform>();
-        _peakYAddend = 0.2f * Vector3.Distance(_target.transform.position, transform.position);
+        _peakYAddend = 0.2f * Vector3.Distance(_target?.transform.position ?? Vector3.zero, transform.position);
     }
 
     public void Trigger()

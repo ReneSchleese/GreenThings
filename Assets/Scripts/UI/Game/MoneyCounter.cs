@@ -21,7 +21,12 @@ public class MoneyCounter : MonoBehaviour
 
     public void Unload()
     {
-        Game.Instance.Player.CoinsCollected -= OnPlayerCollectedCoins;   
+        Game.Instance.Player.CoinsCollected -= OnPlayerCollectedCoins;
+        DOTween.Kill(this);
+        if (_fadeTween is { active: true })
+        {
+            _fadeTween.Kill();
+        }
     }
 
     private void OnPlayerCollectedCoins(int countAmount, int bankAmountBefore)

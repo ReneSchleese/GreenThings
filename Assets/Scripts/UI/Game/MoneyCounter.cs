@@ -64,7 +64,7 @@ public class MoneyCounter : MonoBehaviour
         {
             _moneyTransfer = null;
             Sequence sequence = DOTween.Sequence();
-            sequence.AppendInterval(2f);
+            sequence.AppendInterval(1f);
             sequence.Append(_rootFader.Fade(fadeIn: false));
             _fadeTween = sequence;
         }

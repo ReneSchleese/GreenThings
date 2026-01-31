@@ -32,15 +32,20 @@ public class MoneyCounter : MonoBehaviour
         {
             _fadeTween.Kill();
         }
-
-        DOTween.Kill(this);
-        _fadeTween = _rootFader.Fade(true);
-        int currentBankAmount = App.Instance.UserData.Money;
         
+        _fadeTween = _rootFader.Fade(true);
+
         if (_moneyTransfer is null)
         {
-            _moneyTransfer = new MoneyTransfer(amount, bankAmount: currentBankAmount);
+            _moneyTransfer = new MoneyTransfer(amount, bankAmount: App.Instance.UserData.Money);
             _moneyTransfer.UpdateUICallback = UpdateCounters;
+            
+            DOTween.Kill(this);
+            Sequence sequence = DOTween.Sequence().SetId(this);
+            sequence.AppendInterval(2f);
+            sequence.Append(_moneyTransfer.TransferGold(duration: 2f));
+            sequence.AppendCallback(() => _moneyTransfer = null);
+            sequence.AppendCallback(() => { _fadeTween = _rootFader.Fade(fadeIn: false); });
         }
         else
         {
@@ -48,12 +53,6 @@ public class MoneyCounter : MonoBehaviour
         }
         
         UpdateCounters(_moneyTransfer.BankAmountSnapShot, _moneyTransfer.Addend);
-        
-        Sequence sequence = DOTween.Sequence().SetId(this);
-        sequence.AppendInterval(2f);
-        sequence.Append(_moneyTransfer.TransferGold(duration: 2f));
-        sequence.AppendCallback(() => _moneyTransfer = null);
-        sequence.AppendCallback(() => { _fadeTween = _rootFader.Fade(fadeIn: false); });
     }
 
     private void UpdateCounters(int bank, int addend)

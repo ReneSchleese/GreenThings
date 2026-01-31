@@ -15,9 +15,9 @@ public class MoneyCounter : MonoBehaviour
         Game.Instance.Player.CoinsCollected += OnPlayerCollectedCoins;
     }
 
-    private void OnDestroy()
+    public void Unload()
     {
-        Game.Instance.Player.CoinsCollected -= OnPlayerCollectedCoins;
+        Game.Instance.Player.CoinsCollected -= OnPlayerCollectedCoins;   
     }
 
     private void OnPlayerCollectedCoins(int amount)

@@ -91,6 +91,7 @@ public class Game : Singleton<Game>, IAppState
         SceneManager.UnloadSceneAsync("Game_Treasure");
         _gameTreasureManager = null;
         App.Instance.InputManager.Interacted -= OnPlayerInteracted;
+        _gameUI.Unload();
     }
 
     private void OnTreasureOpened()

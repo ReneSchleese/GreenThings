@@ -19,16 +19,21 @@ public class GameUI : MonoBehaviour
         _radialMenu.Init(_rightStickRegion);
         _interactionWidget.Init(_canvas.GetComponent<RectTransform>());
         _moneyCounter.Init();
-        
-        _leftStickRegion.VirtualJoystick.StickInput += input =>
-        {
-            App.Instance.InputManager.ProcessMovementInput(input);
-        };
+
+        _leftStickRegion.VirtualJoystick.StickInput += ProcessMovementInput;
         
         _radialMenu.FadeInstantly(fadeIn: false);
         _radialMenu.BeingUsedChanged += UpdateInteractionUI;
         Game.Instance.Player.InteractionState.Changed += UpdateInteractionUI;
         ApplySafeArea();
+    }
+    
+    public void Unload()
+    {
+        _leftStickRegion.VirtualJoystick.StickInput -= ProcessMovementInput;
+        _radialMenu.BeingUsedChanged -= UpdateInteractionUI;
+        Game.Instance.Player.InteractionState.Changed -= UpdateInteractionUI;
+        _moneyCounter.Unload();
     }
     
     private void UpdateInteractionUI()
@@ -42,6 +47,11 @@ public class GameUI : MonoBehaviour
         }
         bool interactionWidgetShouldBeVisible = hasVolume && !_radialMenu.IsBeingUsed;
         _interactionWidget.Fade(interactionWidgetShouldBeVisible);
+    }
+
+    private void ProcessMovementInput(Vector2 input)
+    {
+        App.Instance.InputManager.ProcessMovementInput(input);
     }
     
     private void ApplySafeArea()

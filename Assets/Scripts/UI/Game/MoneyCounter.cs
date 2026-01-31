@@ -72,7 +72,7 @@ public class MoneyCounter : MonoBehaviour
 
     private void UpdateCounters(int bank, int addend)
     {
-        _moneyTmPro.text = $"<mspace=0.6em>{bank} +{addend}</mspace>";
+        _moneyTmPro.text = $"<font-weight=\"700\"><mspace=0.6em>{bank}</mspace>  <color=#ffffff99><font-weight=\"600\">+{addend}";
     }
 
     private class MoneyTransfer

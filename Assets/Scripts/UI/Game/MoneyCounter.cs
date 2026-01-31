@@ -44,8 +44,8 @@ public class MoneyCounter : MonoBehaviour
         
         const float referenceAmount = 20f;
         const float referenceSeconds = 1f;
-        const float durationMin = 0.2f;
-        const float durationMax = 2f;
+        const float durationMin = 0.4f;
+        const float durationMax = 1.25f;
         
         if (_moneyTransfer is not null && !_moneyTransfer.TransferStarted)
         {

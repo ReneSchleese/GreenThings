@@ -37,16 +37,19 @@ public class MoneyCounter : MonoBehaviour
         {
             _moneyTransfer = new MoneyTransfer(amount, bankAmount: App.Instance.UserData.Money);
             _moneyTransfer.UpdateUICallback = UpdateCounters;
-            
+        }
+        else
+        {
+            _moneyTransfer.Add(amount);
+        }
+
+        if (_moneyTransfer is not null && !_moneyTransfer.TransferStarted)
+        {
             DOTween.Kill(this);
             Sequence sequence = DOTween.Sequence().SetId(this);
             sequence.AppendInterval(2f);
             sequence.Append(_moneyTransfer.TransferGold(duration: 2f));
             sequence.OnComplete(OnTransferComplete);
-        }
-        else
-        {
-            _moneyTransfer.Add(amount);
         }
         
         UpdateCounters(_moneyTransfer.BankAmountSnapShot, _moneyTransfer.Addend);
@@ -83,7 +86,9 @@ public class MoneyCounter : MonoBehaviour
         
         public Tween TransferGold(float duration)
         {
-            return DOVirtual.Float(0f, 1f, duration, OnUpdate).SetEase(Ease.OutSine);
+            return DOVirtual.Float(0f, 1f, duration, OnUpdate)
+                .SetEase(Ease.OutSine)
+                .OnStart(() => TransferStarted = true);
 
             void OnUpdate(float progress)
             {
@@ -95,5 +100,6 @@ public class MoneyCounter : MonoBehaviour
         public Action<int, int> UpdateUICallback { get; set; }
         public int Addend { get; private set; }
         public int BankAmountSnapShot { get; }
+        public bool TransferStarted { get; private set; }
     }
 }

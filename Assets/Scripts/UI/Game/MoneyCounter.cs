@@ -32,7 +32,6 @@ public class MoneyCounter : MonoBehaviour
         {
             _fadeTween.Kill();
         }
-        
         _fadeTween = _rootFader.Fade(true);
 
         if (_moneyTransfer is null)
@@ -82,7 +81,7 @@ public class MoneyCounter : MonoBehaviour
         
         public Tween TransferGold(float duration)
         {
-            return DOVirtual.Float(0f, 1f, duration, OnUpdate);
+            return DOVirtual.Float(0f, 1f, duration, OnUpdate).SetEase(Ease.OutSine);
 
             void OnUpdate(float progress)
             {

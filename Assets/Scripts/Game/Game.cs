@@ -37,39 +37,21 @@ public class Game : Singleton<Game>, IAppState
         _chain.OnUpdate();
     }
     
-    public IEnumerator TransitionOut()
-    {
-        Debug.Log("Game.TransitionOff");
-        yield break;
-    }
-
     public IEnumerator TransitionIn()
     {
         Debug.Log("Game.TransitionTo");
         yield break;
     }
-
-    public void OnUnload()
+    
+    public IEnumerator TransitionOut()
     {
-        Debug.Log("Game.OnUnload");
-        Debug.Assert(_gameTreasureManager is not null);
-        foreach (BuriedTreasure buriedTreasure in _gameTreasureManager.BuriedTreasures)
-        {
-            buriedTreasure.Opened -= OnTreasureOpened;
-        }
-        SceneManager.UnloadSceneAsync("Game_Treasure");
-        _gameTreasureManager = null;
-        App.Instance.InputManager.Interacted -= OnPlayerInteracted;
+        Debug.Log("Game.TransitionOff");
+        yield break;
     }
-
+    
     public IEnumerator OnLoad()
     {
         Debug.Log("Game.OnLoadComplete");
-        yield return Setup();
-    }
-
-    private IEnumerator Setup()
-    {
         _gameUI.Init();
         yield return null;
         SpawnForestSpirits();
@@ -96,6 +78,19 @@ public class Game : Singleton<Game>, IAppState
         {
             coin.IsCollectable = true;
         }
+    }
+
+    public void OnUnload()
+    {
+        Debug.Log("Game.OnUnload");
+        Debug.Assert(_gameTreasureManager is not null);
+        foreach (BuriedTreasure buriedTreasure in _gameTreasureManager.BuriedTreasures)
+        {
+            buriedTreasure.Opened -= OnTreasureOpened;
+        }
+        SceneManager.UnloadSceneAsync("Game_Treasure");
+        _gameTreasureManager = null;
+        App.Instance.InputManager.Interacted -= OnPlayerInteracted;
     }
 
     private void OnTreasureOpened()

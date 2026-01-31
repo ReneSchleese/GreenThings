@@ -8,6 +8,9 @@ public class GameUI : MonoBehaviour
     [SerializeField] private VirtualJoystickRegion _rightStickRegion;
     [SerializeField] private RadialMenu _radialMenu;
     [SerializeField] private InteractionWidget _interactionWidget;
+    [SerializeField] private RectTransform _safeArea;
+
+    private Rect _lastSafeArea = new(0, 0, 0, 0);
 
     public void Init()
     {
@@ -24,6 +27,7 @@ public class GameUI : MonoBehaviour
         _radialMenu.FadeInstantly(fadeIn: false);
         _radialMenu.BeingUsedChanged += UpdateInteractionUI;
         Game.Instance.Player.InteractionState.Changed += UpdateInteractionUI;
+        ApplySafeArea();
     }
     
     private void UpdateInteractionUI()
@@ -37,5 +41,25 @@ public class GameUI : MonoBehaviour
         }
         bool interactionWidgetShouldBeVisible = hasVolume && !_radialMenu.IsBeingUsed;
         _interactionWidget.Fade(interactionWidgetShouldBeVisible);
+    }
+    
+    private void ApplySafeArea()
+    {
+        Rect safeArea = Screen.safeArea;
+        if (safeArea == _lastSafeArea)
+            return;
+
+        _lastSafeArea = safeArea;
+
+        Vector2 anchorMin = safeArea.position;
+        Vector2 anchorMax = safeArea.position + safeArea.size;
+
+        anchorMin.x /= Screen.width;
+        anchorMin.y /= Screen.height;
+        anchorMax.x /= Screen.width;
+        anchorMax.y /= Screen.height;
+
+        _safeArea.anchorMin = anchorMin;
+        _safeArea.anchorMax = anchorMax;
     }
 }

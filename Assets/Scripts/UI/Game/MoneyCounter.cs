@@ -27,7 +27,6 @@ public class MoneyCounter : MonoBehaviour
     private void OnPlayerCollectedCoins(int amount)
     {
         amount = UnityEngine.Random.Range(25, 55);
-        Debug.Log($"collected {amount}");
         if (_fadeTween is { active: true })
         {
             _fadeTween.Kill();
@@ -56,7 +55,10 @@ public class MoneyCounter : MonoBehaviour
         void OnTransferComplete()
         {
             _moneyTransfer = null;
-            _fadeTween = _rootFader.Fade(fadeIn: false);
+            Sequence sequence = DOTween.Sequence();
+            sequence.AppendInterval(2f);
+            sequence.Append(_rootFader.Fade(fadeIn: false));
+            _fadeTween = sequence;
         }
     }
 

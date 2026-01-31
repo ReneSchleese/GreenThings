@@ -29,7 +29,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private PseudoRandomIndex _footstepIndex;
     private CircularBuffer<Vector3> _positionBuffer;
     private readonly Collider[] _colliders = new Collider[128];
-    public event Action<int> CoinsCollected;
+    public event Action<int, int> CoinsCollected;
 
     private void Awake()
     {
@@ -133,9 +133,10 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
         Destroy(coin.gameObject);
-        int moneyValue = coin.MoneyValue;
-        App.Instance.UserData.Money += moneyValue;
-        CoinsCollected?.Invoke(moneyValue);
+        int coinValue = coin.MoneyValue;
+        int bankValue = App.Instance.UserData.Money;
+        App.Instance.UserData.Money += coinValue;
+        CoinsCollected?.Invoke(coinValue, bankValue);
     }
 
     private readonly Collider[] _digColliders = new Collider[128];

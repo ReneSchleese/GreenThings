@@ -24,9 +24,8 @@ public class MoneyCounter : MonoBehaviour
         Game.Instance.Player.CoinsCollected -= OnPlayerCollectedCoins;   
     }
 
-    private void OnPlayerCollectedCoins(int amount)
+    private void OnPlayerCollectedCoins(int countAmount, int bankAmountBefore)
     {
-        amount = UnityEngine.Random.Range(25, 55);
         if (_fadeTween is { active: true })
         {
             _fadeTween.Kill();
@@ -35,20 +34,26 @@ public class MoneyCounter : MonoBehaviour
 
         if (_moneyTransfer is null)
         {
-            _moneyTransfer = new MoneyTransfer(amount, bankAmount: App.Instance.UserData.Money);
+            _moneyTransfer = new MoneyTransfer(countAmount, bankAmountBefore);
             _moneyTransfer.UpdateUICallback = UpdateCounters;
         }
         else
         {
-            _moneyTransfer.Add(amount);
+            _moneyTransfer.Add(countAmount);
         }
-
+        
+        const float referenceAmount = 20f;
+        const float referenceSeconds = 1f;
+        const float durationMin = 0.2f;
+        const float durationMax = 2f;
+        
         if (_moneyTransfer is not null && !_moneyTransfer.TransferStarted)
         {
+            float duration = referenceSeconds * (_moneyTransfer.Addend / referenceAmount);
             DOTween.Kill(this);
             Sequence sequence = DOTween.Sequence().SetId(this);
             sequence.AppendInterval(2f);
-            sequence.Append(_moneyTransfer.TransferGold(duration: 2f));
+            sequence.Append(_moneyTransfer.TransferGold(duration: Math.Clamp(duration, durationMin, durationMax)));
             sequence.OnComplete(OnTransferComplete);
         }
         

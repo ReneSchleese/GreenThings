@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Audio;
@@ -28,6 +29,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private PseudoRandomIndex _footstepIndex;
     private CircularBuffer<Vector3> _positionBuffer;
     private readonly Collider[] _colliders = new Collider[128];
+    public event Action<int> CoinsCollected;
 
     private void Awake()
     {
@@ -86,7 +88,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         if (other.TryGetComponent(out InteractionVolume interaction))
         {
             InteractionState.OnEnteredVolume(interaction);
-            //InteractionVolumeEntered?.Invoke(interaction);
         }
     }
     
@@ -95,7 +96,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         if (other.TryGetComponent(out InteractionVolume interaction))
         {
             InteractionState.OnExitedVolume(interaction);
-            //InteractionVolumeExited?.Invoke(interaction);
         }
     }
 
@@ -133,7 +133,9 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
         Destroy(coin.gameObject);
-        App.Instance.UserData.Money += 1;
+        int moneyValue = coin.MoneyValue;
+        App.Instance.UserData.Money += moneyValue;
+        CoinsCollected?.Invoke(moneyValue);
     }
 
     private readonly Collider[] _digColliders = new Collider[128];

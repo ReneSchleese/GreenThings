@@ -12,5 +12,16 @@ public class MoneyCounter : MonoBehaviour
     {
         _rootFader = new FadeableCanvasGroup(_rootGroup, fadeDuration: 0.5f);
         _rootFader.FadeInstantly(false);
+        Game.Instance.Player.CoinsCollected += OnPlayerCollectedCoins;
+    }
+
+    private void OnDestroy()
+    {
+        Game.Instance.Player.CoinsCollected -= OnPlayerCollectedCoins;
+    }
+
+    private void OnPlayerCollectedCoins(int amount)
+    {
+        Debug.Log($"collected {amount}");
     }
 }

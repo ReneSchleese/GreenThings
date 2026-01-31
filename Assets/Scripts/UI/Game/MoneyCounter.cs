@@ -44,8 +44,7 @@ public class MoneyCounter : MonoBehaviour
             Sequence sequence = DOTween.Sequence().SetId(this);
             sequence.AppendInterval(2f);
             sequence.Append(_moneyTransfer.TransferGold(duration: 2f));
-            sequence.AppendCallback(() => _moneyTransfer = null);
-            sequence.AppendCallback(() => { _fadeTween = _rootFader.Fade(fadeIn: false); });
+            sequence.OnComplete(OnTransferComplete);
         }
         else
         {
@@ -53,6 +52,13 @@ public class MoneyCounter : MonoBehaviour
         }
         
         UpdateCounters(_moneyTransfer.BankAmountSnapShot, _moneyTransfer.Addend);
+        return;
+
+        void OnTransferComplete()
+        {
+            _moneyTransfer = null;
+            _fadeTween = _rootFader.Fade(fadeIn: false);
+        }
     }
 
     private void UpdateCounters(int bank, int addend)

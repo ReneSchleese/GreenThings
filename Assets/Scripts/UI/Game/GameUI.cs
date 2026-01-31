@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
@@ -9,6 +8,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private RadialMenu _radialMenu;
     [SerializeField] private InteractionWidget _interactionWidget;
     [SerializeField] private RectTransform _safeArea;
+    [SerializeField] private MoneyCounter _moneyCounter;
 
     private Rect _lastSafeArea = new(0, 0, 0, 0);
 
@@ -18,6 +18,7 @@ public class GameUI : MonoBehaviour
         _rightStickRegion.Init();
         _radialMenu.Init(_rightStickRegion);
         _interactionWidget.Init(_canvas.GetComponent<RectTransform>());
+        _moneyCounter.Init();
         
         _leftStickRegion.VirtualJoystick.StickInput += input =>
         {

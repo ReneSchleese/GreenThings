@@ -6,7 +6,7 @@ using UnityEngine;
 public class MoneyCounter : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _rootGroup;
-    [SerializeField] private TextMeshProUGUI _moneyTmPro, _addendTmPro;
+    [SerializeField] private TextMeshProUGUI _moneyTmPro;
 
     private FadeableCanvasGroup _rootFader;
     private Tween _fadeTween;
@@ -72,8 +72,7 @@ public class MoneyCounter : MonoBehaviour
 
     private void UpdateCounters(int bank, int addend)
     {
-        _moneyTmPro.text = bank.ToString();
-        _addendTmPro.text = $"+{addend}";
+        _moneyTmPro.text = $"<mspace=0.6em>{bank} +{addend}</mspace>";
     }
 
     private class MoneyTransfer

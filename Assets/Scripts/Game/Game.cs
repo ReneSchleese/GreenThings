@@ -23,7 +23,6 @@ public class Game : Singleton<Game>, IAppState
     [Space]
     [SerializeField] private bool _useDebugSpawn;
     [SerializeField] private Transform _debugSpawnPoint;
-    [SerializeField] private List<Coin> _debugCoins;
     
     [CanBeNull] private GameTreasureManager _gameTreasureManager;
 
@@ -72,11 +71,6 @@ public class Game : Singleton<Game>, IAppState
         foreach (BuriedTreasure buriedTreasure in _gameTreasureManager.BuriedTreasures)
         {
             buriedTreasure.Opened += OnTreasureOpened;
-        }
-        
-        foreach (Coin coin in _debugCoins)
-        {
-            coin.IsCollectable = true;
         }
     }
 

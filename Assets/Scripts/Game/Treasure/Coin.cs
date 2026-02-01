@@ -17,6 +17,7 @@ public class Coin : MonoBehaviour
         DOTween.Sequence(this)
             .Append(_rotationAnimationContainer.DOLocalRotate(Vector3.up * 360f, 2f, RotateMode.WorldAxisAdd).SetEase(Ease.Linear))
             .SetLoops(-1);
+        MoneyValue = Random.Range(1, 31);
     }
 
     private void Update()
@@ -65,6 +66,8 @@ public class Coin : MonoBehaviour
     }
     
     public bool IsCollectable { get; set; }
+
+    public int MoneyValue { get; private set; }
 
     public void ApplyForce(Vector3 force) => _rigidbody.AddForce(force, ForceMode.Impulse);
 }

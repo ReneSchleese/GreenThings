@@ -1,4 +1,5 @@
 using System.Collections;
+using Cinemachine;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour, IAppState
@@ -7,6 +8,7 @@ public class MainMenu : MonoBehaviour, IAppState
     [SerializeField] private ShopView _shopView;
     [SerializeField] private InventoryView _inventoryView;
     [SerializeField] private MediaPlayer _mediaPlayer;
+    [SerializeField] private CinemachineVirtualCamera _homeCam, _shopCam, _inventoryCam;
 
     private string _requestedVideoUrl;
     
@@ -48,6 +50,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _mainMenuView.RootGroup.Fade(fadeIn: true);
         _shopView.RootGroup.Fade(fadeIn: false);
         _inventoryView.RootGroup.Fade(fadeIn: false);
+        SetActiveCamera(_homeCam);
     }
 
     private void SwitchToShopView()
@@ -55,6 +58,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _mainMenuView.RootGroup.Fade(fadeIn: false);
         _shopView.RootGroup.Fade(fadeIn: true);
         _inventoryView.RootGroup.Fade(fadeIn: false);
+        SetActiveCamera(_shopCam);
     }
 
     private void SwitchToInventoryView()
@@ -62,6 +66,15 @@ public class MainMenu : MonoBehaviour, IAppState
         _mainMenuView.RootGroup.Fade(fadeIn: false);
         _shopView.RootGroup.Fade(fadeIn: false);
         _inventoryView.RootGroup.Fade(fadeIn: true);
+        SetActiveCamera(_inventoryCam);
+    }
+
+    private void SetActiveCamera(CinemachineVirtualCamera cam)
+    {
+        _homeCam.Priority = 0;
+        _inventoryCam.Priority = 0;
+        _shopCam.Priority = 0;
+        cam.Priority = 10;
     }
 
     public IEnumerator TransitionIn()

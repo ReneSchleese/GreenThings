@@ -23,6 +23,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _shopView.OnLoad();
         _inventoryView.OnLoad();
         _mediaPlayer.OnLoad();
+        SetActiveCamera(_homeCam);
         _mainMenuView.ShopButtonPress += SwitchToShopView;
         _mainMenuView.InventoryButtonPress += SwitchToInventoryView;
         _shopView.BackButtonPress += SwitchToMainMenuView;

@@ -30,6 +30,12 @@ namespace ForestSpirits
         private Vector3 _lastPosition;
         private Vector3 _posDampVelocity;
         private Quaternion _rotDampVelocity;
+        private string _scanTweenId;
+
+        private void Awake()
+        {
+            _scanTweenId = $"{GetInstanceID()}_Scan";
+        }
 
         public void SmoothSetPosition(Vector3 position)
         {
@@ -66,18 +72,16 @@ namespace ForestSpirits
         
         public void OnScan(BuriedTreasure treasure, int index)
         {
-            if (treasure == null)
+            if (treasure is null)
             {
                 return;
             }
-
-            string id = $"{GetInstanceID()}_Scan";
-            DOTween.Kill(id);
+            DOTween.Kill(_scanTweenId);
             
             float distance = Vector3.Distance(transform.position, treasure.transform.position);
             const float distanceMin = 2f;
             const float distanceMax = 16f;
-            Sequence sequence = DOTween.Sequence().SetId(id);
+            Sequence sequence = DOTween.Sequence().SetId(_scanTweenId);
             const float duration = 1f;
             sequence.InsertCallback(0, () => _animator.SetTrigger(AnimationIds.Unfold));
             sequence.Insert(0.25f, DOVirtual.Float(NormalizedScanProgress, 1f, 0.05f, value => NormalizedScanProgress = value));

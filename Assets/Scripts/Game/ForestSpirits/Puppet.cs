@@ -34,7 +34,7 @@ namespace ForestSpirits
         private string _scanTweenId;
         private PseudoRandomIndex _unfoldingClipIndex;
 
-        private void Awake()
+        public void Init()
         {
             _scanTweenId = $"{GetInstanceID()}_Scan";
             _unfoldingClipIndex = new PseudoRandomIndex(_unfoldingClips.Length);

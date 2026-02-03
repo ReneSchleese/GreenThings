@@ -18,11 +18,12 @@ namespace ForestSpirits
         private static PseudoRandomIndex _followPlayerClipIndex;
         private static PseudoRandomIndex _unfoldingClipIndex;
 
-        private void Awake()
+        public void Init()
         {
             SetupStates();
             SwitchToState(typeof(IdleState));
             _pushHitbox.Init(this);
+            _puppet.Init();
             _puppet.transform.SetParent(transform.parent);
             _followPlayerClipIndex ??= new PseudoRandomIndex(_followPlayerClips.Length);
         }

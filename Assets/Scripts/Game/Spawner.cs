@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ForestSpirits;
+using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class Spawner : MonoBehaviour
     
     public void SpawnForestSpirit(Vector3 position, Quaternion rotation)
     {
-        Instantiate(_forestSpiritPrefab, position, rotation, _forestSpiritParent);
+        Spirit spirit = Instantiate(_forestSpiritPrefab, position, rotation, _forestSpiritParent);
+        spirit.Init();
     }
 
     public BuriedTreasure SpawnBuriedTreasure(Vector3 position, Quaternion rotation, Transform parent)

@@ -13,21 +13,19 @@ namespace ForestSpirits
         [SerializeField] private Puppet _puppet;
         [SerializeField] private Transform _targetLookRotator;
         [SerializeField] private AudioClip[] _followPlayerClips;
-        [SerializeField] private AudioClip[] _unfoldingClips;
         private State _currentState;
         private List<State> _states;
         private static PseudoRandomIndex _followPlayerClipIndex;
         private static PseudoRandomIndex _unfoldingClipIndex;
 
-        private void Awake()
+        public void Init()
         {
             SetupStates();
             SwitchToState(typeof(IdleState));
             _pushHitbox.Init(this);
+            _puppet.Init();
             _puppet.transform.SetParent(transform.parent);
-
             _followPlayerClipIndex ??= new PseudoRandomIndex(_followPlayerClips.Length);
-            _unfoldingClipIndex ??= new PseudoRandomIndex(_unfoldingClips.Length);
         }
 
         private void SetupStates()
@@ -55,10 +53,6 @@ namespace ForestSpirits
             if (stateBefore is IdleState && state == typeof(FollowPlayerState))
             {
                 AudioManager.Instance.PlayEffect(_followPlayerClips[_followPlayerClipIndex.Get()]);
-            }
-            if (state == typeof(FlowerState))
-            {
-                AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()]);
             }
 
             int playerPriority = Game.Instance.Player.Priority;

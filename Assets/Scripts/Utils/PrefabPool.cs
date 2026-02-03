@@ -9,15 +9,16 @@ public class PrefabPool<T> where T : MonoBehaviour
     private readonly List<T> _activeInstances;
     private readonly List<T> _inactiveInstances;
     private readonly Transform _activeContainer, _inactiveContainer;
-    private readonly Action<T> _onBeforeGet,_onBeforeReturn;
+    private readonly Action<T> _onInit, _onBeforeGet,_onBeforeReturn;
 
-    public PrefabPool(T prefab, Transform activeContainer, Transform inactiveContainer, Action<T> onBeforeGet = null, Action<T> onBeforeReturn = null)
+    public PrefabPool(T prefab, Transform activeContainer, Transform inactiveContainer, Action<T> onInit = null, Action<T> onBeforeGet = null, Action<T> onBeforeReturn = null)
     {
         _prefab = prefab;
         _activeInstances = new List<T>();
         _inactiveInstances = new List<T>();
         _activeContainer = activeContainer;
         _inactiveContainer = inactiveContainer;
+        _onInit = onInit;
         _onBeforeGet = onBeforeGet;
         _onBeforeReturn = onBeforeReturn;
     }
@@ -28,6 +29,7 @@ public class PrefabPool<T> where T : MonoBehaviour
         {
             T newT = Object.Instantiate(_prefab, _inactiveContainer);
             _inactiveInstances.Add(newT);
+            _onInit?.Invoke(newT);
         }
         
         T instance = _inactiveInstances[0];

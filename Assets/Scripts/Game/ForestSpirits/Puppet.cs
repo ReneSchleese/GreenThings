@@ -20,6 +20,7 @@ namespace ForestSpirits
         [SerializeField] private SkinnedMeshRenderer _meshRenderer;
         [SerializeField] private AudioClip _scanSound;
         [SerializeField] private AudioClip _scanSoundClose;
+        [SerializeField] private AudioClip[] _unfoldingClips;
         [SerializeField] private float _minPitch, _maxPitch;
         [SerializeField] private float _minVolume, _maxVolume;
         [SerializeField] private ParticleSystem _particles;
@@ -31,10 +32,12 @@ namespace ForestSpirits
         private Vector3 _posDampVelocity;
         private Quaternion _rotDampVelocity;
         private string _scanTweenId;
+        private PseudoRandomIndex _unfoldingClipIndex;
 
         private void Awake()
         {
             _scanTweenId = $"{GetInstanceID()}_Scan";
+            _unfoldingClipIndex = new PseudoRandomIndex(_unfoldingClips.Length);
         }
 
         public void SmoothSetPosition(Vector3 position)
@@ -50,6 +53,7 @@ namespace ForestSpirits
         public void Unfold()
         {
             _animator.SetTrigger(AnimationIds.Unfold);
+            AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()], delay: 0.1f);
         }
 
         public void SmoothLookAt(Vector3 position)
@@ -89,19 +93,27 @@ namespace ForestSpirits
                 () =>
                 {
                     float closeness = Mathf.InverseLerp(distanceMax, distanceMin, distance);
-                    bool isClose = distance <= 1.5f;
-                    bool playSound = closeness > 0.05f && (index % 2 == 0 || isClose);
-                    if(playSound)
+                    bool isPerfect = distance <= 1.5f;
+                    bool useSoundAtAll = index % 2 == 0 || isPerfect;
+                    bool didMiss = closeness <= 0.05f;
+                    if (useSoundAtAll)
                     {
-                        AudioManager.Instance.PlayEffect(
-                            isClose ? _scanSoundClose : _scanSound,
-                            Mathf.Lerp(_minPitch, _maxPitch, closeness) - (isClose ? 0.1f : 0f),
-                            Mathf.Lerp(_minVolume, _maxVolume - (isClose ? 0.2f : 0f), closeness));
+                        if (didMiss)
+                        {
+                            AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()], volume: 0.5f);
+                        }
+                        else
+                        {
+                            AudioManager.Instance.PlayEffect(
+                                isPerfect ? _scanSoundClose : _scanSound,
+                                Mathf.Lerp(_minPitch, _maxPitch, closeness) - (isPerfect ? 0.1f : 0f),
+                                Mathf.Lerp(_minVolume, _maxVolume - (isPerfect ? 0.2f : 0f), closeness));
+                        }
                     }
 
                     float curvedCloseness = _particlesCurve.Evaluate(closeness);
                     _particles.Emit(Mathf.RoundToInt(Mathf.Lerp(0, 5, curvedCloseness)));
-                    _sparkles.Emit(isClose ? 6 : 0);
+                    _sparkles.Emit(isPerfect ? 6 : 0);
                 });
             sequence.Insert(0.4f, DOVirtual.Float(1f, 0f, duration - 0.4f, value => NormalizedScanProgress = value));
             sequence.InsertCallback(0.35f, () =>

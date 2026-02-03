@@ -4986,6 +4986,10 @@ MonoBehaviour:
   _meshRenderer: {fileID: 7801696077924242457}
   _scanSound: {fileID: 8300000, guid: 76c42055c30aa564198979475c8694f5, type: 3}
   _scanSoundClose: {fileID: 8300000, guid: 31429235556ac234daa15953da7901da, type: 3}
+  _scanMissSound: {fileID: 8300000, guid: 1fb9ba24e08942d48ac182324cc0bdc4, type: 3}
+  _unfoldingClips:
+  - {fileID: 8300000, guid: 1fb9ba24e08942d48ac182324cc0bdc4, type: 3}
+  - {fileID: 8300000, guid: a765f50d3d7377b47b66a16d07234147, type: 3}
   _minPitch: 0.7
   _maxPitch: 1.5
   _minVolume: 0.1

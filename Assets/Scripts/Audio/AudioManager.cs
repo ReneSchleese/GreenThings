@@ -31,9 +31,9 @@ namespace Audio
             _ambientSource.Play();
         }
 
-        public void PlayEffect(AudioClip clip, float pitch = 1.0f, float  volume = 1.0f)
+        public void PlayEffect(AudioClip clip, float pitch = 1.0f, float volume = 1.0f, float delay = 0f)
         {
-            PlayPoolable(_effectSourcePool, clip, pitch, group: null, volume);
+            PlayPoolable(_effectSourcePool, clip, pitch, group: null, volume, delay);
         }
         
         public void PlayVoice(AudioClip clip, float pitch = 1.0f, float volume = 1.0f)
@@ -41,16 +41,21 @@ namespace Audio
             PlayPoolable(_voiceSourcePool, clip, pitch, _voiceGroup, volume);
         }
 
-        private void PlayPoolable(PrefabPool<PoolableAudioSource> pool, AudioClip clip, float pitch, AudioMixerGroup group = null, float volume = 1.0f)
+        private void PlayPoolable(PrefabPool<PoolableAudioSource> pool, AudioClip clip, float pitch, AudioMixerGroup group = null, float volume = 1.0f, float delay = 0f)
         {
             PoolableAudioSource audioSource = pool.Get();
             audioSource.Pitch = pitch;
             audioSource.Volume = volume;
             audioSource.AudioMixerGroup = group ? group : _masterGroup;
             StartCoroutine(PlayOneShotThenReturn());
+            return;
 
             IEnumerator PlayOneShotThenReturn()
             {
+                if (delay > 0f)
+                {
+                    yield return new WaitForSeconds(delay);
+                }
                 yield return audioSource.PlayOneShot(clip);
                 pool.Return(audioSource);
             }

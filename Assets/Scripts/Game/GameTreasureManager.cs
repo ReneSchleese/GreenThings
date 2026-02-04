@@ -25,6 +25,12 @@ public class GameTreasureManager : MonoBehaviour
     
     public void OnTreasureOpened(BuriedTreasure treasure)
     {
+        bool useVinyl = false;
+        if(useVinyl)
+        {
+            Game.Instance.Spawner.SpawnVinyl(treasure.transform.position, Quaternion.identity);
+        }
+        
         int count = 10;
         const float upToSidewaysWeight = 0.15f;
         for (int i = 0; i < count; i++)

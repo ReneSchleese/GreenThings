@@ -8,6 +8,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private BuriedTreasure _buriedTreasurePrefab;
     [SerializeField] private Coin _coinPrefab;
     [SerializeField] private DiggingHole _diggingHolePrefab;
+    [SerializeField] private Vinyl _vinylPrefab;
     [SerializeField] private Transform _diggingHoleParent, _activeCoinsParent, _inactiveCoinsParent;
 
     private PrefabPool<Coin> _coinPool;
@@ -47,5 +48,10 @@ public class Spawner : MonoBehaviour
     public DiggingHole SpawnDiggingHole(Vector3 position)
     {
         return Instantiate(_diggingHolePrefab, position, Quaternion.identity, _diggingHoleParent);
+    }
+
+    public Vinyl SpawnVinyl(Vector3 position, Quaternion rotation)
+    {
+        return Instantiate(_vinylPrefab, position, rotation, _activeCoinsParent);
     }
 }

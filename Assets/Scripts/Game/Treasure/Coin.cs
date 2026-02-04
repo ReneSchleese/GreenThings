@@ -1,17 +1,12 @@
-﻿using DG.Tweening;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField]  private SphereCollider _collider;
     [SerializeField] private SpriteBlobShadow _blobShadow;
-    private bool _isGrounded;
-    private bool _groundedCheckIsEnabled;
+    [SerializeField] private PhysicsObject _physicsObject;
 
     private void Start()
     {
-        _rigidbody.useGravity = false;
         MoneyValue = Random.Range(1, 31);
     }
 
@@ -20,44 +15,12 @@ public class Coin : MonoBehaviour
         _blobShadow.UpdateShadow();
     }
 
-    private void FixedUpdate()
-    {
-        const float OFFSET = 0.1f;
-        if(GroundedCheckIsEnabled)
-        {
-            float distance = _collider.radius + OFFSET;
-            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, distance, LayerMask.GetMask("Default"));
-            _isGrounded = hit.collider != null;
-            if (_isGrounded)
-            {
-                transform.position = hit.point + Vector3.up * _collider.radius;
-                _rigidbody.linearVelocity = new Vector3(0.5f * _rigidbody.linearVelocity.x, _rigidbody.linearVelocity.y, 0.5f * _rigidbody.linearVelocity.z);
-            }
-        }
-
-        if(!_isGrounded)
-        {
-            Vector3 gravity = Physics.gravity * 3f;
-            _rigidbody.AddForce(gravity, ForceMode.Acceleration);       
-        }
-    }
-
-    public bool GroundedCheckIsEnabled
-    {
-        get => _groundedCheckIsEnabled;
-        set
-        {
-            _groundedCheckIsEnabled = value;
-            if (!value)
-            {
-                _isGrounded = false;
-            }
-        }
-    }
+    public void ApplyForce(Vector3 force) => _physicsObject.ApplyForce(force);
     
     public bool IsCollectable { get; set; }
-
     public int MoneyValue { get; private set; }
-
-    public void ApplyForce(Vector3 force) => _rigidbody.AddForce(force, ForceMode.Impulse);
+    public bool GroundedCheckIsEnabled
+    {
+        set => _physicsObject.GroundedCheckIsEnabled = value;
+    }
 }

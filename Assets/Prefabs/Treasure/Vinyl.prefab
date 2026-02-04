@@ -60,7 +60,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2960933557135842289}
@@ -88,7 +88,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8cdc05e7351c26d419f3a56ccdabadb0, type: 2}
+  - {fileID: 2100000, guid: 4eb1372e4fec1424fb0aed8cc82c6c13, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -128,12 +128,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5470707189772999207}
   - component: {fileID: 4166202664573600583}
-  - component: {fileID: 4451941901126623040}
+  - component: {fileID: 3400749326446158931}
   - component: {fileID: 6052170830519877406}
   - component: {fileID: 8794188897940236232}
   - component: {fileID: 6564581431586682348}
   m_Layer: 10
-  m_Name: Coin
+  m_Name: Vinyl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -171,7 +171,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 6052170830519877406}
   _collider: {fileID: 8794188897940236232}
   _blobShadow: {fileID: 7217495218141699754}
---- !u!114 &4451941901126623040
+--- !u!114 &3400749326446158931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationContainer: {fileID: 3279688678897240234}
-  _animationDuration: 2
+  _animationDuration: 4
 --- !u!54 &6052170830519877406
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -231,7 +231,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &6564581431586682348
 SphereCollider:
@@ -294,16 +294,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5470707189772999207}
     m_Modifications:
+    - target: {fileID: 1465536550761140275, guid: 0079ede9b0246d34a8bf2866ad411c1f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465536550761140275, guid: 0079ede9b0246d34a8bf2866ad411c1f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465536550761140275, guid: 0079ede9b0246d34a8bf2866ad411c1f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 5886388460837329605, guid: 0079ede9b0246d34a8bf2866ad411c1f,
         type: 3}
       propertyPath: m_Color.a
       value: 0.29803923
       objectReference: {fileID: 0}
-    - target: {fileID: 5886388460837329605, guid: 0079ede9b0246d34a8bf2866ad411c1f,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     - target: {fileID: 7078275838684543449, guid: 0079ede9b0246d34a8bf2866ad411c1f,
         type: 3}
       propertyPath: m_Size.y
@@ -327,7 +337,7 @@ PrefabInstance:
     - target: {fileID: 9222527483794801313, guid: 0079ede9b0246d34a8bf2866ad411c1f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.566
+      value: -0.85
       objectReference: {fileID: 0}
     - target: {fileID: 9222527483794801313, guid: 0079ede9b0246d34a8bf2866ad411c1f,
         type: 3}

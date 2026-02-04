@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField] private Transform _rotationAnimationContainer;
-    [SerializeField] private Transform _hoverAnimationContainer;
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField]  private SphereCollider _collider;
     [SerializeField] private SpriteBlobShadow _blobShadow;
@@ -14,20 +12,12 @@ public class Coin : MonoBehaviour
     private void Start()
     {
         _rigidbody.useGravity = false;
-        DOTween.Sequence(this)
-            .Append(_rotationAnimationContainer.DOLocalRotate(Vector3.up * 360f, 2f, RotateMode.WorldAxisAdd).SetEase(Ease.Linear))
-            .SetLoops(-1);
         MoneyValue = Random.Range(1, 31);
     }
 
     private void Update()
     {
         _blobShadow.UpdateShadow();
-    }
-
-    private void OnDestroy()
-    {
-        DOTween.Kill(this);
     }
 
     private void FixedUpdate()

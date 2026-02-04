@@ -128,7 +128,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private void Collect(Coin coin)
     {
         AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
-        Destroy(coin.gameObject);
+        Game.Instance.Spawner.Return(coin);
         int coinValue = coin.MoneyValue;
         int bankValue = App.Instance.UserData.Money;
         App.Instance.UserData.Money += coinValue;

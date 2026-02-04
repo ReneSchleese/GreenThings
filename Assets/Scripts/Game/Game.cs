@@ -52,9 +52,12 @@ public class Game : Singleton<Game>, IAppState
     {
         Debug.Log("Game.OnLoadComplete");
         _gameUI.Init();
+        _spawner.Init();
+        AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
+        App.Instance.InputManager.Interacted += OnPlayerInteracted;
+        
         yield return null;
         SpawnForestSpirits();
-        AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
         
         if(!SceneManager.GetSceneByName("Game_Treasure").isLoaded)
         {
@@ -65,8 +68,6 @@ public class Game : Singleton<Game>, IAppState
         _gameTreasureManager = FindFirstObjectByType<GameTreasureManager>();
         Debug.Assert(_gameTreasureManager is not null);
         yield return _gameTreasureManager.Setup(numberOfTreasures: 8);
-        
-        App.Instance.InputManager.Interacted += OnPlayerInteracted;
         _treasureHint.SetTarget(_gameTreasureManager.GetRandomUnopenedTreasure());
         foreach (BuriedTreasure buriedTreasure in _gameTreasureManager.BuriedTreasures)
         {

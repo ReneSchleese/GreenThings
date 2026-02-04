@@ -5,7 +5,7 @@ using UnityEngine;
 public class BuriedTreasure : MonoBehaviour
 {
     [SerializeField] private Transform _animationContainer;
-    public event Action Opened;
+    public event Action<BuriedTreasure> Opened;
     private const int INITIAL_HEALTH = 3;
     private const float DEPTH_PER_HEALTH = 0.5f;
     private int _currentHealth;
@@ -23,7 +23,7 @@ public class BuriedTreasure : MonoBehaviour
         if (!IsOpen && _currentHealth == 0)
         {
             IsOpen = true;
-            DOVirtual.DelayedCall(1f, Open);
+            DOVirtual.DelayedCall(1f, () => Opened?.Invoke(this));
         }
     }
 
@@ -43,27 +43,6 @@ public class BuriedTreasure : MonoBehaviour
         }
     }
 
-    private void Open()
-    {
-        int count = 10;
-        const float upToSidewaysWeight = 0.15f;
-        for (int i = 0; i < count; i++)
-        {
-            Coin coin = Game.Instance.Spawner.SpawnCoin(transform.position, Quaternion.identity);
-            float angle = i * Mathf.PI * 2f / count;
-            Vector3 dir = (1f - upToSidewaysWeight) * Vector3.up + upToSidewaysWeight * new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
-            const float strength = 1.4f;
-            coin.ApplyForce(dir.normalized * strength * Physics.gravity.magnitude);
-            coin.GroundedCheckIsEnabled = false;
-            DOVirtual.DelayedCall(0.2f, () =>
-            {
-                coin.GroundedCheckIsEnabled = true;
-                coin.CollectionIsAllowed = true;
-            });
-        }
-        Opened?.Invoke();
-    }
-    
     public bool IsFullHealth =>  _currentHealth == INITIAL_HEALTH;
     public bool IsOpen { get; private set; }
 }

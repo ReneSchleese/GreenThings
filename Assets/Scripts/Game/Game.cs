@@ -88,9 +88,10 @@ public class Game : Singleton<Game>, IAppState
         _gameUI.Unload();
     }
 
-    private void OnTreasureOpened()
+    private void OnTreasureOpened(BuriedTreasure treasure)
     {
         Debug.Assert(_gameTreasureManager is not null);
+        _gameTreasureManager.OnTreasureOpened(treasure);
         _treasureHint.SetTarget(_gameTreasureManager.GetRandomUnopenedTreasure());
     }
 

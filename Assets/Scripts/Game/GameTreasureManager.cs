@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 
 public class GameTreasureManager : MonoBehaviour
@@ -20,6 +21,26 @@ public class GameTreasureManager : MonoBehaviour
             BuriedTreasures.Add(treasure);
         }
         yield break;
+    }
+    
+    public void OnTreasureOpened(BuriedTreasure treasure)
+    {
+        int count = 10;
+        const float upToSidewaysWeight = 0.15f;
+        for (int i = 0; i < count; i++)
+        {
+            Coin coin = Game.Instance.Spawner.SpawnCoin(treasure.transform.position, Quaternion.identity);
+            float angle = i * Mathf.PI * 2f / count;
+            Vector3 dir = (1f - upToSidewaysWeight) * Vector3.up + upToSidewaysWeight * new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+            const float strength = 1.4f;
+            coin.ApplyForce(dir.normalized * strength * Physics.gravity.magnitude);
+            coin.GroundedCheckIsEnabled = false;
+            DOVirtual.DelayedCall(0.2f, () =>
+            {
+                coin.GroundedCheckIsEnabled = true;
+                coin.CollectionIsAllowed = true;
+            });
+        }
     }
 
     public BuriedTreasure GetNearestUnopenedTreasure(Vector3 position)

@@ -19,7 +19,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private AudioClip _collectCoin;
     [SerializeField] private HornetAnimationEvents _animationEvents;
     [SerializeField] private SpriteBlobShadow _blobShadow;
-    [SerializeField] private bool _applyGravity;
 
     public const float MOVEMENT_SPEED = 8f;
     private Vector3 _lastVelocity;
@@ -56,10 +55,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void Update()
     {
-        if (_applyGravity)
-        {
-            _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
-        }
+        _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
         _positionBuffer.Add(transform.position);
         Velocity = (_positionBuffer.GetPreviousNth(1) - _positionBuffer.GetPreviousNth(2)) / Time.deltaTime;
         _animator.UpdateAnimator(Velocity);
@@ -74,7 +70,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         int colliderAmount = Physics.OverlapSphereNonAlloc(transform.position + Vector3.up, 1.0f, _colliders, AppLayers.CollectableLayerMask, QueryTriggerInteraction.Collide);
         for (int i = 0; i < colliderAmount; i++)
         {
-            if (_colliders[i].TryGetComponent(out Coin coin) && coin.IsCollectable)
+            if (_colliders[i].TryGetComponent(out Coin coin) && coin.CollectionIsAllowed)
             {
                 Collect(coin);
             }

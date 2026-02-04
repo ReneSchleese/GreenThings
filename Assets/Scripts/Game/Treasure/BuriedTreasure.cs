@@ -58,7 +58,7 @@ public class BuriedTreasure : MonoBehaviour
             DOVirtual.DelayedCall(0.2f, () =>
             {
                 coin.GroundedCheckIsEnabled = true;
-                coin.IsCollectable = true;
+                coin.CollectionIsAllowed = true;
             });
         }
         Opened?.Invoke();

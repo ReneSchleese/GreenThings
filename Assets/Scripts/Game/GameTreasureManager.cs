@@ -25,26 +25,36 @@ public class GameTreasureManager : MonoBehaviour
     
     public void OnTreasureOpened(BuriedTreasure treasure)
     {
-        bool useVinyl = false;
-        if(useVinyl)
+        bool spawnVinyl = Random.Range(0f, 1f) < 0.05f;
+        if(spawnVinyl)
         {
-            Game.Instance.Spawner.SpawnVinyl(treasure.transform.position, Quaternion.identity);
+            Vinyl vinyl = Game.Instance.Spawner.SpawnVinyl(treasure.transform.position, Quaternion.identity);
+            LaunchUpwards(vinyl, Random.Range(0f, 1f) * 360);
         }
-        
-        int count = 10;
-        const float upToSidewaysWeight = 0.15f;
-        for (int i = 0; i < count; i++)
+        else
         {
-            Coin coin = Game.Instance.Spawner.SpawnCoin(treasure.transform.position, Quaternion.identity);
-            float angle = i * Mathf.PI * 2f / count;
+            const int count = 10;
+            for (int i = 0; i < count; i++)
+            {
+                Coin coin = Game.Instance.Spawner.SpawnCoin(treasure.transform.position, Quaternion.identity);
+                float angle = i * Mathf.PI * 2f / count;
+                LaunchUpwards(coin, angle);
+            }
+        }
+
+        return;
+
+        void LaunchUpwards(ICollectable collectable, float angle)
+        {
+            const float upToSidewaysWeight = 0.15f;
             Vector3 dir = (1f - upToSidewaysWeight) * Vector3.up + upToSidewaysWeight * new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
             const float strength = 1.4f;
-            coin.ApplyForce(dir.normalized * strength * Physics.gravity.magnitude);
-            coin.GroundedCheckIsEnabled = false;
+            collectable.ApplyForce(dir.normalized * strength * Physics.gravity.magnitude);
+            collectable.GroundedCheckIsEnabled = false;
             DOVirtual.DelayedCall(0.2f, () =>
             {
-                coin.GroundedCheckIsEnabled = true;
-                coin.CollectionIsAllowed = true;
+                collectable.GroundedCheckIsEnabled = true;
+                collectable.CollectionIsAllowed = true;
             });
         }
     }

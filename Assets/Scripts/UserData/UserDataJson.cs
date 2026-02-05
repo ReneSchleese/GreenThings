@@ -5,4 +5,5 @@ public class UserDataJson
 {
     public int money;
     public string[] ownedMessageIds;
+    public string[] ownedVinylIds;
 }

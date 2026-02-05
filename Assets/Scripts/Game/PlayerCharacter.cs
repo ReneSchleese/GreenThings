@@ -70,13 +70,41 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         int colliderAmount = Physics.OverlapSphereNonAlloc(transform.position + Vector3.up, 1.0f, _colliders, AppLayers.CollectableLayerMask, QueryTriggerInteraction.Collide);
         for (int i = 0; i < colliderAmount; i++)
         {
-            if (_colliders[i].TryGetComponent(out Coin coin) && coin.CollectionIsAllowed)
+            if (!_colliders[i].TryGetComponent(out ICollectable collectable) || !collectable.CollectionIsAllowed)
             {
-                Collect(coin);
+                continue;
+            }
+
+            switch (collectable)
+            {
+                case Coin coin:
+                    CollectCoin(coin);
+                    break;
+                case Vinyl vinyl:
+                    CollectVinyl(vinyl);
+                    break;
             }
         }
         
         _blobShadow.UpdateShadow();
+        return;
+        
+        void CollectCoin(Coin coin)
+        {
+            AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
+            Game.Instance.Spawner.Return(coin);
+            int coinValue = coin.MoneyValue;
+            int bankValue = App.Instance.UserData.Money;
+            App.Instance.UserData.Money += coinValue;
+            CoinsCollected?.Invoke(coinValue, bankValue);
+        }
+        
+        void CollectVinyl(Vinyl vinyl)
+        {
+            AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
+            Destroy(vinyl.gameObject);
+            //App.Instance.UserData.Money += coinValue;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -123,16 +151,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         AudioManager.Instance.PlayVoice(_hornetScreams[index]);
         _animator.PlayBattlecry(index);
         Game.Instance.Chain.PlayEchoed(index, _hornetScreams[index].length);
-    }
-    
-    private void Collect(Coin coin)
-    {
-        AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
-        Game.Instance.Spawner.Return(coin);
-        int coinValue = coin.MoneyValue;
-        int bankValue = App.Instance.UserData.Money;
-        App.Instance.UserData.Money += coinValue;
-        CoinsCollected?.Invoke(coinValue, bankValue);
     }
 
     private readonly Collider[] _digColliders = new Collider[128];

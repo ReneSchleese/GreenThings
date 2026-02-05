@@ -50,8 +50,10 @@ public class Spawner : MonoBehaviour
         return Instantiate(_diggingHolePrefab, position, Quaternion.identity, _diggingHoleParent);
     }
 
-    public Vinyl SpawnVinyl(Vector3 position, Quaternion rotation)
+    public Vinyl SpawnVinyl(Vector3 position, Quaternion rotation, VinylId id)
     {
-        return Instantiate(_vinylPrefab, position, rotation, _activeCoinsParent);
+        Vinyl vinyl = Instantiate(_vinylPrefab, position, rotation, _activeCoinsParent);
+        vinyl.Id = id;
+        return vinyl;
     }
 }

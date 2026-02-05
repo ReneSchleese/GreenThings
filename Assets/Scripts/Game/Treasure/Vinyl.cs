@@ -17,7 +17,7 @@ public class Vinyl : MonoBehaviour, ICollectable
         set => _physicsObject.GroundedCheckIsEnabled = value;
     }
     
-    public VinylId Id { get; set; }
+    public VinylId? Id { get; set; }
     public bool CollectionIsAllowed { get; set; }
 }
 

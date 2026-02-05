@@ -102,8 +102,10 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         void CollectVinyl(Vinyl vinyl)
         {
             AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
+            Debug.Assert(vinyl.Id != null);
+            Debug.Log(vinyl.Id.Value);
+            App.Instance.UserData.OwnedVinylIds.Add(vinyl.Id.Value);
             Destroy(vinyl.gameObject);
-            //App.Instance.UserData.Money += coinValue;
         }
     }
 

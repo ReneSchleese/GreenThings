@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameTreasureManager : MonoBehaviour
 {
@@ -25,10 +27,11 @@ public class GameTreasureManager : MonoBehaviour
     
     public void OnTreasureOpened(BuriedTreasure treasure)
     {
-        bool spawnVinyl = Random.Range(0f, 1f) < 0.05f;
+        VinylId? vinylId = GetRandomUnownedVinylId();
+        bool spawnVinyl = vinylId is not null && Random.Range(0f, 1f) < 1.05f;
         if(spawnVinyl)
         {
-            Vinyl vinyl = Game.Instance.Spawner.SpawnVinyl(treasure.transform.position, Quaternion.identity);
+            Vinyl vinyl = Game.Instance.Spawner.SpawnVinyl(treasure.transform.position, Quaternion.identity, vinylId.Value);
             LaunchUpwards(vinyl, Random.Range(0f, 1f) * 360);
         }
         else
@@ -57,6 +60,20 @@ public class GameTreasureManager : MonoBehaviour
                 collectable.CollectionIsAllowed = true;
             });
         }
+    }
+
+    private VinylId? GetRandomUnownedVinylId()
+    {
+        VinylId[] allIds = (VinylId[])Enum.GetValues(typeof(VinylId));
+
+        var unownedIds = allIds
+            .Where(id => !App.Instance.UserData.OwnedVinylIds.Contains(id))
+            .ToArray();
+
+        if (unownedIds.Length == 0)
+            return null;
+
+        return unownedIds[Random.Range(0, unownedIds.Length)];
     }
 
     public BuriedTreasure GetNearestUnopenedTreasure(Vector3 position)

@@ -24,15 +24,25 @@ public class UserData
         UserDataJson userDataJson = JsonUtility.FromJson<UserDataJson>(userDataText);
         Money = userDataJson.money;
         OwnedMessageIds = userDataJson.ownedMessageIds.ToHashSet();
+        OwnedVinylIds = userDataJson.ownedVinylIds == null
+            ? new HashSet<VinylId>()
+            : userDataJson.ownedVinylIds
+                .Select(enumString => Enum.TryParse<VinylId>(enumString, ignoreCase: true, out var vinylId)
+                    ? (VinylId?)vinylId
+                    : null)
+                .Where(vinylId => vinylId.HasValue)
+                .Select(vinylId => vinylId.Value)
+                .ToHashSet();
         Update?.Invoke();
     }
 
     public void Save()
     {
-        string json = JsonUtility.ToJson(new UserDataJson()
+        string json = JsonUtility.ToJson(new UserDataJson
         {
             money = Money,
             ownedMessageIds = OwnedMessageIds.ToArray(),
+            ownedVinylIds = OwnedVinylIds.Select(vinylId => vinylId.ToString()).ToArray()
         });
         File.WriteAllText(_filePath, json);
     }
@@ -48,4 +58,5 @@ public class UserData
 
     public int Money { get; set; }
     public HashSet<string> OwnedMessageIds { get; private set; } = new();
+    public HashSet<VinylId> OwnedVinylIds { get; private set; } = new();
 }

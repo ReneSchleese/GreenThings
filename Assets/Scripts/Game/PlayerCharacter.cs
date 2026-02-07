@@ -19,7 +19,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     [SerializeField] private AudioClip _collectCoin;
     [SerializeField] private HornetAnimationEvents _animationEvents;
     [SerializeField] private SpriteBlobShadow _blobShadow;
-    [SerializeField] private bool _applyGravity;
 
     public const float MOVEMENT_SPEED = 8f;
     private Vector3 _lastVelocity;
@@ -56,10 +55,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
 
     private void Update()
     {
-        if (_applyGravity)
-        {
-            _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
-        }
+        _characterController.Move(_characterController.isGrounded ? Vector3.zero : Physics.gravity * Time.deltaTime);
         _positionBuffer.Add(transform.position);
         Velocity = (_positionBuffer.GetPreviousNth(1) - _positionBuffer.GetPreviousNth(2)) / Time.deltaTime;
         _animator.UpdateAnimator(Velocity);
@@ -74,13 +70,43 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         int colliderAmount = Physics.OverlapSphereNonAlloc(transform.position + Vector3.up, 1.0f, _colliders, AppLayers.CollectableLayerMask, QueryTriggerInteraction.Collide);
         for (int i = 0; i < colliderAmount; i++)
         {
-            if (_colliders[i].TryGetComponent(out Coin coin) && coin.IsCollectable)
+            if (!_colliders[i].TryGetComponent(out ICollectable collectable) || !collectable.CollectionIsAllowed)
             {
-                Collect(coin);
+                continue;
+            }
+
+            switch (collectable)
+            {
+                case Coin coin:
+                    CollectCoin(coin);
+                    break;
+                case Vinyl vinyl:
+                    CollectVinyl(vinyl);
+                    break;
             }
         }
         
         _blobShadow.UpdateShadow();
+        return;
+        
+        void CollectCoin(Coin coin)
+        {
+            AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
+            Game.Instance.Spawner.Return(coin);
+            int coinValue = coin.MoneyValue;
+            int bankValue = App.Instance.UserData.Money;
+            App.Instance.UserData.Money += coinValue;
+            CoinsCollected?.Invoke(coinValue, bankValue);
+        }
+        
+        void CollectVinyl(Vinyl vinyl)
+        {
+            AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
+            Debug.Assert(vinyl.Id != null);
+            Debug.Log(vinyl.Id.Value);
+            App.Instance.UserData.OwnedVinylIds.Add(vinyl.Id.Value);
+            Destroy(vinyl.gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -127,16 +153,6 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         AudioManager.Instance.PlayVoice(_hornetScreams[index]);
         _animator.PlayBattlecry(index);
         Game.Instance.Chain.PlayEchoed(index, _hornetScreams[index].length);
-    }
-    
-    private void Collect(Coin coin)
-    {
-        AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
-        Destroy(coin.gameObject);
-        int coinValue = coin.MoneyValue;
-        int bankValue = App.Instance.UserData.Money;
-        App.Instance.UserData.Money += coinValue;
-        CoinsCollected?.Invoke(coinValue, bankValue);
     }
 
     private readonly Collider[] _digColliders = new Collider[128];

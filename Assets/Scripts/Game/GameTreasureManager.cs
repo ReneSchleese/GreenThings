@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameTreasureManager : MonoBehaviour
 {
@@ -20,6 +23,57 @@ public class GameTreasureManager : MonoBehaviour
             BuriedTreasures.Add(treasure);
         }
         yield break;
+    }
+    
+    public void OnTreasureOpened(BuriedTreasure treasure)
+    {
+        VinylId? vinylId = GetRandomUnownedVinylId();
+        bool spawnVinyl = vinylId is not null && Random.Range(0f, 1f) < 1.05f;
+        if(spawnVinyl)
+        {
+            Vinyl vinyl = Game.Instance.Spawner.SpawnVinyl(treasure.transform.position, Quaternion.identity, vinylId.Value);
+            LaunchUpwards(vinyl, Random.Range(0f, 1f) * 360);
+        }
+        else
+        {
+            const int count = 10;
+            for (int i = 0; i < count; i++)
+            {
+                Coin coin = Game.Instance.Spawner.SpawnCoin(treasure.transform.position, Quaternion.identity);
+                float angle = i * Mathf.PI * 2f / count;
+                LaunchUpwards(coin, angle);
+            }
+        }
+
+        return;
+
+        void LaunchUpwards(ICollectable collectable, float angle)
+        {
+            const float upToSidewaysWeight = 0.15f;
+            Vector3 dir = (1f - upToSidewaysWeight) * Vector3.up + upToSidewaysWeight * new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+            const float strength = 1.4f;
+            collectable.ApplyForce(dir.normalized * strength * Physics.gravity.magnitude);
+            collectable.GroundedCheckIsEnabled = false;
+            DOVirtual.DelayedCall(0.2f, () =>
+            {
+                collectable.GroundedCheckIsEnabled = true;
+                collectable.CollectionIsAllowed = true;
+            });
+        }
+    }
+
+    private VinylId? GetRandomUnownedVinylId()
+    {
+        VinylId[] allIds = (VinylId[])Enum.GetValues(typeof(VinylId));
+
+        var unownedIds = allIds
+            .Where(id => !App.Instance.UserData.OwnedVinylIds.Contains(id))
+            .ToArray();
+
+        if (unownedIds.Length == 0)
+            return null;
+
+        return unownedIds[Random.Range(0, unownedIds.Length)];
     }
 
     public BuriedTreasure GetNearestUnopenedTreasure(Vector3 position)

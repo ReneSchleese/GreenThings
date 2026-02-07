@@ -9,7 +9,8 @@ public class InventoryView : MonoBehaviour
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Button _backButton, _messagesTabButton, _vinylsTabButton;
     [SerializeField] private InventoryBottleItemView _bottleItemViewPrefab;
-    [SerializeField] private Transform _bottleItemsContainer;
+    [SerializeField] private InventoryVinylItemView _vinylItemViewPrefab;
+    [SerializeField] private Transform _bottleItemsContainer, _vinylsItemsContainer;
     
     public event Action BackButtonPress;
     public event Action<InventoryBottleItemView> BottleItemClick;
@@ -21,6 +22,7 @@ public class InventoryView : MonoBehaviour
     }
     
     private readonly List<InventoryBottleItemView> _bottleItemViews = new();
+    private readonly List<InventoryVinylItemView> _vinylItemViews = new();
     private Tab _activeTab;
 
     public void OnLoad()
@@ -61,7 +63,8 @@ public class InventoryView : MonoBehaviour
 
     private void UpdateTabView()
     {
-        Debug.Log($"UpdateTabView {_activeTab}");
+        _bottleItemsContainer.gameObject.SetActive(_activeTab == Tab.Messages);
+        _vinylsItemsContainer.gameObject.SetActive(_activeTab == Tab.Vinyls);
     }
 
     private void UpdateItems()
@@ -72,6 +75,13 @@ public class InventoryView : MonoBehaviour
             Destroy(bottleItemView.gameObject);
         }
         _bottleItemViews.Clear();
+        
+        foreach (InventoryVinylItemView vinylItemView in _vinylItemViews)
+        {
+            Destroy(vinylItemView.gameObject);
+        }
+        _vinylItemViews.Clear();
+        
         foreach (string messageId in App.Instance.UserData.OwnedMessageIds)
         {
             BottledMessageJson messageJson = App.Instance.Shop.Messages.FirstOrDefault(message => message.id == messageId);
@@ -79,10 +89,17 @@ public class InventoryView : MonoBehaviour
             {
                 continue;
             }
-            InventoryBottleItemView bottleItemView = Instantiate(_bottleItemViewPrefab,  _bottleItemsContainer);
+            InventoryBottleItemView bottleItemView = Instantiate(_bottleItemViewPrefab, _bottleItemsContainer);
             bottleItemView.Set(messageJson);
             _bottleItemViews.Add(bottleItemView);
             bottleItemView.OnClick += OnBottleItemClicked;
+        }
+
+        foreach (VinylId vinylId in App.Instance.UserData.OwnedVinylIds)
+        {
+            InventoryVinylItemView vinylItemView = Instantiate(_vinylItemViewPrefab, _vinylsItemsContainer);
+            vinylItemView.Set(vinylId);
+            _vinylItemViews.Add(vinylItemView);
         }
     }
 

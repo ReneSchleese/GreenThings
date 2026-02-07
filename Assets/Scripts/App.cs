@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class App : MonoBehaviour
 {
     [SerializeField] private ShopRequest _shopRequest;
     [SerializeField] private DownloadableContent _downloadableContent;
+    [SerializeField] private BuiltInContent _builtInContent;
     [SerializeField] private InputManager _inputManager;
     private static App _instance;
 
@@ -22,6 +22,8 @@ public class App : MonoBehaviour
         
         UserData = new UserData();
         UserData.Load();
+
+        _builtInContent.Init();
     }
 
     private void OnApplicationQuit()
@@ -92,4 +94,5 @@ public class App : MonoBehaviour
     public ShopRequest ShopRequest => _shopRequest;
     public UserData UserData { get; private set; }
     public DownloadableContent DownloadableContent => _downloadableContent;
+    public BuiltInContent BuiltInContent => _builtInContent;
 }

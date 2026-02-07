@@ -29,7 +29,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _mainMenuView.InventoryButtonPress += SwitchToInventoryView;
         _shopView.BackButtonPress += SwitchToMainMenuView;
         _inventoryView.BackButtonPress += SwitchToMainMenuView;
-        _inventoryView.ItemClick += ShowItemInMediaPlayer;
+        _inventoryView.BottleItemClick += ShowItemInMediaPlayer;
         _mediaPlayer.BackButtonPress += CloseMediaPlayer;
         yield return new WaitUntil(() => BuildConfigLoader.IsLoaded);
     }
@@ -43,7 +43,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _mainMenuView.InventoryButtonPress -= SwitchToInventoryView;
         _shopView.BackButtonPress -= SwitchToMainMenuView;
         _inventoryView.BackButtonPress -= SwitchToMainMenuView;
-        _inventoryView.ItemClick -= ShowItemInMediaPlayer;
+        _inventoryView.BottleItemClick -= ShowItemInMediaPlayer;
         _mediaPlayer.BackButtonPress -= CloseMediaPlayer;
     }
 

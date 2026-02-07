@@ -7,21 +7,45 @@ using UnityEngine.UI;
 public class InventoryView : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _canvasGroup;
-    [SerializeField] private Button _backButton;
+    [SerializeField] private Button _backButton, _messagesTabButton, _vinylsTabButton;
     [SerializeField] private InventoryBottleItemView _bottleItemViewPrefab;
     [SerializeField] private Transform _bottleItemsContainer;
     
-    private readonly List<InventoryBottleItemView> _bottleItemViews = new();
-
     public event Action BackButtonPress;
-    public event Action<InventoryBottleItemView> ItemClick;
+    public event Action<InventoryBottleItemView> BottleItemClick;
+    
+    private enum Tab
+    {
+        Messages,
+        Vinyls
+    }
+    
+    private readonly List<InventoryBottleItemView> _bottleItemViews = new();
+    private Tab _activeTab;
 
     public void OnLoad()
     {
         RootGroup = new FadeableCanvasGroup(_canvasGroup, 0.5f);
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
+        _messagesTabButton.onClick.AddListener(() => SetActiveTab(Tab.Messages));
+        _vinylsTabButton.onClick.AddListener(() => SetActiveTab(Tab.Vinyls));
+        
+        _activeTab = Tab.Messages;
+        UpdateTabView();
+        
         App.Instance.UserData.Update += UpdateItems;
         App.Instance.Shop.Update += UpdateItems;
+        return;
+
+        void SetActiveTab(Tab tab)
+        {
+            if (_activeTab == tab)
+            {
+                return;
+            }
+            _activeTab = tab;
+            UpdateTabView();
+        }
     }
 
     public void OnUnload()
@@ -33,6 +57,11 @@ public class InventoryView : MonoBehaviour
     public void OnTransitionIn()
     {
         UpdateItems();
+    }
+
+    private void UpdateTabView()
+    {
+        Debug.Log($"UpdateTabView {_activeTab}");
     }
 
     private void UpdateItems()
@@ -59,7 +88,7 @@ public class InventoryView : MonoBehaviour
 
     private void OnBottleItemClicked(InventoryBottleItemView bottleItemView)
     {
-        ItemClick?.Invoke(bottleItemView);
+        BottleItemClick?.Invoke(bottleItemView);
     }
 
     public FadeableCanvasGroup RootGroup { get; private set; }

@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour, IAppState
         App.Instance.NotifyAwakeAppState(this);
     }
 
-    public IEnumerator OnLoad()
+    public IEnumerator OnLoad(AppStateParams appStateParams = null)
     {
         _mainMenuView.OnLoad();
         _shopView.OnLoad();

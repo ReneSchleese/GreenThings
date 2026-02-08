@@ -58,7 +58,8 @@ public class Game : Singleton<Game>, IAppState
         if (appStateParams is not null)
         {
             GameTransitionParams parameters = (GameTransitionParams)appStateParams;
-            Debug.Log($"On.Load, vinyls={string.Join(", ", parameters.VinylIds)}");
+            AudioClip musicClip = App.Instance.BuiltInContent.GetVinylData(parameters.VinylIds.First()).Clip;
+            AudioManager.Instance.PlayMusic(musicClip, loop: true);
         }
         
         yield return null;

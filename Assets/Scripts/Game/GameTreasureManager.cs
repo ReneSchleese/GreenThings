@@ -28,7 +28,7 @@ public class GameTreasureManager : MonoBehaviour
     public void OnTreasureOpened(BuriedTreasure treasure)
     {
         VinylId? vinylId = GetRandomUnownedVinylId();
-        bool spawnVinyl = vinylId is not null && Random.Range(0f, 1f) < 1.05f;
+        bool spawnVinyl = vinylId is not null && Random.Range(0f, 1f) < 0.05f;
         if(spawnVinyl)
         {
             Vinyl vinyl = Game.Instance.Spawner.SpawnVinyl(treasure.transform.position, Quaternion.identity, vinylId.Value);

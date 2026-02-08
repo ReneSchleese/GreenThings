@@ -9,16 +9,11 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Coin _coinPrefab;
     [SerializeField] private DiggingHole _diggingHolePrefab;
     [SerializeField] private Vinyl _vinylPrefab;
-    [SerializeField] private Transform _diggingHoleParent, _activeCoinsParent, _inactiveCoinsParent;
-
-    private PrefabPool<Coin> _coinPool;
-
+    [SerializeField] private Transform _diggingHoleParent, _activeCoinsParent;
+    
     public void Init()
     {
-        _coinPool = new PrefabPool<Coin>(_coinPrefab, 
-            _activeCoinsParent, 
-            _inactiveCoinsParent,
-            onBeforeGet: coin => coin.OnPooled());
+        
     }
     
     public void SpawnForestSpirit(Vector3 position, Quaternion rotation)
@@ -34,15 +29,7 @@ public class Spawner : MonoBehaviour
     
     public Coin SpawnCoin(Vector3 position, Quaternion rotation)
     {
-        Coin coin = _coinPool.Get();
-        coin.transform.position = position;
-        coin.transform.rotation = rotation;
-        return coin;
-    }
-
-    public void Return(Coin coin)
-    {
-        _coinPool.Return(coin);
+        return Instantiate(_coinPrefab, position, rotation, _activeCoinsParent);
     }
 
     public DiggingHole SpawnDiggingHole(Vector3 position)

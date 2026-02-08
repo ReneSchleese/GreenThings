@@ -5,7 +5,7 @@ public class Coin : MonoBehaviour, ICollectable
     [SerializeField] private SpriteBlobShadow _blobShadow;
     [SerializeField] private PhysicsObject _physicsObject;
 
-    public void OnPooled()
+    public void Init()
     {
         CollectionIsAllowed = false;
         MoneyValue = Random.Range(1, 31);

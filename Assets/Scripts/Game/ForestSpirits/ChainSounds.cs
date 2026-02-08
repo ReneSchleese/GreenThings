@@ -18,7 +18,7 @@ public class ChainSounds
         Sequence sequence = DOTween.Sequence().AppendInterval(clipSeconds).AppendCallback(() =>
         {
             float pitch = Random.Range(1.1f, 1.2f);
-            AudioManager.Instance.PlayVoice(audioClip, pitch, volume);
+            App.Instance.AudioManager.PlayVoice(audioClip, pitch, volume);
         }).SetId(this);
         
         bool usedSecondaryLastTime = false;
@@ -34,6 +34,6 @@ public class ChainSounds
 
     private void PlayVoice(AudioClip clip, float pitch, float volume)
     {
-        AudioManager.Instance.PlayVoice(clip, pitch, volume);
+        App.Instance.AudioManager.PlayVoice(clip, pitch, volume);
     }
 }

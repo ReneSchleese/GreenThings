@@ -16,6 +16,6 @@ public class Footsteps : MonoBehaviour
     public void OnFootStep()
     {
         float pitch = Random.Range(0.7f, 1.2f);
-        AudioManager.Instance.PlayEffect(_stepsGrass[_pseudoRandom.Get()], pitch);
+        App.Instance.AudioManager.PlayEffect(_stepsGrass[_pseudoRandom.Get()], pitch);
     }
 }

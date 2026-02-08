@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 
 namespace Audio
 {
-    public class AudioManager : Singleton<AudioManager>
+    public class AudioManager : MonoBehaviour
     {
         [SerializeField] private AudioSource _ambientSource;
         [SerializeField] private AudioSource _musicSource;
@@ -17,7 +17,7 @@ namespace Audio
         private PrefabPool<PoolableAudioSource> _effectSourcePool;
         private PrefabPool<PoolableAudioSource> _voiceSourcePool;
 
-        private void Awake()
+        public void Init()
         {
             _effectSourcePool = new PrefabPool<PoolableAudioSource>(_audioSourcePrefab, _effectsTransform,
                 _inactiveSourcesContainer, onBeforeReturn: s => s.OnReturn());

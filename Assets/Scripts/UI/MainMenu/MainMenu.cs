@@ -1,5 +1,6 @@
 using System.Collections;
 using Cinemachine;
+using DG.Tweening;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour, IAppState
@@ -28,7 +29,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _mainMenuView.InventoryButtonPress += SwitchToInventoryView;
         _shopView.BackButtonPress += SwitchToMainMenuView;
         _inventoryView.BackButtonPress += SwitchToMainMenuView;
-        _inventoryView.ItemClick += ShowItemInMediaPlayer;
+        _inventoryView.BottleItemClick += ShowItemInMediaPlayer;
         _mediaPlayer.BackButtonPress += CloseMediaPlayer;
         yield return new WaitUntil(() => BuildConfigLoader.IsLoaded);
     }
@@ -42,7 +43,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _mainMenuView.InventoryButtonPress -= SwitchToInventoryView;
         _shopView.BackButtonPress -= SwitchToMainMenuView;
         _inventoryView.BackButtonPress -= SwitchToMainMenuView;
-        _inventoryView.ItemClick -= ShowItemInMediaPlayer;
+        _inventoryView.BottleItemClick -= ShowItemInMediaPlayer;
         _mediaPlayer.BackButtonPress -= CloseMediaPlayer;
     }
 
@@ -116,7 +117,8 @@ public class MainMenu : MonoBehaviour, IAppState
     {
         App.Instance.DownloadableContent.VideoIsReady -= OnVideoIsReady;
         _requestedVideoUrl = null;
-        _mediaPlayer.RootGroup.Fade(fadeIn: false);
+        Tween tween = _mediaPlayer.RootGroup.Fade(fadeIn: false);
+        tween.onComplete += () => _mediaPlayer.OnFadeComplete(fadeIn: false);
     }
 
     public AppState Id => AppState.MainMenu;

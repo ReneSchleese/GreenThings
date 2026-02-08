@@ -7,6 +7,7 @@ namespace Audio
     public class AudioManager : Singleton<AudioManager>
     {
         [SerializeField] private AudioSource _ambientSource;
+        [SerializeField] private AudioSource _musicSource;
         [SerializeField] private Transform _effectsTransform;
         [SerializeField] private Transform _voiceTransform;
         [SerializeField] private PoolableAudioSource _audioSourcePrefab;
@@ -29,6 +30,13 @@ namespace Audio
             _ambientSource.clip = clip;
             _ambientSource.loop = loop;
             _ambientSource.Play();
+        }
+        
+        public void PlayMusic(AudioClip clip, bool loop)
+        {
+            _musicSource.clip = clip;
+            _musicSource.loop = loop;
+            _musicSource.Play();
         }
 
         public void PlayEffect(AudioClip clip, float pitch = 1.0f, float volume = 1.0f, float delay = 0f)

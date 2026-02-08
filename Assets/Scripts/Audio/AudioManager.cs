@@ -17,7 +17,7 @@ namespace Audio
         private PrefabPool<PoolableAudioSource> _effectSourcePool;
         private PrefabPool<PoolableAudioSource> _voiceSourcePool;
 
-        private void Awake()
+        public void Init()
         {
             _effectSourcePool = new PrefabPool<PoolableAudioSource>(_audioSourcePrefab, _effectsTransform,
                 _inactiveSourcesContainer, onBeforeReturn: s => s.OnReturn());

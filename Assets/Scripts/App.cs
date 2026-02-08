@@ -17,6 +17,7 @@ public class App : MonoBehaviour
         AppStateTransitions = new AppStateTransitions();
         
         InputManager.Init();
+        _audioManager.Init();
         
         Shop = new Shop();
         Shop.Init();

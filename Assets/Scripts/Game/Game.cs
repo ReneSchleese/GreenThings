@@ -53,11 +53,16 @@ public class Game : Singleton<Game>, IAppState
         Debug.Log("Game.OnLoadComplete");
         _gameUI.Init();
         _spawner.Init();
-        AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
         App.Instance.InputManager.Interacted += OnPlayerInteracted;
         
-        /*AudioClip musicClip = App.Instance.BuiltInContent.GetVinylData(parameters.VinylIds.First()).Clip;
-        AudioManager.Instance.PlayMusic(musicClip, loop: true);*/
+        AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
+        List<VinylId> enabledVinyls = App.Instance.UserData.EnabledVinylIds.ToList();
+        if (enabledVinyls.Count > 0)
+        {
+            VinylId id = enabledVinyls[UnityEngine.Random.Range(0, enabledVinyls.Count)];
+            AudioClip musicClip = App.Instance.BuiltInContent.GetVinylData(id).Clip;
+            AudioManager.Instance.PlayMusic(musicClip, loop: true);   
+        }
         
         yield return null;
         SpawnForestSpirits();

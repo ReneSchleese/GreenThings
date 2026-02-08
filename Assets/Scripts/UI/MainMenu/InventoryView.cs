@@ -98,6 +98,7 @@ public class InventoryView : MonoBehaviour
         foreach (VinylId vinylId in App.Instance.UserData.OwnedVinylIds)
         {
             InventoryVinylItemView vinylItemView = Instantiate(_vinylItemViewPrefab, _vinylsItemsContainer);
+            vinylItemView.Init();
             vinylItemView.Set(vinylId);
             _vinylItemViews.Add(vinylItemView);
         }

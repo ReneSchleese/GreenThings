@@ -33,6 +33,15 @@ public class UserData
                 .Where(vinylId => vinylId.HasValue)
                 .Select(vinylId => vinylId.Value)
                 .ToHashSet();
+        EnabledVinylIds = userDataJson.enabledVinylIds == null
+            ? new HashSet<VinylId>()
+            : userDataJson.enabledVinylIds
+                .Select(enumString => Enum.TryParse<VinylId>(enumString, ignoreCase: true, out var vinylId)
+                    ? (VinylId?)vinylId
+                    : null)
+                .Where(vinylId => vinylId.HasValue)
+                .Select(vinylId => vinylId.Value)
+                .ToHashSet();
         Update?.Invoke();
     }
 
@@ -42,7 +51,8 @@ public class UserData
         {
             money = Money,
             ownedMessageIds = OwnedMessageIds.ToArray(),
-            ownedVinylIds = OwnedVinylIds.Select(vinylId => vinylId.ToString()).ToArray()
+            ownedVinylIds = OwnedVinylIds.Select(vinylId => vinylId.ToString()).ToArray(),
+            enabledVinylIds = EnabledVinylIds.Select(vinylId => vinylId.ToString()).ToArray()
         });
         File.WriteAllText(_filePath, json);
     }
@@ -59,4 +69,5 @@ public class UserData
     public int Money { get; set; }
     public HashSet<string> OwnedMessageIds { get; private set; } = new();
     public HashSet<VinylId> OwnedVinylIds { get; private set; } = new();
+    public HashSet<VinylId> EnabledVinylIds { get; private set; } = new();
 }

@@ -52,6 +52,4 @@ public class PhysicsObject : MonoBehaviour
             }
         }
     }
-    
-    public Rigidbody Rigidbody => _rigidbody;
 }

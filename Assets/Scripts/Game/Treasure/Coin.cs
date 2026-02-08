@@ -8,6 +8,7 @@ public class Coin : MonoBehaviour, ICollectable
     public void OnPooled()
     {
         CollectionIsAllowed = false;
+        _physicsObject.Rigidbody.linearVelocity = Vector3.zero;
         MoneyValue = Random.Range(1, 31);
     }
 

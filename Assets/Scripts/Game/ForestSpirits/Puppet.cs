@@ -53,7 +53,7 @@ namespace ForestSpirits
         public void Unfold()
         {
             _animator.SetTrigger(AnimationIds.Unfold);
-            AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()], delay: 0.1f);
+            App.Instance.AudioManager.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()], delay: 0.1f);
         }
 
         public void SmoothLookAt(Vector3 position)
@@ -100,11 +100,11 @@ namespace ForestSpirits
                     {
                         if (didMiss)
                         {
-                            AudioManager.Instance.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()], volume: 0.5f);
+                            App.Instance.AudioManager.PlayEffect(_unfoldingClips[_unfoldingClipIndex.Get()], volume: 0.5f);
                         }
                         else
                         {
-                            AudioManager.Instance.PlayEffect(
+                            App.Instance.AudioManager.PlayEffect(
                                 isPerfect ? _scanSoundClose : _scanSound,
                                 Mathf.Lerp(_minPitch, _maxPitch, closeness) - (isPerfect ? 0.1f : 0f),
                                 Mathf.Lerp(_minVolume, _maxVolume - (isPerfect ? 0.2f : 0f), closeness));

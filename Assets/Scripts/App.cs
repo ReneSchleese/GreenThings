@@ -1,4 +1,5 @@
 using System.Collections;
+using Audio;
 using UnityEngine;
 
 public class App : MonoBehaviour
@@ -7,6 +8,7 @@ public class App : MonoBehaviour
     [SerializeField] private DownloadableContent _downloadableContent;
     [SerializeField] private BuiltInContent _builtInContent;
     [SerializeField] private InputManager _inputManager;
+    [SerializeField] private AudioManager _audioManager;
     private static App _instance;
 
     private void Init()
@@ -95,4 +97,5 @@ public class App : MonoBehaviour
     public UserData UserData { get; private set; }
     public DownloadableContent DownloadableContent => _downloadableContent;
     public BuiltInContent BuiltInContent => _builtInContent;
+    public AudioManager AudioManager => _audioManager;
 }

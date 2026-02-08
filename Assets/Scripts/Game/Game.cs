@@ -55,13 +55,13 @@ public class Game : Singleton<Game>, IAppState
         _spawner.Init();
         App.Instance.InputManager.Interacted += OnPlayerInteracted;
         
-        AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
+        App.Instance.AudioManager.PlayAmbient(_ambientClip, loop: true);
         List<VinylId> enabledVinyls = App.Instance.UserData.EnabledVinylIds.ToList();
         if (enabledVinyls.Count > 0)
         {
             VinylId id = enabledVinyls[UnityEngine.Random.Range(0, enabledVinyls.Count)];
             AudioClip musicClip = App.Instance.BuiltInContent.GetVinylData(id).Clip;
-            AudioManager.Instance.PlayMusic(musicClip, loop: true);   
+            App.Instance.AudioManager.PlayMusic(musicClip, loop: true);   
         }
         
         yield return null;

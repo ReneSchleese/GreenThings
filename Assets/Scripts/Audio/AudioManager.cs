@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 
 namespace Audio
 {
-    public class AudioManager : Singleton<AudioManager>
+    public class AudioManager : MonoBehaviour
     {
         [SerializeField] private AudioSource _ambientSource;
         [SerializeField] private AudioSource _musicSource;

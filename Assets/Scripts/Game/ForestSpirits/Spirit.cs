@@ -52,7 +52,7 @@ namespace ForestSpirits
             
             if (stateBefore is IdleState && state == typeof(FollowPlayerState))
             {
-                AudioManager.Instance.PlayEffect(_followPlayerClips[_followPlayerClipIndex.Get()]);
+                App.Instance.AudioManager.PlayEffect(_followPlayerClips[_followPlayerClipIndex.Get()]);
             }
 
             int playerPriority = Game.Instance.Player.Priority;

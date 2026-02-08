@@ -91,7 +91,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         
         void CollectCoin(Coin coin)
         {
-            AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
+            App.Instance.AudioManager.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
             Destroy(coin.gameObject);
             int coinValue = coin.MoneyValue;
             int bankValue = App.Instance.UserData.Money;
@@ -101,7 +101,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
         
         void CollectVinyl(Vinyl vinyl)
         {
-            AudioManager.Instance.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
+            App.Instance.AudioManager.PlayEffect(_collectCoin, Random.Range(0.8f, 1.2f), volume: 0.3f);
             Debug.Assert(vinyl.Id != null);
             Debug.Log(vinyl.Id.Value);
             App.Instance.UserData.OwnedVinylIds.Add(vinyl.Id.Value);
@@ -150,7 +150,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     {
         if (_animator.IsInActiveBattlecry) return;
         int index = _screamIndex.Get();
-        AudioManager.Instance.PlayVoice(_hornetScreams[index]);
+        App.Instance.AudioManager.PlayVoice(_hornetScreams[index]);
         _animator.PlayBattlecry(index);
         Game.Instance.Chain.PlayEchoed(index, _hornetScreams[index].length);
     }
@@ -225,7 +225,7 @@ public class PlayerCharacter : MonoBehaviour, IChainTarget, IPushable
     private void PlayFootStep()
     {
         float pitch = Random.Range(0.7f, 1.2f);
-        AudioManager.Instance.PlayEffect(_footstepsGrass[_footstepIndex.Get()], pitch);
+        App.Instance.AudioManager.PlayEffect(_footstepsGrass[_footstepIndex.Get()], pitch);
     }
 
     public Vector3 Position => transform.position;

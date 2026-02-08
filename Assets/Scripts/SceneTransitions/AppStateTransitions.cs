@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -35,13 +34,12 @@ public class AppStateTransitions
     public IEnumerator ToGame()
     {
         IsCurrentlyTransitioning = true;
-        GameTransitionParams gameParams = new(new List<VinylId> { VinylId.GreenPath });
         yield return TransitionTo(AppState.LoadingScreen);
-        yield return TransitionTo(AppState.Game, TransitionType.NextInCurrentOut, gameParams);
+        yield return TransitionTo(AppState.Game, TransitionType.NextInCurrentOut);
         IsCurrentlyTransitioning  = false;
     }
 
-    private IEnumerator TransitionTo(AppState newState, TransitionType transitionType = TransitionType.CurrentOutNextIn, AppStateParams appStateParams = null)
+    private IEnumerator TransitionTo(AppState newState, TransitionType transitionType = TransitionType.CurrentOutNextIn)
     {
         string newStateName = newState.ToString();
         AsyncOperation newAppStateOp = SceneManager.LoadSceneAsync(newStateName, LoadSceneMode.Additive);
@@ -54,7 +52,7 @@ public class AppStateTransitions
         
         yield return new WaitUntil(() => newAppStateOp.isDone);
         IAppState newAppState = GetAppStateFromLoadedScene<IAppState>(newStateName);
-        yield return newAppState.OnLoad(appStateParams);
+        yield return newAppState.OnLoad();
         IAppState stateBefore = CurrentState;
         CurrentState = newAppState;
         

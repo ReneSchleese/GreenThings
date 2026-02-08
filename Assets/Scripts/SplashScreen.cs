@@ -26,7 +26,7 @@ public class SplashScreen : MonoBehaviour, IAppState
 
     public void OnUnload() { }
     
-    public IEnumerator OnLoad(AppStateParams appStateParams = null) { yield break; }
+    public IEnumerator OnLoad() { yield break; }
 
     public AppState Id => AppState.SplashScreen;
 }

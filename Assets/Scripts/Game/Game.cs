@@ -48,19 +48,16 @@ public class Game : Singleton<Game>, IAppState
         yield break;
     }
     
-    public IEnumerator OnLoad(AppStateParams appStateParams = null)
+    public IEnumerator OnLoad()
     {
         Debug.Log("Game.OnLoadComplete");
         _gameUI.Init();
         _spawner.Init();
         AudioManager.Instance.PlayAmbient(_ambientClip, loop: true);
         App.Instance.InputManager.Interacted += OnPlayerInteracted;
-        if (appStateParams is not null)
-        {
-            GameTransitionParams parameters = (GameTransitionParams)appStateParams;
-            AudioClip musicClip = App.Instance.BuiltInContent.GetVinylData(parameters.VinylIds.First()).Clip;
-            AudioManager.Instance.PlayMusic(musicClip, loop: true);
-        }
+        
+        /*AudioClip musicClip = App.Instance.BuiltInContent.GetVinylData(parameters.VinylIds.First()).Clip;
+        AudioManager.Instance.PlayMusic(musicClip, loop: true);*/
         
         yield return null;
         SpawnForestSpirits();

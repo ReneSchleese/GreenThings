@@ -34,7 +34,7 @@ public class ShopView : MonoBehaviour
 
     private void OnShopUpdated()
     {
-        foreach (ShopItemView shopItem in _shopItems)
+        /*foreach (ShopItemView shopItem in _shopItems)
         {
             shopItem.WasBought -= OnItemBuyButtonPressed;
             Destroy(shopItem.gameObject);
@@ -47,7 +47,7 @@ public class ShopView : MonoBehaviour
             shopItemView.Set(bottledMessageJson, alreadyBought);
             shopItemView.WasBought += OnItemBuyButtonPressed;
             _shopItems.Add(shopItemView);
-        }
+        }*/
     }
 
     private void OnUserDataUpdated()

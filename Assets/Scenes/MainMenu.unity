@@ -250,6 +250,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5bfcd073132cd044be4026a65623769,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 701341093}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5bfcd073132cd044be4026a65623769,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 2116380722}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5bfcd073132cd044be4026a65623769, type: 3}
@@ -693,6 +697,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d11c994de28c48bab88789eafe6f6a40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _splineContainer: {fileID: 2116380723}
+  _bottleTarget: {fileID: 701341093}
 --- !u!1 &149981044
 GameObject:
   m_ObjectHideFlags: 0
@@ -3889,6 +3895,116 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &701341092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 701341093}
+  - component: {fileID: 701341096}
+  - component: {fileID: 701341095}
+  - component: {fileID: 701341094}
+  m_Layer: 0
+  m_Name: Capsule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &701341093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701341092}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.18251869, z: -0, w: 0.9832024}
+  m_LocalPosition: {x: 1.6049421, y: 4.819999, z: 0.5627936}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8899454}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &701341094
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701341092}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &701341095
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701341092}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &701341096
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701341092}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &778931360
 GameObject:
   m_ObjectHideFlags: 0
@@ -90798,8 +90914,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116380721}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.18251869, z: -0, w: 0.9832024}
-  m_LocalPosition: {x: -6.8991117, y: 0.049999237, z: -6.5213475}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -90834,77 +90950,77 @@ MonoBehaviour:
   - m_EditModeType: 1
     m_Knots:
     - Position:
-        x: 7.169998
-        y: 4.6500006
-        z: 1.510725
+        x: -0.74835205
+        y: 4.65
+        z: -3.041215
       TangentIn:
         x: -0
         y: -0
-        z: -0.22508894
+        z: -0.19067225
       TangentOut:
         x: 0
         y: 0
-        z: 0.22508894
+        z: 0.19067225
       Rotation:
         value:
-          x: -0.000000011176921
-          y: 0.78454447
-          z: -0.0000000088337915
-          w: 0.6200726
+          x: -0.000000008451477
+          y: 0.67022836
+          z: -0.00000000935846
+          w: 0.74215496
     - Position:
-        x: 9.359999
-        y: 4.6500006
-        z: 0.99072456
+        x: 1.1485062
+        y: 4.65
+        z: -2.847515
       TangentIn:
         x: -0
         y: -0
-        z: -0.6783076
+        z: -0.61692744
       TangentOut:
         x: 0
         y: 0
-        z: 1.0388764
+        z: 1.1207186
       Rotation:
         value:
-          x: -0.00042414098
-          y: 0.5128113
-          z: -0.0007101097
-          w: 0.8585009
+          x: -0.0002843587
+          y: 0.36630785
+          z: -0.00072232663
+          w: 0.9304934
     - Position:
-        x: 11.169998
-        y: 4.6500006
-        z: 5.9507256
+        x: 1.3442879
+        y: 4.65
+        z: 3.441784
       TangentIn:
         x: -0
         y: -0
-        z: -1.0673605
+        z: -1.1726532
       TangentOut:
         x: 0
         y: 0
-        z: 0.70536447
+        z: 0.68338615
       Rotation:
         value:
-          x: 0.000027509155
-          y: -0.1762593
-          z: -0.00015377438
-          w: 0.98434377
+          x: 0.000049423325
+          y: -0.3323361
+          z: -0.00014026205
+          w: 0.94316095
     - Position:
-        x: 9.159998
-        y: 4.6500006
-        z: 7.0807247
+        x: -0.75642586
+        y: 4.65
+        z: 3.833953
       TangentIn:
         x: -0
         y: -0
-        z: -0.23058619
+        z: -0.21370059
       TangentOut:
         x: 0
         y: 0
-        z: 0.23058619
+        z: 0.21370059
       Rotation:
         value:
-          x: -0.0000000056574856
-          y: -0.504948
-          z: 0.000000009670813
-          w: 0.8631498
+          x: -0.0000000062143335
+          y: -0.6389392
+          z: 0.000000007481808
+          w: 0.76925725
     m_MetaData:
     - Mode: 0
       Tension: 0.5

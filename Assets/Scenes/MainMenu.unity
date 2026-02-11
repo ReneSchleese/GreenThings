@@ -246,7 +246,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5bfcd073132cd044be4026a65623769,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2116380722}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5bfcd073132cd044be4026a65623769, type: 3}
 --- !u!4 &8899454 stripped
@@ -90859,6 +90863,158 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2116250254}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2116380721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2116380722}
+  - component: {fileID: 2116380723}
+  m_Layer: 0
+  m_Name: Spline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2116380722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116380721}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.18251869, z: -0, w: 0.9832024}
+  m_LocalPosition: {x: -6.8991117, y: 0.049999237, z: -6.5213475}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8899454}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2116380723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116380721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab5c7d4c32e743048dfca98e2d5914f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Spline:
+    m_EditModeType: 1
+    m_Knots: []
+    m_MetaData: []
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  m_Splines:
+  - m_EditModeType: 1
+    m_Knots:
+    - Position:
+        x: 7.169998
+        y: 4.6500006
+        z: 1.510725
+      TangentIn:
+        x: -0
+        y: -0
+        z: -0.22508894
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0.22508894
+      Rotation:
+        value:
+          x: -0.000000011176921
+          y: 0.78454447
+          z: -0.0000000088337915
+          w: 0.6200726
+    - Position:
+        x: 9.359999
+        y: 4.6500006
+        z: 0.99072456
+      TangentIn:
+        x: -0
+        y: -0
+        z: -0.6783076
+      TangentOut:
+        x: 0
+        y: 0
+        z: 1.0388764
+      Rotation:
+        value:
+          x: -0.00042414098
+          y: 0.5128113
+          z: -0.0007101097
+          w: 0.8585009
+    - Position:
+        x: 11.169998
+        y: 4.6500006
+        z: 5.9507256
+      TangentIn:
+        x: -0
+        y: -0
+        z: -1.0673605
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0.70536447
+      Rotation:
+        value:
+          x: 0.000027509155
+          y: -0.1762593
+          z: -0.00015377438
+          w: 0.98434377
+    - Position:
+        x: 9.159998
+        y: 4.6500006
+        z: 7.0807247
+      TangentIn:
+        x: -0
+        y: -0
+        z: -0.23058619
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0.23058619
+      Rotation:
+        value:
+          x: -0.0000000056574856
+          y: -0.504948
+          z: 0.000000009670813
+          w: 0.8631498
+    m_MetaData:
+    - Mode: 0
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  m_Knots:
+    m_KnotsLink: []
 --- !u!4 &1124275214023956087 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6753810446544194350, guid: 38cf978e5d6153c48ba8e6f6adeed532,

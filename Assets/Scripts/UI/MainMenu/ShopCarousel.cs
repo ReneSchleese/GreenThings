@@ -3,12 +3,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Splines;
 
-public class ShopInputGestures : MonoBehaviour, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField] private SplineContainer _splineContainer;
     [SerializeField] private Transform _bottleTarget;
-    private float _normalizedPosition;
-    
+    private float _carouselPosition;
+    private const float SCROLL_SPEED = 0.001f;
+
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("OnPointerClick");
@@ -17,11 +18,11 @@ public class ShopInputGestures : MonoBehaviour, IPointerClickHandler, IDragHandl
     public void OnDrag(PointerEventData eventData)
     {
         Debug.Log("OnDrag");
-        _normalizedPosition = Mathf.Clamp01(_normalizedPosition + eventData.delta.x * 0.001f);
+        _carouselPosition += eventData.delta.x * SCROLL_SPEED;
         
         var spline = _splineContainer.Spline;
-        float3 position = spline.EvaluatePosition(_normalizedPosition);
-        float3 tangent = spline.EvaluateTangent(_normalizedPosition);
+        float3 position = spline.EvaluatePosition(_carouselPosition);
+        float3 tangent = spline.EvaluateTangent(_carouselPosition);
 
         _bottleTarget.localPosition = position;
         _bottleTarget.localRotation = Quaternion.LookRotation(tangent);

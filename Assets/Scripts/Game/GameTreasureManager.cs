@@ -40,6 +40,7 @@ public class GameTreasureManager : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 Coin coin = Game.Instance.Spawner.SpawnCoin(treasure.transform.position, Quaternion.identity);
+                coin.Init();
                 float angle = i * Mathf.PI * 2f / count;
                 LaunchUpwards(coin, angle);
             }

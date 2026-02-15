@@ -7,6 +7,7 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 {
     [SerializeField] private SplineContainer _splineContainer;
     [SerializeField] private Transform _bottleTarget;
+    [SerializeField] private GameObject[] _visibleShopItems;
     private float _carouselPosition;
     private const float SCROLL_SPEED = 0.001f;
 
@@ -19,13 +20,21 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     {
         Debug.Log("OnDrag");
         _carouselPosition += eventData.delta.x * SCROLL_SPEED;
-        
-        var spline = _splineContainer.Spline;
-        float3 position = spline.EvaluatePosition(_carouselPosition);
-        float3 tangent = spline.EvaluateTangent(_carouselPosition);
 
-        _bottleTarget.localPosition = position;
-        _bottleTarget.localRotation = Quaternion.LookRotation(tangent);
+        int visibleItemCount = _visibleShopItems.Length;
+        float normalizedSpacing = 1f / visibleItemCount;
+        const float totalItemCount = 10;
+        Spline spline = _splineContainer.Spline;
+        for (var i = 0; i < visibleItemCount; i++)
+        {
+            float itemLogicalIndex = _carouselPosition + i;
+            float wrappedIndex = Mathf.Repeat(itemLogicalIndex, totalItemCount);
+            float splineT = Mathf.Repeat(itemLogicalIndex / visibleItemCount, 1f);
+            Vector3 pos = spline.EvaluatePosition(splineT);
+            float3 tangent = spline.EvaluateTangent(splineT);
+            _visibleShopItems[i].transform.localPosition = pos;
+            _visibleShopItems[i].transform.localRotation = Quaternion.LookRotation(tangent);
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)

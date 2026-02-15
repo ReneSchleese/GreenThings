@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,12 +7,8 @@ public class ShopView : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Button _backButton;
-    [SerializeField] private Transform _shopItemsContainer;
-    [SerializeField] private ShopItemView _shopItemPrefab;
     [SerializeField] private TextMeshProUGUI _moneyTmPro;
     
-    private readonly List<ShopItemView> _shopItems = new();
-
     public event Action BackButtonPress;
 
     public void OnLoad()
@@ -54,16 +49,16 @@ public class ShopView : MonoBehaviour
     {
         UserData userData = App.Instance.UserData;
         _moneyTmPro.text = $"Money: {userData.Money}";
-        foreach (ShopItemView shopItem in _shopItems)
+        /*foreach (ShopItemView shopItem in _shopItems)
         {
             shopItem.Set(shopItem.Data, userData.OwnedMessageIds.Contains(shopItem.Data.id));
-        }
+        }*/
     }
 
-    private void OnItemBuyButtonPressed(ShopItemView item)
+    /*private void OnItemBuyButtonPressed(ShopItemView item)
     {
         App.Instance.UserData.Buy(item.Data);
-    }
+    }*/
 
     public FadeableCanvasGroup RootGroup { get; private set; }
 }

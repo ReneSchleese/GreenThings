@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,4 +36,4 @@ public class ShopItemView : MonoBehaviour
     }
     
     public BottledMessageJson Data { get; private set; }
-}
+}*/

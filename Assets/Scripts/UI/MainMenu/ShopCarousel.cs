@@ -21,19 +21,27 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         Debug.Log("OnDrag");
         _carouselPosition += eventData.delta.x * SCROLL_SPEED;
 
-        int visibleItemCount = _visibleShopItems.Length;
-        float normalizedSpacing = 1f / visibleItemCount;
-        const float totalItemCount = 10;
+        int visibleBottleCount = _visibleShopItems.Length;
+        const int totalItemCount = 10;
         Spline spline = _splineContainer.Spline;
-        for (var i = 0; i < visibleItemCount; i++)
+        int baseIndex = Mathf.FloorToInt(_carouselPosition);
+        for (var bottleIndex = 0; bottleIndex < visibleBottleCount; bottleIndex++)
         {
-            float itemLogicalIndex = _carouselPosition + i;
-            float wrappedIndex = Mathf.Repeat(itemLogicalIndex, totalItemCount);
-            float splineT = Mathf.Repeat(itemLogicalIndex / visibleItemCount, 1f);
+            int dataIndex = Mod(baseIndex + bottleIndex, totalItemCount);
+            Debug.Log($"bottleIndex={bottleIndex}, dataIndex={dataIndex}");
+            float splineT = Mathf.Repeat((_carouselPosition + bottleIndex) / visibleBottleCount, 1f);
             Vector3 pos = spline.EvaluatePosition(splineT);
             float3 tangent = spline.EvaluateTangent(splineT);
-            _visibleShopItems[i].transform.localPosition = pos;
-            _visibleShopItems[i].transform.localRotation = Quaternion.LookRotation(tangent);
+            GameObject bottle = _visibleShopItems[bottleIndex];
+            bottle.transform.localPosition = pos;
+            bottle.transform.localRotation = Quaternion.LookRotation(tangent);
+        }
+
+        return;
+
+        int Mod(int x, int m)
+        {
+            return (x % m + m) % m;
         }
     }
 

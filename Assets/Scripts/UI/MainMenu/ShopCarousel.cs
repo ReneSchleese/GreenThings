@@ -8,19 +8,35 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     [SerializeField] private SplineContainer _splineContainer;
     [SerializeField] private Transform _bottleTarget;
     [SerializeField] private GameObject[] _visibleShopItems;
+    [SerializeField] private float _dragSensitivity = 0.01f;
+    [SerializeField] private float _damping = 5f;
+    [SerializeField] private float _minVelocity = 0.01f;
     private float _carouselPosition;
-    private const float SCROLL_SPEED = 0.001f;
+    private float _velocity;
+    private bool _isDragging;
+
+    private void Update()
+    {
+        if (!_isDragging)
+        {
+            _carouselPosition += _velocity * Time.deltaTime;
+            _velocity *= Mathf.Exp(-_damping * Time.deltaTime);
+            if (Mathf.Abs(_velocity) < _minVelocity)
+            {
+                _velocity = 0f;
+            }
+        }
+
+        UpdateBottles();
+    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("OnPointerClick");
+        
     }
 
-    public void OnDrag(PointerEventData eventData)
+    private void UpdateBottles()
     {
-        Debug.Log("OnDrag");
-        _carouselPosition += eventData.delta.x * SCROLL_SPEED;
-
         int visibleBottleCount = _visibleShopItems.Length;
         const int totalItemCount = 10;
         Spline spline = _splineContainer.Spline;
@@ -45,13 +61,21 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         }
     }
 
+    public void OnDrag(PointerEventData eventData)
+    {
+        float movement = eventData.delta.x * _dragSensitivity;
+        _carouselPosition += movement;
+        _velocity = movement / Time.deltaTime;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("OnBeginDrag");
+        _isDragging = true;
+        _velocity = 0f;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("OnEndDrag");
+        _isDragging = false;
     }
 }

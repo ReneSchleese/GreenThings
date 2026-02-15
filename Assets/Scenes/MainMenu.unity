@@ -671,6 +671,9 @@ MonoBehaviour:
   - {fileID: 155651893}
   - {fileID: 1970849752}
   - {fileID: 2125800445}
+  _dragSensitivity: 0.001
+  _damping: 5
+  _minVelocity: 0.2
 --- !u!1 &149981044
 GameObject:
   m_ObjectHideFlags: 0

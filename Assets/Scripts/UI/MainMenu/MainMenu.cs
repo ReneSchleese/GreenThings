@@ -53,6 +53,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _shopView.RootGroup.Fade(fadeIn: false);
         _inventoryView.RootGroup.Fade(fadeIn: false);
         SetActiveCamera(_homeCam);
+        _shopView.Exit();
     }
 
     private void SwitchToShopView()
@@ -61,6 +62,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _shopView.RootGroup.Fade(fadeIn: true);
         _inventoryView.RootGroup.Fade(fadeIn: false);
         SetActiveCamera(_shopCam);
+        _shopView.Enter();
     }
 
     private void SwitchToInventoryView()
@@ -69,6 +71,7 @@ public class MainMenu : MonoBehaviour, IAppState
         _shopView.RootGroup.Fade(fadeIn: false);
         _inventoryView.RootGroup.Fade(fadeIn: true);
         SetActiveCamera(_inventoryCam);
+        _shopView.Exit();
     }
 
     private void SetActiveCamera(CinemachineVirtualCamera cam)

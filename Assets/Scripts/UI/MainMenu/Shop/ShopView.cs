@@ -8,6 +8,7 @@ public class ShopView : MonoBehaviour
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Button _backButton;
     [SerializeField] private TextMeshProUGUI _moneyTmPro;
+    [SerializeField] private ShopCarousel _shopCarousel;
     
     public event Action BackButtonPress;
 
@@ -15,6 +16,7 @@ public class ShopView : MonoBehaviour
     {
         RootGroup = new  FadeableCanvasGroup(_canvasGroup, 0.5f);
         _backButton.onClick.AddListener(() => BackButtonPress?.Invoke());
+        _shopCarousel.Init();
         App.Instance.Shop.Update += OnShopUpdated;
         App.Instance.UserData.Update += OnUserDataUpdated;
         OnShopUpdated();
@@ -25,6 +27,16 @@ public class ShopView : MonoBehaviour
     {
         App.Instance.Shop.Update -= OnShopUpdated;
         App.Instance.UserData.Update -= OnUserDataUpdated;
+    }
+
+    public void Enter()
+    {
+        _shopCarousel.IsEntered = true;
+    }
+
+    public void Exit()
+    {
+        _shopCarousel.IsEntered = false;
     }
 
     private void OnShopUpdated()

@@ -1,4 +1,5 @@
-﻿using Unity.Mathematics;
+﻿using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Splines;
@@ -7,7 +8,7 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 {
     [SerializeField] private SplineContainer _splineContainer;
     [SerializeField] private Transform _bottleTarget;
-    [SerializeField] private GameObject[] _visibleShopItems;
+    [SerializeField] private CarouselBottle[] _visibleBottles;
     [SerializeField] private float _dragSensitivity = 0.01f;
     [SerializeField] private float _damping = 5f;
     [SerializeField] private float _minVelocity = 0.01f;
@@ -15,8 +16,23 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     private float _velocity;
     private bool _isDragging;
 
+    public void Init()
+    {
+        App.Instance.DownloadableContent.TextureIsReady += OnTextureReady;
+    }
+
+    private void OnTextureReady(string url, Texture2D tex)
+    {
+        CarouselBottle bottle = _visibleBottles.FirstOrDefault(bottle => bottle.Url == url);
+        bottle?.SetTexture(tex);
+    }
+
     private void Update()
     {
+        if (!IsEntered)
+        {
+            return;
+        }
         if (!_isDragging)
         {
             _carouselPosition += _velocity * Time.deltaTime;
@@ -43,20 +59,23 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     private void UpdateBottles()
     {
-        int visibleBottleCount = _visibleShopItems.Length;
-        const int totalItemCount = 10;
+        int visibleBottleCount = _visibleBottles.Length;
+        int totalItemCount = App.Instance.Shop.Messages.Count;
         Spline spline = _splineContainer.Spline;
         int baseIndex = Mathf.FloorToInt(_carouselPosition);
         for (var bottleIndex = 0; bottleIndex < visibleBottleCount; bottleIndex++)
         {
-            int dataIndex = Mod(baseIndex + bottleIndex, totalItemCount);
-            Debug.Log($"bottleIndex={bottleIndex}, dataIndex={dataIndex}");
             float splineT = Mathf.Repeat((_carouselPosition + bottleIndex) / visibleBottleCount, 1f);
             Vector3 pos = spline.EvaluatePosition(splineT);
             float3 tangent = spline.EvaluateTangent(splineT);
-            GameObject bottle = _visibleShopItems[bottleIndex];
+            CarouselBottle bottle = _visibleBottles[bottleIndex];
             bottle.transform.localPosition = pos;
             bottle.transform.localRotation = Quaternion.LookRotation(tangent);
+         
+            int dataIndex = Mod(baseIndex + bottleIndex, totalItemCount);
+            string url = App.Instance.Shop.Messages[dataIndex].thumbnail_url;
+            bottle.Url = url;
+            App.Instance.DownloadableContent.RequestTexture(url);
         }
 
         return;
@@ -84,4 +103,6 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     {
         _isDragging = false;
     }
+
+    public bool IsEntered;
 }

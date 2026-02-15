@@ -29,7 +29,7 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     private void Update()
     {
-        if (!IsEntered)
+        if (!IsEntered || _velocity == 0f)
         {
             return;
         }
@@ -37,16 +37,17 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         {
             _carouselPosition += _velocity * Time.deltaTime;
             _velocity *= Mathf.Exp(-_damping * Time.deltaTime);
-            if (Mathf.Abs(_velocity) < _minVelocity)
-            {
-                _velocity = 0f;
-            }
         }
         else
         {
             // make velocity decay fast during drag to prevent carousel being "kicked" with lingering
             // velocity after holding the drag for longer times
             _velocity *= Mathf.Exp(-20f * Time.deltaTime);
+        }
+        
+        if (Mathf.Abs(_velocity) < _minVelocity)
+        {
+            _velocity = 0f;
         }
 
         UpdateBottles();

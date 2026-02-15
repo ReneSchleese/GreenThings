@@ -26,6 +26,12 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
                 _velocity = 0f;
             }
         }
+        else
+        {
+            // make velocity decay fast during drag to prevent carousel being "kicked" with lingering
+            // velocity after holding the drag for longer times
+            _velocity *= Mathf.Exp(-20f * Time.deltaTime);
+        }
 
         UpdateBottles();
     }
@@ -65,7 +71,7 @@ public class ShopCarousel : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     {
         float movement = eventData.delta.x * _dragSensitivity;
         _carouselPosition += movement;
-        _velocity = movement / Time.deltaTime;
+        _velocity = Mathf.Lerp(_velocity, movement / Time.deltaTime, 0.5f);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
